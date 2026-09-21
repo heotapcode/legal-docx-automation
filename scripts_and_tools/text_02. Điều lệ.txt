@@ -1,0 +1,263 @@
+=== DOCUMENT: 02. Điều lệ.docx ===
+
+--- PARAGRAPHS ---
+P#0: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+P#1: Độc lập – Tự do – Hạnh phúc
+P#2: ĐIỀU LỆ
+P#3: {{ ten_cong_ty_vn }}
+P#4: Bản điều lệ {{ ten_cong_ty_vn }} được các thành viên công ty thông qua theo quy định của Luật Doanh nghiệp số Luật Doanh nghiệp số 59/2020/QH14 được Quốc Hội nước Cộng hòa Xã hội Chủ nghĩa Việt Nam thông qua ngày 17/6/2020, gổm các điều, khoản của Điều lệ này như sau:
+P#6: Chương I: ĐIỀU KHOẢN CHUNG
+P#7: Điều 1. Tư cách pháp nhân và Phạm vi trách nhiệm
+P#8: 1. Công ty là một pháp nhân độc lập và có tư cách pháp nhân theo Luật pháp Việt Nam. Tất cả hoạt động của Công ty được điều chỉnh bởi Luật pháp Việt Nam và theo các quy định tại Giấy chứng nhận đăng ký doanh nghiệp, Điều lệ này và bất kỳ giấy phép hoặc cấp phép của Cơ quan Nhà nước, cần thiết cho hoạt động kinh doanh của Công ty.
+P#9: 2. Mỗi thành viên trong Công ty chỉ chịu trách nhiệm về các khoản nợ và các nghĩa vụ tài sản khác của Công ty trong phạm vi số vốn đã cam kết góp vào Công ty.
+P#10: Điều 2. Tên doanh nghiệp
+P#11: Điều 3. Địa chỉ trụ sở chính công ty:
+P#12: {{ dia_chi_so_nha }}, {{ dia_chi_xa_phuong }}, {{ dia_chi_tinh_thanh }}
+P#13: Điện thoại: {{ sdt_cong_ty }}              Email (nếu có): {{ email_cong_ty }}
+P#14: Điều 4. Ngành, nghề kinh doanh
+P#16: Điều 5. Người đại diện theo pháp luật
+P#17: 1. Người đại diện theo pháp luật của doanh nghiệp là cá nhân đại diện cho doanh nghiệp thực hiện các quyền và nghĩa vụ phát sinh từ giao dịch của doanh nghiệp, đại diện cho doanh nghiệp với tư cách người yêu cầu giải quyết việc dân sự, nguyên đơn, bị đơn, người có quyền lợi, nghĩa vụ liên quan trước Trọng tài, Tòa án và các quyền, nghĩa vụ khác theo quy định của pháp luật
+P#18: Số lượng người đại diện theo pháp luật: Công ty có 01 người là người đại diện theo pháp luật, chức danh Giám đốc
+P#19: 2. Thông tin của người đại diện theo pháp luật:
+P#20: Họ chữ đệm và tên: {{ ddpl_ho_ten }}
+P#21: Giới tính: {{ ddpl_gioi_tinh }}
+P#22: Ngày sinh: {{ ddpl_ngay_sinh }}
+P#23: Số định danh cá nhân: {{ ddpl_so_cccd }}
+P#24: Địa chỉ liên lạc: {{ ddpl_dia_chi_so_nha }}, {{ ddpl_dia_chi_xa_phuong }}, {{ ddpl_dia_chi_tinh_thanh }}
+P#25: Chức danh: Giám đốc
+P#26: Chương II: THÀNH VIÊN, VỐN ĐIỀU LỆ, QUYỀN VÀ NGHĨA VỤ CỦA THÀNH VIÊN
+P#27: Điều 6. Vốn điều lệ, phần vốn góp của thành viên công ty
+P#28: 1. Vốn điều lệ
+P#29: Vốn Điều lệ của công ty được ấn định là: {{ von_dieu_le_so }} VNĐ
+P#30: Ghi bằng chữ: {{ von_dieu_le_chu }}
+P#31: Vốn điều lệ có thể tăng hoặc giảm do yêu cầu tình hình hoạt động của Công ty và do quyết định của Hội đồng thành viên.
+P#32: 2.  Phần vốn góp, giá trị phần vốn góp của các thành viên, thời điểm góp vốn
+P#33: a)  Thành viên thứ nhất:
+P#34: <<BEGIN_TV_BLOCK>>
+P#35: Họ chữ đệm và tên: {{ tv2_ho_ten }}
+P#36: Giới tính: {{ tv2_gioi_tinh }}
+P#37: Ngày sinh: {{ tv2_ngay_sinh }}
+P#38: Số định danh cá nhân: {{ tv2_so_cccd }}
+P#39: Địa chỉ liên lạc: {{ tv2_dia_chi_so_nha }}, {{ tv2_dia_chi_xa_phuong }}, {{ tv2_dia_chi_tinh_thanh }}
+P#40: <<END_TV_BLOCK>>
+P#41: Sở hữu phần vốn góp có giá trị là {{ tv2_von_cu_so }} đồng, chiếm {{ tv2_ty_le }}% vốn điều lệ;
+P#42: b)  Thành viên thứ hai:
+P#43: Họ chữ đệm và tên: {{ ddpl_ho_ten }}
+P#44: Giới tính: {{ ddpl_gioi_tinh }}
+P#45: Ngày sinh: {{ ddpl_ngay_sinh }}
+P#46: Số định danh cá nhân: {{ ddpl_so_cccd }}
+P#47: Địa chỉ liên lạc: {{ ddpl_dia_chi_so_nha }}, {{ ddpl_dia_chi_xa_phuong }}, {{ ddpl_dia_chi_tinh_thanh }}
+P#48: Sở hữu phần vốn góp có giá trị là {{ ddpl_von_cu_so }} đồng, chiếm {{ ddpl_ty_le }}% vốn điều lệ;
+P#49: Điều 7. Quyền của thành viên
+P#50: 1. Thành viên Hội đồng thành viên có các quyền sau đây:
+P#51: a) Tham dự họp Hội đồng thành viên, thảo luận, kiến nghị, biểu quyết các vấn đề thuộc thẩm quyền của Hội đồng thành viên;
+P#52: b) Có số phiếu biểu quyết tương ứng với phần vốn góp, trừ trường hợp quy định tại khoản 2 Điều 47 của Luật Doanh nghiệp;
+P#53: c) Được chia lợi nhuận tương ứng với phần vốn góp sau khi công ty đã nộp đủ thuế và hoàn thành các nghĩa vụ tài chính khác theo quy định của pháp luật;
+P#54: d) Được chia giá trị tài sản còn lại của công ty tương ứng với phần vốn góp khi công ty giải thể hoặc phá sản;
+P#55: đ) Được ưu tiên góp thêm vốn vào công ty khi công ty tăng vốn điều lệ;
+P#56: e) Định đoạt phần vốn góp của mình bằng cách chuyển nhượng một phần hoậc toàn bộ, tặng cho và hình thức khác theo quy định của pháp luật và Điều lệ công ty;
+P#57: g) Tự mình hoặc nhân danh công ty khởi kiện trách nhiệm dân sự đối với Chủ tịch Hội đồng thành viên, Giám đốc, người đại diện theo pháp luật và người quản lý khác theo quy định tại Điều 72 của Luật Doanh nghiệp;
+P#58: h) Quyền khác theo quy định của Luật Doanh nghiệp và Điều lệ công ty.
+P#59: 2. Ngoài các quyền quy định tại khoản 1 Điều này, thành viên, nhóm thành viên sở hữu từ 10% số vốn điều lệ trở lên hoặc thuộc trường hợp quy định tại khoản 3 Điều này có các quyền sau đây:
+P#60: a) Yêu cầu triệu tập họp Hội đồng thành viên để giải quyết những vấn đề thuộc thẩm quyền;
+P#61: b) Kiểm tra, xem xét, tra cứu sổ ghi chép và theo dõi các giao dịch, sổ kế toán, báo cáo tài chính hằng năm;
+P#62: c) Kiểm tra, xem xét, tra cứu và sao chụp sổ đăng ký thành viên, biên bản họp, nghị quyết, quyết định của Hội đồng thành viên và tài liệu khác của công ty;
+P#63: d) Yêu cầu Tòa án hủy bỏ nghị quyết, quyết định của Hội đồng thành viên trong thời hạn 90 ngày kể từ ngày kết thúc họp Hội đồng thành viên, nếu trình tự, thủ tục, điều kiện cuộc họp hoặc nội dung nghị quyết, quyết định đó không thực hiện đúng hoặc không phù hợp với quy định của Luật Doanh nghiệp và Điều lệ công ty.
+P#64: 3. Trường hợp công ty có một thành viên sở hữu trên 90% vốn điều lệ thì nhóm thành viên còn lại đương nhiên có quyền theo quy định tại khoản 2 Điều này.
+P#65: Điều 8. Nghĩa vụ của thành viên Hội đồng thành viên
+P#66: 1. Góp đủ, đúng hạn số vốn đã cam kết, chịu trách nhiệm về các khoản nợ và nghĩa vụ tài sản khác của công ty trong phạm vi số vốn đã góp vào công ty, trừ trường hợp quy định tại khoản 2 và khoản 4 Điều 47 của Luật Doanh nghiệp.
+P#67: 2. Không được rút vốn đã góp ra khỏi công ty dưới mọi hình thức, trừ trường hợp quy định tại các điều 51, 52, 53 và 68 của Luật Doanh nghiệp.
+P#68: 3. Tuân thủ Điều lệ công ty.
+P#69: 4. Chấp hành nghị quyết, quyết định của Hội đồng thành viên.
+P#70: 5. Chịu trách nhiệm cá nhân khi nhân danh công ty để thực hiện các hành vi sau đây:
+P#71: a) Vi phạm pháp luật;
+P#72: b) Tiến hành kinh doanh hoặc giao dịch khác không nhằm phục vụ lợi ích của công ty và gây thiệt hại cho người khác;
+P#73: c) Thanh toán khoản nợ chưa đến hạn trước nguy cơ tài chính có thể xảy ra đối với công ty.
+P#74: 6. Nghĩa vụ khác theo quy định của Luật Doanh nghiệp.
+P#75: Điều 9. Mua lại phần vốn góp
+P#76: 1. Thành viên có quyền yêu cầu công ty mua lại phần vốn góp của mình nếu thành viên đó đã bỏ phiếu không tán thành đối với nghị quyết, quyết định của Hội đồng thành viên về vấn đề sau đây:
+P#77: a) Sửa đổi, bổ sung các nội dung trong Điều lệ công ty liên quan đến quyền và nghĩa vụ của thành viên, Hội đồng thành viên;
+P#78: b) Tổ chức lại công ty;
+P#79: 2. Yêu cầu mua lại phần vốn góp phải bằng văn bản và được gửi đến công ty trong thời hạn 15 ngày kể từ ngày thông qua nghị quyết, quyết định quy định tại khoản 1 Điều này.
+P#80: 3. Trong thời hạn 15 ngày kể từ ngày nhận được yêu cầu của thành viên quy định tại khoản 1 Điều này thì công ty phải mua lại phần vốn góp của thành viên đó theo giá thị trường hoặc giá được xác định do hai bên thỏa thuận được về giá. Việc thanh toán chỉ được thực hiện nếu sau khi thanh toán đủ phần vốn góp được mua lại, công ty vẫn thanh toán đủ các khoản nợ và nghĩa vụ tài sản khác.
+P#81: 4. Trường hợp công ty không thanh toán được phần vốn góp được yêu cầu mua lại theo quy định tại khoản 3 Điều này thì thành viên đó có quyền tự do chuyển nhượng phần vốn góp của mình cho thành viên khác hoặc người không phải là thành viên công ty.
+P#82: Điều 10. Chuyển nhượng phần vốn góp
+P#83: 1. Trừ trường hợp quy định tại khoản 4 Điều 51, khoản 6 và khoản 7 Điều 53 của Luật Doanh nghiệp, thành viên công ty trách nhiệm hữu hạn hai thành viên trở lên có quyền chuyển nhượng một phần hoặc toàn bộ phần vốn góp của mình cho người khác theo quy định sau đây:
+P#84: a) Chào bán phần vốn góp đó cho các thành viên còn lại theo tỷ lệ tương ứng với phần vốn góp của họ trong công ty với cùng điều kiện chào bán;
+P#85: b) Chuyển nhượng với cùng điều kiện chào bán đối với các thành viên còn lại quy định tại điểm a khoản này cho người không phải là thành viên nếu các thành viên còn lại của công ty không mua hoặc không mua hết trong thời hạn 30 ngày kể từ ngày chào bán.
+P#86: 2. Thành viên chuyển nhượng vẫn có các quyền và nghĩa vụ đối với công ty tương ứng với phần vốn góp có liên quan cho đến khi thông tin về người mua quy định tại các điểm b, c và đ khoản 2 Điều 48 của Luật Doanh nghiệp được ghi đầy đủ vào sổ đăng ký thành viên.
+P#87: 3. Trường hợp chuyển nhượng hoặc thay đổi phần vốn góp của các thành viên dẫn đến chỉ còn một thành viên công ty thì công ty phải tổ chức quản lý theo loại hình công ty trách nhiệm hữu hạn một thành viên và thực hiện đăng ký thay đổi nội dung đăng ký doanh nghiệp trong thời hạn 15 ngày kể từ ngày hoàn thành việc chuyển nhượng.
+P#89: Chương III: CƠ CẤU TỔ CHỨC QUẢN LÝ, NGUYÊN TẮC HOẠT ĐỘNG CỦA CÔNG TY
+P#90: Điều 11. Cơ cấu tổ chức quản lý
+P#91: Cơ cấu tổ chức của Công ty gồm có:
+P#92: Hội đồng thành viên;
+P#93: Chủ tịch Hội đồng thành viên;
+P#94: Giám đốc.
+P#95: Điều 12. Hội đồng thành viên
+P#96: 1. Hội đồng thành viên là cơ quan quyết định cao nhất của công ty, bao gồm tất cả thành viên công ty là cá nhân và người đại diện theo ủy quyền của thành viên công ty là tổ chức. Hội đồng thành viên phải họp ít nhất một lần trong quý 2 hàng năm.
+P#97: 2. Hội đồng thành viên có quyền và nghĩa vụ sau đây:
+P#98: a) Quyết định chiến lược phát triển và kế hoạch kinh doanh hằng năm của công ty;
+P#99: b) Quyết định tăng hoặc giảm vốn điều lệ, quyết định thời điểm và phương thức huy động thêm vốn; quyết định phát hành trái phiếu;
+P#100: c) Quyết định dự án đầu tư phát triển của công ty; giải pháp phát hiển thị trường, tiếp thị và chuyển giao công nghệ;
+P#101: d) Thông qua hợp đồng vay, cho vay, bán tài sản và hợp đồng khác do Điều lệ công ty quy định có giá trị từ 50% tổng giá trị tài sản trở lên được ghi trong báo cáo tài chính tại thời điểm công bố gần nhất của công ty;
+P#102: đ) Bầu, miễn nhiệm, bãi nhiệm Chủ tịch Hội đồng thành viên; quyết định bổ nhiệm, miễn nhiệm, bãi nhiệm, ký và chấm dứt hợp đồng đối với Giám đốc, Kế toán trưởng;
+P#103: e) Quyết định mức lương, thù lao, thưởng và lợi ích khác đối với Chủ tịch Hội đồng thành viên, Giám đốc, Kế toán trưởng;
+P#104: g) Thông qua báo cáo tài chính hằng năm, phương án sử dụng và phân chia lợi nhuận hoặc phương án xử lý lỗ của công ty;
+P#105: h) Quyết định cơ cấu tổ chức quản lý công ty;
+P#106: i) Quyết định thành lập công ty con, chi nhánh, văn phòng đại diện;
+P#107: k) Sửa đổi, bổ sung Điều lệ công ty;
+P#108: l) Quyết định tổ chức lại công ty;
+P#109: m) Quyết định giải thể hoặc yêu cầu phá sản công ty;
+P#110: n) Quyền và nghĩa vụ khác theo quy định của Luật Doanh nghiệp và Điều lệ công ty.
+P#111: Điều 13. Chủ tịch Hội đồng thành viên
+P#112: 1. Hội đồng thành viên bầu một thành viên làm Chủ tịch. Chủ tịch Hội đồng thành viên có thể kiêm Giám đốc công ty.
+P#113: 2. Chủ tịch Hội đồng thành viên có quyền và nghĩa vụ sau đây:
+P#114: a) Chuẩn bị chương trình, kế hoạch hoạt động của Hội đồng thành viên;
+P#115: b) Chuẩn bị chương trình, nội dung, tài liệu họp Hội đồng thành viên hoặc để lấy ý kiến các thành viên;
+P#116: c) Triệu tập, chủ trì và làm chủ tọa cuộc họp Hội đồng thành viên hoặc tổ chức việc lấy ý kiến các thành viên;
+P#117: d) Giám sát hoặc tổ chức giám sát việc thực hiện nghị quyết, quyết định của Hội đồng thành viên;
+P#118: đ) Thay mặt Hội đồng thành viên ký nghị quyết, quyết định của Hội đồng thành viên;
+P#119: e) Quyền và nghĩa vụ khác theo quy định của Luật Doanh nghiệp và Điều lệ công ty.
+P#120: 3. Nhiệm kỳ của Chủ tịch Hội đồng thành viên do Điều lệ công ty quy định nhưng không quá 05 năm và có thể được bầu lại với số nhiệm kỳ không hạn chế.
+P#121: 4. Trường hợp Chủ tịch Hội đồng thành viên vắng mặt hoặc không thể thực hiện các quyền và nghĩa vụ của mình thì phải ủy quyền bằng văn bản cho một thành viên thực hiện các quyền và nghĩa vụ của Chủ tịch Hội đồng thành viên. Trường hợp không có thành viên được ủy quyền hoặc Chủ tịch Hội đồng thành viên chết, mất tích, bị tạm giam, đang chấp hành hình phạt tù, đang chấp hành biện pháp xử lý hành chính tại cơ sở cai nghiện bắt buộc, cơ sở giáo dục bắt buộc, trốn khỏi nơi cư trú, bị hạn chế hoặc mất năng lực hành vi dân sự, có khó khăn trong nhận thức, làm chủ hành vi, bị Tòa án cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định thì một trong số các thành viên Hội đồng thành viên triệu tập họp các thành viên còn lại bầu một người trong số các thành viên tạm thời làm Chủ tịch Hội đồng thành viên theo nguyên tắc đa số thành viên còn lại tán thành cho đến khi có quyết định mới của Hội đồng thành viên.
+P#122: Điều 14. Giám đốc
+P#123: 1. Giám đốc là người điều hành hoạt động kinh doanh hằng ngày của công ty, chịu trách nhiệm trước Hội đồng thành viên về việc thực hiện quyền và nghĩa vụ của mình.
+P#124: 2. Giám đốc có quyền và nghĩa vụ sau đây:
+P#125: a) Tổ chức thực hiện nghị quyết, quyết định của Hội đồng thành viên;
+P#126: b) Quyết định các vấn đề liên quan đến hoạt động kinh doanh hằng ngày của công ty;
+P#127: c) Tổ chức thực hiện kế hoạch kinh doanh và phương án đầu tư của công ty;
+P#128: d) Ban hành quy chế quản lý nội bộ của công ty;
+P#129: đ) Bổ nhiệm, miễn nhiệm, bãi nhiệm người quản lý trong công ty, trừ chức danh thuộc thẩm quyền của Hội đồng thành viên;
+P#130: e) Ký kết hợp đồng nhân danh công ty, trừ trường hợp thuộc thẩm quyền của Chủ tịch Hội đồng thành viên;
+P#131: g) Kiến nghị phương án cơ cấu tổ chức công ty;
+P#132: h) Trình báo cáo tài chính hằng năm lên Hội đồng thành viên;
+P#133: i) Kiến nghị phương án sử dụng và phân chia lợi nhuận hoặc xử lý lỗ trong kinh doanh;
+P#134: k) Tuyển dụng lao động;
+P#135: l) Quyền và nghĩa vụ khác được quy định tại Điều lệ công ty, nghị quyết, quyết định của Hội đồng thành viên, hợp đồng lao động.
+P#136: Điều 15. Điều kiện và thể thức tiến hành họp Hội đồng thành viên
+P#137: 1. Cuộc họp Hội đồng thành viên được tiến hành khi có số thành viên dự họp sở hữii từ 65% vốn điều lệ trở lên.
+P#138: 2. Trường hợp cuộc họp Hội đồng thành viên lần thứ nhất không đủ điều kiện tiến hành theo quy định tại khoản 1 Điều này và Điều lệ công ty không có quy định khác thì việc triệu tập họp Hội đồng thành viên được thực hiện như sau:
+P#139: a) Thông báo mời họp lần thứ hai phải được gửi trong thời hạn 15 ngày kể từ ngày dự định họp lần thứ nhất. Cuộc họp Hội đồng thành viên lần thứ hai được tiến hành khi có số thành viên dự họp sở hữu từ 50% vốn điều lệ trở lên;
+P#140: b) Trường hợp cuộc họp Hội đồng thành viên lần thứ hai không đủ điều kiện tiến hành theo quy định tại điểm a khoản này, thông báo mời họp lần thứ ba phải được gửi trong thời hạn 10 ngày kể từ ngày dự định họp lần thứ hai. Cuộc họp Hội đồng thành viên lần thứ ba được tiến hành không phụ thuộc số thành viên dự họp và số vốn điều lệ được đại diện bởi số thành viên dự họp.
+P#141: 3. Thành viên, người đại diện theo ủy quyền của thành viên phải tham dự và biểu quyết tại cuộc họp Hội đồng thành viên. Thể thức tiến hành họp Hội đồng thành viên, hình thức biểu quyết do Điều lệ công ty quy định.
+P#142: 4. Trường hợp cuộc họp đủ điều kiện quy định tại Điều này không hoàn thành chuông trình họp trong thời hạn dự kiến thì có thể kéo dài nhưng không được quá 30 ngày kể từ ngày khai mạc cuộc họp đó.
+P#143: Điều 16. Nghị quyết, quyết định của Hội đồng thành viên
+P#144: 1. Hội đồng thành viên thông qua nghị quyết, quyết định thuộc thẩm quyền bằng biểu quyết tại cuộc họp, lấy ý kiến bằng văn bản.
+P#145: 2. Nghị quyết, quyết định về các vấn đề sau đây phải được thông qua bằng biểu quyết tại cuộc họp Hội đồng thành viên:
+P#146: a) Sửa đổi, bổ sung nội dung Điều lệ công ty;
+P#147: b) Quyết định phương hướng phát triển công ty;
+P#148: c) Bầu, miễn nhiệm, bãi nhiệm Chủ tịch Hội đồng thành viên; bổ nhiệm, miễn nhiệm, bãi nhiệm Giám đốc;
+P#149: d) Thông qua báo cáo tài chính hằng năm;
+P#150: đ) Tổ chức lại, giải thể công ty.
+P#151: 3. Nghị quyết, quyết định của Hội đồng thành viên được thông qua tại cuộc họp trong trường hợp sau đây:
+P#152: a) Được các thành viên dự họp sở hữu từ 65% tổng số vốn góp của tất cả thành viên dự họp trở lên tán thành, trừ trường hợp quy định tại điểm b khoản này;
+P#153: b) Được các thành viên dự họp sở hữu từ 75% tổng số vốn góp của tất cả thành viên dự họp trở lên tán thành đối với nghị quyết, quyết định bán tài sản có giá trị từ 50% tổng giá trị tài sản trở lên được ghi trong báo cáo tài chính gần nhất của công ty; sửa đổi, bổ sung Điều lệ công ty; tổ chức lại, giải thể công ty.
+P#154: 4. Thành viên được coi là tham dự và biểu quyết tại cuộc họp Hội đồng thành viên trong trường hợp sau đây:
+P#155: a) Tham dự và biểu quyết trực tiếp tại cuộc họp;
+P#156: b) Ủy quyền cho người khác tham dự và biểu quyết tại cuộc họp;
+P#157: c) Tham dự và biểu quyết thông qua cuộc họp trực tuyến, bỏ phiếu điện tử hoặc hình thức điện tử khác;
+P#158: d) Gửi phiếu biểu quyết đến cuộc họp thông qua thư, fax, thư điện tử.
+P#159: 5. Nghị quyết, quyết định của Hội đồng thành viên được thông qua dưới hình thức lấy ý kiến bằng văn bản khi được số thành viên sở hữu từ 65% vốn điều lệ trở lên tán thành.
+P#160: Điều 17. Thủ tục thông qua nghị quyết, quyết định của Hội đồng thành viên theo hình thức lấy ý kiến bằng văn bản
+P#161: Thẩm quyền và thể thức lấy ý kiến thành viên bằng văn bản để thông qua nghị quyết, quyết định được thực hiện theo quy định sau đây:
+P#162: 1. Chủ tịch Hội đồng thành viên quyết định việc lấy ý kiến thành viên Hội đồng thành viên bằng văn bản để thông qua nghị quyết, quyết định các vấn đề thuộc thẩm quyền;
+P#163: 2. Chủ tịch Hội đồng thành viên có trách nhiệm tổ chức việc soạn thảo, gửi các báo cáo, tờ trình về nội dung cần quyết định, dự thảo nghị quyết, quyết định và phiếu lấy ý kiến đến các thành viên Hội đồng thành viên;
+P#164: 3. Phiếu lấy ý kiến phải bao gồm các nội dung chủ yếu sau đây:
+P#165: a) Tên, mã số doanh nghiệp, địa chỉ trụ sở chính;
+P#166: b) Họ, tên, địa chỉ liên lạc, quốc tịch, số giấy tờ pháp lý của cá nhân, tỷ lệ phần vốn góp của thành viên Hội đồng thành viên;
+P#167: c) Vấn đề cần lấy ý kiến và ý kiến trả lời tương ứng theo thứ tự tán thành, không tán thành và không có ý kiến;
+P#168: d) Thời hạn cuối cùng phải gửi phiếu lấy ý kiến về công ty;
+P#169: đ) Họ, tên, chữ ký của Chủ tịch Hội đồng thành viên;
+P#170: 4. Phiếu lấy ý kiến có nội dung đầy đủ, có chữ ký của thành viên Hội đồng thành viên và được gửi về công ty trọng thời hạn quy định được coi là hợp lệ. Chủ tịch Hội đồng thành viên tổ chức việc kiểm phiếu, lập báo cáo và thông báo kết quả kiểm phiếu, nghị quyết, quyết định được thông qua đến các thành viên trong thời hạn 07 ngày làm việc kể từ ngày kết thúc thời hạn mà thành viên phải gửi ý kiến về công ty. Báo cáo kết quả kiểm phiếu có giá trị tương đương biên bản họp Hội đồng thành viên và phải bao gồm các nội dung chủ yểu sau đây:
+P#171: a) Mục đích, nội dung lấy ý kiến;
+P#172: b) Họ, tên, tỷ lệ phần vốn góp, số và ngày cấp giấy chứng nhận phần vốn góp của thành viên đã gửi lại phiếu lấy ý kiến hợp lệ; họ, tên, tỷ lệ phần vốn góp, số và ngày cấp giấy chứng nhận phần vốn góp của thành viên mà công ty không nhận lại được phiếu lấy ý kiến hoặc gửi lại phiếu lấy ý kiến nhưng không hợp lệ;
+P#173: c) Vấn đề được lấy ý kiến và biểu quyết; tóm tắt ý kiến của thành viên về từng vấn đề lấy ý kiến (nếu có);
+P#174: d) Tổng số phiếu lấy ý kiến hợp lệ, không hợp lệ, không nhận được; tổng số phiếu lấy ý kiến hợp lệ tán thành, không tán thành, không có ý kiến đối với từng vấn đề biểu quyết;
+P#175: đ) Nghị quyết, quyết định được thông qua và tỷ lệ phiếu biểu quyết tương ứng;
+P#176: e) Họ, tên, chữ ký của người kiểm phiếu và Chủ tịch Hội đồng thành viên. Người kiểm phiếu và Chủ tịch Hội đồng thành viên chịu trách nhiệm liên đới về tính đầy đủ, chính xác, trung thực của nội dung báo cáo kết quả kiểm phiếu.
+P#177: Điều 18. Hiệu lực nghị quyết, quyết định của Hội đồng thành viên
+P#178: 1. Nghị quyết, quyết định của Hội đồng thành viên có hiệu lực thi hành kể từ ngày được thông qua hoặc từ ngày có hiệu lực được ghi tại nghị quyết, quyết định đó.
+P#179: 2. Nghị quyết, quyết định của Hội đồng thành viên được thông qua bằng 100% tổng số vốn điều lệ là hợp pháp và có hiệu lực ngay cả trong trường hợp trình tự và thủ tục thông qua nghị quyết, quyết định đó không được thực hiện đúng quy định.
+P#180: 3. Trường hợp thành viên, nhóm thành viên yêu cầu Tòa án hoặc Trọng tài hủy bỏ nghị quyết, quyết định đã được thông qua thì nghị quyết, quyết định đó vẫn có hiệu lực thi hành theo quy định tại khoản 1 Điều này cho đến khi có quyết định hủy bỏ của Tòa án hoặc Trọng tài có hiệu lực pháp luật, trừ trường hợp áp dụng biện pháp khẩn cấp tạm thời theo quyết định của cơ quan có thẩm quyền.
+P#181: Điều 19.  Thù lao, tiền lương và thưởng của thành viên Hội đồng thành viên, Giám đốc; Nguyên tắc giải quyết tranh chấp
+P#182: 1. Thù lao, tiền lương và thưởng của thành viên Hội đồng thành viên, Giám đốc
+P#183: a) Công ty trả thù lao, tiền lương và thưởng cho Chủ tịch Hội đồng thành viên, Giám đốc và người quản lý khác theo kết quả và hiệu quả kinh doanh.
+P#184: b) Thù lao, tiền lương của Chủ tịch Hội đồng thành viên, Giám đốc và người quản lý khác được tính vào chi phí kinh doanh theo quy định của pháp luật về thuế thu nhập doanh nghiệp, pháp luật có liên quan và phải được thể hiện thành mục riêng trong báo cáo tài chính hằng năm của công ty
+P#185: 2. Nguyên tắc giải quyết tranh chấp
+P#186: a) Tranh chấp giữa các thành viên sáng lập trước hết phải được giải quyết thông qua thương lượng và hoà giải;
+P#187: b) Trong trường hợp các bên tranh chấp vẫn không thỏa thuận được với nhau thì vụ tranh chấp sẽ được đưa ra Toà án giải quyết theo quy định của Pháp luật.
+P#190: Chương IV: NĂM TÀI CHÍNH PHÂN PHỐI LỢI NHUẬN
+P#191: Điều 20. Năm tài chính
+P#192: Năm tài chính của Công ty bắt đầu từ ngày đầu tiên của tháng 1 (một) hàng năm và kết thúc vào ngày thứ 31 của tháng 12.
+P#193: Năm tài chính đầu tiên bắt đầu từ ngày cấp Giấy chứng nhận đăng ký doanh nghiệp và kết thúc vào ngày thứ  31 của tháng 12 ngay sau ngày cấp Giấy chứng nhận đăng ký doanh nghiệp đó.
+P#194: Điều 21. Điều kiện để chia lợi nhuận, phân phối lợi nhuận, lập quỹ và nguyên tắc xử lý lỗ trong kinh doanh
+P#195: 1. Công ty chỉ được chia lợi nhuận cho các thành viên khi kinh doanh có lãi, đã hoàn thành nghĩa vụ thuế và các nghĩa vụ tài chính khác theo quy định của pháp luật và bảo đảm thanh toán đủ các khoản nợ và nghĩa vụ tài sản đến hạn trả khác sau khi chia lợi nhuận.
+P#196: 2. Sau khi đã hoàn thành nghĩa vụ nộp thuế và các nghĩa vụ tài chính khác theo quy định của pháp luật, đã thanh toán đủ (hoặc đã dành phần thanh toán đủ) các khoản nợ và nghĩa vụ tài sản khác đã đến hạn phải trả công ty lập các loại quỹ theo quy định của pháp luật
+P#197: 3. Công ty sẽ phân phối lợi nhuận cho các thành viên Theo tỷ lệ vốn góp
+P#198: 4. Nguyên tắc xử lý lỗ trong kinh doanh: Trường hợp quyết toán năm tài chính bị lỗ, Hội đồng thành viên công ty được quyết định theo các hướng sau:
+P#199: a) Trích quỹ dự trữ để bù.
+P#200: b) Chuyển sang năm sau để trừ vào lợi nhuận của năm tài chính sau trước khi phân phối lợi nhuận.
+P#201: Điều 22. Thu hồi phần vốn góp đã hoàn trả hoặc lợi nhuận đã chia
+P#202: Trường hợp hoàn trả một phần vốn góp do giảm vốn điều lệ trái với quy định tại khoản 3 Điều 68 của Luật Doanh nghiệp hoặc chia lợi nhuận cho thành viên trái với quy định tại Điều 69 của Luật Doanh nghiệp thì các thành viên công ty phải hoàn trả cho công ty số tiền, tài sản khác đã nhận; phải cùng liên đới chịu trách nhiệm về các khoản nợ và nghĩa vụ tài sản khác của công ty tương ứng với số tiền, tài sản chưa hoàn trả đủ cho đến khi hoàn trả đủ số tiền, tài sản khác đã nhận.
+P#204: Chương V: THÀNH LẬP, TỔ CHỨC LẠI, GIẢI THỂ
+P#205: Điều 23. Thành lập
+P#206: 1. Công ty được thành lập sau khi được cơ quan đăng ký kinh doanh cấp giấy chứng nhận đăng ký doanh nghiệp.
+P#207: 2. Mọi phí tổn liên hệ đến việc thành lập Công ty đều được ghi vào mục chi phí của Công ty và được tính hoàn giảm vào chi phí của năm tài chính đầu tiên.
+P#208: Điều 24. Các trường hợp và điều kiện giải thể doanh nghiệp
+P#209: 1. Công ty bị giải thể trong các trường hợp sau đây:
+P#210: a) Theo quyết định của Hội đồng thành viên;
+P#211: b) Công ty không còn đủ số lượng thành viên tối thiểu theo quy định của Luật doanh nghiệp trong thời hạn 06 tháng liên tục mà không làm thủ tục chuyển đổi loại hình doanh nghiệp;
+P#212: c) Bị thu hồi Giấy chứng nhận đăng ký doanh nghiệp.
+P#213: 2. Công ty chỉ được giải thể khi bảo đảm thanh toán hết các khoản nợ và nghĩa vụ tài sản khác và doanh nghiệp không trong quá trình giải quyết tranh chấp tại Tòa án hoặc cơ quan trọng tài. Người quản lý có liên quan và doanh nghiệp quy định tại điểm c khoản 1 Điều này cùng liên đới chịu trách nhiệm về các khoản nợ của doanh nghiệp.
+P#214: Điều 25. Trình tự, thủ tục giải thể doanh nghiệp và thanh lý tài sản
+P#215: Việc giải thể doanh nghiệp trong các trường hợp quy định tại các điểm a, b, c khoản 1 Điều 24 của Điều lệ này được thực hiện theo quy định sau đây:
+P#216: 1. Thông qua nghị quyết, quyết định giải thể doanh nghiệp. Nghị quyết, quyết định giải thể doanh nghiệp phải bao gồm các nội dung chủ yếu sau đây:
+P#217: a) Tên, địa chỉ trụ sở chính của doanh nghiệp;
+P#218: b) Lý do giải thể;
+P#219: c) Thời hạn, thủ tục thanh lý hợp đồng và thanh toán các khoản nợ của doanh nghiệp;
+P#220: d) Phương án xử lý các nghĩa vụ phát sinh từ hợp đồng lao động;
+P#221: đ) Họ, tên, chữ ký của Chủ tịch Hội đồng thành viên;
+P#222: 2. Hội đồng thành viên trực tiếp tổ chức thanh lý tài sản doanh nghiệp;
+P#223: 3. Trong thời hạn 07 ngày làm việc kể từ ngày thông qua, nghị quyết, quyết định giải thể và biên bản họp phải được gửi đến Cơ quan đăng ký kinh doanh, cơ quan thuế, người lao động trong doanh nghiệp. Nghị quyết, quyết định giải thể phải được đăng trên cổng thông tin quốc gia về đăng ký doanh nghiệp và được niêm yết công khai tại trụ sở chính, chi nhánh, văn phòng đại diện của doanh nghiệp. Trường hợp doanh nghiệp còn nghĩa vụ tài chính chưa thanh toán thì phải gửi kèm theo nghị quyết, quyết định giải thể và phương án giải quyết nợ đến các chủ nợ, người có quyền, nghĩa vụ và lợi ích có liên quan. Phương án giải quyết nợ phải có tên, địa chỉ của chủ nợ; số nợ, thời hạn, địa điểm và phương thức thanh toán số nợ đó; cách thức và thời hạn giải quyết khiếu nại của chủ nợ;
+P#224: 4. Các khoản nợ của doanh nghiệp được thanh toán theo thứ tự ưu tiên sau đây:
+P#225: a) Các khoản nợ lương, trợ cấp thôi việc, bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp theo quy định của pháp luật và các quyền lợi khác của người lao động theo thỏa ước lao động tập thể và hợp đồng lao động đã ký kết;
+P#226: b) Nợ thuế;
+P#227: c) Các khoản nợ khác;
+P#228: 5. Sau khi đã thanh toán chi phí giải thể doanh nghiệp và các khoản nợ, phần còn lại chia cho các thành viên công ty theo tỷ lệ sở hữu phần vốn góp;
+P#229: 6. Người đại diện theo pháp luật của doanh nghiệp gửi hồ sơ giải thể doanh nghiệp cho Cơ quan đăng ký kinh doanh trong thời hạn 05 ngày làm việc kể từ ngày thanh toán hết các khoản nợ của doanh nghiệp;
+P#231: Chương VI: ĐIỀU KHOẢN THI HÀNH
+P#232: Điều 26. Hiệu lực của Điều lệ
+P#233: Điều lệ này có hiệu lực kể từ ngày được cơ quan đăng ký kinh doanh cấp giấy chứng nhận đăng ký doanh nghiệp.
+P#234: Điều 27. Thể thức sửa đổi bổ sung các điều khoản của Điều lệ
+P#235: 1. Những vấn đề liên quan đến hoạt động của Công ty không được nêu trong Bản điều lệ này sẽ do Luật doanh nghiệp và các văn bản pháp luật liên quan khác điều chỉnh.
+P#236: 2. Trong trường hợp Điều lệ này có điều khoản trái luật pháp hoặc dẫn đến việc thi hành trái luật pháp, thì điều khoản đó không được thi hành và sẽ được xem xét sửa đổi ngay trong kỳ họp gần nhất của Hội đồng thành viên.
+P#237: Bổ sung, sửa đổi nội dung Điều lệ này, Hội đồng thành viên sẽ họp để thông qua quyết định nội dung thay đổi. Thể thức họp thông qua nội dung sửa đổi theo quy định của Luật Doanh nghiệp.
+P#238: Điều 28. Điều khoản cuối cùng
+P#239: Bản điều lệ này đã được tập thể thành viên xem xét từng chương từng điều và cùng ký tên chấp thuận.
+P#240: Bản điều lệ này gồm 6 chương 28 điều, được lập thành 04 bản có giá trị như nhau: 01 bản đăng ký tại cơ quan đăng ký kinh doanh, 01 bản lưu trữ tại trụ sở công ty, 01 cho mỗi thành viên.
+P#241: Hà Nội, ngày      tháng      năm
+P#243: CHỮ KÝ THÀNH VIÊN CÔNG TY
+
+--- TABLES ---
+
+[Table 0 - 3 rows x 2 cols]
+  R#0: ['Tên công ty viết bằng tiếng Việt:', '{{ ten_cong_ty_vn }}']
+  R#1: ['Tên công ty viết bằng tiếng nước ngoài:', '{{ ten_cong_ty_nn }}']
+  R#2: ['Tên công ty viết tắt', '{{ ten_cong_ty_viet_tat }}']
+
+[Table 1 - 12 rows x 4 cols]
+  R#0: ['STT', 'Tên ngành', 'Mã ngành', 'Ngành nghề kinh doanh chính']
+  R#1: ['', '', '', 'X']
+  R#2: ['', '', '', '']
+  R#3: ['', '', '', '']
+  R#4: ['', '', '', '']
+  R#5: ['', '', '', '']
+  R#6: ['', '', '', '']
+  R#7: ['', '', '', '']
+  R#8: ['', '', '', '']
+  R#9: ['', '', '', '']
+  R#10: ['', '', '', '']
+  R#11: ['', '', '', '']
+
+[Table 2 - 1 rows x 2 cols]
+  R#0: ['{{ tv2_ho_ten }}', '{{ ddpl_ho_ten }}']

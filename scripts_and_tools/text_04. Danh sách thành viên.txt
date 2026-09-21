@@ -1,0 +1,16 @@
+=== DOCUMENT: 04. Danh sách thành viên.docx ===
+
+--- PARAGRAPHS ---
+P#0: DANH SÁCH THÀNH VIÊN CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN
+
+--- TABLES ---
+
+[Table 0 - 5 rows x 14 cols]
+  R#0: ['STT', 'Tên thành viên', 'Ngày, tháng, năm sinh đối với thành viên là cá nhân', 'Giới tính', 'Loại giấy tờ, số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân', 'Quốc tịch', 'Dân tộc', 'Địa chỉ liên lạc', 'Vốn góp', 'Vốn góp', 'Vốn góp', 'Thời gian góp vốn', 'Chữ ký của thành viên', 'Ghi chú']
+  R#1: ['STT', 'Tên thành viên', 'Ngày, tháng, năm sinh đối với thành viên là cá nhân', 'Giới tính', 'Loại giấy tờ, số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân', 'Quốc tịch', 'Dân tộc', 'Địa chỉ liên lạc', 'Phần vốn góp1 (bằng số; VNĐ và giá trị tương đương theo đơn vị tiền nước ngoài: bằng số, loại ngoại tệ, nếu có)', 'Tỷ lệ (%)', 'Loại tài sản, số lượng, giá trị tài sản góp vốn2', 'Thời gian góp vốn', 'Chữ ký của thành viên', 'Ghi chú']
+  R#2: ['1', '2', '3', '4', '', '5', '6', '7', '9', '10', '11', '12', '13', '14']
+  R#3: ['1', '{{ ddpl_ho_ten }}', '{{ ddpl_ngay_sinh }}', '{{ ddpl_gioi_tinh }}', 'Số định danh cá nhân: {{ ddpl_so_cccd }}', '', '', '{{ ddpl_dia_chi_so_nha }}, {{ ddpl_dia_chi_xa_phuong }}, {{ ddpl_dia_chi_tinh_thanh }}', '{{ ddpl_von_cu_so }}', '{{ ddpl_ty_le }}', 'Đồng Việt Nam  {{ ddpl_von_cu_so }} đồng Việt Nam', '', '', '']
+  R#4: ['2', '{{ tv2_ho_ten }}', '{{ tv2_ngay_sinh }}', '{{ tv2_gioi_tinh }}', 'Số định danh cá nhân: {{ tv2_so_cccd }}', '', '', '{{ tv2_dia_chi_so_nha }}, {{ tv2_dia_chi_xa_phuong }}, {{ tv2_dia_chi_tinh_thanh }}', '{{ tv2_von_cu_so }}', '{{ tv2_ty_le }}', 'Đồng Việt Nam  {{ tv2_von_cu_so }} đồng Việt Nam', '', '', '']
+
+[Table 1 - 1 rows x 2 cols]
+  R#0: ['', 'Hà Nội, ngày       tháng      năm  NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY                                                  (Ký, ghi họ tên)      {{ ddpl_ho_ten }}']

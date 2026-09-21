@@ -1,0 +1,29 @@
+=== DOCUMENT: 04. Giấy ủy quyền.docx ===
+
+--- PARAGRAPHS ---
+P#0: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+P#1: Độc lập- Tự do- Hạnh phúc
+P#2: --------o0o-------
+P#3: GIẤY ỦY QUYỀN
+P#5: Giấy ủy quyền này được lập và ký vào ngày     tháng     năm      , giữa các bên dưới đây:
+P#7: BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
+P#8: Ông/Bà: {{ ddpl_ho_ten }}              Chức danh: Giám đốc
+P#9: Số định danh cá nhân: {{ ddpl_so_cccd }}
+P#10: Ngày sinh: {{ ddpl_ngay_sinh }}		Giới tính: {{ ddpl_gioi_tinh }}
+P#11: Là người đại diện theo pháp luật:
+P#12: {{ ten_cong_ty_vn }}
+P#13: Mã số doanh nghiệp: {{ ma_so_thue }}
+P#14: BÊN NHẬN UỶ QUYỀN: (Sau đây gọi là “Bên B”):
+P#15: - Ông: Đỗ Quang Hiếu
+P#16: Số định danh cá nhân: 001089021350     Ngày sinh: 16/03/1989
+P#17: Giới tính: Nam
+P#18: Địa chỉ liên lạc: TK Đường, Phú Xuyên, Hà Nội.
+P#19: Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com
+P#20: Nội dung uỷ quyền:
+P#22: Nội dung uỷ quyền : Bên A uỷ quyền cho Bên B thực hiện thủ tục nộp và nhận kết quả hồ sơ thay đổi đăng ký kinh doanh.
+P#24: Giấy ủy quyền này có giá trị kể từ ngày ký và sẽ tự động chấm dứt hiệu lực khi các công việc nêu trên đã được hoàn thành.
+
+--- TABLES ---
+
+[Table 0 - 1 rows x 2 cols]
+  R#0: ['', 'BÊN A      {{ ddpl_ho_ten }}']

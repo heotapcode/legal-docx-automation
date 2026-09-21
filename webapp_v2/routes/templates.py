@@ -1,0 +1,65 @@
+import os
+import json
+import re
+from fastapi import APIRouter, HTTPException
+from config import TEMPLATES_DIR
+
+router = APIRouter(prefix="/api/templates", tags=["Templates"])
+
+@router.get("")
+def get_templates():
+    templates = []
+    if TEMPLATES_DIR.exists():
+        for d in sorted(TEMPLATES_DIR.iterdir()):
+            if d.is_dir():
+                schema_path = d / "_schema.json"
+                docx_files = [f for f in d.glob("*.docx") if not f.name.startswith(("~$", "_"))]
+
+                if schema_path.exists():
+                    try:
+                        with open(schema_path, "r", encoding="utf-8") as f:
+                            s = json.load(f)
+                            templates.append({
+                                "name": d.name,
+                                "display_name": s.get("display_name", d.name),
+                                "category": s.get("category", "Khác"),
+                                "description": s.get("description", ""),
+                                "file_count": len(docx_files),
+                                "has_schema": True,
+                                "has_nganh": s.get("has_nganh", False)
+                            })
+                            continue
+                    except Exception:
+                        pass
+
+                # Fallback if no schema or parse error
+                cat = "Thành lập mới" if "Thành lập mới" in d.name else "Thay đổi"
+                templates.append({
+                    "name": d.name,
+                    "display_name": d.name,
+                    "category": cat,
+                    "description": "",
+                    "file_count": len(docx_files),
+                    "has_schema": False,
+                    "has_nganh": "Thành lập mới" in d.name
+                })
+
+    return {"templates": templates}
+
+@router.get("/{template_name}/schema")
+def get_template_schema(template_name: str):
+    clean_name = re.sub(r"\s+", " ", template_name.replace("Mẫu ", "").strip())
+    schema_path = TEMPLATES_DIR / clean_name / "_schema.json"
+
+    if not schema_path.exists():
+        # Try case-insensitive lookup
+        for d in TEMPLATES_DIR.iterdir():
+            if d.is_dir() and re.sub(r"\s+", " ", d.name.strip()).lower() == clean_name.lower():
+                schema_path = d / "_schema.json"
+                break
+
+    if not schema_path.exists():
+        raise HTTPException(status_code=404, detail=f"Không tìm thấy schema cho mẫu: {template_name}")
+
+    with open(schema_path, "r", encoding="utf-8") as f:
+        return json.load(f)

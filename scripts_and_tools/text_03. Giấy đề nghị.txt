@@ -1,0 +1,135 @@
+=== DOCUMENT: 03. Giấy đề nghị.docx ===
+
+--- PARAGRAPHS ---
+P#0: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+P#1: Độc lập - Tự do - Hạnh phúc
+P#2: ________________________________________
+P#3: Hà Nội, ngày ……tháng …… năm …….
+P#5: GIẤY ĐỀ NGHỊ ĐĂNG KÝ DOANH NGHIỆP
+P#6: CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN
+P#8: Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
+P#9: Họ chữ đệm và tên: {{ ddpl_ho_ten }}
+P#10: Giới tính: {{ ddpl_gioi_tinh }}
+P#11: Ngày sinh: {{ ddpl_ngay_sinh }}
+P#12: Số định danh cá nhân: {{ ddpl_so_cccd }}
+P#13: Địa chỉ liên lạc:
+P#14: Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: {{ ddpl_dia_chi_so_nha }}
+P#15: Xã/Phường/Đặc khu: {{ ddpl_dia_chi_xa_phuong }}
+P#16: Tỉnh/Thành phố trực thuộc trung ương: Hà Nội
+P#17: Quốc gia: Việt Nam
+P#18: Điện thoại (nếu có): …………………    Thư điện tử (nếu có): ……………
+P#20: Đăng ký công ty trách nhiệm hữu hạn hai thành viên do tôi
+P#21: là người đại diện theo pháp luật với nội dung sau:
+P#22: 1. Tình trạng thành lập (đánh dấu X vào ô thích hợp):
+P#23: - Lý do chuyển đổi loại hình doanh nghiệp: Tiếp nhận thành viên mới
+P#24: - Thông tin về các doanh nghiệp được chuyển đổi:
+P#25: Tên doanh nghiệp (ghi bằng chữ in hoa): {{ ten_cong_ty_vn }} Mã số doanh nghiệp/Mã số thuế: {{ ma_so_thue }}
+P#26: - Doanh nghiệp thực hiện dự án đầu tư được đăng ký đầu tư theo thủ tục đầu tư đặc biệt
+P#27: Doanh nghiệp xã hội (Đánh dấu X vào ô vuông nếu là doanh nghiệp xã hội)
+P#28: Công ty chứng khoán/Công ty quản lý quỹ đầu tư chứng khoán/Công ty đầu tư chứng khoán: (Đánh dấu X nếu là Công ty chứng khoán/Công ty quản lý quỹ đầu tư chứng khoán/Công ty đầu tư chứng khoán và kê khai thêm các thông tin sau đây)
+P#30: Giấy phép thành lập và hoạt động số:... (nếu có) do Ủy ban Chứng khoán Nhà nước cấp ngày:..../..../.....
+P#31: 2. Tên công ty:
+P#32: 3. Địa chỉ trụ sở chính:
+P#33: Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: {{ dia_chi_so_nha }}
+P#34: Xã/Phường/Đặc khu: {{ dia_chi_xa_phuong }}
+P#35: Tỉnh/Thành phố trực thuộc trung ương: Hà Nội
+P#36: Quốc gia: Việt Nam
+P#37: Điện thoại: {{ sdt_cong_ty }}	Fax (nếu có):
+P#38: Email (nếu có): {{ email_cong_ty }}	 Website (nếu có):
+P#39: - Doanh nghiệp nằm trong (Đánh dấu X vào ô vuông tương ứng nếu doanh nghiệp đăng ký địa chỉ trụ sở chính nằm trong khu công nghiệp/khu chế xuất/khu kinh tế/khu công nghệ cao):
+P#40: - Doanh nghiệp có Giấy chứng nhận quyền sử dụng đất tại đảo và xã, phường, thị trấn biên giới; xã, phường, thị trấn ven biển; khu vực khác có ảnh hưởng đến quốc phòng, an ninh:
+P#41: Có               Không
+P#42: 4. Ngành, nghề kinh doanh:
+P#43: 5. Vốn điều lệ:
+P#44: Vốn điều lệ (bằng số; VNĐ): {{ von_dieu_le_so }} đồng
+P#45: Vốn điều lệ (bằng chữ; VNĐ): {{ von_dieu_le_chu }}
+P#46: Giá trị tương đương theo đơn vị tiền nước ngoài (nếu có):
+P#47: Có hiển thị thông tin về giá trị tương đương theo đơn vị tiền tệ nước ngoài trên Giấy chứng nhận đăng ký doanh nghiệp hay không?            Có             Không
+P#48: 6. Nguồn vốn điều lệ:
+P#49: 7. Thành viên công ty: (kê khai theo mẫu danh sách kèm theo).
+P#50: 8. Người đại diện theo pháp luật:
+P#51: Họ chữ đệm và tên: {{ ddpl_ho_ten }}
+P#52: Giới tính: {{ ddpl_gioi_tinh }}
+P#53: Ngày sinh: {{ ddpl_ngay_sinh }}
+P#54: Số định danh cá nhân: {{ ddpl_so_cccd }}
+P#55: Địa chỉ liên lạc: {{ ddpl_dia_chi_so_nha }}, {{ ddpl_dia_chi_xa_phuong }}, {{ ddpl_dia_chi_tinh_thanh }}
+P#56: Chức danh: Giám đốc
+P#57: 9. Thông tin đăng ký thuế:
+P#58: 10. Thông tin về việc đóng bảo hiểm xã hội:
+P#59: Phương thức đóng bảo hiểm xã hội (chọn 1 trong 3 phương thức):
+P#60: 11. Thông tin về chủ sở hữu hưởng lợi của doanh nghiệp:
+P#61: Doanh nghiệp có chủ sở hữu hưởng lợi không?
+P#62: Trường hợp hồ sơ đăng ký doanh nghiệp hợp lệ, đề nghị quý Phòng đăng công bố nội dung đăng ký doanh nghiệp trên Cổng thông tin quốc gia về đăng ký doanh nghiệp.
+P#63: Tôi cam kết:
+P#64: - Trụ sở chính thuộc quyền sử dụng hợp pháp của công ty và được sử dụng đúng mục đích theo quy định của pháp luật;
+P#65: - Sử dụng hóa đơn tự in, đặt in, hóa đơn điện tử, mua hóa đơn của cơ quan thuế theo đúng quy định của pháp luật;
+P#66: - Chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung đăng ký doanh nghiệp trên.
+
+--- TABLES ---
+
+[Table 0 - 7 rows x 2 cols]
+  R#0: ['Thành lập mới', '']
+  R#1: ['Thành lập trên cơ sở tách doanh nghiệp', '']
+  R#2: ['Thành lập trên cơ sở chia doanh nghiệp', '']
+  R#3: ['Thành lập trên cơ sở hợp nhất doanh nghiệp', '']
+  R#4: ['Thành lập trên cơ sở chuyển đổi loại hình doanh nghiệp', 'X']
+  R#5: ['Thành lập trên cơ sở chuyển đổi từ hộ kinh doanh', '']
+  R#6: ['Thành lập trên cơ sở chuyển đổi từ cơ sở bảo trợ xã hội/quỹ xã hội/quỹ từ thiện', '']
+
+[Table 1 - 3 rows x 2 cols]
+  R#0: ['Tên công ty viết bằng tiếng Việt:', '{{ ten_cong_ty_vn }}']
+  R#1: ['Tên công ty viết bằng tiếng nước ngoài:', '{{ ten_cong_ty_nn }}']
+  R#2: ['Tên công ty viết tắt:', '{{ ten_cong_ty_viet_tat }}']
+
+[Table 2 - 4 rows x 2 cols]
+  R#0: ['Khu công nghiệp', '']
+  R#1: ['Khu chế xuất', '']
+  R#2: ['Khu kinh tế', '']
+  R#3: ['Khu công nghệ cao', '']
+
+[Table 3 - 12 rows x 4 cols]
+  R#0: ['STT', 'Tên ngành', 'Mã ngành', 'Ngành nghề kinh doanh chính']
+  R#1: ['', '', '', '']
+  R#2: ['', '', '', '']
+  R#3: ['', '', '', '']
+  R#4: ['', '', '', '']
+  R#5: ['', '', '', '']
+  R#6: ['', '', '', '']
+  R#7: ['', '', '', '']
+  R#8: ['', '', '', '']
+  R#9: ['', '', '', '']
+  R#10: ['', '', '', '']
+  R#11: ['', '', '', '']
+
+[Table 4 - 6 rows x 3 cols]
+  R#0: ['Loại nguồn vốn', 'Số tiền (bằng số; VNĐ và giá trị tương đương theo đơn vị tiền nước ngoài, nếu có)', 'Tỷ lệ (%)']
+  R#1: ['Vốn ngân sách nhà nước', '0', '0']
+  R#2: ['Vốn tư nhân', '{{ von_dieu_le_so }}', '100']
+  R#3: ['Vốn nước ngoài', '0', '0']
+  R#4: ['Vốn khác', '0', '0']
+  R#5: ['Tổng cộng', '{{ von_dieu_le_so }}', '100']
+
+[Table 5 - 14 rows x 3 cols]
+  R#0: ['STT', 'Các chỉ tiêu thông tin đăng ký thuế', 'Các chỉ tiêu thông tin đăng ký thuế']
+  R#1: ['9.1', 'Thông tin về Giám đốc/Tổng giám đốc (nếu có): Họ, chữ đệm và tên Giám đốc/Tổng giám đốc:....................................... Ngày, tháng, năm sinh: ……/……/…… Giới tính: ………………. Số định danh cá nhân: .............................................................................. Điện thoại:................................................................................................', 'Thông tin về Giám đốc/Tổng giám đốc (nếu có): Họ, chữ đệm và tên Giám đốc/Tổng giám đốc:....................................... Ngày, tháng, năm sinh: ……/……/…… Giới tính: ………………. Số định danh cá nhân: .............................................................................. Điện thoại:................................................................................................']
+  R#2: ['9.2', 'Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có): Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:.............................. Ngày, tháng, năm sinh: ……/……/…… Giới tính: ……………… Số định danh cá nhân: .............................................................................. Điện thoại:................................................................................................', 'Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có): Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:.............................. Ngày, tháng, năm sinh: ……/……/…… Giới tính: ……………… Số định danh cá nhân: .............................................................................. Điện thoại:................................................................................................']
+  R#3: ['9.3', 'Địa chỉ nhận thông báo thuế (chỉ kê khai nếu địa chỉ nhận thông báo thuế khác địa chỉ trụ sở chính): Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: ……………………………………………………… Xã/Phường/Đặc khu: ………………………………………………… Tỉnh/Thành phố trực thuộc trung ương: ……………………………… Điện thoại (nếu có):............................. Fax (nếu có):................................. Email (nếu có):...........................................................................................', 'Địa chỉ nhận thông báo thuế (chỉ kê khai nếu địa chỉ nhận thông báo thuế khác địa chỉ trụ sở chính): Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: ……………………………………………………… Xã/Phường/Đặc khu: ………………………………………………… Tỉnh/Thành phố trực thuộc trung ương: ……………………………… Điện thoại (nếu có):............................. Fax (nếu có):................................. Email (nếu có):...........................................................................................']
+  R#4: ['9.4', 'Ngày bắt đầu hoạt động (trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này): …../…../…….', 'Ngày bắt đầu hoạt động (trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này): …../…../…….']
+  R#5: ['9.5', 'Hình thức hạch toán (đánh dấu X vào ô thích hợp):', 'Hình thức hạch toán (đánh dấu X vào ô thích hợp):']
+  R#6: ['9.6', 'Năm tài chính: Áp dụng từ ngày 01/01 đến ngày 31/12 (ghi ngày, tháng bắt đầu và kết thúc niên độ kế toán)', 'Năm tài chính: Áp dụng từ ngày 01/01 đến ngày 31/12 (ghi ngày, tháng bắt đầu và kết thúc niên độ kế toán)']
+  R#7: ['9.7', 'Tổng số lao động (dự kiến): 02', 'Tổng số lao động (dự kiến): 02']
+  R#8: ['9.8', 'Hoạt động theo dự án BOT/ BTO/ BT/ BOO, BLT, BTL, O&M:', 'Hoạt động theo dự án BOT/ BTO/ BT/ BOO, BLT, BTL, O&M:']
+  R#9: ['9.9', 'Phương pháp tính thuế GTGT (chọn 1 trong 4 phương pháp):', 'Phương pháp tính thuế GTGT (chọn 1 trong 4 phương pháp):']
+  R#10: ['', 'Khấu trừ', 'X']
+  R#11: ['', 'Trực tiếp trên GTGT', '']
+  R#12: ['', 'Trực tiếp trên doanh số', '']
+  R#13: ['', 'Không phải nộp thuế GTGT', '']
+
+[Table 6 - 1 rows x 3 cols]
+  R#0: ['X   Hàng tháng', '03 tháng một lần', '06 tháng một lần']
+
+[Table 7 - 1 rows x 2 cols]
+  R#0: ['X Có', 'Không']
+
+[Table 8 - 1 rows x 2 cols]
+  R#0: ['', 'NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA DOANH NGHIỆP          Giám đốc              {{ ddpl_ho_ten }}']

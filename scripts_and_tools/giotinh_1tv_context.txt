@@ -1,0 +1,34 @@
+
+--- 01. Thông báo thay đổi chủ sở hữu.docx P12 ---
+Prev: Ngày, tháng, năm sinh: [DDPL_NGAY_SINH]	
+Curr: Giới tính: Nam
+
+--- 02. Quyết định.docx P11 ---
+Prev: Ngày, tháng, năm sinh: [DDPL_NGAY_SINH]	
+Curr: Giới tính: Nam
+
+--- 03. Thông báo thay đổi người đại diện theo pháp luật.docx P11 ---
+Prev: Ngày, tháng, năm sinh: [DDPL_NGAY_SINH]	
+Curr: Giới tính: Nam
+
+--- 04. Danh sách chủ sở hữu hưởng lợi.docx Table0 R0 C3 P0 ---
+Curr: Giới tính
+
+--- 04. Danh sách chủ sở hữu hưởng lợi.docx Table0 R1 C3 P0 ---
+Curr: Giới tính
+
+--- 07. Giấy ủy quyền.docx P9 ---
+Prev: Ông/bà: [DDPL_CU_HO_TEN]	
+Curr: Ngày sinh: [DDPL_CU_NGAY_SINH]	Giới tính: Nam
+
+--- 07. Giấy ủy quyền.docx P17 ---
+Prev: - Ông: ĐỖ QUANG HIẾU
+Curr: Số định danh cá nhân: 001089021350   Giới  tính: Nam
+
+--- 08. Giấy ủy quyền 02.docx P10 ---
+Prev: Ông/bà: [DDPL_HO_TEN]	   
+Curr: Ngày, tháng, năm sinh: [DDPL_NGAY_SINH]			Giới tính: Nam
+
+--- 08. Giấy ủy quyền 02.docx P17 ---
+Prev: - Ông: ĐỖ QUANG HIẾU
+Curr: Số định danh cá nhân: 001089021350   Giới  tính: Nam

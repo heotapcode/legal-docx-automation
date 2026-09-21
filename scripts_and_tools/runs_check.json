@@ -1,0 +1,251 @@
+[
+  {
+    "file": "01. Thông báo tạm ngừng.docx",
+    "location": "p_5",
+    "full_text": "[TEN_CONG_TY_VN]",
+    "runs": [
+      "[TEN_CONG_TY_VN]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "01. Thông báo tạm ngừng.docx",
+    "location": "p_6",
+    "full_text": "Mã số doanh nghiệp/Mã số thuế: [MA_SO_THUE]",
+    "runs": [
+      "Mã",
+      " ",
+      "số",
+      " ",
+      "doanh",
+      " ",
+      "nghiệp",
+      "/",
+      "Mã",
+      " ",
+      "số",
+      " ",
+      "thuế",
+      ":",
+      " ",
+      "[MA_SO_THUE]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "01. Thông báo tạm ngừng.docx",
+    "location": "p_13",
+    "full_text": "Họ, chữ đệm và tên: [DDPL_HO_TEN]",
+    "runs": [
+      "Họ",
+      ", ",
+      "chữ",
+      " ",
+      "đệm",
+      " ",
+      "và",
+      " ",
+      "tên",
+      ": ",
+      "[DDPL_HO_TEN]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "01. Thông báo tạm ngừng.docx",
+    "location": "p_22",
+    "full_text": "[DDPL_HO_TEN]",
+    "runs": [
+      "[DDPL_HO_TEN]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "01. Thông báo tạm ngừng.docx",
+    "location": "t0_r0_c0_p0",
+    "full_text": "[TEN_CONG_TY_VN]",
+    "runs": [
+      "[TEN_CONG_TY_VN]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "02. Quyết định.docx",
+    "location": "p_3",
+    "full_text": "[TEN_CONG_TY_VN]",
+    "runs": [
+      "[TEN_CONG_TY_VN]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "02. Quyết định.docx",
+    "location": "p_9",
+    "full_text": "Tên doanh nghiệp: [TEN_CONG_TY_VN]",
+    "runs": [
+      "Tên doanh nghiệp: ",
+      "[TEN_CONG_TY_VN]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "02. Quyết định.docx",
+    "location": "p_10",
+    "full_text": "Mã số doanh nghiệp: [MA_SO_THUE]",
+    "runs": [
+      "Mã số doanh nghiệp: ",
+      "[MA_SO_THUE]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "02. Quyết định.docx",
+    "location": "t0_r0_c0_p0",
+    "full_text": "[TEN_CONG_TY_VN]",
+    "runs": [
+      "[TEN_CONG_TY_VN]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "02. Quyết định.docx",
+    "location": "t1_r0_c1_p7",
+    "full_text": "        [DDPL_HO_TEN]\t",
+    "runs": [
+      "    ",
+      "  ",
+      "  ",
+      "[DDPL_HO_TEN]",
+      "\t"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "03. Giấy ủy quyền.docx",
+    "location": "p_8",
+    "full_text": "Ông/ bà: [DDPL_HO_TEN]\t       Chức vụ: Giám đốc",
+    "runs": [
+      "Ông",
+      "/ ",
+      "bà",
+      ": ",
+      "[DDPL_HO_TEN]",
+      "\t",
+      "       ",
+      "C",
+      "hức",
+      " ",
+      "vụ",
+      ": ",
+      "Giám",
+      " ",
+      "đốc"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "03. Giấy ủy quyền.docx",
+    "location": "p_9",
+    "full_text": "Số định danh cá nhân: [DDPL_SO_CCCD]",
+    "runs": [
+      "Số",
+      " ",
+      "định",
+      " ",
+      "danh",
+      " ",
+      "cá",
+      " ",
+      "nhân",
+      ":",
+      " ",
+      "[DDPL_SO_CCCD]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "03. Giấy ủy quyền.docx",
+    "location": "p_10",
+    "full_text": "Ngày sinh: [DDPL_NGAY_SINH]\t Giới tính: [DDPL_GIOI_TINH]",
+    "runs": [
+      "Ngày",
+      " ",
+      "sinh",
+      ":",
+      " ",
+      "[DDPL_NGAY_SINH]",
+      "\t ",
+      "Giới",
+      " ",
+      "tính",
+      ": [DDPL_GIOI_TINH]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "03. Giấy ủy quyền.docx",
+    "location": "p_11",
+    "full_text": "Địa chỉ liên hệ: [DDPL_DIA_CHI_SO_NHA], [DDPL_DIA_CHI_XA_PHUONG], [DDPL_DIA_CHI_TINH_THANH]",
+    "runs": [
+      "Địa",
+      " ",
+      "chỉ",
+      " ",
+      "liên",
+      " ",
+      "hệ",
+      ":",
+      " ",
+      "[DDPL_DIA_CHI_SO_NHA], [DDPL_DIA_CHI_XA_PHUONG], [DDPL_DIA_CHI_TINH_THANH]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "03. Giấy ủy quyền.docx",
+    "location": "p_12",
+    "full_text": "Là người đại diện theo pháp luật [TEN_CONG_TY_VN]",
+    "runs": [
+      "Là",
+      " ",
+      "người",
+      " ",
+      "đại",
+      " ",
+      "diện",
+      " ",
+      "theo",
+      " ",
+      "pháp",
+      " ",
+      "luật",
+      " ",
+      "[TEN_CONG_TY_VN]"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "03. Giấy ủy quyền.docx",
+    "location": "p_13",
+    "full_text": "Mã số doanh nghiệp: [MA_SO_THUE]\t",
+    "runs": [
+      "Mã số doanh nghiệp:",
+      " ",
+      "[MA_SO_THUE]",
+      "\t"
+    ],
+    "has_split": false
+  },
+  {
+    "file": "03. Giấy ủy quyền.docx",
+    "location": "t0_r0_c1_p6",
+    "full_text": "         [DDPL_HO_TEN]\t",
+    "runs": [
+      "    ",
+      "    ",
+      " ",
+      "[DDPL_HO_TEN]",
+      "\t"
+    ],
+    "has_split": false
+  }
+]

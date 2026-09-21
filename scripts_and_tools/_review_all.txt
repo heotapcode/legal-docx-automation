@@ -1,0 +1,274 @@
+
+================================================================================
+FOLDER: Mẫu Chuyển đổi loại hình 1TV sang 2 TV
+================================================================================
+
+  FILE: 01. Quyết định.docx
+    [PARA 18] [OK] Giới tính: [TV2_GIOI_TINH]
+    [PARA 54] [OK] Giới tính: [TV2_GIOI_TINH]
+    [PARA 60] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 70] [OK] Giới tính: [DDPL_GIOI_TINH]
+
+  FILE: 02. Điều lệ.docx
+    [PARA 21] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 35] [OK] Giới tính: [TV2_GIOI_TINH]
+    [PARA 42] [OK] Giới tính: [DDPL_GIOI_TINH]
+
+  FILE: 03. Giấy đề nghị.docx
+    [PARA 10] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 52] [HARDCODED] Giới tính: Nữ
+    [TABLE5 R1 C1] [HARDCODED] Giới tính: ……………….
+    [TABLE5 R1 C2] [HARDCODED] Giới tính: ……………….
+    [TABLE5 R2 C1] [HARDCODED] Giới tính: ………………
+    [TABLE5 R2 C2] [HARDCODED] Giới tính: ………………
+
+  FILE: 04. Danh sách thành viên.docx
+    [TABLE0 R0 C3] [HARDCODED] Giới tính
+    [TABLE0 R1 C3] [HARDCODED] Giới tính
+
+  FILE: 04. Giấy ủy quyền.docx
+    [PARA 10] [OK] Ngày sinh: [DDPL_NGAY_SINH]		Giới tính: [DDPL_GIOI_TINH]
+    [PARA 17] [HARDCODED] Giới tính: Nam
+
+  FILE: 05. Danh sách chủ sở hữu hưởng lợi.docx
+    [TABLE0 R0 C3] [HARDCODED] Giới tính
+    [TABLE0 R1 C3] [HARDCODED] Giới tính
+
+  FILE: 07. Hợp đồng chuyển nhượng + Biên bản thanh lý.docx
+    [PARA 12] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 18] [OK] Giới tính: [TV2_GIOI_TINH]
+    [PARA 73] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 79] [OK] Giới tính: [TV2_GIOI_TINH]
+
+  FILE: Giấy chứng nhận góp vốn.docx
+    [PARA 5] [HARDCODED] Ngày sinh: [TV2_NGAY_SINH]                            Giới tính: Nam
+
+================================================================================
+FOLDER: Mẫu Chấm dứt hoạt động địa điểm kinh doanh
+================================================================================
+
+  FILE: 01. Văn bản ủy quyền.docx
+    [PARA 11] [OK] Ngày sinh: [DDPL_NGAY_SINH]	 Giới tính: [DDPL_GIOI_TINH]
+    [PARA 19] [HARDCODED] Ngày sinh: 16/03/1989	Giới tính: Nam
+
+================================================================================
+FOLDER: Mẫu Cấp lại giấy đăng ký kinh doanh
+================================================================================
+
+  FILE: Văn bản ủy quyền.docx
+    [PARA 10] [OK] Ngày sinh: [DDPL_NGAY_SINH]	 Giới tính: [DDPL_GIOI_TINH]
+    [PARA 18] [HARDCODED] Số định danh cá nhân: 001089021350 	Giới tính: Nam	Ngày sinh: 16/03/1989
+
+================================================================================
+FOLDER: Mẫu Giải thể công ty Cổ Phần
+================================================================================
+
+  FILE: 07. Văn bản ủy quyền.docx
+    [PARA 7] [OK] Ngày sinh: [DDPL_NGAY_SINH]	 Giới tính: [DDPL_GIOI_TINH]
+    [PARA 14] [HARDCODED] Sinh ngày: 16/03/1989                             Giới tính: Nam
+
+================================================================================
+FOLDER: Mẫu Giải thể công ty TNHH 1 TV
+================================================================================
+
+  FILE: 07. Văn bản ủy quyền.docx
+    [PARA 7] [OK] Ngày sinh: [DDPL_NGAY_SINH]	 Giới tính: [DDPL_GIOI_TINH]
+    [PARA 14] [HARDCODED] Sinh ngày: 16/03/1989                             Giới tính: Nam
+
+================================================================================
+FOLDER: Mẫu Giải thể công ty TNHH 2 TV
+================================================================================
+
+  FILE: 07. Văn bản ủy quyền.docx
+    [PARA 7] [OK] Ngày sinh: [DDPL_NGAY_SINH]	 Giới tính: [DDPL_GIOI_TINH]
+    [PARA 14] [HARDCODED] Sinh ngày: 16/03/1989                             Giới tính: Nam
+
+================================================================================
+FOLDER: Mẫu Hoạt động lại trước thời hạn
+================================================================================
+
+  FILE: Văn bản ủy quyền.docx
+    [PARA 10] [OK] Ngày sinh: [DDPL_NGAY_SINH]	 Giới tính: [DDPL_GIOI_TINH]
+    [PARA 17] [HARDCODED] Giới tính: Nam	 Ngày sinh: 16/03/1989
+
+================================================================================
+FOLDER: Mẫu Thay đổi nội dung ĐKKD
+================================================================================
+
+  FILE: 01. Thông báo bổ sung cập nhật.docx
+    [TABLE8 R1 C1] [HARDCODED] Giới tính: …………………
+    [TABLE8 R2 C1] [HARDCODED] Giới tính: ………………
+
+  FILE: 02. Giấy ủy quyền.docx
+    [PARA 10] [HARDCODED] Giới tính: Nam
+    [PARA 20] [HARDCODED] Giới tính: Nam	Ngày sinh: 16/03/1989
+
+  FILE: 03. Quyết định.docx
+    [TABLE8 R1 C1] [HARDCODED] Giới tính: …………………
+    [TABLE8 R2 C1] [HARDCODED] Giới tính: ………………
+
+================================================================================
+FOLDER: Mẫu Thành lập mới công  ty TNHH 1 TV
+================================================================================
+
+  FILE: 01. Giấy đề nghị.docx
+    [PARA 13] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 45] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 67] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [TABLE6 R1 C1] [HARDCODED] Giới tính: ………………
+    [TABLE6 R1 C2] [HARDCODED] Giới tính: ………………
+    [TABLE6 R2 C1] [HARDCODED] Giới tính: ………………
+    [TABLE6 R2 C2] [HARDCODED] Giới tính: ………………
+
+  FILE: 02. Điều lệ.docx
+    [PARA 26] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 46] [OK] Giới tính: [DDPL_GIOI_TINH]
+
+  FILE: 03. Giấy ủy quyền.docx
+    [PARA 2] [OK] Tên tôi là: [DDPL_HO_TEN]                  Giới tính: [DDPL_GIOI_TINH]
+    [PARA 9] [HARDCODED] Số định danh cá nhân: 001089021350       Giới tính: Nam
+
+  FILE: 04. Danh sách chủ sở hữu hưởng lợi.docx
+    [TABLE0 R0 C3] [HARDCODED] Giới tính
+    [TABLE0 R1 C3] [HARDCODED] Giới tính
+    [TABLE0 R3 C3] [OK] [DDPL_GIOI_TINH]
+
+================================================================================
+FOLDER: Mẫu Thành lập mới công ty Cổ Phần
+================================================================================
+
+  FILE: 01. Giấy đề nghị.docx
+    [PARA 12] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 54] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [TABLE7 R1 C1] [HARDCODED] Giới tính: ……………….
+    [TABLE7 R1 C2] [HARDCODED] Giới tính: ……………….
+    [TABLE7 R2 C1] [HARDCODED] Giới tính: ………………
+    [TABLE7 R2 C2] [HARDCODED] Giới tính: ………………
+
+  FILE: 02. Điều lệ.docx
+    [PARA 22] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 28] [HARDCODED] Giới tính:
+    [PARA 33] [HARDCODED] Giới tính:
+    [PARA 39] [OK] Giới tính: [DDPL_GIOI_TINH]
+
+  FILE: 03. Danh sách cổ đông sáng lập.docx
+    [TABLE0 R0 C3] [HARDCODED] Giới tính
+    [TABLE0 R1 C3] [HARDCODED] Giới tính
+    [TABLE0 R2 C3] [HARDCODED] Giới tính
+    [TABLE0 R3 C3] [HARDCODED] Giới tính
+    [TABLE0 R5 C3] [OK] [DDPL_GIOI_TINH]
+    [TABLE0 R6 C3] [OK] [DDPL_GIOI_TINH]
+    [TABLE0 R7 C3] [OK] [DDPL_GIOI_TINH]
+
+  FILE: 04. Giấy ủy quyền.docx
+    [PARA 8] [OK] Tên tôi là: [DDPL_HO_TEN]                  Giới tính: [DDPL_GIOI_TINH]
+    [PARA 10] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 15] [HARDCODED] Số định danh cá nhân: 001089021350	Giới tính: Nam
+
+  FILE: 05. Danh sách chủ sở hữu hưởng lợi.docx
+    [TABLE0 R0 C3] [HARDCODED] Giới tính
+    [TABLE0 R1 C3] [HARDCODED] Giới tính
+    [TABLE0 R3 C3] [OK] [DDPL_GIOI_TINH]
+
+================================================================================
+FOLDER: Mẫu Thành lập mới công ty TNHH 2 TV
+================================================================================
+
+  FILE: 01. Giấy đề nghị.docx
+    [PARA 12] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 49] [OK] Ngày, tháng, năm sinh: [DDPL_NGAY_SINH]             Giới tính: [DDPL_GIOI_TINH]
+    [TABLE5 R1 C1] [HARDCODED] Giới tính: ……………….
+    [TABLE5 R1 C2] [HARDCODED] Giới tính: ……………….
+    [TABLE5 R2 C1] [HARDCODED] Giới tính: ………………
+    [TABLE5 R2 C2] [HARDCODED] Giới tính: ………………
+
+  FILE: 02. Điều lệ.docx
+    [PARA 20] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 33] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [PARA 38] [HARDCODED] Họ, chữ đệm và tên: NGÔ THỊ THÚY HẠNH 		Giới tính: Nữ
+
+  FILE: 03. Danh sách thành viên.docx
+    [TABLE0 R0 C3] [HARDCODED] Giới tính
+    [TABLE0 R1 C3] [HARDCODED] Giới tính
+    [TABLE0 R3 C3] [OK] [DDPL_GIOI_TINH]
+
+  FILE: 04. Giấy ủy quyền.docx
+    [PARA 8] [OK] Tên tôi là: [DDPL_HO_TEN]                  Giới tính: [DDPL_GIOI_TINH]
+    [PARA 14] [HARDCODED] Số định danh cá nhân: 001089021350	Giới tính: Nam
+
+  FILE: 05. Danh sách chủ sở hữu hưởng lợi.docx
+    [TABLE0 R0 C3] [HARDCODED] Giới tính
+    [TABLE0 R1 C3] [HARDCODED] Giới tính
+    [TABLE0 R3 C3] [OK] [DDPL_GIOI_TINH]
+
+================================================================================
+FOLDER: Mẫu Thành lập mới địa điểm kinh doanh
+================================================================================
+
+  FILE: 01. Thông Báo lập địa điểm.docx
+    [PARA 21] [OK] Giới tính: [DDPL_GIOI_TINH]
+    [TABLE3 R1 C1] [HARDCODED] Giới tính: ………………
+
+  FILE: 02. Giấy ủy quyền.docx
+    [PARA 10] [OK] Ngày, tháng, năm sinh: [DDPL_NGAY_SINH]		Giới tính: [DDPL_GIOI_TINH]
+    [PARA 19] [HARDCODED] Số định danh cá nhân: 001089021350   Giới tính: Nam
+
+================================================================================
+FOLDER: Mẫu Tạm dừng công ty Cổ Phần
+================================================================================
+
+  FILE: 01. Thông báo tạm ngừng.docx
+    [PARA 15] [OK] Giới tính: [DDPL_GIOI_TINH]
+
+  FILE: 03. Giấy ủy quyền.docx
+    [PARA 10] [OK] Ngày sinh: [DDPL_NGAY_SINH]	 Giới tính: [DDPL_GIOI_TINH]
+    [PARA 17] [HARDCODED] Giới tính: Nam		Ngày sinh: 16/03/1989
+
+================================================================================
+FOLDER: Mẫu Tạm dừng công ty TNHH 1 TV
+================================================================================
+
+  FILE: 01. Thông báo tạm ngừng.docx
+    [PARA 15] [OK] Giới tính: [DDPL_GIOI_TINH]
+
+  FILE: 03. Giấy ủy quyền.docx
+    [PARA 10] [OK] Ngày sinh: [DDPL_NGAY_SINH]	 Giới tính: [DDPL_GIOI_TINH]
+    [PARA 17] [HARDCODED] Giới tính: Nam		Ngày sinh: 16/03/1989
+
+================================================================================
+FOLDER: Mẫu Tạm dừng công ty TNHH 2 TV
+================================================================================
+
+  FILE: 01. Thông báo tạm ngừng.docx
+    [PARA 15] [OK] Giới tính: [DDPL_GIOI_TINH]
+
+  FILE: 03. Giấy ủy quyền.docx
+    [PARA 10] [OK] Ngày sinh: [DDPL_NGAY_SINH]	 Giới tính: [DDPL_GIOI_TINH]
+    [PARA 17] [HARDCODED] Giới tính: Nam		Ngày sinh: 16/03/1989
+
+================================================================================
+FOLDER: Mẫu tăng vốn công ty TNHH 2TV
+================================================================================
+
+  FILE: 04. Giấy ủy quyền.docx
+    [PARA 10] [HARDCODED] Ngày sinh: [DDPL_NGAY_SINH]	Giới tính: Nam
+    [PARA 16] [HARDCODED] CCCD số: 001089021350           Giới tính: Nam	              Ngày sinh: 16/03/1989
+
+  FILE: 05. Danh sách chủ sở hữu hưởng lợi.docx
+    [TABLE0 R0 C3] [HARDCODED] Giới tính
+    [TABLE0 R1 C3] [HARDCODED] Giới tính
+
+  FILE: 06. Danh sách thành viên.docx
+    [TABLE0 R0 C3] [HARDCODED] Giới tính
+    [TABLE0 R1 C3] [HARDCODED] Giới tính
+
+  FILE: 07. Giấy chứng nhận góp vốn.docx
+    [PARA 6] [HARDCODED] Giới tính: Nam
+
+================================================================================
+FOLDER: Mẫu tăng vốn công ty cổ phần
+================================================================================
+
+  FILE: 05. Giấy ủy quyền.docx
+    [PARA 9] [HARDCODED] Ngày sinh: 16/03/1958		Giới tính: Nam
+    [PARA 15] [HARDCODED] Giới tính: Nam

@@ -1,0 +1,24 @@
+=== DOCUMENT: Giấy chứng nhận góp vốn.docx ===
+
+--- PARAGRAPHS ---
+P#0: GIẤY CHỨNG NHẬN PHẦN VỐN GÓP
+P#1: - Căn cứ Luật doanh nghiệp 2020 số 59/2020/QH14 của Quốc hội Nước Cộng hoà xã hội chủ nghĩa Việt Nam.
+P#2: - Căn cứ tình hình góp vốn thực tế của thành viên.
+P#3: CHỨNG NHẬN
+P#4: Thành viên: {{ tv2_ho_ten }}
+P#5: Ngày sinh: {{ tv2_ngay_sinh }}                            Giới tính: {{ tv2_gioi_tinh }}
+P#6: Số định danh cá nhân: {{ tv2_so_cccd }}
+P#7: Địa chỉ liên hệ: {{ tv2_dia_chi_so_nha }}, {{ tv2_dia_chi_xa_phuong }}, {{ tv2_dia_chi_tinh_thanh }}
+P#8: Đã góp đủ giá trị phần vốn góp của mình là:	{{ tv2_von_cu_so }} VNĐ ({{ tv2_von_cu_chu }}), (Tỷ lệ vốn góp {{ tv2_ty_le }}%).
+P#9: Hình thức góp vốn:
+P#10: + Tiền mặt: {{ tv2_von_cu_so }} VNĐ ({{ tv2_von_cu_chu }})
+P#11: Thời điểm góp vốn: …./…../……
+P#12: Giấy chứng nhận này được lập thành hai bản gốc, một bản cấp cho thành viên góp vốn, một bản lưu ở hồ sơ công ty.
+
+--- TABLES ---
+
+[Table 0 - 1 rows x 2 cols]
+  R#0: ['{{ ten_cong_ty_vn }} Số: 01/2026/CNGV', 'CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập – Tự do – Hạnh phúc ----------------------------']
+
+[Table 1 - 1 rows x 2 cols]
+  R#0: ['', 'Hà Nội, ngày     tháng     năm        NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA DOANH NGHIỆP Giám đốc     {{ ddpl_ho_ten }}']

@@ -1,0 +1,85 @@
+STT
+Tên thành viên
+Ngày, tháng, năm sinh đối với thành viên là cá nhân
+Giới tính
+Loại giấy tờ, số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
+Quốc tịch
+Dân tộc
+Địa chỉ liên lạc
+Vốn góp
+Vốn góp
+Vốn góp
+Thời gian góp vốn
+Chữ ký của thành viên
+Ghi chú
+STT
+Tên thành viên
+Ngày, tháng, năm sinh đối với thành viên là cá nhân
+Giới tính
+Loại giấy tờ, số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
+Quốc tịch
+Dân tộc
+Địa chỉ liên lạc
+Phần vốn góp1 (bằng số; VNĐ và giá trị tương đương theo đơn vị tiền nước ngoài: bằng số, loại ngoại tệ, nếu có)
+Tỷ lệ (%)
+Loại tài sản, số lượng, giá trị tài sản góp vốn2
+Thời gian góp vốn
+Chữ ký của thành viên
+Ghi chú
+1
+2
+3
+4
+
+5
+6
+7
+9
+10
+11
+12
+13
+14
+1
+[DDPL_HO_TEN]
+[DDPL_NGAY_SINH]
+Nữ
+Số định danh cá nhân: [DDPL_SO_CCCD]
+
+
+[DDPL DIA_CHI_SO_NHA], [DDPL DIA_CHI_XA_PHUONG], [DDPL DIA_CHI_TINH_THANH]
+
+
+
+[DDPL_VON_CU_SO]
+
+
+
+[DDPL_TY_LE]
+
+
+Đồng Việt Nam 
+[DDPL_VON_CU_SO] đồng Việt Nam
+
+
+
+2
+[TV2_HO_TEN]
+[TV2_NGAY_SINH]
+Nam
+Số định danh cá nhân: [TV2_SO_CCCD]
+
+
+[TV2_DIA_CHI_SO_NHA], [TV2_DIA_CHI_XA_PHUONG], [TV2_DIA_CHI_TINH_THANH]
+
+
+[TV2_VON_CU_SO]
+
+
+[TV2_TY_LE]
+
+Đồng Việt Nam 
+[TV2_VON_CU_SO] đồng Việt Nam
+
+
+

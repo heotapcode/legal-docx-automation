@@ -1,0 +1,59 @@
+{
+  "name": "Chuyển nhượng công ty TNHH 1 TV",
+  "display_name": "Chuyển nhượng công ty TNHH 1 TV",
+  "category": "Chuyển nhượng & Chuyển đổi",
+  "description": "Bộ hồ sơ chuyển nhượng toàn bộ vốn chủ sở hữu Công ty TNHH Một thành viên",
+  "has_nganh": false,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Doanh nghiệp",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "von_dieu_le_so",
+          "label": "Vốn điều lệ (VNĐ)",
+          "type": "money",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "seller",
+      "title": "Bên Chuyển nhượng (Chủ sở hữu CŨ)",
+      "fields": [
+        {
+          "key": "ddpl_cu",
+          "label": "Chủ sở hữu cũ",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "buyer",
+      "title": "Bên Nhận chuyển nhượng (Chủ sở hữu kiêm ĐDPL MỚI)",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Chủ sở hữu / ĐDPL mới",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    }
+  ]
+}

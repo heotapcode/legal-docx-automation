@@ -1,0 +1,982 @@
+import os
+import re
+import copy
+import shutil
+import tempfile
+import zipfile
+from io import BytesIO
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Any, Optional
+
+import docx
+from docx.enum.text import WD_COLOR_INDEX
+from docxtpl import DocxTemplate
+from jinja2 import Environment
+
+from config import TEMPLATES_DIR
+
+# --- HELPER FUNCTIONS ---
+
+def fmt_money(s: Any) -> str:
+    if s is None:
+        return ""
+    digits = re.sub(r"[^\d]", "", str(s))
+    if digits:
+        return "{:,}".format(int(digits))
+    return str(s)
+
+def so_thanh_chu(s: Any) -> str:
+    if s is None:
+        return ""
+    digits = re.sub(r"[^\d]", "", str(s))
+    if not digits:
+        return str(s)
+    n = int(digits)
+    if n == 0:
+        return "Không đồng"
+
+    don_vi = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"]
+    chu_so = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"]
+
+    def doc_ba_chu_so(val: int) -> str:
+        tram = val // 100
+        chuc = (val % 100) // 10
+        dv = val % 10
+        res = ""
+        if tram > 0:
+            res += chu_so[tram] + " trăm "
+            if chuc == 0 and dv > 0:
+                res += "lẻ "
+        if chuc > 1:
+            res += chu_so[chuc] + " mươi "
+            if dv == 1:
+                res += "mốt "
+            elif dv == 5:
+                res += "lăm "
+            elif dv > 0:
+                res += chu_so[dv] + " "
+        elif chuc == 1:
+            res += "mười "
+            if dv == 1:
+                res += "một "
+            elif dv == 5:
+                res += "lăm "
+            elif dv > 0:
+                res += chu_so[dv] + " "
+        else:
+            if dv > 0:
+                res += chu_so[dv] + " "
+        return res.strip()
+
+    chuoi_kq = ""
+    i = 0
+    temp_n = n
+    while temp_n > 0:
+        phan_ba = temp_n % 1000
+        if phan_ba > 0:
+            doc_phan_ba = doc_ba_chu_so(phan_ba)
+            if doc_phan_ba:
+                chuoi_kq = doc_phan_ba + " " + don_vi[i] + " " + chuoi_kq
+        temp_n = temp_n // 1000
+        i += 1
+
+    chuoi_kq = chuoi_kq.strip().capitalize()
+    return chuoi_kq + " đồng"
+
+def danh_xung(gioi_tinh: Any) -> str:
+    if not gioi_tinh:
+        return "Ông/Bà"
+    gt = str(gioi_tinh).strip().lower()
+    if "nam" in gt:
+        return "Ông"
+    if "nữ" in gt or "nu" in gt:
+        return "Bà"
+    return "Ông/Bà"
+
+def format_date_vn(d: Any = None) -> str:
+    dt = datetime.now()
+    return f"ngày {dt.day:02d} tháng {dt.month:02d} năm {dt.year}"
+
+def parse_address_str(addr: str):
+    if not addr:
+        return "", "", ""
+    parts = [p.strip() for p in addr.split(',') if p.strip()]
+    tinh_thanh = parts.pop() if len(parts) > 0 else ""
+    xa_phuong = ""
+    if len(parts) > 0:
+        lower = parts[-1].lower()
+        if lower.startswith(('phường', 'xã', 'thị trấn', 'tt')):
+            xa_phuong = parts.pop()
+        elif len(parts) > 1:
+            xa_phuong = parts.pop()
+    so_nha = ", ".join(parts)
+    return so_nha, xa_phuong, tinh_thanh
+
+# --- CUSTOM JINJA2 ENVIRONMENT ---
+
+def create_jinja_env() -> Environment:
+    env = Environment(autoescape=False)
+    env.filters["money"] = fmt_money
+    env.filters["fmt_money"] = fmt_money
+    env.filters["so_thanh_chu"] = so_thanh_chu
+    env.filters["danh_xung"] = danh_xung
+    env.filters["upper"] = lambda s: str(s).upper() if s else ""
+    env.filters["lower"] = lambda s: str(s).lower() if s else ""
+    env.globals["today_vn"] = format_date_vn
+    env.globals["now"] = datetime.now
+    return env
+
+# --- CONTEXT NORMALIZATION ---
+
+class SafeDict(dict):
+    """A dictionary that returns empty string for missing keys instead of raising KeyError"""
+    def __missing__(self, key):
+        return ""
+
+def merge_cn2tv_data(raw_data: dict, cn2tv_data: dict):
+    company = cn2tv_data.get('company', {})
+    ddpl_cu = cn2tv_data.get('ddpl_cu', {})
+    ddpl_moi = cn2tv_data.get('ddpl_moi', {})
+    tv_cu = cn2tv_data.get('tv_cu', [])
+    tv_moi = cn2tv_data.get('tv_moi', [])
+    cn_list = cn2tv_data.get('chuyen_nhuong', [])
+
+    raw_data['ten_cong_ty_vn'] = company.get('TEN_CONG_TY_VN', '')
+    raw_data['ma_so_thue'] = company.get('MA_SO_THUE', '')
+    raw_data['von_dieu_le_so'] = fmt_money(company.get('VON_DIEU_LE_SO', ''))
+    raw_data['von_dieu_le_chu'] = company.get('VON_DIEU_LE_CHU', '') or so_thanh_chu(company.get('VON_DIEU_LE_SO', ''))
+
+    # DDPL CU
+    raw_data['ddpl_cu_ho_ten'] = ddpl_cu.get('HO_TEN', '')
+    raw_data['ddpl_cu_ngay_sinh'] = ddpl_cu.get('NGAY_SINH', '')
+    raw_data['ddpl_cu_so_cccd'] = ddpl_cu.get('SO_CCCD', '')
+    raw_data['ddpl_cu_gioi_tinh'] = ddpl_cu.get('GIOI_TINH', '')
+    raw_data['ddpl_cu_dia_chi_day_du'] = ddpl_cu.get('DIA_CHI', '')
+    sn_cu, xp_cu, tt_cu = parse_address_str(ddpl_cu.get('DIA_CHI', ''))
+    raw_data['ddpl_cu_dia_chi_so_nha'] = ddpl_cu.get('DIA_CHI_SO_NHA') or sn_cu
+    raw_data['ddpl_cu_dia_chi_xa_phuong'] = ddpl_cu.get('DIA_CHI_XA_PHUONG') or xp_cu
+    raw_data['ddpl_cu_dia_chi_tinh_thanh'] = ddpl_cu.get('DIA_CHI_TINH_THANH') or tt_cu
+
+    # DDPL MOI
+    raw_data['ddpl_moi_ho_ten'] = ddpl_moi.get('HO_TEN', '')
+    raw_data['ddpl_moi_ngay_sinh'] = ddpl_moi.get('NGAY_SINH', '')
+    raw_data['ddpl_moi_so_cccd'] = ddpl_moi.get('SO_CCCD', '')
+    raw_data['ddpl_moi_gioi_tinh'] = ddpl_moi.get('GIOI_TINH', '')
+    raw_data['ddpl_moi_dia_chi_day_du'] = ddpl_moi.get('DIA_CHI', '')
+    sn_moi, xp_moi, tt_moi = parse_address_str(ddpl_moi.get('DIA_CHI', ''))
+    raw_data['ddpl_moi_dia_chi_so_nha'] = ddpl_moi.get('DIA_CHI_SO_NHA') or sn_moi
+    raw_data['ddpl_moi_dia_chi_xa_phuong'] = ddpl_moi.get('DIA_CHI_XA_PHUONG') or xp_moi
+    raw_data['ddpl_moi_dia_chi_tinh_thanh'] = ddpl_moi.get('DIA_CHI_TINH_THANH') or tt_moi
+
+    raw_data['ddpl_ho_ten'] = raw_data['ddpl_moi_ho_ten']
+    raw_data['ddpl_so_cccd'] = raw_data['ddpl_moi_so_cccd']
+    raw_data['ddpl_ngay_sinh'] = raw_data['ddpl_moi_ngay_sinh']
+    raw_data['ddpl_gioi_tinh'] = raw_data['ddpl_moi_gioi_tinh']
+    raw_data['ddpl_dia_chi_day_du'] = raw_data['ddpl_moi_dia_chi_day_du']
+    raw_data['ddpl_dia_chi_so_nha'] = raw_data['ddpl_moi_dia_chi_so_nha']
+    raw_data['ddpl_dia_chi_xa_phuong'] = raw_data['ddpl_moi_dia_chi_xa_phuong']
+    raw_data['ddpl_dia_chi_tinh_thanh'] = raw_data['ddpl_moi_dia_chi_tinh_thanh']
+
+    # Members MOI (tv_moi)
+    if len(tv_moi) > 0:
+        m1 = tv_moi[0]
+        raw_data['tv_moi_1_ho_ten'] = m1.get('HO_TEN', '')
+        raw_data['tv_moi_1_ngay_sinh'] = m1.get('NGAY_SINH', '')
+        raw_data['tv_moi_1_so_cccd'] = m1.get('SO_CCCD', '')
+        raw_data['tv_moi_1_gioi_tinh'] = m1.get('GIOI_TINH', '')
+        raw_data['tv_moi_1_dia_chi_day_du'] = m1.get('DIA_CHI', '')
+        raw_data['tv_moi_1_von_so'] = fmt_money(m1.get('VON_GOP', ''))
+        raw_data['tv_moi_1_ty_le'] = m1.get('TY_LE', '')
+        # CSHHL 1
+        raw_data['cshhl_1_ho_ten'] = m1.get('HO_TEN', '')
+        raw_data['cshhl_1_ngay_sinh'] = m1.get('NGAY_SINH', '')
+        raw_data['cshhl_1_so_cccd'] = m1.get('SO_CCCD', '')
+        raw_data['cshhl_1_gioi_tinh'] = m1.get('GIOI_TINH', '')
+        raw_data['cshhl_1_dia_chi_day_du'] = m1.get('DIA_CHI', '')
+        raw_data['cshhl_1_ty_le'] = m1.get('TY_LE', '')
+
+    if len(tv_moi) > 1:
+        m2 = tv_moi[1]
+        raw_data['tv_moi_2_ho_ten'] = m2.get('HO_TEN', '')
+        raw_data['tv_moi_2_ngay_sinh'] = m2.get('NGAY_SINH', '')
+        raw_data['tv_moi_2_so_cccd'] = m2.get('SO_CCCD', '')
+        raw_data['tv_moi_2_gioi_tinh'] = m2.get('GIOI_TINH', '')
+        raw_data['tv_moi_2_dia_chi_day_du'] = m2.get('DIA_CHI', '')
+        raw_data['tv_moi_2_von_so'] = fmt_money(m2.get('VON_GOP', ''))
+        raw_data['tv_moi_2_ty_le'] = m2.get('TY_LE', '')
+
+    # Resolved transfers
+    resolved_transfers = []
+    for cn in cn_list:
+        try:
+            a_idx = int(cn.get('ben_a', 0))
+            b_idx = int(cn.get('ben_b', 0))
+            ben_a_raw = tv_cu[a_idx] if a_idx < len(tv_cu) else {}
+            ben_b_raw = tv_moi[b_idx] if b_idx < len(tv_moi) else {}
+        except Exception:
+            ben_a_raw = {}
+            ben_b_raw = {}
+
+        sn_a, xp_a, tt_a = parse_address_str(ben_a_raw.get('DIA_CHI', ''))
+        sn_b, xp_b, tt_b = parse_address_str(ben_b_raw.get('DIA_CHI', ''))
+
+        resolved_transfers.append({
+            'ben_a': {
+                'ho_ten': ben_a_raw.get('HO_TEN', ''),
+                'ngay_sinh': ben_a_raw.get('NGAY_SINH', ''),
+                'so_cccd': ben_a_raw.get('SO_CCCD', ''),
+                'gioi_tinh': ben_a_raw.get('GIOI_TINH', ''),
+                'dia_chi_day_du': ben_a_raw.get('DIA_CHI', ''),
+                'dia_chi_so_nha': sn_a,
+                'dia_chi_xa_phuong': xp_a,
+                'dia_chi_tinh_thanh': tt_a
+            },
+            'ben_b': {
+                'ho_ten': ben_b_raw.get('HO_TEN', ''),
+                'ngay_sinh': ben_b_raw.get('NGAY_SINH', ''),
+                'so_cccd': ben_b_raw.get('SO_CCCD', ''),
+                'gioi_tinh': ben_b_raw.get('GIOI_TINH', ''),
+                'dia_chi_day_du': ben_b_raw.get('DIA_CHI', ''),
+                'dia_chi_so_nha': sn_b,
+                'dia_chi_xa_phuong': xp_b,
+                'dia_chi_tinh_thanh': tt_b
+            },
+            'gia_tri_so': cn.get('von', cn.get('gia_tri', '')),
+            'ty_le': cn.get('ty_le', '')
+        })
+    raw_data['chuyen_nhuong'] = resolved_transfers
+
+    # First transfer as default ben_a, ben_b in common context
+    if resolved_transfers:
+        first_cn = resolved_transfers[0]
+        for k_a, v_a in first_cn['ben_a'].items():
+            raw_data[f'ben_a_{k_a}'] = v_a
+        for k_b, v_b in first_cn['ben_b'].items():
+            raw_data[f'ben_b_{k_b}'] = v_b
+        raw_data['gia_tri_cn_so'] = fmt_money(first_cn['gia_tri_so'])
+        raw_data['gia_tri_cn_chu'] = so_thanh_chu(first_cn['gia_tri_so'])
+        raw_data['gia_tri_cn_ty_le'] = first_cn['ty_le']
+
+    raw_data['ddpl_changed'] = ddpl_cu.get('SO_CCCD') != ddpl_moi.get('SO_CCCD')
+
+def merge_cd1tv2tv_data(raw_data: dict, cd1tv_data: dict):
+    csh = cd1tv_data.get('csh', {})
+    ddpl_cu = cd1tv_data.get('ddplCu', {})
+    ddpl_moi = cd1tv_data.get('ddplMoi', {})
+    members = cd1tv_data.get('members', [])
+    old_comp = cd1tv_data.get('oldCompany', {})
+    new_comp = cd1tv_data.get('newCompany', {})
+
+    # Company names
+    old_name = old_comp.get('name') or raw_data.get('TEN_CONG_TY_VN_CU') or raw_data.get('ten_cong_ty_vn_cu') or ''
+    new_name = new_comp.get('nameVn') or raw_data.get('TEN_CONG_TY_VN') or raw_data.get('ten_cong_ty_vn') or old_name
+    raw_data['ten_cong_ty_vn_cu'] = old_name
+    raw_data['TEN_CONG_TY_VN_CU'] = old_name
+    raw_data['ten_cong_ty_vn'] = new_name
+    raw_data['TEN_CONG_TY_VN'] = new_name
+    raw_data['ten_cong_ty_nn'] = new_comp.get('nameEn') or raw_data.get('TEN_CONG_TY_EN', '')
+    raw_data['TEN_CONG_TY_NN'] = raw_data['ten_cong_ty_nn']
+    raw_data['ten_cong_ty_viet_tat'] = new_comp.get('nameShort') or raw_data.get('TEN_CONG_TY_VIET_TAT', '')
+    raw_data['TEN_CONG_TY_VIET_TAT'] = raw_data['ten_cong_ty_viet_tat']
+    raw_data['ma_so_thue'] = old_comp.get('mst') or raw_data.get('MA_SO_THUE', '')
+    raw_data['sdt_cong_ty'] = new_comp.get('phone') or raw_data.get('SDT_CONG_TY', '')
+    raw_data['email_cong_ty'] = new_comp.get('email') or raw_data.get('EMAIL_CONG_TY', '')
+
+    # Company address
+    c_addr = old_comp.get('address') or raw_data.get('DIA_CHI_CTY_CU') or ''
+    if c_addr and not raw_data.get('dia_chi_so_nha'):
+        c_sn, c_xp, c_tt = parse_address_str(c_addr)
+        raw_data['dia_chi_so_nha'] = c_sn
+        raw_data['dia_chi_xa_phuong'] = c_xp
+        raw_data['dia_chi_tinh_thanh'] = c_tt
+        raw_data['dia_chi_day_du'] = c_addr
+
+    # Capital
+    von_raw = old_comp.get('von') or raw_data.get('VON_CU') or raw_data.get('von_dieu_le_so', '')
+    if von_raw:
+        raw_data['von_dieu_le_so'] = fmt_money(von_raw)
+        raw_data['von_dieu_le_chu'] = so_thanh_chu(von_raw)
+        raw_data['von_cu_so'] = fmt_money(von_raw)
+        raw_data['von_cu_chu'] = so_thanh_chu(von_raw)
+
+    # CSH / DDPL Cu
+    sn_csh, xp_csh, tt_csh = parse_address_str(csh.get('DIA_CHI', ''))
+    raw_data['ddpl_ho_ten'] = csh.get('HO_TEN', '')
+    raw_data['ddpl_so_cccd'] = csh.get('CCCD', '')
+    raw_data['ddpl_ngay_sinh'] = csh.get('NGAY_SINH', '')
+    raw_data['ddpl_gioi_tinh'] = csh.get('GIOI_TINH', 'Nam')
+    raw_data['ddpl_dia_chi_day_du'] = csh.get('DIA_CHI', '')
+    raw_data['ddpl_dia_chi_so_nha'] = sn_csh
+    raw_data['ddpl_dia_chi_xa_phuong'] = xp_csh
+    raw_data['ddpl_dia_chi_tinh_thanh'] = tt_csh
+
+    # New DDPL (if provided)
+    if ddpl_moi and ddpl_moi.get('HO_TEN'):
+        sn_m_moi, xp_m_moi, tt_m_moi = parse_address_str(ddpl_moi.get('DIA_CHI', ''))
+        raw_data['ddpl_moi_ho_ten'] = ddpl_moi.get('HO_TEN', '')
+        raw_data['ddpl_moi_so_cccd'] = ddpl_moi.get('CCCD', '')
+        raw_data['ddpl_moi_ngay_sinh'] = ddpl_moi.get('NGAY_SINH', '')
+        raw_data['ddpl_moi_gioi_tinh'] = ddpl_moi.get('GIOI_TINH', 'Nam')
+        raw_data['ddpl_moi_dia_chi_day_du'] = ddpl_moi.get('DIA_CHI', '')
+        raw_data['ddpl_moi_dia_chi_so_nha'] = sn_m_moi
+        raw_data['ddpl_moi_dia_chi_xa_phuong'] = xp_m_moi
+        raw_data['ddpl_moi_dia_chi_tinh_thanh'] = tt_m_moi
+
+    norm_members = []
+    for idx, m in enumerate(members):
+        m_ht = m.get('ho_ten', '') or (csh.get('HO_TEN', '') if idx == 0 else '')
+        m_cccd = m.get('cccd', '') or (csh.get('CCCD', '') if idx == 0 else '')
+        m_ns = m.get('ngay_sinh', '') or (csh.get('NGAY_SINH', '') if idx == 0 else '')
+        m_gt = m.get('gioi_tinh', 'Nam') or (csh.get('GIOI_TINH', 'Nam') if idx == 0 else 'Nam')
+        m_dc = m.get('dia_chi', '') or (csh.get('DIA_CHI', '') if idx == 0 else '')
+        sn_m, xp_m, tt_m = parse_address_str(m_dc)
+        v_num = m.get('von', '')
+        v_cn = m.get('nhan_cn', '')
+        norm_members.append({
+            'stt': idx + 1,
+            'ho_ten': m_ht,
+            'so_cccd': m_cccd,
+            'ngay_sinh': m_ns,
+            'gioi_tinh': m_gt,
+            'dia_chi_day_du': m_dc,
+            'dia_chi_so_nha': sn_m,
+            'dia_chi_xa_phuong': xp_m,
+            'dia_chi_tinh_thanh': tt_m,
+            'von_so': fmt_money(v_num),
+            'von_gop': fmt_money(v_num),
+            'von_chu': so_thanh_chu(v_num),
+            'ty_le': m.get('ty_le', ''),
+            'nhan_cn_so': fmt_money(v_cn),
+            'nhan_cn_chu': so_thanh_chu(v_cn) if v_cn else ''
+        })
+
+    raw_data['thanh_vien'] = norm_members
+
+    if len(norm_members) > 0:
+        raw_data['ddpl_ty_le'] = norm_members[0]['ty_le']
+        raw_data['ddpl_von_cu_so'] = norm_members[0]['von_so']
+        raw_data['ddpl_von_cu_chu'] = norm_members[0]['von_chu']
+
+    if len(norm_members) > 1:
+        m2 = norm_members[1]
+        raw_data['tv2_ho_ten'] = m2['ho_ten']
+        raw_data['tv2_so_cccd'] = m2['so_cccd']
+        raw_data['tv2_ngay_sinh'] = m2['ngay_sinh']
+        raw_data['tv2_gioi_tinh'] = m2['gioi_tinh']
+        raw_data['tv2_dia_chi_day_du'] = m2['dia_chi_day_du']
+        raw_data['tv2_dia_chi_so_nha'] = m2['dia_chi_so_nha']
+        raw_data['tv2_dia_chi_xa_phuong'] = m2['dia_chi_xa_phuong']
+        raw_data['tv2_dia_chi_tinh_thanh'] = m2['dia_chi_tinh_thanh']
+        v2 = m2['nhan_cn_so'] or m2['von_so']
+        v2_chu = m2['nhan_cn_chu'] or m2['von_chu']
+        raw_data['tv2_von_cu_so'] = v2
+        raw_data['tv2_von_cu_chu'] = v2_chu
+        raw_data['tv2_von_cu_moi'] = v2_chu
+        raw_data['tv2_ty_le'] = m2['ty_le']
+
+    # Build transfer transactions list
+    cn_raw = cd1tv_data.get('chuyen_nhuong') or raw_data.get('chuyen_nhuong') or []
+    if not cn_raw and len(norm_members) > 1:
+        csh_ben_a = {
+            'ho_ten': raw_data.get('ddpl_ho_ten', ''),
+            'so_cccd': raw_data.get('ddpl_so_cccd', ''),
+            'ngay_sinh': raw_data.get('ddpl_ngay_sinh', ''),
+            'gioi_tinh': raw_data.get('ddpl_gioi_tinh', 'Nam'),
+            'dia_chi_day_du': raw_data.get('ddpl_dia_chi_day_du', ''),
+            'dia_chi_so_nha': raw_data.get('ddpl_dia_chi_so_nha', ''),
+            'dia_chi_xa_phuong': raw_data.get('ddpl_dia_chi_xa_phuong', ''),
+            'dia_chi_tinh_thanh': raw_data.get('ddpl_dia_chi_tinh_thanh', '')
+        }
+        for m in norm_members[1:]:
+            v_amt = m.get('nhan_cn_so') or m.get('von_so')
+            if v_amt and str(v_amt).strip() != '0':
+                cn_raw.append({
+                    'ben_a': csh_ben_a,
+                    'ben_b': m,
+                    'von_cn_so': v_amt,
+                    'von_cn_chu': m.get('nhan_cn_chu') or m.get('von_chu'),
+                    'ty_le_cn': m.get('ty_le', ''),
+                    'gia_tri_cn_so': v_amt
+                })
+    raw_data['chuyen_nhuong'] = cn_raw
+
+def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
+    # Unpack cn2tv_data or cd1tv2tv_data if present
+    if "cn2tv_data" in raw_data and isinstance(raw_data["cn2tv_data"], dict):
+        merge_cn2tv_data(raw_data, raw_data["cn2tv_data"])
+
+    if "cd1tv2tv_data" in raw_data and isinstance(raw_data["cd1tv2tv_data"], dict):
+        merge_cd1tv2tv_data(raw_data, raw_data["cd1tv2tv_data"])
+
+    ctx = SafeDict()
+
+    # Copy raw data with both original case and lowercase
+    for k, v in raw_data.items():
+        ctx[k] = v if v is not None else ""
+        ctx[k.lower()] = v if v is not None else ""
+        ctx[k.upper()] = v if v is not None else ""
+
+    # Parse company address
+    so_nha = ctx.get("dia_chi_so_nha") or ctx.get("DIA_CHI_SO_NHA") or ""
+    xa_phuong = ctx.get("dia_chi_xa_phuong") or ctx.get("DIA_CHI_XA_PHUONG") or ""
+    quan_huyen = ctx.get("dia_chi_quan_huyen") or ctx.get("DIA_CHI_QUAN_HUYEN") or ""
+    tinh_thanh = ctx.get("dia_chi_tinh_thanh") or ctx.get("DIA_CHI_TINH_THANH") or ""
+    addr_parts = [p for p in [so_nha, xa_phuong, quan_huyen, tinh_thanh] if p]
+    full_addr = ctx.get("dia_chi_day_du") or ctx.get("DIA_CHI_DAY_DU") or ", ".join(addr_parts)
+
+    ctx["dia_chi"] = {
+        "so_nha": so_nha,
+        "xa_phuong": xa_phuong,
+        "quan_huyen": quan_huyen,
+        "tinh_thanh": tinh_thanh,
+        "day_du": full_addr,
+        "full": full_addr
+    }
+    ctx["dia_chi_day_du"] = full_addr
+    ctx["DIA_CHI_DAY_DU"] = full_addr
+
+    # DDPL normalization
+    ddpl_raw = ctx.get("ddpl") if isinstance(ctx.get("ddpl"), dict) else {}
+    ddpl_gt = ddpl_raw.get("gioi_tinh") or ctx.get("ddpl_gioi_tinh") or ctx.get("DDPL_GIOI_TINH") or "Nam"
+    ddpl_dx = danh_xung(ddpl_gt)
+    ddpl_ho_ten = (ddpl_raw.get("ho_ten") or ctx.get("ddpl_ho_ten") or ctx.get("DDPL_HO_TEN") or "").upper()
+    ddpl_cccd = ddpl_raw.get("so_cccd") or ctx.get("ddpl_so_cccd") or ctx.get("DDPL_SO_CCCD") or ""
+    ddpl_ns = ddpl_raw.get("ngay_sinh") or ctx.get("ddpl_ngay_sinh") or ctx.get("DDPL_NGAY_SINH") or ""
+    ddpl_sn = ddpl_raw.get("dia_chi_so_nha") or ctx.get("ddpl_dia_chi_so_nha") or ctx.get("DDPL_DIA_CHI_SO_NHA") or ""
+    ddpl_xp = ddpl_raw.get("dia_chi_xa_phuong") or ctx.get("ddpl_dia_chi_xa_phuong") or ctx.get("DDPL_DIA_CHI_XA_PHUONG") or ""
+    ddpl_qh = ddpl_raw.get("dia_chi_quan_huyen") or ctx.get("ddpl_dia_chi_quan_huyen") or ctx.get("DDPL_DIA_CHI_QUAN_HUYEN") or ""
+    ddpl_tt = ddpl_raw.get("dia_chi_tinh_thanh") or ctx.get("ddpl_dia_chi_tinh_thanh") or ctx.get("DDPL_DIA_CHI_TINH_THANH") or ""
+    ddpl_parts = [p for p in [ddpl_sn, ddpl_xp, ddpl_qh, ddpl_tt] if p]
+    ddpl_full = ddpl_raw.get("dia_chi_day_du") or ctx.get("ddpl_dia_chi_day_du") or ctx.get("DDPL_DIA_CHI_DAY_DU") or ", ".join(ddpl_parts)
+
+    ddpl_dict = SafeDict({
+        "ho_ten": ddpl_ho_ten,
+        "gioi_tinh": ddpl_gt,
+        "danh_xung": ddpl_dx,
+        "so_cccd": ddpl_cccd,
+        "ngay_sinh": ddpl_ns,
+        "dia_chi_so_nha": ddpl_sn,
+        "dia_chi_xa_phuong": ddpl_xp,
+        "dia_chi_quan_huyen": ddpl_qh,
+        "dia_chi_tinh_thanh": ddpl_tt,
+        "dia_chi_day_du": ddpl_full,
+        "dia_chi": ddpl_full
+    })
+    ctx["ddpl"] = ddpl_dict
+
+    # Flatten DDPL
+    ctx["ddpl_ho_ten"] = ddpl_ho_ten
+    ctx["DDPL_HO_TEN"] = ddpl_ho_ten
+    ctx["ddpl_gioi_tinh"] = ddpl_gt
+    ctx["DDPL_GIOI_TINH"] = ddpl_gt
+    ctx["ddpl_danh_xung"] = ddpl_dx
+    ctx["DDPL_DANH_XUNG"] = ddpl_dx
+    ctx["ddpl_so_cccd"] = ddpl_cccd
+    ctx["DDPL_SO_CCCD"] = ddpl_cccd
+    ctx["ddpl_ngay_sinh"] = ddpl_ns
+    ctx["DDPL_NGAY_SINH"] = ddpl_ns
+    ctx["ddpl_dia_chi_so_nha"] = ddpl_sn
+    ctx["DDPL_DIA_CHI_SO_NHA"] = ddpl_sn
+    ctx["ddpl_dia_chi_xa_phuong"] = ddpl_xp
+    ctx["DDPL_DIA_CHI_XA_PHUONG"] = ddpl_xp
+    ctx["ddpl_dia_chi_quan_huyen"] = ddpl_qh
+    ctx["DDPL_DIA_CHI_QUAN_HUYEN"] = ddpl_qh
+    ctx["ddpl_dia_chi_tinh_thanh"] = ddpl_tt
+    ctx["DDPL_DIA_CHI_TINH_THANH"] = ddpl_tt
+    ctx["ddpl_dia_chi_day_du"] = ddpl_full
+    ctx["DDPL_DIA_CHI_DAY_DU"] = ddpl_full
+
+    # DDPL CŨ normalization
+    ddpl_cu_raw = ctx.get("ddpl_cu") if isinstance(ctx.get("ddpl_cu"), dict) else {}
+    cu_gt = ddpl_cu_raw.get("gioi_tinh") or ctx.get("ddpl_cu_gioi_tinh") or ctx.get("DDPL_CU_GIOI_TINH") or "Nam"
+    cu_dx = danh_xung(cu_gt)
+    cu_ht = (ddpl_cu_raw.get("ho_ten") or ctx.get("ddpl_cu_ho_ten") or ctx.get("DDPL_CU_HO_TEN") or "").upper()
+    cu_cccd = ddpl_cu_raw.get("so_cccd") or ctx.get("ddpl_cu_so_cccd") or ctx.get("DDPL_CU_SO_CCCD") or ""
+    cu_ns = ddpl_cu_raw.get("ngay_sinh") or ctx.get("ddpl_cu_ngay_sinh") or ctx.get("DDPL_CU_NGAY_SINH") or ""
+    cu_addr = ddpl_cu_raw.get("dia_chi_day_du") or ctx.get("ddpl_cu_dia_chi_day_du") or ctx.get("DDPL_CU_DIA_CHI_DAY_DU") or ""
+
+    ddpl_cu_dict = SafeDict({
+        "ho_ten": cu_ht,
+        "gioi_tinh": cu_gt,
+        "danh_xung": cu_dx,
+        "so_cccd": cu_cccd,
+        "ngay_sinh": cu_ns,
+        "dia_chi_day_du": cu_addr
+    })
+    ctx["ddpl_cu"] = ddpl_cu_dict
+    ctx["ddpl_cu_ho_ten"] = cu_ht
+    ctx["DDPL_CU_HO_TEN"] = cu_ht
+    ctx["ddpl_cu_gioi_tinh"] = cu_gt
+    ctx["DDPL_CU_GIOI_TINH"] = cu_gt
+    ctx["ddpl_cu_so_cccd"] = cu_cccd
+    ctx["DDPL_CU_SO_CCCD"] = cu_cccd
+    ctx["ddpl_cu_ngay_sinh"] = cu_ns
+    ctx["DDPL_CU_NGAY_SINH"] = cu_ns
+    ctx["ddpl_cu_dia_chi_day_du"] = cu_addr
+    ctx["DDPL_CU_DIA_CHI_DAY_DU"] = cu_addr
+
+    # Capital / Money fields
+    von_raw = ctx.get("von_dieu_le_so") or ctx.get("VON_DIEU_LE_SO") or ctx.get("von_dieu_le") or ""
+    if von_raw:
+        v_num = re.sub(r"[^\d]", "", str(von_raw))
+        if v_num:
+            v_fmt = fmt_money(v_num)
+            v_chu = so_thanh_chu(v_num)
+            ctx["von_dieu_le_so"] = v_fmt
+            ctx["VON_DIEU_LE_SO"] = v_fmt
+            ctx["von_dieu_le_chu"] = ctx.get("von_dieu_le_chu") or ctx.get("VON_DIEU_LE_CHU") or v_chu
+            ctx["VON_DIEU_LE_CHU"] = ctx["von_dieu_le_chu"]
+
+    # Members list (thanh_vien)
+    thanh_vien = ctx.get("thanh_vien") or []
+    if isinstance(thanh_vien, list):
+        norm_tv = []
+        for idx, tv in enumerate(thanh_vien):
+            t_gt = tv.get("gioi_tinh") or "Nam"
+            t_dx = danh_xung(t_gt)
+            t_ht = (tv.get("ho_ten") or "").upper()
+            t_cccd = tv.get("so_cccd") or ""
+            t_ns = tv.get("ngay_sinh") or ""
+            t_sn = tv.get("dia_chi_so_nha") or ""
+            t_xp = tv.get("dia_chi_xa_phuong") or ""
+            t_qh = tv.get("dia_chi_quan_huyen") or ""
+            t_tt = tv.get("dia_chi_tinh_thanh") or ""
+            t_parts = [p for p in [t_sn, t_xp, t_qh, t_tt] if p]
+            t_full = tv.get("dia_chi_day_du") or tv.get("dia_chi") or ", ".join(t_parts)
+
+            t_von = tv.get("von_gop") or tv.get("von_so") or ""
+            t_von_num = re.sub(r"[^\d]", "", str(t_von))
+            t_von_fmt = fmt_money(t_von_num) if t_von_num else t_von
+            t_von_chu = so_thanh_chu(t_von_num) if t_von_num else ""
+            t_tyle = tv.get("ty_le") or ""
+
+            item = SafeDict({
+                "stt": idx + 1,
+                "ho_ten": t_ht,
+                "gioi_tinh": t_gt,
+                "danh_xung": t_dx,
+                "so_cccd": t_cccd,
+                "ngay_sinh": t_ns,
+                "dia_chi_so_nha": t_sn,
+                "dia_chi_xa_phuong": t_xp,
+                "dia_chi_quan_huyen": t_qh,
+                "dia_chi_tinh_thanh": t_tt,
+                "dia_chi_day_du": t_full,
+                "dia_chi": t_full,
+                "von_gop": t_von_fmt,
+                "von_so": t_von_fmt,
+                "von_chu": t_von_chu,
+                "ty_le": t_tyle,
+            })
+            norm_tv.append(item)
+
+            # Export tv1_*, tv2_*, tv_moi_1_*, tv_moi_2_*
+            pfx = f"tv{idx+1}_"
+            pfx_moi = f"tv_moi_{idx+1}_"
+            for k_sub, v_sub in item.items():
+                ctx[f"{pfx}{k_sub}"] = v_sub
+                ctx[f"{pfx.upper()}{k_sub.upper()}"] = v_sub
+                ctx[f"{pfx_moi}{k_sub}"] = v_sub
+                ctx[f"{pfx_moi.upper()}{k_sub.upper()}"] = v_sub
+
+        ctx["thanh_vien"] = norm_tv
+
+    # Industry codes (ma_nganh)
+    if ma_nganh_list:
+        ctx["ma_nganh"] = ma_nganh_list
+    elif "ma_nganh" in ctx and isinstance(ctx["ma_nganh"], list):
+        pass
+    else:
+        ctx["ma_nganh"] = []
+
+    # Signer defaults
+    if not ctx.get("chuc_danh_ky") and not ctx.get("CHUC_DANH_KY"):
+        ctx["chuc_danh_ky"] = "CHỦ SỞ HỮU"
+        ctx["CHUC_DANH_KY"] = "CHỦ SỞ HỮU"
+    if not ctx.get("chuc_vu_ky") and not ctx.get("CHUC_VU_KY"):
+        ctx["chuc_vu_ky"] = "GIÁM ĐỐC"
+        ctx["CHUC_VU_KY"] = "GIÁM ĐỐC"
+
+    return ctx
+
+# --- DOCX POST-PROCESSING FOR MEMBER AND MA NGANH TABLES ---
+
+def populate_dstv(doc: docx.Document, members: List[Dict[str, Any]]):
+    if not members or len(doc.tables) == 0:
+        return
+    table = doc.tables[0]
+    if len(table.rows) < 4:
+        return
+    template_tr = copy.deepcopy(table.rows[3]._tr)
+
+    while len(table.rows) > 3:
+        table._tbl.remove(table.rows[-1]._tr)
+
+    for i, m in enumerate(members):
+        new_tr = copy.deepcopy(template_tr)
+        table._tbl.append(new_tr)
+        cells = table.rows[-1].cells
+        cells[0].text = str(i + 1)
+        cells[1].text = str(m.get('HO_TEN') or m.get('ho_ten', ''))
+        cells[2].text = str(m.get('NGAY_SINH') or m.get('ngay_sinh', ''))
+        cells[3].text = str(m.get('GIOI_TINH') or m.get('gioi_tinh', ''))
+        cells[4].text = f"Số định danh cá nhân: {m.get('SO_CCCD') or m.get('so_cccd', '')}"
+        cells[7].text = str(m.get('DIA_CHI') or m.get('dia_chi_day_du', ''))
+        von = str(m.get('VON_GOP') or m.get('von_so', ''))
+        cells[8].text = fmt_money(von)
+        cells[9].text = str(m.get('TY_LE') or m.get('ty_le', ''))
+        cells[10].text = f"Tiền Việt Nam\n{fmt_money(von)}"
+
+def populate_cshhl(doc: docx.Document, members: List[Dict[str, Any]]):
+    if not members or len(doc.tables) == 0:
+        return
+    table = doc.tables[0]
+    if len(table.rows) < 4:
+        return
+    template_tr = copy.deepcopy(table.rows[3]._tr)
+
+    while len(table.rows) > 3:
+        table._tbl.remove(table.rows[-1]._tr)
+
+    for i, m in enumerate(members):
+        new_tr = copy.deepcopy(template_tr)
+        table._tbl.append(new_tr)
+        cells = table.rows[-1].cells
+        cells[0].text = str(i + 1)
+        cells[1].text = str(m.get('HO_TEN') or m.get('ho_ten', ''))
+        cells[2].text = str(m.get('NGAY_SINH') or m.get('ngay_sinh', ''))
+        cells[3].text = str(m.get('GIOI_TINH') or m.get('gioi_tinh', ''))
+        cells[4].text = f"Số định danh cá nhân: {m.get('SO_CCCD') or m.get('so_cccd', '')}"
+        cells[7].text = str(m.get('DIA_CHI') or m.get('dia_chi_day_du', ''))
+        cells[8].text = str(m.get('TY_LE') or m.get('ty_le', ''))
+
+def populate_ma_nganh_table(doc: docx.Document, ma_nganh_list: List[Dict[str, Any]]):
+    if not ma_nganh_list:
+        return
+
+    for table in doc.tables:
+        try:
+            if len(table.rows) == 0:
+                continue
+            row0_text = [c.text.strip().upper() for c in table.rows[0].cells]
+            has_ma = any("MÃ NGÀNH" in t for t in row0_text)
+            has_ten = any("TÊN NGÀNH" in t for t in row0_text)
+
+            if has_ma and has_ten:
+                col_stt = None
+                col_ten = None
+                col_ma = None
+                col_chinh = None
+
+                for idx, t in enumerate(row0_text):
+                    if "STT" in t:
+                        col_stt = idx
+                    elif "TÊN NGÀNH" in t:
+                        col_ten = idx
+                    elif "MÃ NGÀNH" in t:
+                        col_ma = idx
+                    elif "CHÍNH" in t:
+                        col_chinh = idx
+
+                # Clear existing content rows except header
+                while len(table.rows) > 1:
+                    table._tbl.remove(table.rows[1]._tr)
+
+                # Add rows
+                for i, nganh in enumerate(ma_nganh_list):
+                    row_cells = table.add_row().cells
+                    if col_stt is not None:
+                        row_cells[col_stt].text = str(i + 1)
+                    if col_ten is not None:
+                        row_cells[col_ten].text = str(nganh.get("ten", ""))
+                    if col_ma is not None:
+                        row_cells[col_ma].text = str(nganh.get("ma", ""))
+                    if col_chinh is not None:
+                        is_main = nganh.get("is_main") or i == 0
+                        row_cells[col_chinh].text = "X" if is_main else ""
+
+                    # Ma nganh text standard
+                    for cell in row_cells:
+                        for p in cell.paragraphs:
+                            for run in p.runs:
+                                run.font.name = "Times New Roman"
+        except Exception as e:
+            print(f"Warning: error filling ma_nganh table: {e}")
+
+def populate_qd_table6(doc: docx.Document, members_list: list):
+    try:
+        for t in doc.tables:
+            if len(t.rows) >= 3 and len(t.rows[0].cells) >= 6:
+                header_text = t.rows[0].cells[1].text.strip().lower()
+                if "tên thành viên" in header_text or "thành viên" in header_text:
+                    for idx in range(2, len(members_list)):
+                        m = members_list[idx]
+                        tr_clone = copy.deepcopy(t.rows[2]._tr)
+                        t._tbl.append(tr_clone)
+                        new_row = t.rows[-1]
+                        new_row.cells[0].text = str(idx + 1)
+                        new_row.cells[1].text = m.get("ho_ten", "")
+                        new_row.cells[2].text = m.get("dia_chi_day_du", "")
+                        new_row.cells[3].text = str(m.get("von_so", ""))
+                        new_row.cells[4].text = str(m.get("ty_le", ""))
+                        new_row.cells[5].text = str(m.get("so_cccd", ""))
+    except Exception as e:
+        print(f"Warning: error populating QD table 6: {e}")
+
+# --- CORE RENDER FUNCTION ---
+
+def render_documents(
+    template_name: str,
+    raw_data: Dict[str, Any],
+    ma_nganh_list: Optional[List[Dict[str, Any]]] = None,
+    special_payload: Optional[Dict[str, Any]] = None
+) -> bytes:
+    clean_name = re.sub(r"\s+", " ", template_name.replace("Mẫu ", "").strip())
+    template_dir = TEMPLATES_DIR / clean_name
+
+    if not template_dir.exists():
+        for d in TEMPLATES_DIR.iterdir():
+            if d.is_dir() and re.sub(r"\s+", " ", d.name.strip()).lower() == clean_name.lower():
+                template_dir = d
+                break
+        else:
+            raise FileNotFoundError(f"Thư mục mẫu không tồn tại: {template_name}")
+
+    # Merge special_payload into raw_data if provided
+    merged_data = dict(raw_data)
+    if special_payload:
+        if "cn2tv_data" in special_payload and special_payload["cn2tv_data"]:
+            merged_data["cn2tv_data"] = special_payload["cn2tv_data"]
+        if "cd1tv2tv_data" in special_payload and special_payload["cd1tv2tv_data"]:
+            merged_data["cd1tv2tv_data"] = special_payload["cd1tv2tv_data"]
+        if "chuyen_nhuong" in special_payload and special_payload["chuyen_nhuong"]:
+            merged_data["chuyen_nhuong"] = special_payload["chuyen_nhuong"]
+
+    context = normalize_context(merged_data, ma_nganh_list)
+    jinja_env = create_jinja_env()
+
+    chuyen_nhuong_list = context.get("chuyen_nhuong") or []
+    ddpl_changed = context.get("ddpl_changed", True)
+    tv_moi_list = context.get("thanh_vien") or []
+    if special_payload and "cn2tv_data" in special_payload and special_payload["cn2tv_data"]:
+        tv_moi_list = special_payload["cn2tv_data"].get("tv_moi") or tv_moi_list
+
+    with tempfile.TemporaryDirectory() as tmp_out:
+        out_dir = Path(tmp_out)
+
+        for tpl_file in sorted(template_dir.glob("*.docx")):
+            fname = tpl_file.name
+            if fname.startswith("~$") or fname.startswith("_"):
+                continue
+
+            # Skip 02 if DDPL didn't change in Chuyển nhượng 2TV
+            if "Chuyển nhượng" in clean_name and not ddpl_changed and "02." in fname:
+                continue
+
+            # Skip 10 if we generate 09 per new member
+            if "Chuyển nhượng" in clean_name and "10. Xác nhận góp vốn 2" in fname and tv_moi_list:
+                continue
+
+            # Per-member capital contribution certificate
+            if "Chuyển nhượng" in clean_name and "09. Xác nhận góp vốn 1" in fname and tv_moi_list:
+                for i, m in enumerate(tv_moi_list):
+                    suffix = chr(ord("a") + i)
+                    m_name = m.get("HO_TEN") or m.get("ho_ten") or f"TV_{i+1}"
+                    out_name = f"09{suffix}. Xác nhận góp vốn ({m_name}).docx"
+                    out_name = re.sub(r'[<>:"/\\|?*]', '_', out_name)
+
+                    sub_ctx = SafeDict(context)
+                    sub_ctx["tv_moi_1_ho_ten"] = m_name
+                    sub_ctx["tv_moi_1_ngay_sinh"] = m.get("NGAY_SINH") or m.get("ngay_sinh", "")
+                    sub_ctx["tv_moi_1_so_cccd"] = m.get("SO_CCCD") or m.get("so_cccd", "")
+                    sub_ctx["tv_moi_1_gioi_tinh"] = m.get("GIOI_TINH") or m.get("gioi_tinh", "")
+                    sub_ctx["tv_moi_1_dia_chi_day_du"] = m.get("DIA_CHI") or m.get("dia_chi_day_du", "")
+                    v_raw = m.get("VON_GOP") or m.get("von_so", "")
+                    sub_ctx["tv_moi_1_von_so"] = fmt_money(v_raw)
+                    sub_ctx["tv_moi_1_ty_le"] = m.get("TY_LE") or m.get("ty_le", "")
+
+                    tpl = DocxTemplate(str(tpl_file))
+                    tpl.render(sub_ctx, jinja_env)
+                    tpl.save(str(out_dir / out_name))
+                continue
+
+            # Special multi-file handling for transfer contracts & liquidations
+            if "Chuyển nhượng" in clean_name and chuyen_nhuong_list:
+                if "Hợp đồng chuyển nhượng" in fname:
+                    for i, cn in enumerate(chuyen_nhuong_list):
+                        suffix = chr(ord("a") + i)
+                        ben_a = cn.get("ben_a", {})
+                        ben_b = cn.get("ben_b", {})
+                        ben_a_name = ben_a.get("ho_ten") or f"BenA_{i+1}"
+                        ben_b_name = ben_b.get("ho_ten") or f"BenB_{i+1}"
+                        out_name = f"{fname.replace('.docx', '')}_{suffix} ({ben_a_name} - {ben_b_name}).docx"
+                        out_name = re.sub(r'[<>:"/\\|?*]', '_', out_name)
+
+                        sub_ctx = SafeDict(context)
+                        sub_ctx["ben_a"] = SafeDict(ben_a)
+                        sub_ctx["ben_b"] = SafeDict(ben_b)
+                        for k_a, v_a in ben_a.items(): sub_ctx[f"ben_a_{k_a}"] = v_a
+                        for k_b, v_b in ben_b.items(): sub_ctx[f"ben_b_{k_b}"] = v_b
+                        sub_ctx["gia_tri_cn_so"] = fmt_money(cn.get("gia_tri_so", ""))
+                        sub_ctx["gia_tri_cn_chu"] = so_thanh_chu(cn.get("gia_tri_so", ""))
+                        sub_ctx["gia_tri_cn_ty_le"] = cn.get("ty_le", "")
+
+                        tpl = DocxTemplate(str(tpl_file))
+                        tpl.render(sub_ctx, jinja_env)
+                        tpl.save(str(out_dir / out_name))
+                    continue
+
+                if "Biên bản thanh lý" in fname:
+                    for i, cn in enumerate(chuyen_nhuong_list):
+                        suffix = chr(ord("a") + i)
+                        ben_a = cn.get("ben_a", {})
+                        ben_b = cn.get("ben_b", {})
+                        ben_a_name = ben_a.get("ho_ten") or f"BenA_{i+1}"
+                        ben_b_name = ben_b.get("ho_ten") or f"BenB_{i+1}"
+                        out_name = f"{fname.replace('.docx', '')}_{suffix} ({ben_a_name} - {ben_b_name}).docx"
+                        out_name = re.sub(r'[<>:"/\\|?*]', '_', out_name)
+
+                        sub_ctx = SafeDict(context)
+                        sub_ctx["ben_a"] = SafeDict(ben_a)
+                        sub_ctx["ben_b"] = SafeDict(ben_b)
+                        for k_a, v_a in ben_a.items(): sub_ctx[f"ben_a_{k_a}"] = v_a
+                        for k_b, v_b in ben_b.items(): sub_ctx[f"ben_b_{k_b}"] = v_b
+                        sub_ctx["gia_tri_cn_so"] = fmt_money(cn.get("gia_tri_so", ""))
+                        sub_ctx["gia_tri_cn_chu"] = so_thanh_chu(cn.get("gia_tri_so", ""))
+                        sub_ctx["gia_tri_cn_ty_le"] = cn.get("ty_le", "")
+
+                        tpl = DocxTemplate(str(tpl_file))
+                        tpl.render(sub_ctx, jinja_env)
+                        tpl.save(str(out_dir / out_name))
+                    continue
+
+            # Special multi-file handling for Chuyển đổi 1TV sang 2TV: Hợp đồng chuyển nhượng + Biên bản thanh lý
+            if "Chuyển đổi" in clean_name and "Hợp đồng chuyển nhượng" in fname and chuyen_nhuong_list:
+                for i, cn in enumerate(chuyen_nhuong_list):
+                    suffix = chr(ord("a") + i)
+                    ben_a = cn.get("ben_a", {})
+                    ben_b = cn.get("ben_b", {})
+                    ben_a_name = ben_a.get("ho_ten") or f"BenA_{i+1}"
+                    ben_b_name = ben_b.get("ho_ten") or f"BenB_{i+1}"
+                    if len(chuyen_nhuong_list) == 1:
+                        out_name = f"{fname.replace('.docx', '')} ({ben_a_name} - {ben_b_name}).docx"
+                    else:
+                        out_name = f"{fname.replace('.docx', '')}_{suffix} ({ben_a_name} - {ben_b_name}).docx"
+                    out_name = re.sub(r'[<>:"/\\|?*]', '_', out_name)
+
+                    sub_ctx = SafeDict(context)
+                    # Ben A
+                    sub_ctx["ddpl_ho_ten"] = ben_a.get("ho_ten", "")
+                    sub_ctx["ddpl_so_cccd"] = ben_a.get("so_cccd") or ben_a.get("cccd", "")
+                    sub_ctx["ddpl_ngay_sinh"] = ben_a.get("ngay_sinh", "")
+                    sub_ctx["ddpl_gioi_tinh"] = ben_a.get("gioi_tinh", "Nam")
+                    sub_ctx["ddpl_dia_chi_day_du"] = ben_a.get("dia_chi_day_du") or ben_a.get("dia_chi", "")
+                    sn_a, xp_a, tt_a = parse_address_str(sub_ctx["ddpl_dia_chi_day_du"])
+                    sub_ctx["ddpl_dia_chi_so_nha"] = sn_a
+                    sub_ctx["ddpl_dia_chi_xa_phuong"] = xp_a
+                    sub_ctx["ddpl_dia_chi_tinh_thanh"] = tt_a
+
+                    # Ben B
+                    sub_ctx["tv2_ho_ten"] = ben_b.get("ho_ten", "")
+                    sub_ctx["tv2_so_cccd"] = ben_b.get("so_cccd") or ben_b.get("cccd", "")
+                    sub_ctx["tv2_ngay_sinh"] = ben_b.get("ngay_sinh", "")
+                    sub_ctx["tv2_gioi_tinh"] = ben_b.get("gioi_tinh", "Nam")
+                    sub_ctx["tv2_dia_chi_day_du"] = ben_b.get("dia_chi_day_du") or ben_b.get("dia_chi", "")
+                    sn_b, xp_b, tt_b = parse_address_str(sub_ctx["tv2_dia_chi_day_du"])
+                    sub_ctx["tv2_dia_chi_so_nha"] = sn_b
+                    sub_ctx["tv2_dia_chi_xa_phuong"] = xp_b
+                    sub_ctx["tv2_dia_chi_tinh_thanh"] = tt_b
+
+                    v_raw = cn.get("von_cn_so") or cn.get("von", "")
+                    sub_ctx["tv2_von_cu_so"] = fmt_money(v_raw)
+                    sub_ctx["tv2_von_cu_chu"] = so_thanh_chu(v_raw)
+                    sub_ctx["tv2_von_cu_moi"] = so_thanh_chu(v_raw)
+                    sub_ctx["tv2_ty_le"] = cn.get("ty_le_cn") or cn.get("ty_le", "")
+
+                    tpl = DocxTemplate(str(tpl_file))
+                    tpl.render(sub_ctx, jinja_env)
+                    tpl.save(str(out_dir / out_name))
+                continue
+
+            # Special multi-file handling for Chuyển đổi 1TV sang 2TV Giấy chứng nhận góp vốn
+            if "Chuyển đổi" in clean_name and "Giấy chứng nhận góp vốn" in fname and tv_moi_list:
+                for i, m in enumerate(tv_moi_list):
+                    suffix = chr(ord("a") + i)
+                    m_name = m.get("HO_TEN") or m.get("ho_ten") or f"TV_{i+1}"
+                    out_name = f"Giấy chứng nhận góp vốn_{suffix} ({m_name}).docx"
+                    out_name = re.sub(r'[<>:"/\\|?*]', '_', out_name)
+
+                    sub_ctx = SafeDict(context)
+                    sub_ctx["tv2_ho_ten"] = m_name
+                    sub_ctx["tv2_ngay_sinh"] = m.get("NGAY_SINH") or m.get("ngay_sinh", "")
+                    sub_ctx["tv2_so_cccd"] = m.get("SO_CCCD") or m.get("so_cccd", "")
+                    sub_ctx["tv2_gioi_tinh"] = m.get("GIOI_TINH") or m.get("gioi_tinh", "")
+                    sub_ctx["tv2_dia_chi_day_du"] = m.get("DIA_CHI") or m.get("dia_chi_day_du", "")
+                    sn_m, xp_m, tt_m = parse_address_str(sub_ctx["tv2_dia_chi_day_du"])
+                    sub_ctx["tv2_dia_chi_so_nha"] = sn_m
+                    sub_ctx["tv2_dia_chi_xa_phuong"] = xp_m
+                    sub_ctx["tv2_dia_chi_tinh_thanh"] = tt_m
+                    v_raw = m.get("VON_GOP") or m.get("von_so", "")
+                    sub_ctx["tv2_von_cu_so"] = fmt_money(v_raw)
+                    sub_ctx["tv2_von_cu_chu"] = so_thanh_chu(v_raw)
+                    sub_ctx["tv2_ty_le"] = m.get("TY_LE") or m.get("ty_le", "")
+
+                    tpl = DocxTemplate(str(tpl_file))
+                    tpl.render(sub_ctx, jinja_env)
+                    tpl.save(str(out_dir / out_name))
+                continue
+
+            # Standard rendering
+            try:
+                tpl = DocxTemplate(str(tpl_file))
+                tpl.render(context, jinja_env)
+                out_path = out_dir / fname
+                tpl.save(str(out_path))
+
+                if ma_nganh_list:
+                    doc = docx.Document(str(out_path))
+                    populate_ma_nganh_table(doc, ma_nganh_list)
+                    doc.save(str(out_path))
+
+                # Danh sách thành viên for both Chuyển nhượng and Chuyển đổi
+                if ("03. Danh sách thành viên" in fname or "04. Danh sách thành viên" in fname) and tv_moi_list:
+                    doc = docx.Document(str(out_path))
+                    populate_dstv(doc, tv_moi_list)
+                    doc.save(str(out_path))
+
+                # Danh sách CSHHL for both Chuyển nhượng and Chuyển đổi
+                if ("04. Danh sách chủ sở hữu hưởng lợi" in fname or "05. Danh sách chủ sở hữu hưởng lợi" in fname) and tv_moi_list:
+                    doc = docx.Document(str(out_path))
+                    populate_cshhl(doc, tv_moi_list)
+                    doc.save(str(out_path))
+
+                # Dynamic members for Quyết định in Chuyển đổi
+                if "01. Quyết định" in fname and len(tv_moi_list) > 2 and "Chuyển đổi" in clean_name:
+                    doc = docx.Document(str(out_path))
+                    populate_qd_table6(doc, tv_moi_list)
+                    doc.save(str(out_path))
+
+            except Exception as e:
+                print(f"Lỗi khi render {fname}: {e}")
+                shutil.copy2(str(tpl_file), str(out_dir / fname))
+
+        # Áp dụng tiêu chuẩn văn bản hành chính (Times New Roman, xóa highlight, chuẩn hóa font)
+        from services.docx_standardizer import standardize_document
+        for f in out_dir.iterdir():
+            if f.is_file() and f.suffix == ".docx":
+                try:
+                    doc = docx.Document(str(f))
+                    standardize_document(doc)
+                    doc.save(str(f))
+                except Exception as e:
+                    print(f"Lỗi chuẩn hóa văn bản {f.name}: {e}")
+
+        # Pack into ZIP
+        zip_buf = BytesIO()
+        with zipfile.ZipFile(zip_buf, "w", zipfile.ZIP_DEFLATED) as zf:
+            for f in sorted(out_dir.iterdir()):
+                if f.is_file():
+                    zf.write(str(f), arcname=f.name)
+
+        return zip_buf.getvalue()

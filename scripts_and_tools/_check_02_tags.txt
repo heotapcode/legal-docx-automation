@@ -1,0 +1,8 @@
+34: <<BEGIN_TV_BLOCK>>
+35: Họ chữ đệm và tên: [TV2_HO_TEN]
+36: Giới tính: [TV2_GIOI_TINH]	
+37: Ngày sinh: [TV2_NGAY_SINH]
+38: Số định danh cá nhân: [TV2_SO_CCCD]
+39: Địa chỉ liên lạc: [TV2_DIA_CHI_SO_NHA], [TV2_DIA_CHI_XA_PHUONG], [TV2_DIA_CHI_TINH_THANH]
+40: <<END_TV_BLOCK>>
+41: Sở hữu phần vốn góp có giá trị là [TV2_VON_CU_SO] đồng, chiếm [TV2_TY_LE]% vốn điều lệ; 

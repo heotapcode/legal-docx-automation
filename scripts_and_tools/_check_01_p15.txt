@@ -1,0 +1,13 @@
+P0: 1. Thay đổi thành viên do chuyển nhượng phần vốn góp:
+P1: 1.1 Thành viên thêm phần vốn góp:
+P2: <<BEGIN_TV_BLOCK>>
+P3: Họ chữ đệm và tên: [TV2_HO_TEN]
+P4: Giới tính: [TV2_GIOI_TINH]	
+P5: Ngày sinh: [TV2_NGAY_SINH]
+P6: Số định danh cá nhân: [TV2_SO_CCCD]
+P7: Địa chỉ liên lạc: [TV2_DIA_CHI_SO_NHA], [TV2_DIA_CHI_XA_PHUONG], [TV2_DIA_CHI_TINH_THANH]
+P8: Ông [TV2_HO_TEN] cam kết không vi phạm tại điều 18 Luật doanh nghiệp. 
+P9: 1.3. Nội dung thay đổi phần vốn góp, tỷ lệ góp vốn:  
+P10: <<END_TV_BLOCK>>
+P11: - Ông [TV2_HO_TEN] nhận chuyển nhượng phần vốn góp từ bà [DDPL_HO_TEN] là [TV2_VON_CU_SO] đồng ([TV2_VON_CU_MOI]).
+P12: 1.4. Thời điểm góp vốn: ngày     tháng     năm 

@@ -1,0 +1,49 @@
+STT
+Họ và tên
+Ngày, tháng, năm sinh
+Giới tính
+Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
+Quốc tịch
+Dân tộc
+Địa chỉ liên lạc
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Ghi chú
+STT
+Họ và tên
+Ngày, tháng, năm sinh
+Giới tính
+Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
+Quốc tịch
+Dân tộc
+Địa chỉ liên lạc
+Tỷ lệ sở hữu vốn điều lệ
+Tỷ lệ sở hữu cổ phần có quyền
+biểu quyết 
+Quyền chi phối
+Ghi chú
+1
+2
+3
+4
+
+5
+6
+7
+9
+10
+11
+14
+1
+[DDPL_HO_TEN]
+[DDPL_NGAY_SINH]
+Nữ
+Số định danh cá nhân: [DDPL_SO_CCCD]
+
+
+[DDPL_DIA_CHI_SO_NHA], [DDPL_DIA_CHI_XA_PHUONG], [DDPL_DIA_CHI_TINH_THANH]
+[DDPL_TY_LE]%
+
+
+

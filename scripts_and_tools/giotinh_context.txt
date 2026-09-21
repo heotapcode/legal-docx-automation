@@ -1,0 +1,37 @@
+
+--- 02. Thông báo thay đổi người đại diện theo pháp luật.docx P11 ---
+Prev: Ngày, tháng, năm sinh: [DDPL_MOI_NGAY_SINH]
+Curr: Giới tính: Nam
+Next: Số định danh cá nhân: [DDPL_MOI_SO_CCCD]
+
+--- 03. Danh sách thành viên.docx Table0 R0 C3 P0 ---
+Curr: Giới tính
+
+--- 03. Danh sách thành viên.docx Table0 R1 C3 P0 ---
+Curr: Giới tính
+
+--- 04. Danh sách chủ sở hữu hưởng lợi.docx Table0 R0 C3 P0 ---
+Curr: Giới tính
+
+--- 04. Danh sách chủ sở hữu hưởng lợi.docx Table0 R1 C3 P0 ---
+Curr: Giới tính
+
+--- 08. Quyết định.docx P9 ---
+Prev: Ngày, tháng, năm sinh: [DDPL_MOI_NGAY_SINH]
+Curr: Giới tính: Nam
+Next: Số định danh cá nhân: [DDPL_MOI_SO_CCCD]
+
+--- 08. Quyết định.docx P21 ---
+Prev: Ngày, tháng, năm sinh: [DDPL_MOI_NGAY_SINH]
+Curr: Giới tính: Nam
+Next: Số định danh cá nhân: [DDPL_MOI_SO_CCCD]
+
+--- 09. Xác nhận góp vốn 1.docx P7 ---
+Prev: Họ chữ đệm và tên: [TV_MOI_1_HO_TEN]                                                                                                       
+Curr: Ngày sinh: [TV_MOI_1_NGAY_SINH]		Giới tính: Nữ
+Next: Số định danh cá nhân: [TV_MOI_1_SO_CCCD]
+
+--- 10. Xác nhận góp vốn 2.docx P7 ---
+Prev: Họ chữ đệm và tên: [DDPL_MOI_HO_TEN]
+Curr: Ngày sinh: [DDPL_MOI_NGAY_SINH]		Giới tính: Nam
+Next: Số định danh cá nhân: [DDPL_MOI_SO_CCCD]

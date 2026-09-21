@@ -1,0 +1,75 @@
+=== FILE: 01. Thông báo tạm ngừng.docx ===
+P1: THÔNG BÁO
+P2: Về việc tạm ngừng kinh doanh của doanh nghiệp
+P3: Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
+P4: Tên doanh nghiệp: 
+P5: [TEN_CONG_TY_VN]
+P6: Mã số doanh nghiệp/Mã số thuế: [MA_SO_THUE]
+P7: 1. Trường hợp tạm ngừng kinh doanh/hoạt động::
+P8: a) Đối với doanh nghiệp:
+P9: Thông báo tạm ngừng kinh doanh kể từ ngày     tháng     năm 2026 đến hết ngày     tháng     năm 2027
+P10: Lý do tạm ngừng: Do quá trình hoạt động không hiệu quả, không đạt được kết quả mong muốn
+P11: Sau khi doanh nghiệp tạm ngừng kinh doanh, đề nghị Quý Cơ quan chuyển tình trạng của tất cả các chi nhánh/văn phòng đại diện/địa điểm kinh doanh của doanh nghiệp trong Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp sang tình trạng “Tạm ngừng kinh doanh, hoạt động”.
+P12: Thông tin người đại diện theo pháp luật của doanh nghiệp :
+P13: Họ, chữ đệm và tên: [DDPL_HO_TEN]
+P14: Số điện thoại : 
+P15: Địa chỉ thư điện tử:
+P16: Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Thông báo này.
+P17: Người ký tại Thông báo này cam kết là người có quyền và nghĩa vụ thực hiện thủ tục đăng ký doanh nghiệp theo quy định của pháp luật và Điều lệ công ty.
+P22: [DDPL_HO_TEN]
+T0 R0 C0 P0: [TEN_CONG_TY_VN]
+T0 R0 C0 P2: Số: 01/2026
+T0 R0 C1 P0: CỘNG HÒA XÃ HỘI CHỦ NGHĨA Việt Nam
+T0 R0 C1 P1: Độc lập - Tự do - Hạnh phúc
+T0 R0 C1 P3: Hà Nội, ngày...... tháng...... năm 2026
+T1 R0 C1 P0: NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
+T1 R0 C1 P1: CỦA DOANH NGHIỆP
+T1 R0 C1 P2: (Ký và ghi họ tên)
+=== FILE: 02. Quyết định.docx ===
+P2: CHỦ SỞ HỮU
+P3: [TEN_CONG_TY_VN]
+P4: Luật Doanh nghiệp số 59/2020/QH14 được Quốc hội nước CHXHCN Việt Nam thông qua ngày 01/01/2021;
+P5: Căn cứ Điều lệ Công ty; 
+P7: QUYẾT ĐỊNH
+P8: Điều 1. Thông qua nội dung tạm ngừng kinh doanh của doanh nghiệp
+P9: Tên doanh nghiệp: [TEN_CONG_TY_VN]
+P10: Mã số doanh nghiệp: [MA_SO_THUE]
+P11: Đăng ký tạm ngừng kinh doanh kể từ ngày     tháng     năm 2026 đến hết ngày     tháng         năm 2027
+P12: Lý do tạm ngừng: Do quá trình hoạt động không hiệu quả, không đạt được kết quả mong muốn	
+P13: Điều 2. Cá nhân và các phòng ban có liên quan chịu trách nhiệm thi hành quyết định này.
+P14: Điều 3. Quyết định này có hiệu lực kể từ ngày ký.
+T0 R0 C0 P0: [TEN_CONG_TY_VN]
+T0 R0 C0 P2: Số: 01/2026-FV
+T0 R0 C1 P0: CỘNG HÒA XÃ HỘI CHỦ NGHĨA Việt Nam
+T0 R0 C1 P1: Độc lập - Tự do - Hạnh phúc
+T0 R0 C1 P3: Hà Nội, ngày...... tháng...... năm 2026
+T1 R0 C0 P0: Nơi nhận:
+T1 R0 C0 P1: - Phòng Đăng ký kinh doanh;
+T1 R0 C0 P2: - Lưu VP./.
+T1 R0 C1 P1: CHỦ SỞ HỮU DOANH NGHIỆP
+T1 R0 C1 P2: (Ký và ghi họ tên)
+T1 R0 C1 P7:         [DDPL_HO_TEN]	
+=== FILE: 03. Giấy ủy quyền.docx ===
+P0: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+P1: Độc lập- Tự do- Hạnh phúc
+P2: --------o0o-------
+P3: GIẤY ỦY QUYỀN
+P5: Giấy ủy quyền này được lập và ký vào ngày     tháng     năm 2026, giữa các bên dưới đây:
+P7: BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
+P8: Ông/ bà: [DDPL_HO_TEN]	       Chức vụ: Giám đốc
+P9: Số định danh cá nhân: [DDPL_SO_CCCD]
+P10: Ngày sinh: [DDPL_NGAY_SINH]	 Giới tính: [DDPL_GIOI_TINH]
+P11: Địa chỉ liên hệ: [DDPL_DIA_CHI_SO_NHA], [DDPL_DIA_CHI_XA_PHUONG], [DDPL_DIA_CHI_TINH_THANH]
+P12: Là người đại diện theo pháp luật [TEN_CONG_TY_VN]
+P13: Mã số doanh nghiệp: [MA_SO_THUE]	
+P14: BÊN NHẬN UỶ QUYỀN: (Sau đây gọi là “Bên B”):
+P15: - Ông: ĐỖ QUANG HIẾU
+P16: Số định danh cá nhân: 001089021350 
+P17: Giới tính: Nam		Ngày sinh: 16/03/1989
+P18: Địa chỉ liên lạc: TK Đường, Phú Xuyên, Hà Nội.
+P19: Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com     
+P20: Nội dung uỷ quyền: 
+P21: Nội dung uỷ quyền: Bên A uỷ quyền cho Bên B thực hiện thủ tục nộp và nhận kết quả hồ sơ tạm ngừng kinh doanh.
+P23: Giấy ủy quyền này có giá trị kể từ ngày ký và sẽ tự động chấm dứt hiệu lực khi các công việc nêu trên đã được hoàn thành.
+T0 R0 C1 P0: BÊN A
+T0 R0 C1 P6:          [DDPL_HO_TEN]	

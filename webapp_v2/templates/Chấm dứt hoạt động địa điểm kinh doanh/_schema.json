@@ -1,0 +1,58 @@
+{
+  "name": "Chấm dứt hoạt động địa điểm kinh doanh",
+  "display_name": "Chấm dứt hoạt động địa điểm kinh doanh",
+  "category": "Địa điểm kinh doanh",
+  "description": "Thông báo chấm dứt hoạt động địa điểm kinh doanh của doanh nghiệp",
+  "has_nganh": false,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Doanh nghiệp & Địa điểm",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty (tiếng Việt)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "dia_chi_so_nha",
+          "label": "Địa chỉ địa điểm kinh doanh (số nhà, đường)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_xa_phuong",
+          "label": "Xã/Phường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_tinh_thanh",
+          "label": "Tỉnh/Thành phố",
+          "type": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Thông tin người ĐDPL",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    }
+  ]
+}

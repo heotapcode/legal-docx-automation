@@ -1,0 +1,81 @@
+{
+  "name": "Thay đổi nội dung ĐKKD",
+  "display_name": "Thay đổi nội dung ĐKKD",
+  "category": "Thay đổi ĐKKD",
+  "description": "Hồ sơ thay đổi các nội dung đăng ký doanh nghiệp (Tên, Địa chỉ, Thành viên, Vốn, Ngành nghề...)",
+  "has_nganh": true,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Doanh nghiệp",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "sections",
+      "title": "Các nội dung cần thay đổi",
+      "fields": [
+        {
+          "key": "dkkd_selected",
+          "label": "Chọn các mục thay đổi",
+          "type": "checkbox_group",
+          "options": [
+            {
+              "value": "A1",
+              "label": "A1: Đăng ký thay đổi tên doanh nghiệp"
+            },
+            {
+              "value": "A2",
+              "label": "A2: Đăng ký thay đổi địa chỉ trụ sở chính"
+            },
+            {
+              "value": "A3",
+              "label": "A3: Đăng ký thay đổi thành viên công ty TNHH"
+            },
+            {
+              "value": "A4",
+              "label": "A4: Đăng ký thay đổi vốn điều lệ"
+            },
+            {
+              "value": "A5",
+              "label": "A5: Thông báo thay đổi ngành, nghề kinh doanh"
+            },
+            {
+              "value": "A6",
+              "label": "A6: Thông báo thay đổi thông tin đăng ký thuế"
+            },
+            {
+              "value": "A7",
+              "label": "A7: Chủ sở hữu hưởng lợi của doanh nghiệp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Thông tin người ĐDPL",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    }
+  ]
+}

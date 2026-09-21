@@ -1,0 +1,8 @@
+1. GET / status: 200
+2. GET /api/templates status: 200
+3. GET /api/templates/.../schema status: 200
+4. GET /api/templates/.../fields status: 200
+5. POST /api/documents/generate status: 500
+   Response headers: {'content-length': '122', 'content-type': 'application/json'}
+   Response text error: {"success": false, "message": "'latin-1' codec can't encode character '\u1ea1' in position 29: ordinal not in range(256)"}
+6. GET /api/nganh/search status: 200, count: 5

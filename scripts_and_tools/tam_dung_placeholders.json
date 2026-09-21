@@ -1,0 +1,55 @@
+{
+  "01. Thông báo tạm ngừng.docx": {
+    "total_placeholders": 5,
+    "unique_placeholders": [
+      "[DDPL_HO_TEN]",
+      "[MA_SO_THUE]",
+      "[TEN_CONG_TY_VN]"
+    ],
+    "sample_snippets": [
+      "[TEN_CONG_TY_VN]",
+      "Mã số doanh nghiệp/Mã số thuế: [MA_SO_THUE]",
+      "Họ, chữ đệm và tên: [DDPL_HO_TEN]",
+      "[DDPL_HO_TEN]",
+      "[TEN_CONG_TY_VN]"
+    ]
+  },
+  "02. Quyết định.docx": {
+    "total_placeholders": 5,
+    "unique_placeholders": [
+      "[DDPL_HO_TEN]",
+      "[MA_SO_THUE]",
+      "[TEN_CONG_TY_VN]"
+    ],
+    "sample_snippets": [
+      "[TEN_CONG_TY_VN]",
+      "Tên doanh nghiệp: [TEN_CONG_TY_VN]",
+      "Mã số doanh nghiệp: [MA_SO_THUE]",
+      "[TEN_CONG_TY_VN]",
+      "        [DDPL_HO_TEN]\t"
+    ]
+  },
+  "03. Giấy ủy quyền.docx": {
+    "total_placeholders": 10,
+    "unique_placeholders": [
+      "[DDPL_DIA_CHI_SO_NHA]",
+      "[DDPL_DIA_CHI_TINH_THANH]",
+      "[DDPL_DIA_CHI_XA_PHUONG]",
+      "[DDPL_GIOI_TINH]",
+      "[DDPL_HO_TEN]",
+      "[DDPL_NGAY_SINH]",
+      "[DDPL_SO_CCCD]",
+      "[MA_SO_THUE]",
+      "[TEN_CONG_TY_VN]"
+    ],
+    "sample_snippets": [
+      "Ông/ bà: [DDPL_HO_TEN]\t       Chức vụ: Giám đốc",
+      "Số định danh cá nhân: [DDPL_SO_CCCD]",
+      "Ngày sinh: [DDPL_NGAY_SINH]\t Giới tính: [DDPL_GIOI_TINH]",
+      "Địa chỉ liên hệ: [DDPL_DIA_CHI_SO_NHA], [DDPL_DIA_CHI_XA_PHUONG], [DDPL_DIA_CHI_TINH_THANH]",
+      "Là người đại diện theo pháp luật [TEN_CONG_TY_VN]",
+      "Mã số doanh nghiệp: [MA_SO_THUE]\t",
+      "         [DDPL_HO_TEN]\t"
+    ]
+  }
+}

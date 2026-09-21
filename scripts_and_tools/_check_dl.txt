@@ -1,0 +1,6 @@
+P34: Họ chữ đệm và tên: [TV2_HO_TEN]
+P35: Giới tính: [TV2_GIOI_TINH]	
+P36: Ngày sinh: [TV2_NGAY_SINH]
+P37: Số định danh cá nhân: [TV2_SO_CCCD]
+P38: Địa chỉ liên lạc: [TV2_DIA_CHI_SO_NHA], [TV2_DIA_CHI_XA_PHUONG], [TV2_DIA_CHI_TINH_THANH]
+P39: Sở hữu phần vốn góp có giá trị là [TV2_VON_CU_SO] đồng, chiếm [TV2_TY_LE]% vốn điều lệ; 

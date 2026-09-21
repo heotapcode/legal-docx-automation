@@ -1,0 +1,36 @@
+{
+  "webapp_exists": true,
+  "webapp_files": [
+    "config.py",
+    "convert_doc.py",
+    "data",
+    "docs",
+    "main.py",
+    "requirements.txt",
+    "routes",
+    "services",
+    "static",
+    "__pycache__"
+  ],
+  "sample_dirs": [
+    "Mẫu Chuyển nhượng công ty TNHH 1 TV",
+    "Mẫu Chuyển nhượng Công ty TNHH 2 TV",
+    "Mẫu Chuyển đổi loại hình 1TV sang 2 TV",
+    "Mẫu Chấm dứt hoạt động địa điểm kinh doanh",
+    "Mẫu Cấp lại giấy đăng ký kinh doanh",
+    "Mẫu Giải thể công ty Cổ Phần",
+    "Mẫu Giải thể công ty TNHH 1 TV",
+    "Mẫu Giải thể công ty TNHH 2 TV",
+    "Mẫu Hoạt động lại trước thời hạn",
+    "Mẫu Thay đổi nội dung ĐKKD",
+    "Mẫu Thành lập mới công  ty TNHH 1 TV",
+    "Mẫu Thành lập mới công ty Cổ Phần",
+    "Mẫu Thành lập mới công ty TNHH 2 TV",
+    "Mẫu Thành lập mới địa điểm kinh doanh",
+    "Mẫu tăng vốn công ty cổ phần",
+    "Mẫu tăng vốn công ty TNHH 2TV",
+    "Mẫu Tạm dừng công ty Cổ Phần",
+    "Mẫu Tạm dừng công ty TNHH 1 TV",
+    "Mẫu Tạm dừng công ty TNHH 2 TV"
+  ]
+}

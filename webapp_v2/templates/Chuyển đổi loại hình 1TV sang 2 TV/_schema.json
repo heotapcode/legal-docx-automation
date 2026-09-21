@@ -1,0 +1,111 @@
+{
+  "name": "Chuyển đổi loại hình 1TV sang 2 TV",
+  "display_name": "Chuyển đổi loại hình 1TV sang 2 TV",
+  "category": "Chuyển nhượng & Chuyển đổi",
+  "description": "Bộ hồ sơ chuyển đổi loại hình doanh nghiệp từ Công ty TNHH 1 TV sang Công ty TNHH 2 TV trở lên",
+  "has_nganh": true,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Công ty Sau khi chuyển đổi",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty mới (tiếng Việt)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ten_cong_ty_nn",
+          "label": "Tên tiếng nước ngoài",
+          "type": "text"
+        },
+        {
+          "key": "ten_cong_ty_viet_tat",
+          "label": "Tên viết tắt",
+          "type": "text"
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế hiện tại",
+          "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "dia_chi_so_nha",
+          "label": "Số nhà, tên đường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_xa_phuong",
+          "label": "Xã/Phường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_tinh_thanh",
+          "label": "Tỉnh/Thành phố",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "von_dieu_le_so",
+          "label": "Vốn điều lệ (VNĐ)",
+          "type": "money",
+          "required": true
+        },
+        {
+          "key": "sdt_cong_ty",
+          "label": "Số điện thoại",
+          "type": "phone"
+        },
+        {
+          "key": "email_cong_ty",
+          "label": "Email",
+          "type": "email"
+        }
+      ]
+    },
+    {
+      "id": "tv1",
+      "title": "Thành viên 1 (Chủ sở hữu cũ kiêm ĐDPL)",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Thành viên 1",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "tv2",
+      "title": "Thành viên 2 (Thành viên mới tiếp nhận)",
+      "fields": [
+        {
+          "key": "thanh_vien",
+          "label": "Thành viên góp vốn mới",
+          "type": "person_list",
+          "min": 1,
+          "ocr": true,
+          "extra_fields": [
+            {
+              "key": "von_gop",
+              "label": "Vốn góp (VNĐ)",
+              "type": "money",
+              "required": true
+            },
+            {
+              "key": "ty_le",
+              "label": "Tỷ lệ (%)",
+              "type": "number",
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

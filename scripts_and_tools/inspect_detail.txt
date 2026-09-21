@@ -1,0 +1,31 @@
+=== SERVICES ===
+cd1tv2tv_service.py
+cn2tv_service.py
+docx_utils.py
+mst_service.py
+nganh_service.py
+ocr_service.py
+word_service.py
+__init__.py
+__pycache__
+
+=== ROUTES ===
+documents.py
+mst.py
+nganh.py
+ocr.py
+services.py
+templates.py
+__init__.py
+__pycache__
+
+=== STATIC ===
+static: ['index.html']
+static\css: ['style.css']
+static\js: ['app.js', 'router.js']
+static\js\pages: ['cd1tv2tv_wizard.js', 'cn2tv_wizard.js', 'landing.js', 'services.js', 'wizard.js']
+
+=== MAU TAM DUNG CONG TY TNHH 1 TV ===
+01. Thông báo tạm ngừng.docx
+02. Quyết định.docx
+03. Giấy ủy quyền.docx

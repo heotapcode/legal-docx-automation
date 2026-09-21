@@ -1,0 +1,75 @@
+=== BẮT ĐẦU SETUP WEBAPP_V2 ===
+Đã tạo cấu trúc thư mục webapp_v2 thành công.
+Đã tạo config.py
+Đã tạo requirements.txt
+Đã tạo services/render_service.py
+Đã copy services/ocr_service.py
+Đã copy services/mst_service.py
+Đã copy services/nganh_service.py
+Đã tạo routes/templates.py
+Đã tạo routes/documents.py
+Đã tạo routes/ocr.py
+Đã tạo routes/mst.py
+Đã tạo routes/nganh.py
+Đã tạo main.py (Port 8001)
+Đã copy và chuẩn hóa static frontend (Dracula theme, bỏ cn2tv_wizard & cd1tv2tv_wizard)
+Đã chuyển đổi placeholder sang Jinja2 cho: 01. Thông báo tạm ngừng.docx
+Đã chuyển đổi placeholder sang Jinja2 cho: 02. Quyết định.docx
+Đã chuyển đổi placeholder sang Jinja2 cho: 03. Giấy ủy quyền.docx
+Đã tạo _schema.json cho mẫu Tạm dừng công ty TNHH 1 TV
+
+=== BẮT ĐẦU TEST PILOT RENDER ===
+Test render thành công! Kích thước file ZIP sinh ra: 62753 bytes
+Các file trong ZIP: ['01. Thông báo tạm ngừng.docx', '02. Quyết định.docx', '03. Giấy ủy quyền.docx']
+File 01. Thông báo tạm ngừng.docx: Render sạch 100%, không còn thẻ Jinja2.
+File 01. Thông báo tạm ngừng.docx: Đã điền chính xác tên công ty 'CÔNG TY TNHH CÔNG NGHỆ THỬ NGHIỆM V2'
+File 01. Thông báo tạm ngừng.docx: Đã điền chính xác mã số thuế '0109876543'
+File 01. Thông báo tạm ngừng.docx: Đã điền chính xác tên ĐDPL 'TRẦN VĂN THỬ NGHIỆM'
+File 02. Quyết định.docx: Render sạch 100%, không còn thẻ Jinja2.
+File 02. Quyết định.docx: Đã điền chính xác tên công ty 'CÔNG TY TNHH CÔNG NGHỆ THỬ NGHIỆM V2'
+File 02. Quyết định.docx: Đã điền chính xác mã số thuế '0109876543'
+File 02. Quyết định.docx: Đã điền chính xác tên ĐDPL 'TRẦN VĂN THỬ NGHIỆM'
+File 03. Giấy ủy quyền.docx: Render sạch 100%, không còn thẻ Jinja2.
+File 03. Giấy ủy quyền.docx: Đã điền chính xác tên công ty 'CÔNG TY TNHH CÔNG NGHỆ THỬ NGHIỆM V2'
+File 03. Giấy ủy quyền.docx: Đã điền chính xác mã số thuế '0109876543'
+File 03. Giấy ủy quyền.docx: Đã điền chính xác tên ĐDPL 'TRẦN VĂN THỬ NGHIỆM'
+>>> KẾT QUẢ TEST PILOT: THÀNH CÔNG RỰC RỠ! 100% TEST CASES ĐẠT! <<<
+
+=== TEST VỚI LEGACY FLAT CONTEXT (FRONTEND CŨ) ===
+Test render với legacy context thành công! Kích thước file ZIP: 62723 bytes
+File 01. Thông báo tạm ngừng.docx: Nhận diện legacy context và render thành công!
+File 02. Quyết định.docx: Nhận diện legacy context và render thành công!
+File 03. Giấy ủy quyền.docx: Nhận diện legacy context và render thành công!
+>>> TEST LEGACY FLAT CONTEXT THÀNH CÔNG! <<<
+
+=== DANH SÁCH TẤT CẢ CÁC FILE ĐÃ TẠO TRONG WEBAPP_V2 ===
+- webapp_v2/__pycache__\config.cpython-313.pyc
+- webapp_v2/config.py
+- webapp_v2/main.py
+- webapp_v2/requirements.txt
+- webapp_v2/routes\__init__.py
+- webapp_v2/routes\documents.py
+- webapp_v2/routes\mst.py
+- webapp_v2/routes\nganh.py
+- webapp_v2/routes\ocr.py
+- webapp_v2/routes\templates.py
+- webapp_v2/services\__init__.py
+- webapp_v2/services\__pycache__\__init__.cpython-313.pyc
+- webapp_v2/services\__pycache__\render_service.cpython-313.pyc
+- webapp_v2/services\mst_service.py
+- webapp_v2/services\nganh_service.py
+- webapp_v2/services\ocr_service.py
+- webapp_v2/services\render_service.py
+- webapp_v2/static\css\style.css
+- webapp_v2/static\index.html
+- webapp_v2/static\js\app.js
+- webapp_v2/static\js\pages\landing.js
+- webapp_v2/static\js\pages\services.js
+- webapp_v2/static\js\pages\wizard.js
+- webapp_v2/static\js\router.js
+- webapp_v2/templates\Tạm dừng công ty TNHH 1 TV\01. Thông báo tạm ngừng.docx
+- webapp_v2/templates\Tạm dừng công ty TNHH 1 TV\02. Quyết định.docx
+- webapp_v2/templates\Tạm dừng công ty TNHH 1 TV\03. Giấy ủy quyền.docx
+- webapp_v2/templates\Tạm dừng công ty TNHH 1 TV\_schema.json
+
+Tổng cộng: 28 files.

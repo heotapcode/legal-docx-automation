@@ -1,0 +1,9 @@
+[02. Thông báo thay đổi người đại diện theo pháp luật.docx] P11: Giới tính: Nam
+[03. Danh sách thành viên.docx] Table0 R0 C3 P0: Giới tính
+[03. Danh sách thành viên.docx] Table0 R1 C3 P0: Giới tính
+[04. Danh sách chủ sở hữu hưởng lợi.docx] Table0 R0 C3 P0: Giới tính
+[04. Danh sách chủ sở hữu hưởng lợi.docx] Table0 R1 C3 P0: Giới tính
+[08. Quyết định.docx] P9: Giới tính: Nam
+[08. Quyết định.docx] P21: Giới tính: Nam
+[09. Xác nhận góp vốn 1.docx] P7: Ngày sinh: [TV_MOI_1_NGAY_SINH]		Giới tính: Nữ
+[10. Xác nhận góp vốn 2.docx] P7: Ngày sinh: [DDPL_MOI_NGAY_SINH]		Giới tính: Nam

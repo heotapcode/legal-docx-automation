@@ -1,0 +1,111 @@
+{
+  "name": "Thành lập mới công ty Cổ Phần",
+  "display_name": "Thành lập mới công ty Cổ Phần",
+  "category": "Thành lập mới",
+  "description": "Bộ hồ sơ trọn gói thành lập mới Công ty Cổ Phần (tối thiểu 3 cổ đông)",
+  "has_nganh": true,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Công ty",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty (tiếng Việt)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ten_cong_ty_en",
+          "label": "Tên công ty (tiếng Anh)",
+          "type": "text"
+        },
+        {
+          "key": "ten_cong_ty_viet_tat",
+          "label": "Tên viết tắt",
+          "type": "text"
+        },
+        {
+          "key": "dia_chi_so_nha",
+          "label": "Số nhà, tên đường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_xa_phuong",
+          "label": "Xã/Phường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_quan_huyen",
+          "label": "Quận/Huyện",
+          "type": "text"
+        },
+        {
+          "key": "dia_chi_tinh_thanh",
+          "label": "Tỉnh/Thành phố",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "von_dieu_le_so",
+          "label": "Vốn điều lệ (VNĐ)",
+          "type": "money",
+          "required": true
+        },
+        {
+          "key": "sdt_cong_ty",
+          "label": "Số điện thoại liên hệ",
+          "type": "phone",
+          "required": true
+        },
+        {
+          "key": "email_cong_ty",
+          "label": "Email công ty",
+          "type": "email"
+        }
+      ]
+    },
+    {
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Thông tin người ĐDPL",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "shareholders",
+      "title": "Danh sách cổ đông sáng lập",
+      "fields": [
+        {
+          "key": "thanh_vien",
+          "label": "Cổ đông sáng lập",
+          "type": "person_list",
+          "min": 3,
+          "ocr": true,
+          "extra_fields": [
+            {
+              "key": "von_gop",
+              "label": "Giá trị cổ phần (VNĐ)",
+              "type": "money",
+              "required": true
+            },
+            {
+              "key": "ty_le",
+              "label": "Tỷ lệ sở hữu (%)",
+              "type": "number",
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

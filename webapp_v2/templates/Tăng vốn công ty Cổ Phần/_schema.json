@@ -1,0 +1,94 @@
+{
+  "name": "Tăng vốn công ty Cổ Phần",
+  "display_name": "Tăng vốn công ty Cổ Phần",
+  "category": "Tăng vốn",
+  "description": "Bộ hồ sơ đăng ký tăng vốn điều lệ Công ty Cổ Phần",
+  "has_nganh": false,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Doanh nghiệp & Vốn",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "dia_chi_so_nha",
+          "label": "Số nhà, đường",
+          "type": "text"
+        },
+        {
+          "key": "dia_chi_xa_phuong",
+          "label": "Xã/Phường",
+          "type": "text"
+        },
+        {
+          "key": "dia_chi_tinh_thanh",
+          "label": "Tỉnh/Thành phố",
+          "type": "text"
+        },
+        {
+          "key": "von_cu_so",
+          "label": "Vốn điều lệ cũ (VNĐ)",
+          "type": "money",
+          "required": true
+        },
+        {
+          "key": "von_dieu_le_so",
+          "label": "Vốn điều lệ mới sau khi tăng (VNĐ)",
+          "type": "money",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Thông tin người ĐDPL",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "members",
+      "title": "Danh sách cổ đông công ty",
+      "fields": [
+        {
+          "key": "thanh_vien",
+          "label": "Cổ đông công ty",
+          "type": "person_list",
+          "min": 1,
+          "ocr": true,
+          "extra_fields": [
+            {
+              "key": "von_gop",
+              "label": "Vốn sau tăng (VNĐ)",
+              "type": "money",
+              "required": true
+            },
+            {
+              "key": "ty_le",
+              "label": "Tỷ lệ sở hữu (%)",
+              "type": "number",
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

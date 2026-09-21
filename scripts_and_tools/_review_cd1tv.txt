@@ -1,0 +1,48 @@
+
+--- 03. Giấy đề nghị.docx PARA 52 ---
+  P50: 8. Người đại diện theo pháp luật:
+  P51: Họ chữ đệm và tên: [DDPL_HO_TEN]
+  P52: >>> Giới tính: Nữ	 <<<
+  P53: Ngày sinh: [DDPL_NGAY_SINH]
+
+--- 03. Giấy đề nghị.docx TABLE5 R1 ---
+  Row cells: ['9.1', 'Thông tin về Giám đốc/Tổng giám đốc (nếu có):\nHọ, chữ đệm và tên Giám đốc/Tổng giám đốc:.......................................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ……………….\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................', 'Thông tin về Giám đốc/Tổng giám đốc (nếu có):\nHọ, chữ đệm và tên Giám đốc/Tổng giám đốc:.......................................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ……………….\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................']
+  Prev row:  ['STT', 'Các chỉ tiêu thông tin đăng ký thuế', 'Các chỉ tiêu thông tin đăng ký thuế']
+
+--- 03. Giấy đề nghị.docx TABLE5 R1 ---
+  Row cells: ['9.1', 'Thông tin về Giám đốc/Tổng giám đốc (nếu có):\nHọ, chữ đệm và tên Giám đốc/Tổng giám đốc:.......................................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ……………….\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................', 'Thông tin về Giám đốc/Tổng giám đốc (nếu có):\nHọ, chữ đệm và tên Giám đốc/Tổng giám đốc:.......................................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ……………….\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................']
+  Prev row:  ['STT', 'Các chỉ tiêu thông tin đăng ký thuế', 'Các chỉ tiêu thông tin đăng ký thuế']
+
+--- 03. Giấy đề nghị.docx TABLE5 R2 ---
+  Row cells: ['9.2', 'Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):\nHọ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:..............................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ………………\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................', 'Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):\nHọ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:..............................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ………………\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................']
+  Prev row:  ['9.1', 'Thông tin về Giám đốc/Tổng giám đốc (nếu có):\nHọ, chữ đệm và tên Giám đốc/Tổng giám đốc:.......................................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ……………….\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................', 'Thông tin về Giám đốc/Tổng giám đốc (nếu có):\nHọ, chữ đệm và tên Giám đốc/Tổng giám đốc:.......................................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ……………….\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................']
+
+--- 03. Giấy đề nghị.docx TABLE5 R2 ---
+  Row cells: ['9.2', 'Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):\nHọ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:..............................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ………………\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................', 'Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):\nHọ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:..............................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ………………\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................']
+  Prev row:  ['9.1', 'Thông tin về Giám đốc/Tổng giám đốc (nếu có):\nHọ, chữ đệm và tên Giám đốc/Tổng giám đốc:.......................................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ……………….\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................', 'Thông tin về Giám đốc/Tổng giám đốc (nếu có):\nHọ, chữ đệm và tên Giám đốc/Tổng giám đốc:.......................................\nNgày, tháng, năm sinh: ……/……/……\nGiới tính: ……………….\nSố định danh cá nhân: ..............................................................................\nĐiện thoại:................................................................................................']
+
+--- 04. Danh sách thành viên.docx TABLE0 R0 ---
+  Row cells: ['STT', 'Tên thành viên', 'Ngày, tháng, năm sinh đối với thành viên là cá nhân', 'Giới tính', 'Loại giấy tờ, số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân', 'Quốc tịch', 'Dân tộc', 'Địa chỉ liên lạc', 'Vốn góp', 'Vốn góp', 'Vốn góp', 'Thời gian góp vốn', 'Chữ ký của thành viên', 'Ghi chú']
+
+--- 04. Danh sách thành viên.docx TABLE0 R1 ---
+  Row cells: ['STT', 'Tên thành viên', 'Ngày, tháng, năm sinh đối với thành viên là cá nhân', 'Giới tính', 'Loại giấy tờ, số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân', 'Quốc tịch', 'Dân tộc', 'Địa chỉ liên lạc', 'Phần vốn góp1 (bằng số; VNĐ và giá trị tương đương theo đơn vị tiền nước ngoài: bằng số, loại ngoại tệ, nếu có)', 'Tỷ lệ (%)', 'Loại tài sản, số lượng, giá trị tài sản góp vốn2', 'Thời gian góp vốn', 'Chữ ký của thành viên', 'Ghi chú']
+  Prev row:  ['STT', 'Tên thành viên', 'Ngày, tháng, năm sinh đối với thành viên là cá nhân', 'Giới tính', 'Loại giấy tờ, số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân', 'Quốc tịch', 'Dân tộc', 'Địa chỉ liên lạc', 'Vốn góp', 'Vốn góp', 'Vốn góp', 'Thời gian góp vốn', 'Chữ ký của thành viên', 'Ghi chú']
+
+--- 04. Giấy ủy quyền.docx PARA 17 ---
+  P15: - Ông: Đỗ Quang Hiếu
+  P16: Số định danh cá nhân: 001089021350     Ngày sinh: 16/03/1989
+  P17: >>> Giới tính: Nam <<<
+  P18: Địa chỉ liên lạc: TK Đường, Phú Xuyên, Hà Nội.
+
+--- 05. Danh sách chủ sở hữu hưởng lợi.docx TABLE0 R0 ---
+  Row cells: ['STT', 'Họ và tên', 'Ngày, tháng, năm sinh', 'Giới tính', 'Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân', 'Quốc tịch', 'Dân tộc', 'Địa chỉ liên lạc', 'Chủ sở hữu hưởng lợi của doanh nghiệp', 'Chủ sở hữu hưởng lợi của doanh nghiệp', 'Chủ sở hữu hưởng lợi của doanh nghiệp', 'Ghi chú']
+
+--- 05. Danh sách chủ sở hữu hưởng lợi.docx TABLE0 R1 ---
+  Row cells: ['STT', 'Họ và tên', 'Ngày, tháng, năm sinh', 'Giới tính', 'Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân', 'Quốc tịch', 'Dân tộc', 'Địa chỉ liên lạc', 'Tỷ lệ sở hữu vốn điều lệ', 'Tỷ lệ sở hữu cổ phần có quyền\nbiểu quyết', 'Quyền chi phối', 'Ghi chú']
+  Prev row:  ['STT', 'Họ và tên', 'Ngày, tháng, năm sinh', 'Giới tính', 'Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân', 'Quốc tịch', 'Dân tộc', 'Địa chỉ liên lạc', 'Chủ sở hữu hưởng lợi của doanh nghiệp', 'Chủ sở hữu hưởng lợi của doanh nghiệp', 'Chủ sở hữu hưởng lợi của doanh nghiệp', 'Ghi chú']
+
+--- Giấy chứng nhận góp vốn.docx PARA 5 ---
+  P3: CHỨNG NHẬN
+  P4: Thành viên: [TV2_HO_TEN]
+  P5: >>> Ngày sinh: [TV2_NGAY_SINH]                            Giới tính: Nam <<<
+  P6: Số định danh cá nhân: [TV2_SO_CCCD]

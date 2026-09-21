@@ -1,0 +1,121 @@
+=== DOCUMENT: 01. Quyết định.docx ===
+
+--- PARAGRAPHS ---
+P#2: CHỦ SỞ HỮU
+P#3: {{ ten_cong_ty_vn }}
+P#4: V/v: Thay đổi đăng ký kinh doanh và chuyển đổi loại hình doanh nghiệp./.
+P#6: Luật Doanh nghiệp số 59/2020/QH14 được Quốc hội nước CHXHCN Việt Nam có hiệu lực ngày 01/01/2021;
+P#7: Căn cứ theo điều lệ công ty;
+P#8: Xét tình hình thực tế của công ty./.
+P#10: QUYẾT ĐỊNH:
+P#12: Điều 1: Thay đổi đăng ký kinh doanh và chuyển đổi hình thức của {{ ten_cong_ty_vn }} từ Công ty TNHH Một thành viên sang công ty TNHH Hai thành viên trở lên với nội dung như sau:
+P#14: THAY ĐỔI ĐĂNG KÝ KINH DOANH:
+P#15: 1. Thay đổi thành viên do chuyển nhượng phần vốn góp:
+P#16: 1.1 Thành viên thêm phần vốn góp:
+P#17: <<BEGIN_TV_BLOCK>>
+P#18: Họ chữ đệm và tên: {{ tv2_ho_ten }}
+P#19: Giới tính: {{ tv2_gioi_tinh }}
+P#20: Ngày sinh: {{ tv2_ngay_sinh }}
+P#21: Số định danh cá nhân: {{ tv2_so_cccd }}
+P#22: Địa chỉ liên lạc: {{ tv2_dia_chi_so_nha }}, {{ tv2_dia_chi_xa_phuong }}, {{ tv2_dia_chi_tinh_thanh }}
+P#23: Ông {{ tv2_ho_ten }} cam kết không vi phạm tại điều 18 Luật doanh nghiệp.
+P#24: 1.3. Nội dung thay đổi phần vốn góp, tỷ lệ góp vốn:
+P#25: <<END_TV_BLOCK>>
+P#26: - Ông {{ tv2_ho_ten }} nhận chuyển nhượng phần vốn góp từ bà {{ ddpl_ho_ten }} là {{ tv2_von_cu_so }} đồng ({{ tv2_von_cu_moi }}).
+P#27: 1.4. Thời điểm góp vốn: ngày     tháng     năm
+P#28: 2. Thay đổi cơ cấu góp vốn sau khi thay đổi phần vốn góp, tỷ lệ góp vốn:
+P#29: - Cơ cấu góp vốn cũ:
+P#30: Vốn điều lệ : {{ von_dieu_le_so }} đồng ({{ von_dieu_le_chu }})
+P#31: Cơ cấu góp vốn mới:
+P#32: (Danh sách đính kèm)
+P#34: - Thời điểm thay đổi cơ cấu góp vốn: ngày     tháng     năm
+P#36: 3. Sửa đổi điều lệ công ty:
+P#37: Doanh nghiệp sửa đổi nội dung:
+P#38: Thành viên trong công ty trong điều 6 điều lệ công ty
+P#39: Cơ cấu góp vốn trong công ty trong điều 6 điều lệ công ty
+P#41: Vậy đến thời điểm này là ngày    tháng    năm      Công ty có 2 thành viên góp vốn nên công ty tiến hành chuyển đổi loại hình doanh nghiệp từ công ty TNHH Một thành viên sang công ty TNHH Hai thành viên trở lên.
+P#43: II CHUYỂN ĐỔI LOẠI HÌNH DOANH NGHIỆP:
+P#44: 1. Tên công ty chuyển đổi:
+P#45: 2. Tên công ty được chuyển đổi:
+P#47: 3. Địa chỉ trụ sở chính: {{ dia_chi_so_nha }}, {{ dia_chi_xa_phuong }}, {{ dia_chi_tinh_thanh }}
+P#48: Điện thoại: {{ sdt_cong_ty }}				                                           Fax (nếu có):
+P#49: Email (nếu có): {{ email_cong_ty }}				Website (nếu có):
+P#51: 4.Ngành nghề kinh doanh:
+P#54: 5. Thành viên công ty:
+P#55: <<BEGIN_TV_BLOCK>>
+P#56: Họ chữ đệm và tên: {{ tv2_ho_ten }}
+P#57: Giới tính: {{ tv2_gioi_tinh }}
+P#58: Ngày sinh: {{ tv2_ngay_sinh }}
+P#59: Số định danh cá nhân: {{ tv2_so_cccd }}
+P#60: <<END_TV_BLOCK>>
+P#61: Địa chỉ liên lạc: {{ tv2_dia_chi_so_nha }}, {{ tv2_dia_chi_xa_phuong }}, {{ tv2_dia_chi_tinh_thanh }}
+P#62: Và:
+P#63: Họ chữ đệm và tên: {{ ddpl_ho_ten }}
+P#64: Giới tính: {{ ddpl_gioi_tinh }}
+P#65: Ngày sinh: {{ ddpl_ngay_sinh }}
+P#66: Số định danh cá nhân: {{ ddpl_so_cccd }}
+P#67: Địa chỉ liên lạc: {{ ddpl_dia_chi_so_nha }}, {{ ddpl_dia_chi_xa_phuong }}, {{ ddpl_dia_chi_tinh_thanh }}
+P#69: 6. Cơ cấu góp vốn:
+P#72: 7. Người đại diện theo pháp luật công ty:
+P#73: Họ chữ đệm và tên: {{ ddpl_ho_ten }}
+P#74: Giới tính: {{ ddpl_gioi_tinh }}
+P#75: Ngày sinh: {{ ddpl_ngay_sinh }}
+P#76: Số định danh cá nhân: {{ ddpl_so_cccd }}
+P#77: Địa chỉ liên lạc: {{ dia_chi_so_nha }}, {{ dia_chi_xa_phuong }}, {{ dia_chi_tinh_thanh }}
+P#78: Chức danh: Giám đốc
+P#80: 8. Phương án sử dụng tài sản công ty:
+P#81: Toàn bộ tài sản và phần vốn góp của các thành viên Công ty được chuyển đổi được chuyển sang cho Công ty chuyển đổi. Công ty được chuyển đổi sẽ chấm dứt tồn tại kể từ khi Công ty chuyển đổi được cấp Đăng Ký Kinh Doanh tại Cơ quan Đăng ký kinh doanh. Công ty chuyển đổi sẽ được hưởng mọi quyền lợi và lợi ích hợp pháp cũng như trách nhiệm về mọi nghĩa vụ liên quan đến các khoản nợ chưa thanh toán, hợp đồng lao động, nghĩa vụ với Cơ quan nhà nước và nghĩa vụ tài sản khác từ Công ty được chuyển đổi.
+P#83: 9. Phương án sử dụng lao động :
+P#84: Công ty chuyển đổi kế thừa và sử dụng toàn bộ người lao động từ Công ty được chuyển đổi.
+P#87: 10. Thời hạn thực hiện việc chuyển đổi :
+P#88: Thời hạn thực hiện việc chuyển đổi:      ngày    tháng    năm
+P#90: 11. Sửa đổi Điều lệ Công ty:
+P#91: Doanh nghiệp đã sửa đổi toàn bộ điều lệ sang điều lệ công ty TNHH Hai thành viên trở lên theo quy định pháp luật
+P#93: Điều 2: Giao cho Ông/Bà {{ ddpl_ho_ten }} – Giám đốc Công ty  đôn đốc, kiểm tra, thực hiện Quyết định này
+P#95: Điều 3: Quyết định có hiệu lực kể từ ngày ký. Các phòng ban liên quan có trách nhiệm thực hiện quyết định này./.
+
+--- TABLES ---
+
+[Table 0 - 1 rows x 2 cols]
+  R#0: ['{{ ten_cong_ty_vn }} -----o0o-----  Số: {{ so_quyet_dinh }}', 'CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc  Hà Nội, ngày     tháng     năm']
+
+[Table 1 - 2 rows x 6 cols]
+  R#0: ['TT', 'Tên thành viên', 'Địa chỉ liên lạc', 'Giá trị vốn góp (VNĐ)', 'Phần trăm góp vốn', 'Số Giấy CMND/CCCD']
+  R#1: ['1', '{{ ddpl_ho_ten }}', '{{ dia_chi_so_nha }}, {{ dia_chi_xa_phuong }}, {{ dia_chi_tinh_thanh }}', '{{ von_dieu_le_so }}', '100', '{{ ddpl_so_cccd }}']
+
+[Table 2 - 3 rows x 6 cols]
+  R#0: ['TT', 'Tên thành viên', 'Nơi đăng ký HKTT', 'Giá trị vốn góp (VNĐ)', 'Tỷ lệ góp vốn (%)', 'Số Giấy CMND/CCCD']
+  R#1: ['1', '{{ ddpl_ho_ten }}', '{{ dia_chi_so_nha }}, {{ dia_chi_xa_phuong }}, {{ dia_chi_tinh_thanh }}', '{{ ddpl_von_cu_so }}', '{{ ddpl_ty_le }}', '{{ ddpl_so_cccd }}']
+  R#2: ['2', '{{ tv2_ho_ten }}', '{{ tv2_dia_chi_so_nha }}, {{ tv2_dia_chi_xa_phuong }}, {{ tv2_dia_chi_tinh_thanh }}', '{{ tv2_von_cu_so }}', '{{ tv2_ty_le }}', '{{ tv2_so_cccd }}']
+
+[Table 3 - 3 rows x 2 cols]
+  R#0: ['Tên công ty viết bằng tiếng Việt:', '{{ ten_cong_ty_vn }}']
+  R#1: ['Tên công ty viết bằng tiếng nước ngoài:', '{{ ten_cong_ty_viet_tat }}']
+  R#2: ['Tên công ty viết tắt:', '{{ ten_cong_ty_nn }}']
+
+[Table 4 - 3 rows x 3 cols]
+  R#0: ['Tên công ty viết bằng tiếng Việt:', '{{ ten_cong_ty_vn }}', '']
+  R#1: ['Tên công ty viết bằng tiếng nước ngoài:', '{{ ten_cong_ty_nn }}', '']
+  R#2: ['Tên công ty viết tắt:', '{{ ten_cong_ty_viet_tat }}', '']
+
+[Table 5 - 12 rows x 4 cols]
+  R#0: ['STT', 'Tên ngành', 'Mã ngành', 'Ngành nghề kinh doanh chính']
+  R#1: ['', '', '', 'X']
+  R#2: ['', '', '', '']
+  R#3: ['', '', '', '']
+  R#4: ['', '', '', '']
+  R#5: ['', '', '', '']
+  R#6: ['', '', '', '']
+  R#7: ['', '', '', '']
+  R#8: ['', '', '', '']
+  R#9: ['', '', '', '']
+  R#10: ['', '', '', '']
+  R#11: ['', '', '', '']
+
+[Table 6 - 3 rows x 6 cols]
+  R#0: ['TT', 'Tên thành viên', 'Nơi đăng ký HKTT', 'Giá trị vốn góp (VNĐ)', 'Tỷ lệ góp vốn (%)', 'Số Giấy CMND/CCCD']
+  R#1: ['1', '{{ ddpl_ho_ten }}', '{{ dia_chi_so_nha }}, {{ dia_chi_xa_phuong }}, {{ dia_chi_tinh_thanh }}', '{{ ddpl_von_cu_so }}', '{{ ddpl_ty_le }}', '{{ ddpl_so_cccd }}']
+  R#2: ['2', '{{ tv2_ho_ten }}', '{{ dia_chi_so_nha }}, {{ dia_chi_xa_phuong }}, {{ dia_chi_tinh_thanh }}', '{{ tv2_von_cu_so }}', '{{ tv2_ty_le }}', '{{ tv2_so_cccd }}']
+
+[Table 7 - 1 rows x 2 cols]
+  R#0: ['Nơi nhận: - Như điều 3; - Lưu. - Gửi đến tất cả các chủ nợ và thông báo cho người lao đông trong công ty;', 'CHỦ SỞ HỮU CÔNG TY      {{ ddpl_ho_ten }}']

@@ -1,0 +1,129 @@
+
+=== Mẫu Chuyển nhượng Công ty TNHH 2 TV (10 files) ===
+  - 01. Thông báo bổ sung cập nhật.docx
+  - 02. Thông báo thay đổi người đại diện theo pháp luật.docx
+  - 03. Danh sách thành viên.docx
+  - 04. Danh sách chủ sở hữu hưởng lợi.docx
+  - 05. Giấy ủy quyền.docx
+  - 06. Hợp đồng chuyển nhượng.docx
+  - 07. Biên bản thanh lý.docx
+  - 08. Quyết định.docx
+  - 09. Xác nhận góp vốn 1.docx
+  - 10. Xác nhận góp vốn 2.docx
+
+=== Mẫu Chuyển nhượng công ty TNHH 1 TV (8 files) ===
+  - 01. Thông báo thay đổi chủ sở hữu.docx
+  - 02. Quyết định.docx
+  - 03. Thông báo thay đổi người đại diện theo pháp luật.docx
+  - 04. Danh sách chủ sở hữu hưởng lợi.docx
+  - 05. Hợp đồng chuyển nhượng.docx
+  - 06. Biên bản thanh lý.docx
+  - 07. Giấy ủy quyền.docx
+  - 08. Giấy ủy quyền 02.docx
+
+=== Mẫu Chuyển đổi loại hình 1TV sang 2 TV (8 files) ===
+  - 01. Quyết định.docx
+  - 02. Điều lệ.docx
+  - 03. Giấy đề nghị.docx
+  - 04. Danh sách thành viên.docx
+  - 04. Giấy ủy quyền.docx
+  - 05. Danh sách chủ sở hữu hưởng lợi.docx
+  - 07. Hợp đồng chuyển nhượng + Biên bản thanh lý.docx
+  - Giấy chứng nhận góp vốn.docx
+
+=== Mẫu Chấm dứt hoạt động địa điểm kinh doanh (2 files) ===
+  - 01. Văn bản ủy quyền.docx
+  - 02. Thông báo chấm dứt hoạt động địa điểm - 0002.docx
+
+=== Mẫu Cấp lại giấy đăng ký kinh doanh (2 files) ===
+  - Giấy đề nghị cấp lại giấy chứng nhận dkdn.docx
+  - Văn bản ủy quyền.docx
+
+=== Mẫu Giải thể công ty Cổ Phần (6 files) ===
+  - 01. Biên bản họp + Quyết định.docx
+  - 03. Thông báo giải thể.docx
+  - 04. Báo cáo thanh lý tài sản.docx
+  - 05. Danh sách chủ nợ.docx
+  - 06. Danh sách người lao động.docx
+  - 07. Văn bản ủy quyền.docx
+
+=== Mẫu Giải thể công ty TNHH 1 TV (6 files) ===
+  - 01. Thông báo giải thể.docx
+  - 02. Quyết định giải thể.docx
+  - 03. Báo cáo thanh lý tài sản.docx
+  - 05. Danh sách chủ nợ.docx
+  - 06. Danh sách người lao động.docx
+  - 07. Văn bản ủy quyền.docx
+
+=== Mẫu Giải thể công ty TNHH 2 TV (7 files) ===
+  - 01. Quyết định giải thể.docx
+  - 02. Biên bản họp.docx
+  - 03. Thông báo giải thể.docx
+  - 04. Báo cáo thanh lý tài sản.docx
+  - 05. Danh sách chủ nợ.docx
+  - 06. Danh sách người lao động.docx
+  - 07. Văn bản ủy quyền.docx
+
+=== Mẫu Hoạt động lại trước thời hạn (2 files) ===
+  - Thông báo hoạt động trở lại trước thời hạn tạm dừng.docx
+  - Văn bản ủy quyền.docx
+
+=== Mẫu Thay đổi nội dung ĐKKD (3 files) ===
+  - 01. Thông báo bổ sung cập nhật.docx
+  - 02. Giấy ủy quyền.docx
+  - 03. Quyết định.docx
+
+=== Mẫu Thành lập mới công  ty TNHH 1 TV (4 files) ===
+  - 01. Giấy đề nghị.docx
+  - 02. Điều lệ.docx
+  - 03. Giấy ủy quyền.docx
+  - 04. Danh sách chủ sở hữu hưởng lợi.docx
+
+=== Mẫu Thành lập mới công ty Cổ Phần (5 files) ===
+  - 01. Giấy đề nghị.docx
+  - 02. Điều lệ.docx
+  - 03. Danh sách cổ đông sáng lập.docx
+  - 04. Giấy ủy quyền.docx
+  - 05. Danh sách chủ sở hữu hưởng lợi.docx
+
+=== Mẫu Thành lập mới công ty TNHH 2 TV (5 files) ===
+  - 01. Giấy đề nghị.docx
+  - 02. Điều lệ.docx
+  - 03. Danh sách thành viên.docx
+  - 04. Giấy ủy quyền.docx
+  - 05. Danh sách chủ sở hữu hưởng lợi.docx
+
+=== Mẫu Thành lập mới địa điểm kinh doanh (2 files) ===
+  - 01. Thông Báo lập địa điểm.docx
+  - 02. Giấy ủy quyền.docx
+
+=== Mẫu Tạm dừng công ty Cổ Phần (3 files) ===
+  - 01. Thông báo tạm ngừng.docx
+  - 02. Quyết định.docx
+  - 03. Giấy ủy quyền.docx
+
+=== Mẫu Tạm dừng công ty TNHH 1 TV (3 files) ===
+  - 01. Thông báo tạm ngừng.docx
+  - 02. Quyết định.docx
+  - 03. Giấy ủy quyền.docx
+
+=== Mẫu Tạm dừng công ty TNHH 2 TV (3 files) ===
+  - 01. Thông báo tạm ngừng.docx
+  - 02. Quyết định.docx
+  - 03. Giấy ủy quyền.docx
+
+=== Mẫu tăng vốn công ty TNHH 2TV (7 files) ===
+  - 01. Thông báo thay đổi ĐKKD.docx
+  - 02. Biên bản họp.docx
+  - 03. Quyết định.docx
+  - 04. Giấy ủy quyền.docx
+  - 05. Danh sách chủ sở hữu hưởng lợi.docx
+  - 06. Danh sách thành viên.docx
+  - 07. Giấy chứng nhận góp vốn.docx
+
+=== Mẫu tăng vốn công ty cổ phần (5 files) ===
+  - 01. Thông báo thay đổi ĐKKD.docx
+  - 02. Thông báo bổ sung cập nhật.docx
+  - 03. Quyết định.docx
+  - 04. Biên bản họp.docx
+  - 05. Giấy ủy quyền.docx

@@ -1,0 +1,92 @@
+{
+  "name": "Chuyển nhượng Công ty TNHH 2 TV",
+  "display_name": "Chuyển nhượng Công ty TNHH 2 TV",
+  "category": "Chuyển nhượng & Chuyển đổi",
+  "description": "Bộ hồ sơ chuyển nhượng phần vốn góp giữa các thành viên Công ty TNHH 2 thành viên",
+  "has_nganh": false,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Doanh nghiệp",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ddpl_cu",
+      "title": "Người đại diện theo pháp luật CŨ",
+      "fields": [
+        {
+          "key": "ddpl_cu",
+          "label": "ĐDPL cũ",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ddpl_moi",
+      "title": "Người đại diện theo pháp luật MỚI",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "ĐDPL mới (giữ nguyên nếu không đổi)",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "members",
+      "title": "Danh sách thành viên MỚI sau chuyển nhượng",
+      "fields": [
+        {
+          "key": "thanh_vien",
+          "label": "Thành viên sau chuyển nhượng",
+          "type": "person_list",
+          "min": 2,
+          "ocr": true,
+          "extra_fields": [
+            {
+              "key": "von_gop",
+              "label": "Vốn góp (VNĐ)",
+              "type": "money",
+              "required": true
+            },
+            {
+              "key": "ty_le",
+              "label": "Tỷ lệ (%)",
+              "type": "number",
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "transfers",
+      "title": "Thông tin Hợp đồng chuyển nhượng",
+      "fields": [
+        {
+          "key": "chuyen_nhuong",
+          "label": "Các giao dịch chuyển nhượng vốn",
+          "type": "transfer_list",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

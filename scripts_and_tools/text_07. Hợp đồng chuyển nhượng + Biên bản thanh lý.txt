@@ -1,0 +1,83 @@
+=== DOCUMENT: 07. Hợp đồng chuyển nhượng + Biên bản thanh lý.docx ===
+
+--- PARAGRAPHS ---
+P#0: CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
+P#1: Độc lập - Tự do - Hạnh phúc
+P#2: -----***-----
+P#3: HỢP ĐỒNG CHUYỂN NHƯỢNG PHẦN VỐN GÓP
+P#4: Số: 01/2026/CN
+P#5: Căn cứ Luật doanh nghiệp số 59/2020/QH14 năm 2020;
+P#6: Căn cứ vào Điều lệ của {{ ten_cong_ty_vn }};
+P#7: Căn cứ vào việc góp vốn của thành viên Công ty;
+P#8: Căn cứ nhu cầu và năng lực của các bên tham gia hợp đồng
+P#9: Hôm nay, ngày    tháng    năm       , tại Trụ sở {{ ten_cong_ty_vn }}, Chúng tôi gồm:
+P#10: 1. BÊN A
+P#11: Họ chữ đệm và tên: {{ ddpl_ho_ten }}
+P#12: Giới tính: {{ ddpl_gioi_tinh }}
+P#13: Ngày sinh: {{ ddpl_ngay_sinh }}
+P#14: Số định danh cá nhân: {{ ddpl_so_cccd }}
+P#15: Địa chỉ liên lạc: {{ ddpl_dia_chi_so_nha }}, {{ ddpl_dia_chi_xa_phuong }}, {{ ddpl_dia_chi_tinh_thanh }}
+P#16: 2. BÊN B
+P#17: Họ chữ đệm và tên: {{ tv2_ho_ten }}
+P#18: Giới tính: {{ tv2_gioi_tinh }}
+P#19: Ngày sinh: {{ tv2_ngay_sinh }}
+P#20: Số định danh cá nhân: {{ tv2_so_cccd }}
+P#21: Địa chỉ liên lạc: {{ tv2_dia_chi_so_nha }}, {{ tv2_dia_chi_xa_phuong }}, {{ tv2_dia_chi_tinh_thanh }}
+P#22: Sau khi trao đổi, thoả thuận, hai Bên nhất trí ký kết hợp đồng chuyển nhượng phần vốn góp với các điều khoản sau:
+P#23: Điều 1. Nội dung hợp đồng
+P#24: Ông/Bà {{ ddpl_ho_ten }} chuyển nhượng cho Ông/bà {{ tv2_ho_ten }} số vốn góp trong {{ ten_cong_ty_vn }} là {{ tv2_von_cu_so }} VND ({{ tv2_von_cu_chu }}), chiếm {{ tv2_ty_le }}% tổng vốn điều lệ của công ty.
+P#25: Giá trị chuyển nhượng là {{ tv2_von_cu_so }} VND ({{ tv2_von_cu_chu }}).
+P#26: Thời điểm chuyển nhượng: ngày     tháng    năm
+P#27: Điều 2. Phương thức và thời hạn thanh toán
+P#28: 1. Thời hạn thanh toán: Bên B thanh toán cho Bên A trong ngày hai bên cùng ký kết vào Hợp đồng này.
+P#29: 2. Phương thức thanh toán: Thanh toán qua tài khoản ngân hàng của Bên A
+P#30: Điều 3. Quyền lợi và trách nhiệm của các bên tham gia hợp đồng
+P#31: Quyền lợi và trách nhiệm của Bên A
+P#32: Cung cấp đầy đủ, chính xác và kịp thời các giấy tờ, tài liệu chứng minh quyền sở hữu hợp pháp phần vốn góp trong Công ty cho Bên B;
+P#33: Được nhận thanh toán đầy đủ và đúng hạn giá trị phần vốn góp chuyển nhượng từ Bên B theo đúng các điều khoản trong Hợp đồng này;
+P#34: Cam kết không có bất cứ thắc mắc gì trước các cơ quan chức năng;
+P#35: Hợp tác thường xuyên với Bên B trong quá trình thực hiện Hợp đồng;
+P#36: Quyền lợi và trách nhiệm của Bên B
+P#37: Được Bên A cung cấp đầy đủ, chính xác và kịp thời các giấy tờ, tài liệu chứng minh quyền sở hữu hợp pháp phần vốn góp trong Công ty;
+P#38: Thanh toán đầy đủ và đúng hạn giá trị phần vốn góp nhận chuyển nhượng cho Bên A theo đúng các điều khoản trong Hợp đồng này;
+P#39: Cam kết không có bất cứ thắc mắc gì trước các cơ quan chức năng;
+P#40: Hợp tác thường xuyên với Bên A trong quá trình thực hiện Hợp đồng.
+P#41: Chịu trách nhiệm về mọi hoạt động của doanh nghiệp.
+P#42: Điều 4. Hiệu lực và thời hạn của hợp đồng
+P#43: Hợp đồng này có hiệu lực từ kể từ ngày ký.
+P#44: Hai bên phải thực hiện đúng những nội dung đã thoả thuận và cam kết như trên, nếu bên nào vi phạm thì Bên đó phải bồi thường cho bên còn lại theo quy định của pháp luật.
+P#45: Điều 5. Điều khoản thi hành
+P#46: Hợp đồng này được lập thành 04 bản, có giá trị pháp lý như nhau, mỗi Bên giữ 01 bản làm cơ sở để thực hiện, 01 bản lưu tại công ty, 01 bản gửi Phòng Đăng ký kinh doanh - Sở Kế hoạch và Đầu tư Hà Nội.
+P#66: CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
+P#67: Độc lập - Tự do - Hạnh phúc
+P#68: -----***-----
+P#69: BIÊN BẢN THANH LÝ HỢP ĐỒNG CHUYỂN NHƯỢNG
+P#70: Hôm nay, ngày    tháng     năm      , tại Trụ sở {{ ten_cong_ty_vn }}, Chúng tôi gồm:
+P#71: 1. BÊN A
+P#72: Họ chữ đệm và tên: {{ ddpl_ho_ten }}
+P#73: Giới tính: {{ ddpl_gioi_tinh }}
+P#74: Ngày sinh: {{ ddpl_ngay_sinh }}
+P#75: Số định danh cá nhân: {{ ddpl_so_cccd }}
+P#76: Địa chỉ liên lạc: {{ ddpl_dia_chi_so_nha }}, {{ ddpl_dia_chi_xa_phuong }}, {{ ddpl_dia_chi_tinh_thanh }}
+P#77: 2. BÊN B
+P#78: Họ chữ đệm và tên: {{ tv2_ho_ten }}
+P#79: Giới tính: {{ tv2_gioi_tinh }}
+P#80: Ngày sinh: {{ tv2_ngay_sinh }}
+P#81: Số định danh cá nhân: {{ tv2_so_cccd }}
+P#82: Địa chỉ liên lạc: {{ tv2_dia_chi_so_nha }}, {{ tv2_dia_chi_xa_phuong }}, {{ tv2_dia_chi_tinh_thanh }}
+P#84: Sau khi trao đổi, thoả thuận, hai Bên nhất trí ký kết biên bản thanh lý hợp đồng chuyển nhượng phần vốn góp với các điều khoản sau:
+P#85: ĐIỀU 1. Thanh lý hợp đồng chuyển nhượng phần vốn góp được ký ngày    tháng    năm     giữa Ông/bà {{ ddpl_ho_ten }} và Ông/Bà {{ tv2_ho_ten }}
+P#86: ĐIỀU 2. Mọi nghĩa vụ về tài chính giữa Bên A và Bên B phát sinh từ Hợp đồng chuyển nhượng vốn góp được ký ngày      tháng      năm       đã được hai Bên hoàn tất trước khi lập và ký vào Biên bản thanh lý này.
+P#87: Các Bên đồng ý thông qua vấn đề chuyển nhượng và nhận chuyển nhượng phần vồn góp.
+P#88: ĐIỀU 3. Các Bên cam đoan: việc thanh lý Hợp đồng chuyển nhượng phần vốn góp nêu trên là hoàn toàn tự nguyện, dứt khoát, không còn bất kỳ vướng mắc gì và không kèm theo bất cứ điều kiện nào, không nhằm trốn tránh bất kỳ một nghĩa vụ nào. Nếu có điều gì sai trái, Bên có lỗi phải chịu hoàn toàn trách nhiệm trước pháp luật.
+P#89: Biên bản thanh lý này được lập thành 04 bản có giá trị pháp lý như nhau.
+
+--- TABLES ---
+
+[Table 0 - 2 rows x 2 cols]
+  R#0: ['BÊN A      {{ ddpl_ho_ten }}', 'BÊN B      {{ tv2_ho_ten }}']
+  R#1: ['Xác nhận của  {{ ten_cong_ty_vn }}       {{ ddpl_ho_ten }}', 'Xác nhận của  {{ ten_cong_ty_vn }}       {{ ddpl_ho_ten }}']
+
+[Table 1 - 2 rows x 2 cols]
+  R#0: ['BÊN A     {{ ddpl_ho_ten }}', 'BÊN B     {{ tv2_ho_ten }}']
+  R#1: ['Xác nhận của  {{ ten_cong_ty_vn }}      {{ ddpl_ho_ten }}', 'Xác nhận của  {{ ten_cong_ty_vn }}      {{ ddpl_ho_ten }}']

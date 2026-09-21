@@ -1,0 +1,22 @@
+P18: Họ chữ đệm và tên: [TV2_HO_TEN]
+P19: Giới tính: [TV2_GIOI_TINH]	
+P20: Ngày sinh: [TV2_NGAY_SINH]
+P21: Số định danh cá nhân: [TV2_SO_CCCD]
+P22: Địa chỉ liên lạc: [TV2_DIA_CHI_SO_NHA], [TV2_DIA_CHI_XA_PHUONG], [TV2_DIA_CHI_TINH_THANH]
+P23: Ông [TV2_HO_TEN] cam kết không vi phạm tại điều 18 Luật doanh nghiệp. 
+P26: - Ông [TV2_HO_TEN] nhận chuyển nhượng phần vốn góp từ bà [DDPL_HO_TEN] là [TV2_VON_CU_SO] đồng ([TV2_VON_CU_MOI]).
+P56: Họ chữ đệm và tên: [TV2_HO_TEN]
+P57: Giới tính: [TV2_GIOI_TINH]	
+P59: Ngày sinh: [TV2_NGAY_SINH]
+P60: Số định danh cá nhân: [TV2_SO_CCCD]
+P61: Địa chỉ liên lạc: [TV2_DIA_CHI_SO_NHA], [TV2_DIA_CHI_XA_PHUONG], [TV2_DIA_CHI_TINH_THANH]
+P63: Họ chữ đệm và tên: [DDPL_HO_TEN]
+P64: Giới tính: [DDPL_GIOI_TINH]
+P65: Ngày sinh: [DDPL_NGAY_SINH]
+P66: Số định danh cá nhân: [DDPL_SO_CCCD]
+P67: Địa chỉ liên lạc: [DDPL_DIA_CHI_SO_NHA], [DDPL_DIA_CHI_XA_PHUONG], [DDPL_DIA_CHI_TINH_THANH]
+P73: Họ chữ đệm và tên: [DDPL_HO_TEN]
+P74: Giới tính: [DDPL_GIOI_TINH]
+P75: Ngày sinh: [DDPL_NGAY_SINH]
+P76: Số định danh cá nhân: [DDPL_SO_CCCD]
+P93: Điều 2: Giao cho Ông/Bà [DDPL_HO_TEN] – Giám đốc Công ty  đôn đốc, kiểm tra, thực hiện Quyết định này 

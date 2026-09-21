@@ -1,0 +1,12 @@
+P17: Họ chữ đệm và tên: [TV2_HO_TEN]
+P18: Giới tính: [TV2_GIOI_TINH]	
+P19: Ngày sinh: [TV2_NGAY_SINH]
+P20: Số định danh cá nhân: [TV2_SO_CCCD]
+P21: Địa chỉ liên lạc: [TV2_DIA_CHI_SO_NHA], [TV2_DIA_CHI_XA_PHUONG], [TV2_DIA_CHI_TINH_THANH]
+P22: Ông [TV2_HO_TEN] cam kết không vi phạm tại điều 18 Luật doanh nghiệp. 
+P24: - Ông [TV2_HO_TEN] nhận chuyển nhượng phần vốn góp từ bà [DDPL_HO_TEN] là [TV2_VON_CU_SO] đồng ([TV2_VON_CU_MOI]).
+P53: Họ chữ đệm và tên: [TV2_HO_TEN]
+P54: Giới tính: [TV2_GIOI_TINH]	
+P55: Ngày sinh: [TV2_NGAY_SINH]
+P56: Số định danh cá nhân: [TV2_SO_CCCD]
+P57: Địa chỉ liên lạc: [TV2_DIA_CHI_SO_NHA], [TV2_DIA_CHI_XA_PHUONG], [TV2_DIA_CHI_TINH_THANH]

@@ -1,0 +1,15 @@
+=== DOCUMENT: 05. Danh sách chủ sở hữu hưởng lợi.docx ===
+
+--- PARAGRAPHS ---
+P#0: DANH SÁCH CHỦ SỞ HỮU HƯỞNG LỢI CỦA DOANH NGHIỆP
+
+--- TABLES ---
+
+[Table 0 - 4 rows x 12 cols]
+  R#0: ['STT', 'Họ và tên', 'Ngày, tháng, năm sinh', 'Giới tính', 'Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân', 'Quốc tịch', 'Dân tộc', 'Địa chỉ liên lạc', 'Chủ sở hữu hưởng lợi của doanh nghiệp', 'Chủ sở hữu hưởng lợi của doanh nghiệp', 'Chủ sở hữu hưởng lợi của doanh nghiệp', 'Ghi chú']
+  R#1: ['STT', 'Họ và tên', 'Ngày, tháng, năm sinh', 'Giới tính', 'Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân', 'Quốc tịch', 'Dân tộc', 'Địa chỉ liên lạc', 'Tỷ lệ sở hữu vốn điều lệ', 'Tỷ lệ sở hữu cổ phần có quyền biểu quyết', 'Quyền chi phối', 'Ghi chú']
+  R#2: ['1', '2', '3', '4', '', '5', '6', '7', '9', '10', '11', '14']
+  R#3: ['1', '{{ ddpl_ho_ten }}', '{{ ddpl_ngay_sinh }}', '{{ ddpl_gioi_tinh }}', 'Số định danh cá nhân: {{ ddpl_so_cccd }}', '', '', '{{ ddpl_dia_chi_so_nha }}, {{ ddpl_dia_chi_xa_phuong }}, {{ ddpl_dia_chi_tinh_thanh }}', '{{ ddpl_ty_le }}%', '', '', '']
+
+[Table 1 - 1 rows x 2 cols]
+  R#0: ['', 'Hà Nội, ngày       tháng      năm                                                                                  NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY                                                  (Ký, ghi họ tên)      {{ ddpl_ho_ten }}']
