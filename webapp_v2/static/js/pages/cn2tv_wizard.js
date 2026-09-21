@@ -1,36 +1,40 @@
 // Specialized Dynamic Wizard for Chuyển nhượng Công ty TNHH 2 TV
 // Supports N Old Members and N New Members dynamically
 
+window.cn2tvState = window.cn2tvState || {
+    company: {
+        TEN_CONG_TY_VN: '',
+        MA_SO_THUE: '',
+        VON_DIEU_LE_SO: '',
+        VON_DIEU_LE_CHU: ''
+    },
+    ddplCu: { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam' },
+    ddplCuIsTv: true,
+    tvCu: [
+        { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' },
+        { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' }
+    ],
+    ddplMoi: { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam' },
+    ddplMoiIsTv: true,
+    tvMoi: [
+        { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' },
+        { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' }
+    ],
+    contracts: [
+        { ben_a: 0, ben_b: 0, von: '', gia_tri: '', ty_le: '' }
+    ]
+};
+
 window.renderCN2TVWizard = function(container) {
-    let state = {
-        company: {
-            TEN_CONG_TY_VN: '',
-            MA_SO_THUE: '',
-            VON_DIEU_LE_SO: '',
-            VON_DIEU_LE_CHU: ''
-        },
-        ddplCu: { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam' },
-        ddplCuIsTv: true,
-        tvCu: [
-            { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' },
-            { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' }
-        ],
-        ddplMoi: { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam' },
-        ddplMoiIsTv: true,
-        tvMoi: [
-            { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' },
-            { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' }
-        ],
-        contracts: [
-            { ben_a: 0, ben_b: 0, von: '', gia_tri: '', ty_le: '' }
-        ]
-    };
+    let state = window.cn2tvState;
 
     function renderInput(label, id, value, type='text', placeholder='', onchange='', oninput='') {
+        const inp = oninput || 'updateCN2TVState()';
+        const chg = onchange || 'updateCN2TVState()';
         return `
             <div class="form-group">
                 <label class="form-label">${label}</label>
-                <input type="${type}" id="${id}" class="form-control" value="${value || ''}" placeholder="${placeholder}" onchange="${onchange}" oninput="${oninput}">
+                <input type="${type}" id="${id}" class="form-control" value="${value || ''}" placeholder="${placeholder}" onchange="${chg}" oninput="${inp}">
             </div>
         `;
     }
@@ -54,7 +58,7 @@ window.renderCN2TVWizard = function(container) {
                     </div>
                 </div>
                 <div class="grid-form-2">
-                    ${renderInput('Họ và tên *', `${prefix}_HO_TEN`, person.HO_TEN, 'text', 'NGUYỄN VĂN A', 'updateCN2TVState()')}
+                    ${renderInput('Họ và tên *', `${prefix}_HO_TEN`, person.HO_TEN, 'text', 'NGUYỄN VĂN A', 'updateCN2TVState()', 'updateCN2TVState()')}
                     <div class="grid-form-2">
                         <div class="form-group">
                             <label class="form-label">Giới tính</label>
@@ -63,19 +67,19 @@ window.renderCN2TVWizard = function(container) {
                                 <option value="Nữ" ${person.GIOI_TINH === 'Nữ' ? 'selected' : ''}>Nữ</option>
                             </select>
                         </div>
-                        ${renderInput('Ngày sinh', `${prefix}_NGAY_SINH`, person.NGAY_SINH, 'text', 'DD/MM/YYYY', 'updateCN2TVState()')}
+                        ${renderInput('Ngày sinh', `${prefix}_NGAY_SINH`, person.NGAY_SINH, 'text', 'DD/MM/YYYY', 'updateCN2TVState()', 'updateCN2TVState()')}
                     </div>
                 </div>
                 <div class="grid-form-2">
-                    ${renderInput('Số CCCD (12 số) *', `${prefix}_SO_CCCD`, person.SO_CCCD, 'text', '001090001234', 'updateCN2TVState()')}
-                    ${renderInput('Địa chỉ thường trú đầy đủ', `${prefix}_DIA_CHI`, person.DIA_CHI, 'text', 'Số nhà, Phường/Xã, Tỉnh/Thành', 'updateCN2TVState()')}
+                    ${renderInput('Số CCCD (12 số) *', `${prefix}_SO_CCCD`, person.SO_CCCD, 'text', '001090001234', 'updateCN2TVState()', 'updateCN2TVState()')}
+                    ${renderInput('Địa chỉ thường trú đầy đủ', `${prefix}_DIA_CHI`, person.DIA_CHI, 'text', 'Số nhà, Phường/Xã, Tỉnh/Thành', 'updateCN2TVState()', 'updateCN2TVState()')}
                 </div>
         `;
         if (showCapital) {
             html += `
                 <div class="grid-form-2 mt-2 pt-2" style="border-top: 1px dashed rgba(255,255,255,0.08);">
-                    ${renderInput('Vốn góp (VNĐ)', `${prefix}_VON_GOP`, person.VON_GOP, 'text', 'VD: 500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this)')}
-                    ${renderInput('Tỷ lệ (%)', `${prefix}_TY_LE`, person.TY_LE, 'number', 'VD: 50', 'updateCN2TVState()')}
+                    ${renderInput('Vốn góp (VNĐ)', `${prefix}_VON_GOP`, person.VON_GOP, 'text', 'VD: 500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this); updateCN2TVState()')}
+                    ${renderInput('Tỷ lệ (%)', `${prefix}_TY_LE`, person.TY_LE, 'number', 'VD: 50', 'updateCN2TVState()', 'updateCN2TVState()')}
                 </div>
             `;
         }
@@ -83,19 +87,15 @@ window.renderCN2TVWizard = function(container) {
         return html;
     }
 
-    window.formatMoneyInput = function(input) {
-        const raw = input.value.replace(/\D/g, '');
-        input.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
-    };
-
-    window.lookupMST_CN2TV = async function(event) {
+    // --- LOOKUP MST HANDLER ---
+    window.lookupMST_CN2TV = async function() {
         const mstInput = document.getElementById('COMP_MA_SO_THUE');
-        if (!mstInput || !mstInput.value) {
-            alert("Vui lòng nhập Mã số thuế trước khi tra cứu.");
+        const btn = document.getElementById('btn-lookup-mst-cn2tv');
+        if (!mstInput || !mstInput.value.trim()) {
+            alert('Vui lòng nhập Mã số thuế để tra cứu!');
             return;
         }
 
-        const btn = event.currentTarget;
         const oldHTML = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Tra cứu...';
         btn.disabled = true;
@@ -123,14 +123,49 @@ window.renderCN2TVWizard = function(container) {
         btn.disabled = false;
     };
 
+    function updateContractSelectOptions() {
+        if (!state.contracts) return;
+        state.contracts.forEach((c, idx) => {
+            const selA = document.getElementById(`C_${idx}_BEN_A`);
+            if (selA) {
+                const curVal = isNaN(parseInt(selA.value)) ? c.ben_a : parseInt(selA.value);
+                selA.innerHTML = state.tvCu.map((m, i) => `
+                    <option value="${i}" ${curVal === i ? 'selected' : ''}>
+                        Thành viên Cũ #${i + 1}: ${m.HO_TEN ? m.HO_TEN : '(Chưa nhập tên)'}
+                    </option>
+                `).join('');
+            }
+
+            const selB = document.getElementById(`C_${idx}_BEN_B`);
+            if (selB) {
+                const curVal = isNaN(parseInt(selB.value)) ? c.ben_b : parseInt(selB.value);
+                selB.innerHTML = state.tvMoi.map((m, i) => `
+                    <option value="${i}" ${curVal === i ? 'selected' : ''}>
+                        Thành viên Mới #${i + 1}: ${m.HO_TEN ? m.HO_TEN : '(Chưa nhập tên)'}
+                    </option>
+                `).join('');
+            }
+        });
+
+        // Update badge headers in DOM
+        const badgeCu1 = document.getElementById('BADGE_TV_CU_1');
+        if (badgeCu1 && state.tvCu[0]) {
+            badgeCu1.textContent = state.tvCu[0].HO_TEN || 'Chưa nhập họ tên';
+        }
+        const badgeMoi1 = document.getElementById('BADGE_TV_MOI_1');
+        if (badgeMoi1 && state.tvMoi[0]) {
+            badgeMoi1.textContent = state.tvMoi[0].HO_TEN || 'Chưa nhập họ tên';
+        }
+    }
+
     window.updateCN2TVState = function() {
-        // Collect Company
+        // 1. Collect Company
         ['TEN_CONG_TY_VN', 'MA_SO_THUE', 'VON_DIEU_LE_SO', 'VON_DIEU_LE_CHU'].forEach(k => {
             const el = document.getElementById(`COMP_${k}`);
             if (el) state.company[k] = el.value;
         });
 
-        // Collect DDPL Cu
+        // 2. Collect DDPL Cu
         ['HO_TEN', 'NGAY_SINH', 'SO_CCCD', 'DIA_CHI', 'GIOI_TINH'].forEach(k => {
             const el = document.getElementById(`D_CU_${k}`);
             if (el) state.ddplCu[k] = el.value;
@@ -139,16 +174,32 @@ window.renderCN2TVWizard = function(container) {
         const ddplCuCb = document.getElementById('D_CU_IS_TV');
         if (ddplCuCb) state.ddplCuIsTv = ddplCuCb.checked;
 
-        // Collect Old Members
+        // Sync DDPL Cu to TV Cu #1 if linked
+        if (state.ddplCuIsTv && state.tvCu.length > 0) {
+            state.tvCu[0].HO_TEN = state.ddplCu.HO_TEN;
+            state.tvCu[0].NGAY_SINH = state.ddplCu.NGAY_SINH;
+            state.tvCu[0].SO_CCCD = state.ddplCu.SO_CCCD;
+            state.tvCu[0].DIA_CHI = state.ddplCu.DIA_CHI;
+            state.tvCu[0].GIOI_TINH = state.ddplCu.GIOI_TINH;
+        }
+
+        // 3. Collect Old Members
         state.tvCu.forEach((m, idx) => {
             const pre = `T_CU${idx + 1}`;
-            ['HO_TEN', 'NGAY_SINH', 'SO_CCCD', 'DIA_CHI', 'GIOI_TINH', 'VON_GOP', 'TY_LE'].forEach(k => {
-                const el = document.getElementById(`${pre}_${k}`);
-                if (el) m[k] = el.value;
-            });
+            if (idx === 0 && state.ddplCuIsTv) {
+                const vg = document.getElementById(`${pre}_VON_GOP`);
+                const tl = document.getElementById(`${pre}_TY_LE`);
+                if (vg) m.VON_GOP = vg.value;
+                if (tl) m.TY_LE = tl.value;
+            } else {
+                ['HO_TEN', 'NGAY_SINH', 'SO_CCCD', 'DIA_CHI', 'GIOI_TINH', 'VON_GOP', 'TY_LE'].forEach(k => {
+                    const el = document.getElementById(`${pre}_${k}`);
+                    if (el) m[k] = el.value;
+                });
+            }
         });
 
-        // Collect DDPL Moi
+        // 4. Collect DDPL Moi
         ['HO_TEN', 'NGAY_SINH', 'SO_CCCD', 'DIA_CHI', 'GIOI_TINH'].forEach(k => {
             const el = document.getElementById(`D_MOI_${k}`);
             if (el) state.ddplMoi[k] = el.value;
@@ -157,29 +208,58 @@ window.renderCN2TVWizard = function(container) {
         const ddplMoiCb = document.getElementById('D_MOI_IS_TV');
         if (ddplMoiCb) state.ddplMoiIsTv = ddplMoiCb.checked;
 
-        // Collect New Members
+        // Sync DDPL Moi to TV Moi #1 if linked
+        if (state.ddplMoiIsTv && state.tvMoi.length > 0) {
+            state.tvMoi[0].HO_TEN = state.ddplMoi.HO_TEN;
+            state.tvMoi[0].NGAY_SINH = state.ddplMoi.NGAY_SINH;
+            state.tvMoi[0].SO_CCCD = state.ddplMoi.SO_CCCD;
+            state.tvMoi[0].DIA_CHI = state.ddplMoi.DIA_CHI;
+            state.tvMoi[0].GIOI_TINH = state.ddplMoi.GIOI_TINH;
+        }
+
+        // 5. Collect New Members
         state.tvMoi.forEach((m, idx) => {
             const pre = `T_MOI${idx + 1}`;
-            ['HO_TEN', 'NGAY_SINH', 'SO_CCCD', 'DIA_CHI', 'GIOI_TINH', 'VON_GOP', 'TY_LE'].forEach(k => {
-                const el = document.getElementById(`${pre}_${k}`);
-                if (el) m[k] = el.value;
-            });
+            if (idx === 0 && state.ddplMoiIsTv) {
+                const vg = document.getElementById(`${pre}_VON_GOP`);
+                const tl = document.getElementById(`${pre}_TY_LE`);
+                if (vg) m.VON_GOP = vg.value;
+                if (tl) m.TY_LE = tl.value;
+            } else {
+                ['HO_TEN', 'NGAY_SINH', 'SO_CCCD', 'DIA_CHI', 'GIOI_TINH', 'VON_GOP', 'TY_LE'].forEach(k => {
+                    const el = document.getElementById(`${pre}_${k}`);
+                    if (el) m[k] = el.value;
+                });
+            }
         });
 
-        // Collect Contracts
+        // 6. Collect Contracts
         state.contracts.forEach((c, idx) => {
             const a = document.getElementById(`C_${idx}_BEN_A`);
             const b = document.getElementById(`C_${idx}_BEN_B`);
-            const von = document.getElementById(`C_${idx}_VON`);
+            const v = document.getElementById(`C_${idx}_VON`);
             const gt = document.getElementById(`C_${idx}_GIA_TRI`);
             const tl = document.getElementById(`C_${idx}_TY_LE`);
 
-            if (a) c.ben_a = parseInt(a.value, 10);
-            if (b) c.ben_b = parseInt(b.value, 10);
-            if (von) c.von = von.value;
+            if (a) c.ben_a = parseInt(a.value);
+            if (b) c.ben_b = parseInt(b.value);
+            if (v) c.von = v.value;
             if (gt) c.gia_tri = gt.value;
             if (tl) c.ty_le = tl.value;
         });
+
+        // 7. Update dropdown options in Section 4 in real-time
+        updateContractSelectOptions();
+    };
+
+    window.toggleDDPLCu_CN2TV = function() {
+        window.updateCN2TVState();
+        reRenderCN2TV();
+    };
+
+    window.toggleDDPLMoi_CN2TV = function() {
+        window.updateCN2TVState();
+        reRenderCN2TV();
     };
 
     // --- DYNAMIC ADD / REMOVE OLD MEMBERS ---
@@ -252,36 +332,35 @@ window.renderCN2TVWizard = function(container) {
     function reRenderCN2TV() {
         let html = `
             <div style="display: flex; flex-direction: column; gap: var(--space-6);">
-                <div class="text-center mb-2">
-                    <h2 class="text-2xl font-bold text-gradient">Hồ Sơ Chuyển Nhượng Vốn Công Ty TNHH 2 Thành Viên</h2>
-                    <p class="text-secondary text-sm">Hỗ trợ số lượng thành viên linh hoạt, tự động sinh hợp đồng chuyển nhượng và biên bản thanh lý</p>
+                <div class="text-xs text-muted" style="background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-glass);">
+                    <i class="fa-solid fa-circle-info text-cyan"></i> Form chuyên biệt hỗ trợ linh hoạt <b>N Thành viên Cũ</b> chuyển nhượng cho <b>N Thành viên Mới</b> và phân bổ nhiều Hợp đồng chuyển nhượng.
                 </div>
 
                 <!-- 1. COMPANY INFO -->
-                <div class="card card-sub" style="border-left: 4px solid var(--accent-primary);">
-                    <h3 class="font-bold text-lg mb-4 text-cyan"><i class="fa-solid fa-building"></i> 1. Thông tin Doanh nghiệp</h3>
+                <div class="card card-sub" style="border-left: 4px solid var(--accent-cyan);">
+                    <h3 class="font-bold text-lg mb-4 text-cyan"><i class="fa-solid fa-building"></i> 1. Thông tin Công ty</h3>
                     <div class="grid-form-2">
                         <div class="form-group">
-                            <label class="form-label">Mã số thuế / Mã số DN *</label>
-                            <div class="input-with-btn">
-                                <input type="text" id="COMP_MA_SO_THUE" class="form-control" value="${state.company.MA_SO_THUE}" placeholder="0109998888" onchange="updateCN2TVState()">
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="lookupMST_CN2TV(event)">
-                                    <i class="fa-solid fa-search"></i> Tra cứu
+                            <label class="form-label">Mã số thuế doanh nghiệp *</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="COMP_MA_SO_THUE" class="form-control font-mono" value="${state.company.MA_SO_THUE}" placeholder="VD: 0101234567" onchange="updateCN2TVState()" oninput="updateCN2TVState()">
+                                <button type="button" class="btn btn-secondary" id="btn-lookup-mst-cn2tv" onclick="lookupMST_CN2TV()">
+                                    <i class="fa-solid fa-magnifying-glass"></i> Tra cứu
                                 </button>
                             </div>
                         </div>
-                        ${renderInput('Tên công ty (tiếng Việt) *', 'COMP_TEN_CONG_TY_VN', state.company.TEN_CONG_TY_VN, 'text', 'CÔNG TY TNHH...', 'updateCN2TVState()')}
+                        ${renderInput('Tên công ty (tiếng Việt) *', 'COMP_TEN_CONG_TY_VN', state.company.TEN_CONG_TY_VN, 'text', 'CÔNG TY TNHH...', 'updateCN2TVState()', 'updateCN2TVState()')}
                     </div>
                     <div class="grid-form-2 mt-2">
-                        ${renderInput('Vốn điều lệ (Số)', 'COMP_VON_DIEU_LE_SO', state.company.VON_DIEU_LE_SO, 'text', 'VD: 1,000,000,000', 'updateCN2TVState()', 'formatMoneyInput(this)')}
-                        ${renderInput('Vốn điều lệ (Chữ)', 'COMP_VON_DIEU_LE_CHU', state.company.VON_DIEU_LE_CHU, 'text', 'VD: Một tỷ đồng', 'updateCN2TVState()')}
+                        ${renderInput('Vốn điều lệ (Số)', 'COMP_VON_DIEU_LE_SO', state.company.VON_DIEU_LE_SO, 'text', 'VD: 1,000,000,000', 'updateCN2TVState()', 'formatMoneyInput(this); updateCN2TVState()')}
+                        ${renderInput('Vốn điều lệ (Chữ)', 'COMP_VON_DIEU_LE_CHU', state.company.VON_DIEU_LE_CHU, 'text', 'VD: Một tỷ đồng', 'updateCN2TVState()', 'updateCN2TVState()')}
                     </div>
                 </div>
 
                 <!-- 2. OLD MEMBERS (SELLER SIDE) -->
                 <div class="card card-sub" style="border-left: 4px solid var(--accent-orange);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4);">
-                        <h3 class="font-bold text-lg text-warning"><i class="fa-solid fa-user-clock"></i> 2. Bên chuyển nhượng (Thành viên CŨ: ${state.tvCu.length} người)</h3>
+                        <h3 class="font-bold text-lg text-warning"><i class="fa-solid fa-users"></i> 2. Bên chuyển nhượng (Thành viên CŨ: ${state.tvCu.length} người)</h3>
                         <button type="button" class="btn btn-secondary btn-sm" onclick="addOldMember_CN2TV()">
                             <i class="fa-solid fa-user-plus"></i> Thêm thành viên cũ
                         </button>
@@ -291,13 +370,12 @@ window.renderCN2TVWizard = function(container) {
 
                     <div class="mb-4" style="background: rgba(0,0,0,0.25); padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-glass);">
                         <label style="display: flex; gap: 10px; cursor: pointer; align-items: center;">
-                            <input type="checkbox" id="D_CU_IS_TV" onchange="updateCN2TVState(); reRenderCN2TV();" ${state.ddplCuIsTv ? 'checked' : ''}>
-                            <span class="font-bold text-sm">Đại diện pháp luật cũ ĐỒNG THỜI là Thành viên 1 cũ</span>
+                            <input type="checkbox" id="D_CU_IS_TV" ${state.ddplCuIsTv ? 'checked' : ''} onchange="toggleDDPLCu_CN2TV()">
+                            <span class="text-sm font-medium">Người ĐDPL Cũ đồng thời là Thành viên Cũ #1 (Bên chuyển nhượng vốn)</span>
                         </label>
                     </div>
         `;
 
-        // Render old members list
         state.tvCu.forEach((m, idx) => {
             if (idx === 0 && state.ddplCuIsTv) {
                 m.HO_TEN = state.ddplCu.HO_TEN;
@@ -307,14 +385,14 @@ window.renderCN2TVWizard = function(container) {
                 m.GIOI_TINH = state.ddplCu.GIOI_TINH;
 
                 html += `
-                    <div class="person-card mb-4" style="background: rgba(80, 250, 123, 0.05); border: 1px solid rgba(80, 250, 123, 0.2);">
+                    <div class="person-card mb-4" style="background: rgba(255, 184, 108, 0.05); border: 1px solid rgba(255, 184, 108, 0.2);">
                         <div class="person-card-header">
-                            <h4 class="font-bold text-sm text-success"><i class="fa-solid fa-link"></i> Thành viên Cũ #1 (Tự động liên kết từ ĐDPL Cũ)</h4>
-                            <span class="badge badge-green text-xs">${m.HO_TEN || 'Chưa nhập họ tên'}</span>
+                            <h4 class="font-bold text-sm text-warning"><i class="fa-solid fa-link"></i> Thành viên Cũ #1 (Tự động liên kết từ ĐDPL Cũ)</h4>
+                            <span id="BADGE_TV_CU_1" class="badge badge-warning text-xs">${m.HO_TEN || 'Chưa nhập họ tên'}</span>
                         </div>
                         <div class="grid-form-2">
-                            ${renderInput('Vốn góp cũ (VNĐ)', 'T_CU1_VON_GOP', m.VON_GOP, 'text', 'VD: 500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this)')}
-                            ${renderInput('Tỷ lệ vốn cũ (%)', 'T_CU1_TY_LE', m.TY_LE, 'number', 'VD: 50', 'updateCN2TVState()')}
+                            ${renderInput('Vốn góp cũ (VNĐ)', 'T_CU1_VON_GOP', m.VON_GOP, 'text', 'VD: 500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this); updateCN2TVState()')}
+                            ${renderInput('Tỷ lệ vốn cũ (%)', 'T_CU1_TY_LE', m.TY_LE, 'number', 'VD: 50', 'updateCN2TVState()', 'updateCN2TVState()')}
                         </div>
                     </div>
                 `;
@@ -340,13 +418,12 @@ window.renderCN2TVWizard = function(container) {
 
                 <div class="mb-4" style="background: rgba(0,0,0,0.25); padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-glass);">
                     <label style="display: flex; gap: 10px; cursor: pointer; align-items: center;">
-                        <input type="checkbox" id="D_MOI_IS_TV" onchange="updateCN2TVState(); reRenderCN2TV();" ${state.ddplMoiIsTv ? 'checked' : ''}>
-                        <span class="font-bold text-sm">Đại diện pháp luật mới ĐỒNG THỜI là Thành viên 1 mới</span>
+                        <input type="checkbox" id="D_MOI_IS_TV" ${state.ddplMoiIsTv ? 'checked' : ''} onchange="toggleDDPLMoi_CN2TV()">
+                        <span class="text-sm font-medium">Người ĐDPL Mới đồng thời là Thành viên Mới #1 (Bên nhận chuyển nhượng vốn)</span>
                     </label>
                 </div>
         `;
 
-        // Render new members list
         state.tvMoi.forEach((m, idx) => {
             if (idx === 0 && state.ddplMoiIsTv) {
                 m.HO_TEN = state.ddplMoi.HO_TEN;
@@ -359,11 +436,11 @@ window.renderCN2TVWizard = function(container) {
                     <div class="person-card mb-4" style="background: rgba(80, 250, 123, 0.05); border: 1px solid rgba(80, 250, 123, 0.2);">
                         <div class="person-card-header">
                             <h4 class="font-bold text-sm text-success"><i class="fa-solid fa-link"></i> Thành viên Mới #1 (Tự động liên kết từ ĐDPL Mới)</h4>
-                            <span class="badge badge-green text-xs">${m.HO_TEN || 'Chưa nhập họ tên'}</span>
+                            <span id="BADGE_TV_MOI_1" class="badge badge-green text-xs">${m.HO_TEN || 'Chưa nhập họ tên'}</span>
                         </div>
                         <div class="grid-form-2">
-                            ${renderInput('Vốn góp mới (VNĐ)', 'T_MOI1_VON_GOP', m.VON_GOP, 'text', 'VD: 500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this)')}
-                            ${renderInput('Tỷ lệ vốn mới (%)', 'T_MOI1_TY_LE', m.TY_LE, 'number', 'VD: 50', 'updateCN2TVState()')}
+                            ${renderInput('Vốn góp mới (VNĐ)', 'T_MOI1_VON_GOP', m.VON_GOP, 'text', 'VD: 500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this); updateCN2TVState()')}
+                            ${renderInput('Tỷ lệ vốn mới (%)', 'T_MOI1_TY_LE', m.TY_LE, 'number', 'VD: 50', 'updateCN2TVState()', 'updateCN2TVState()')}
                         </div>
                     </div>
                 `;
@@ -389,13 +466,13 @@ window.renderCN2TVWizard = function(container) {
         state.contracts.forEach((c, idx) => {
             const optBenA = state.tvCu.map((m, i) => `
                 <option value="${i}" ${c.ben_a === i ? 'selected' : ''}>
-                    Thành viên Cũ #${i + 1}: ${m.HO_TEN || '(Chưa nhập tên)'}
+                    Thành viên Cũ #${i + 1}: ${m.HO_TEN ? m.HO_TEN : '(Chưa nhập tên)'}
                 </option>
             `).join('');
 
             const optBenB = state.tvMoi.map((m, i) => `
                 <option value="${i}" ${c.ben_b === i ? 'selected' : ''}>
-                    Thành viên Mới #${i + 1}: ${m.HO_TEN || '(Chưa nhập tên)'}
+                    Thành viên Mới #${i + 1}: ${m.HO_TEN ? m.HO_TEN : '(Chưa nhập tên)'}
                 </option>
             `).join('');
 
@@ -424,9 +501,9 @@ window.renderCN2TVWizard = function(container) {
                         </div>
                     </div>
                     <div class="grid-form-3 mt-2">
-                        ${renderInput('Phần vốn chuyển nhượng (VNĐ)', `C_${idx}_VON`, c.von, 'text', '500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this)')}
-                        ${renderInput('Giá chuyển nhượng (VNĐ)', `C_${idx}_GIA_TRI`, c.gia_tri, 'text', '500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this)')}
-                        ${renderInput('Tỷ lệ vốn (%)', `C_${idx}_TY_LE`, c.ty_le, 'number', '50', 'updateCN2TVState()')}
+                        ${renderInput('Phần vốn chuyển nhượng (VNĐ)', `C_${idx}_VON`, c.von, 'text', '500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this); updateCN2TVState()')}
+                        ${renderInput('Giá chuyển nhượng (VNĐ)', `C_${idx}_GIA_TRI`, c.gia_tri, 'text', '500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this); updateCN2TVState()')}
+                        ${renderInput('Tỷ lệ vốn (%)', `C_${idx}_TY_LE`, c.ty_le, 'number', '50', 'updateCN2TVState()', 'updateCN2TVState()')}
                     </div>
                 </div>
             `;
@@ -473,11 +550,11 @@ window.renderCN2TVWizard = function(container) {
             if (!file) return;
 
             const oldHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Quét VNeID...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang quét...';
             btn.disabled = true;
 
             const formData = new FormData();
-            formData.append('image', file);
+            formData.append('file', file);
             formData.append('target', prefix);
 
             try {

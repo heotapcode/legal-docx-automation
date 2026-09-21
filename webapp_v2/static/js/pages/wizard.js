@@ -112,6 +112,8 @@ function renderWizard() {
 }
 
 window.initWizard = async function() {
+    window.cn2tvState = null;
+    window.cd1tv2tvState = null;
     window.wizardState = {
         step: 1,
         templatesList: [],
@@ -258,6 +260,12 @@ window.prevStep = function() {
         }
     }
 
+    if (window.wizardState.step === 3 && tplName === 'Chuyển nhượng Công ty TNHH 2 TV') {
+        window.wizardState.step = 2;
+        renderCurrentStep();
+        return;
+    }
+
     if (window.wizardState.step > 1) {
         window.wizardState.step--;
         renderCurrentStep();
@@ -265,6 +273,10 @@ window.prevStep = function() {
 };
 
 window.selectTemplate = function(name) {
+    if (window.wizardState.template && window.wizardState.template.name !== name) {
+        window.cn2tvState = null;
+        window.cd1tv2tvState = null;
+    }
     window.wizardState.template = window.wizardState.templatesList.find(t => t.name === name);
     window.wizardState.step = 2;
     renderCurrentStep();
