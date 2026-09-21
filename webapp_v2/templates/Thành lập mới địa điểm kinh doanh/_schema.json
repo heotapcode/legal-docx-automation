@@ -1,0 +1,58 @@
+{
+  "name": "Thành lập mới địa điểm kinh doanh",
+  "display_name": "Thành lập mới địa điểm kinh doanh",
+  "category": "Địa điểm kinh doanh",
+  "description": "Bộ hồ sơ đăng ký thành lập địa điểm kinh doanh mới",
+  "has_nganh": false,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Công ty mẹ & Địa điểm mới",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty chủ quản",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế công ty",
+          "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "dia_chi_so_nha",
+          "label": "Địa chỉ địa điểm mới (Số nhà, đường)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_xa_phuong",
+          "label": "Xã/Phường địa điểm mới",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_tinh_thanh",
+          "label": "Tỉnh/Thành phố",
+          "type": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Thông tin người ĐDPL",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    }
+  ]
+}

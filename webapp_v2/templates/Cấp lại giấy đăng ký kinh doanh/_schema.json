@@ -1,0 +1,40 @@
+{
+  "name": "Cấp lại giấy đăng ký kinh doanh",
+  "display_name": "Cấp lại giấy đăng ký kinh doanh",
+  "category": "Cấp lại & Thay đổi",
+  "description": "Bộ hồ sơ xin cấp lại Giấy chứng nhận đăng ký doanh nghiệp bị mất, cháy, rách hoặc tiêu hủy",
+  "has_nganh": false,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Doanh nghiệp",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty (tiếng Việt)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế / Mã số DN",
+          "type": "mst_lookup",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Thông tin người ĐDPL",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+# Hệ Thống Tự Động Hóa Hồ Sơ Pháp Lý Doanh Nghiệp (Legal Docx WebApp V2)
+
+Hệ thống webapp thông minh hỗ trợ nhập liệu, tra cứu, trích xuất dữ liệu tự động (OCR/MST) và sinh trọn gói các bộ hồ sơ Đăng ký kinh doanh (ĐKKD) định dạng chuẩn Microsoft Word (`.docx`).
+
+---
+
+## 🌟 Tính Năng Nổi Bật
+
+1. **Hỗ Trợ Toàn Diện 19 Bộ Hồ Sơ Pháp Lý Chuẩn:**
+   - **Thành lập mới:** TNHH 1 TV, TNHH 2 TV trở lên, Cổ Phần, Địa điểm kinh doanh.
+   - **Thay đổi ĐKKD:** Thay đổi nội dung ĐKKD chung, Cấp lại giấy chứng nhận ĐKKD.
+   - **Tăng vốn điều lệ:** TNHH 2 TV trở lên, Cổ Phần.
+   - **Chuyển nhượng phần vốn góp:** TNHH 1 TV, TNHH 2 TV trở lên.
+   - **Chuyển đổi loại hình:** Chuyển đổi từ TNHH 1 TV sang TNHH 2 TV trở lên (Hợp đồng chuyển nhượng, Giấy chứng nhận góp vốn, Điều lệ, Quyết định...).
+   - **Tạm dừng hoạt động & Hoạt động lại:** TNHH 1 TV, TNHH 2 TV, Cổ Phần.
+   - **Giải thể doanh nghiệp:** TNHH 1 TV, TNHH 2 TV, Cổ Phần.
+
+2. **Cơ Chế Danh Sách Động Đa Thành Viên / Cổ Đông ($N$ người):**
+   - Tự động co giãn theo số lượng thực tế thành viên/cổ đông: bảng biểu, điều lệ, biên bản họp và chữ ký tự động mở rộng không giới hạn.
+   - Tự động sinh riêng từng cặp Hợp đồng chuyển nhượng + Biên bản thanh lý và Giấy chứng nhận/xác nhận vốn góp tương ứng cho mỗi cá nhân.
+
+3. **Tích Hợp Tiện Ích Thông Minh:**
+   - **Tra cứu Mã số thuế tự động:** Tự động lấy tên công ty, địa chỉ trụ sở qua API VietQR.
+   - **OCR Nhận diện thẻ CCCD / VNeID:** Trích xuất tự động họ tên, ngày sinh, số CCCD, địa chỉ thường trú qua Gemini Vision.
+   - **Chuẩn hóa văn bản hành chính:** Định dạng phông chữ Times New Roman đồng bộ, tự động đọc số tiền thành chữ tiếng Việt chuẩn xác.
+
+---
+
+## 🚀 Hướng Dẫn Cài Đặt & Khởi Chạy
+
+### 1. Yêu cầu hệ thống
+- Python 3.10 trở lên
+- Hệ điều hành: Windows / macOS / Linux
+
+### 2. Cài đặt các thư viện phụ thuộc
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Cấu hình môi trường (Tùy chọn)
+Sao chép file `.env.example` thành `.env` bên trong thư mục `webapp_v2/` và điền khóa API Gemini (nếu sử dụng tính năng OCR CCCD):
+```bash
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+### 4. Khởi chạy WebApp V2
+```bash
+cd webapp_v2
+python main.py
+```
+Ứng dụng sẽ chạy tại địa chỉ: `http://localhost:8002`
+
+---
+
+## 📁 Cấu Trúc Dự Án
+
+```text
+├── webapp_v2/                  # Mã nguồn chính WebApp V2 (FastAPI)
+│   ├── main.py                 # Điểm khởi chạy server (Cổng 8002)
+│   ├── config.py               # Cấu hình hệ thống & nạp .env
+│   ├── routes/                 # API endpoints (Documents, MST, OCR, Templates)
+│   ├── services/               # Nghiệp vụ xử lý Word, chuẩn hóa font, OCR
+│   ├── templates/              # 19 bộ mẫu Docx chuẩn hóa Jinja2 + _schema.json
+│   └── static/                 # Giao diện người dùng (HTML, CSS Ember theme, JS)
+├── scripts_and_tools/          # Bộ công cụ kiểm toán, chuẩn hóa và kiểm thử tự động
+├── ma_nganh_nghe.json          # Cơ sở dữ liệu danh mục ngành nghề kinh doanh Việt Nam
+├── requirements.txt            # Danh sách thư viện Python
+└── README.md                   # Tài liệu hướng dẫn sử dụng
+```
+
+---
+
+## 📄 Bản Quyền & Giấy Phép
+Dự án được xây dựng phục vụ công tác nghiệp vụ pháp lý doanh nghiệp.

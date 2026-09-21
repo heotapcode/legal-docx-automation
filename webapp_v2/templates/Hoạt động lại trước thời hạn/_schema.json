@@ -1,0 +1,40 @@
+{
+  "name": "Hoạt động lại trước thời hạn",
+  "display_name": "Hoạt động lại trước thời hạn",
+  "category": "Tạm dừng & Hoạt động lại",
+  "description": "Thông báo đăng ký tiếp tục kinh doanh trước thời hạn đã thông báo",
+  "has_nganh": false,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Doanh nghiệp",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty (tiếng Việt)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Thông tin người ĐDPL",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    }
+  ]
+}

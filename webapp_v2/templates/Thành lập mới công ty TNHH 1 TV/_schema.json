@@ -1,0 +1,79 @@
+{
+  "name": "Thành lập mới công ty TNHH 1 TV",
+  "display_name": "Thành lập mới công ty TNHH 1 TV",
+  "category": "Thành lập mới",
+  "description": "Bộ hồ sơ trọn gói thành lập mới Công ty TNHH Một thành viên",
+  "has_nganh": true,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Công ty",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty (tiếng Việt)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ten_cong_ty_en",
+          "label": "Tên công ty (tiếng Anh)",
+          "type": "text"
+        },
+        {
+          "key": "ten_cong_ty_viet_tat",
+          "label": "Tên viết tắt",
+          "type": "text"
+        },
+        {
+          "key": "dia_chi_so_nha",
+          "label": "Số nhà, tên đường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_xa_phuong",
+          "label": "Xã/Phường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_tinh_thanh",
+          "label": "Tỉnh/Thành phố",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "von_dieu_le_so",
+          "label": "Vốn điều lệ (VNĐ)",
+          "type": "money",
+          "required": true
+        },
+        {
+          "key": "sdt_cong_ty",
+          "label": "Số điện thoại liên hệ",
+          "type": "phone",
+          "required": true
+        },
+        {
+          "key": "email_cong_ty",
+          "label": "Email công ty",
+          "type": "email"
+        }
+      ]
+    },
+    {
+      "id": "ddpl",
+      "title": "Chủ sở hữu & Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Thông tin Chủ sở hữu kiêm ĐDPL",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    }
+  ]
+}

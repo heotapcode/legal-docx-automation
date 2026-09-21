@@ -1,0 +1,40 @@
+{
+  "name": "Tạm dừng công ty TNHH 1 TV",
+  "display_name": "Tạm dừng công ty TNHH 1 TV",
+  "category": "Tạm dừng & Hoạt động lại",
+  "description": "Hồ sơ tạm dừng kinh doanh đối với công ty TNHH 1 TV",
+  "has_nganh": false,
+  "steps": [
+    {
+      "id": "company",
+      "title": "Thông tin Doanh nghiệp",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Thông tin người ĐDPL",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    }
+  ]
+}
