@@ -1,31 +1,38 @@
 // Specialized Dynamic Wizard for Chuyển nhượng Công ty TNHH 2 TV
 // Supports N Old Members and N New Members dynamically
 
-window.cn2tvState = window.cn2tvState || {
-    company: {
-        TEN_CONG_TY_VN: '',
-        MA_SO_THUE: '',
-        VON_DIEU_LE_SO: '',
-        VON_DIEU_LE_CHU: ''
-    },
-    ddplCu: { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam' },
-    ddplCuIsTv: true,
-    tvCu: [
-        { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' },
-        { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' }
-    ],
-    ddplMoi: { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam' },
-    ddplMoiIsTv: true,
-    tvMoi: [
-        { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' },
-        { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' }
-    ],
-    contracts: [
-        { ben_a: 0, ben_b: 0, von: '', gia_tri: '', ty_le: '' }
-    ]
-};
+function getInitialCN2TVState() {
+    return {
+        company: {
+            TEN_CONG_TY_VN: '',
+            MA_SO_THUE: '',
+            VON_DIEU_LE_SO: '',
+            VON_DIEU_LE_CHU: ''
+        },
+        ddplCu: { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam' },
+        ddplCuIsTv: true,
+        tvCu: [
+            { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' },
+            { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' }
+        ],
+        ddplMoi: { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam' },
+        ddplMoiIsTv: true,
+        tvMoi: [
+            { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' },
+            { HO_TEN: '', NGAY_SINH: '', SO_CCCD: '', DIA_CHI: '', GIOI_TINH: 'Nam', VON_GOP: '', TY_LE: '' }
+        ],
+        contracts: [
+            { ben_a: 0, ben_b: 0, von: '', gia_tri: '', ty_le: '' }
+        ]
+    };
+}
+
+window.cn2tvState = window.cn2tvState || getInitialCN2TVState();
 
 window.renderCN2TVWizard = function(container) {
+    if (!window.cn2tvState) {
+        window.cn2tvState = getInitialCN2TVState();
+    }
     let state = window.cn2tvState;
 
     function renderInput(label, id, value, type='text', placeholder='', onchange='', oninput='') {
@@ -159,6 +166,10 @@ window.renderCN2TVWizard = function(container) {
     }
 
     window.updateCN2TVState = function() {
+        if (!window.cn2tvState) {
+            window.cn2tvState = getInitialCN2TVState();
+        }
+        state = window.cn2tvState;
         // 1. Collect Company
         ['TEN_CONG_TY_VN', 'MA_SO_THUE', 'VON_DIEU_LE_SO', 'VON_DIEU_LE_CHU'].forEach(k => {
             const el = document.getElementById(`COMP_${k}`);

@@ -112,8 +112,6 @@ function renderWizard() {
 }
 
 window.initWizard = async function() {
-    window.cn2tvState = null;
-    window.cd1tv2tvState = null;
     window.wizardState = {
         step: 1,
         templatesList: [],
