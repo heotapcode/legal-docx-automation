@@ -382,6 +382,12 @@ async function loadStep2Schema() {
         return;
     }
 
+    if (tplName === 'Tăng vốn công ty TNHH 2 TV' && window.renderTangVon2TVWizard && window.isTangVon2TVNewUI && window.isTangVon2TVNewUI()) {
+        window.wizardState.schema = { name: tplName, has_nganh: false, display_name: tplName };
+        window.renderTangVon2TVWizard(content);
+        return;
+    }
+
     try {
         const res = await fetch(`/api/templates/${encodeURIComponent(tplName)}/schema`);
         if (!res.ok) throw new Error('Schema not found');
@@ -441,9 +447,16 @@ function renderStep2Form(schema) {
     if (!content) return;
 
     let html = `
-        <div style="margin-bottom: var(--space-4);">
-            <h2 class="text-2xl font-bold">${schema.display_name}</h2>
-            <p class="text-secondary text-sm">${schema.description || ''}</p>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-4); gap: 16px;">
+            <div>
+                <h2 class="text-2xl font-bold">${schema.display_name}</h2>
+                <p class="text-secondary text-sm">${schema.description || ''}</p>
+            </div>
+            ${schema.name === 'Tăng vốn công ty TNHH 2 TV' ? `
+                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleTangVonUIMode()" style="white-space: nowrap;">
+                    <i class="fa-solid fa-sparkles text-cyan"></i> Dùng giao diện Split-Screen mới
+                </button>
+            ` : ''}
         </div>
         <div id="dynamic-form-container" style="display: flex; flex-direction: column; gap: var(--space-6);">
     `;
@@ -1295,6 +1308,8 @@ window.generateDocuments = async function() {
         if (document.getElementById('cd_ten_cty')) {
             window.collectCD1TV2TVData();
         }
+    } else if (tplName === 'Tăng vốn công ty TNHH 2 TV' && window.tv2Sync && window.isTangVon2TVNewUI && window.isTangVon2TVNewUI()) {
+        window.tv2Sync();
     } else {
         if (window.wizardState.step === 2) {
             collectFormData();
