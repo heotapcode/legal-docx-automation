@@ -565,6 +565,7 @@ window.renderCN2TVWizard = function(container) {
             btn.disabled = true;
 
             const formData = new FormData();
+            formData.append('image', file);
             formData.append('file', file);
             formData.append('target', prefix);
 

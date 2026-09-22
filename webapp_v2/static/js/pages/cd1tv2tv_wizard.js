@@ -673,6 +673,7 @@ window.triggerInlineOCR_CD1TV = function(prefix, event) {
 
         const formData = new FormData();
         formData.append('image', file);
+        formData.append('file', file);
 
         try {
             const response = await fetch('/api/ocr/vneid', {
