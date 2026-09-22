@@ -590,7 +590,7 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
     ctx["DDPL_MOI_DIA_CHI_TINH_THANH"] = moi_tt
 
     # Capital / Money fields
-    von_raw = ctx.get("von_dieu_le_so") or ctx.get("VON_DIEU_LE_SO") or ctx.get("von_dieu_le") or ""
+    von_raw = ctx.get("von_dieu_le_so") or ctx.get("VON_DIEU_LE_SO") or ctx.get("von_dieu_le") or ctx.get("von_moi_so") or ctx.get("VON_MOI_SO") or ""
     if von_raw:
         v_num = re.sub(r"[^\d]", "", str(von_raw))
         if v_num:
@@ -598,8 +598,13 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
             v_chu = so_thanh_chu(v_num)
             ctx["von_dieu_le_so"] = v_fmt
             ctx["VON_DIEU_LE_SO"] = v_fmt
-            ctx["von_dieu_le_chu"] = ctx.get("von_dieu_le_chu") or ctx.get("VON_DIEU_LE_CHU") or v_chu
-            ctx["VON_DIEU_LE_CHU"] = ctx["von_dieu_le_chu"]
+            ctx["von_moi_so"] = v_fmt
+            ctx["VON_MOI_SO"] = v_fmt
+            v_chu_final = ctx.get("von_dieu_le_chu") or ctx.get("VON_DIEU_LE_CHU") or ctx.get("von_moi_chu") or ctx.get("VON_MOI_CHU") or v_chu
+            ctx["von_dieu_le_chu"] = v_chu_final
+            ctx["VON_DIEU_LE_CHU"] = v_chu_final
+            ctx["von_moi_chu"] = v_chu_final
+            ctx["VON_MOI_CHU"] = v_chu_final
 
     von_cu_raw = ctx.get("von_cu_so") or ctx.get("VON_CU_SO") or ctx.get("von_cu") or ""
     if von_cu_raw:
@@ -666,6 +671,53 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
 
         ctx["thanh_vien"] = norm_tv
 
+        # DDPL tỷ lệ / tỷ lệ biểu quyết & vốn mới nếu template cần
+        ddpl_match = None
+        if ddpl_cccd:
+            for tv in norm_tv:
+                if tv.get("so_cccd") == ddpl_cccd:
+                    ddpl_match = tv
+                    break
+        if not ddpl_match and ddpl_ho_ten:
+            for tv in norm_tv:
+                if tv.get("ho_ten") == ddpl_ho_ten:
+                    ddpl_match = tv
+                    break
+        if not ddpl_match and norm_tv:
+            ddpl_match = norm_tv[0]
+
+        if ddpl_match:
+            if not ctx.get("ddpl_ty_le") and not ctx.get("DDPL_TY_LE"):
+                ctx["ddpl_ty_le"] = ddpl_match.get("ty_le", "")
+                ctx["DDPL_TY_LE"] = ddpl_match.get("ty_le", "")
+            if not ctx.get("ddpl_von_moi_so"):
+                ctx["ddpl_von_moi_so"] = ddpl_match.get("von_gop", "")
+                ctx["DDPL_VON_MOI_SO"] = ddpl_match.get("von_gop", "")
+            # Fallback ngày sinh nếu ĐDPL chưa có ngày sinh
+            if not ctx.get("ddpl_ngay_sinh") or not ctx.get("DDPL_NGAY_SINH"):
+                m_ns = ddpl_match.get("ngay_sinh", "")
+                if m_ns:
+                    ctx["ddpl_ngay_sinh"] = m_ns
+                    ctx["DDPL_NGAY_SINH"] = m_ns
+                    if isinstance(ctx.get("ddpl"), dict):
+                        ctx["ddpl"]["ngay_sinh"] = m_ns
+            # Fallback số CCCD nếu ĐDPL chưa có
+            if not ctx.get("ddpl_so_cccd") or not ctx.get("DDPL_SO_CCCD"):
+                m_cccd = ddpl_match.get("so_cccd", "")
+                if m_cccd:
+                    ctx["ddpl_so_cccd"] = m_cccd
+                    ctx["DDPL_SO_CCCD"] = m_cccd
+                    if isinstance(ctx.get("ddpl"), dict):
+                        ctx["ddpl"]["so_cccd"] = m_cccd
+            # Fallback địa chỉ nếu ĐDPL chưa có
+            if not ctx.get("ddpl_dia_chi_day_du") or not ctx.get("DDPL_DIA_CHI_DAY_DU"):
+                m_addr = ddpl_match.get("dia_chi_day_du") or ddpl_match.get("dia_chi", "")
+                if m_addr:
+                    ctx["ddpl_dia_chi_day_du"] = m_addr
+                    ctx["DDPL_DIA_CHI_DAY_DU"] = m_addr
+                    if isinstance(ctx.get("ddpl"), dict):
+                        ctx["ddpl"]["dia_chi_day_du"] = m_addr
+
     # Industry codes (ma_nganh)
     if ma_nganh_list:
         ctx["ma_nganh"] = ma_nganh_list
@@ -686,7 +738,7 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
 
 # --- DOCX POST-PROCESSING FOR MEMBER AND MA NGANH TABLES ---
 
-def populate_dstv(doc: docx.Document, members: List[Dict[str, Any]]):
+def populate_dstv(doc: docx.Document, members: List[Dict[str, Any]], is_tang_von: bool = False):
     if not members or len(doc.tables) == 0:
         return
     table = doc.tables[0]
@@ -720,7 +772,10 @@ def populate_dstv(doc: docx.Document, members: List[Dict[str, Any]]):
         if len(cells) > 10:
             cells[10].text = f"Đồng Việt Nam\n{fmt_money(von)} đồng Việt Nam"
         if len(cells) > 11:
-            cells[11].text = "Trong thời hạn 90 ngày, kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp"
+            if is_tang_von:
+                cells[11].text = "…/…/2026"
+            else:
+                cells[11].text = "Trong thời hạn 90 ngày, kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp"
         if len(cells) > 12:
             cells[12].text = ""
         if len(cells) > 13:
@@ -1168,6 +1223,22 @@ def populate_bbh_tang_von_2tv(doc: docx.Document, members_list: List[Dict[str, A
             lines.append(f"Giấy chứng nhận đăng ký vốn góp số: {i+1:02d}/2026/GCN cấp ngày …./…./20….")
 
         replace_section_between(doc, "4. Thành phần dự họp:", "Chủ tọa cuộc họp:", lines)
+
+        # Cập nhật đoạn quy ước biểu quyết linh hoạt cho N thành viên
+        vote_parts = []
+        for m in members_list:
+            ht = str(m.get("HO_TEN") or m.get("ho_ten", "")).upper()
+            ty_le = str(m.get("TY_LE") or m.get("ty_le", ""))
+            vote_parts.append(f"{ht} có {ty_le} phiếu biểu quyết, tương ứng với {ty_le}% vốn điều lệ.")
+        vote_text = (
+            "Công ty quy ước 1.000.000 đồng tương ứng với 1 phiếu biểu quyết. Vậy "
+            + " ".join(vote_parts)
+            + " Cuộc họp đã tiến hành biểu quyết lấy ý kiến trực tiếp của các thành viên công ty về các vấn đề nêu trên như sau:"
+        )
+        for p in doc.paragraphs:
+            if "Công ty quy ước 1.000.000 đồng tương ứng với 1 phiếu biểu quyết" in p.text:
+                p.text = vote_text
+                break
     except Exception as e:
         print(f"Warning: error in populate_bbh_tang_von_2tv: {e}")
 
@@ -1505,7 +1576,7 @@ def render_documents(
                 # Danh sách thành viên
                 if "Danh sách thành viên" in fname and tv_moi_list:
                     doc = docx.Document(str(out_path))
-                    populate_dstv(doc, tv_moi_list)
+                    populate_dstv(doc, tv_moi_list, is_tang_von=("Tăng vốn" in clean_name))
                     doc.save(str(out_path))
 
                 # Danh sách cổ đông sáng lập

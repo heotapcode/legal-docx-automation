@@ -47,8 +47,14 @@ Nếu không tìm thấy thông tin nào, để trống chuỗi "". Chỉ trả 
         }]
     }
 
-    # Thử lần lượt các model sẵn có: gemini-2.5-flash trước, rồi gemini-2.5-flash-lite
-    candidate_models = ["gemini-2.5-flash", "gemini-2.5-flash-lite"]
+    # Danh sách model OCR: ưu tiên các model flash-lite có quota ổn định
+    candidate_models = [
+        "gemini-flash-lite-latest",
+        "gemini-3.1-flash-lite",
+        "gemini-3.5-flash-lite",
+        "gemini-2.5-flash-lite",
+        "gemini-2.5-flash",
+    ]
     last_error = ""
 
     for model in candidate_models:
@@ -61,7 +67,11 @@ Nếu không tìm thấy thông tin nào, để trống chuỗi "". Chỉ trả 
                     candidates = data.get("candidates", [])
                     if candidates:
                         content = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "").strip()
-                        if content.startswith("```"):
+                        # Tìm khối JSON hợp lệ trong chuỗi trả về
+                        json_match = re.search(r"\{.*\}", content, re.DOTALL)
+                        if json_match:
+                            content = json_match.group(0)
+                        elif content.startswith("```"):
                             content = re.sub(r"^```[a-zA-Z]*\n?", "", content)
                             content = re.sub(r"\n?```$", "", content).strip()
                         return json.loads(content)

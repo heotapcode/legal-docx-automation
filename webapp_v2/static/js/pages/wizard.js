@@ -882,11 +882,14 @@ window.handleOcrUpload = async function(fileInput, targetKey) {
     const file = fileInput.files[0];
     if (!file) return;
 
-    const card = document.getElementById(`card-${targetKey}`);
-    const originalText = fileInput.nextElementSibling ? fileInput.nextElementSibling.innerHTML : '';
-    if (fileInput.nextElementSibling) {
-        fileInput.nextElementSibling.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang đọc VNeID...';
-        fileInput.nextElementSibling.disabled = true;
+    // Lưu dữ liệu form hiện thời trước khi xử lý
+    collectFormData();
+
+    const btn = fileInput.nextElementSibling;
+    const originalText = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang đọc VNeID...';
+        btn.disabled = true;
     }
 
     try {
@@ -901,15 +904,23 @@ window.handleOcrUpload = async function(fileInput, targetKey) {
             const data = resData.data;
             const pfx = targetKey + '_';
 
+            // Chuẩn hóa giới tính
+            let gt = (data.gioi_tinh || '').trim();
+            if (gt.toLowerCase() === 'nữ' || gt.toLowerCase() === 'nu' || gt.toLowerCase().includes('nữ')) {
+                gt = 'Nữ';
+            } else {
+                gt = 'Nam';
+            }
+
             // Populate inputs
             const mapProps = {
-                ho_ten: data.ho_ten,
-                gioi_tinh: data.gioi_tinh,
-                ngay_sinh: data.ngay_sinh,
-                so_cccd: data.so_cccd,
-                dia_chi_so_nha: data.dia_chi_so_nha,
-                dia_chi_xa_phuong: data.dia_chi_xa_phuong,
-                dia_chi_tinh_thanh: data.dia_chi_tinh_thanh
+                ho_ten: data.ho_ten || '',
+                gioi_tinh: gt,
+                ngay_sinh: data.ngay_sinh || '',
+                so_cccd: data.so_cccd || '',
+                dia_chi_so_nha: data.dia_chi_so_nha || '',
+                dia_chi_xa_phuong: data.dia_chi_xa_phuong || '',
+                dia_chi_tinh_thanh: data.dia_chi_tinh_thanh || ''
             };
 
             for (const [k, v] of Object.entries(mapProps)) {
@@ -921,17 +932,31 @@ window.handleOcrUpload = async function(fileInput, targetKey) {
                 window.wizardState.formData[pfx + k] = v || '';
             }
 
-            if (fileInput.nextElementSibling) {
-                fileInput.nextElementSibling.innerHTML = '<i class="fa-solid fa-check text-success"></i> Đã nhận diện';
+            if (data.dia_chi) {
+                window.wizardState.formData[pfx + 'dia_chi_day_du'] = data.dia_chi;
+            }
+
+            if (btn) {
+                btn.innerHTML = '<i class="fa-solid fa-check text-success"></i> Đã nhận diện';
+                btn.disabled = false;
             }
         } else {
             alert('Không nhận diện được thông tin từ ảnh VNeID. Vui lòng kiểm tra lại ảnh.');
-            if (fileInput.nextElementSibling) fileInput.nextElementSibling.innerHTML = originalText;
+            if (btn) {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
     } catch (err) {
         console.error('Lỗi OCR:', err);
         alert('Có lỗi xảy ra khi xử lý ảnh VNeID.');
-        if (fileInput.nextElementSibling) fileInput.nextElementSibling.innerHTML = originalText;
+        if (btn) {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    } finally {
+        fileInput.value = '';
+        if (btn) btn.disabled = false;
     }
 };
 
@@ -939,8 +964,15 @@ window.handleMemberOcrUpload = async function(fileInput, memberIdx) {
     const file = fileInput.files[0];
     if (!file) return;
 
-    const originalText = fileInput.nextElementSibling.innerHTML;
-    fileInput.nextElementSibling.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>...';
+    // Lưu ngay toàn bộ dữ liệu form hiện thời (thông tin công ty, ĐDPL, các thành viên khác)
+    collectFormData();
+
+    const btn = fileInput.nextElementSibling;
+    const originalText = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang đọc VNeID...';
+        btn.disabled = true;
+    }
 
     try {
         const fd = new FormData();
@@ -962,14 +994,48 @@ window.handleMemberOcrUpload = async function(fileInput, memberIdx) {
                 targetMember.dia_chi_xa_phuong = data.dia_chi_xa_phuong || '';
                 targetMember.dia_chi_tinh_thanh = data.dia_chi_tinh_thanh || '';
             }
-            renderStep2Form(window.wizardState.schema);
+
+            // Điền trực tiếp vào DOM của thẻ thành viên tương ứng, tránh re-render làm mất thông tin công ty
+            const card = document.getElementById(`member-card-${memberIdx}`);
+            if (card) {
+                const mapProps = {
+                    ho_ten: data.ho_ten || '',
+                    gioi_tinh: data.gioi_tinh || 'Nam',
+                    ngay_sinh: data.ngay_sinh || '',
+                    so_cccd: data.so_cccd || '',
+                    dia_chi_so_nha: data.dia_chi_so_nha || '',
+                    dia_chi_xa_phuong: data.dia_chi_xa_phuong || '',
+                    dia_chi_tinh_thanh: data.dia_chi_tinh_thanh || ''
+                };
+                for (const [prop, val] of Object.entries(mapProps)) {
+                    const el = card.querySelector(`[data-prop="${prop}"]`);
+                    if (el) {
+                        el.value = val;
+                        el.style.borderColor = 'var(--accent-green)';
+                    }
+                }
+            }
+
+            if (btn) {
+                btn.innerHTML = '<i class="fa-solid fa-check text-success"></i> Đã nhận diện';
+                btn.disabled = false;
+            }
         } else {
-            alert('Không thể nhận diện ảnh VNeID.');
-            fileInput.nextElementSibling.innerHTML = originalText;
+            alert('Không thể nhận diện ảnh VNeID. Vui lòng thử lại.');
+            if (btn) {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
     } catch (err) {
         console.error('Lỗi OCR member:', err);
-        fileInput.nextElementSibling.innerHTML = originalText;
+        alert('Có lỗi xảy ra khi xử lý ảnh VNeID.');
+        if (btn) {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    } finally {
+        fileInput.value = '';
     }
 };
 
