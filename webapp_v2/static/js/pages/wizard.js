@@ -79,6 +79,7 @@ function numToVietnameseWords(s) {
     chuoiKq = chuoiKq.trim();
     return chuoiKq.charAt(0).toUpperCase() + chuoiKq.slice(1) + ' đồng';
 }
+window.docSoThanhChu = numToVietnameseWords;
 
 function renderWizard() {
     return `
@@ -552,9 +553,27 @@ function renderField(field) {
 function handleMoneyChange(input, spelloutId) {
     const raw = input.value.replace(/\D/g, '');
     input.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
+    const words = raw ? (window.docSoThanhChu ? window.docSoThanhChu(raw) : numToVietnameseWords(raw)) : '';
     const sp = document.getElementById(spelloutId);
     if (sp) {
-        sp.innerText = raw ? 'Bằng chữ: ' + numToVietnameseWords(raw) : '';
+        sp.innerText = words ? 'Bằng chữ: ' + words : '';
+    }
+
+    // Tự động tìm ô số vốn bằng chữ tương ứng trên form để điền (nếu có)
+    const fKey = input.name || input.id.replace('input-', '');
+    let chuKey = '';
+    if (fKey.endsWith('_so')) {
+        chuKey = fKey.replace(/_so$/, '_chu');
+    } else {
+        chuKey = fKey + '_chu';
+    }
+
+    const chuInput = document.getElementById(`input-${chuKey}`) || document.querySelector(`[name="${chuKey}"]`);
+    if (chuInput && words) {
+        chuInput.value = words;
+        if (window.wizardState && window.wizardState.formData) {
+            window.wizardState.formData[chuKey] = words;
+        }
     }
 }
 

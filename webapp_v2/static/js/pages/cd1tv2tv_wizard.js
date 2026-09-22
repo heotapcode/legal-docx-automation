@@ -12,6 +12,20 @@ window.formatMoneyStr = window.formatMoneyStr || function(val) {
     return raw ? Number(raw).toLocaleString('vi-VN') : '';
 };
 
+window.handleCDVonCuChange = function(input) {
+    if (window.formatCurrencyInput) window.formatCurrencyInput(input);
+    const raw = String(input.value || '').replace(/\D/g, '');
+    const words = raw && window.docSoThanhChu ? window.docSoThanhChu(raw) : '';
+    const sp = document.getElementById('cd_von_cu_spellout');
+    if (sp) {
+        sp.innerText = words ? 'Bằng chữ: ' + words : '';
+    }
+    if (window.cd1tv2tvState && window.cd1tv2tvState.oldCompany) {
+        window.cd1tv2tvState.oldCompany.von = input.value;
+    }
+    if (window.cdSyncFromDOM) window.cdSyncFromDOM();
+};
+
 function getInitialCD1TV2TVState() {
     return {
         step: 1,
@@ -302,7 +316,8 @@ function renderCDStep1() {
                     <label class="text-sm text-muted mb-1 block">Địa chỉ trụ sở chính</label>
                     <input type="text" id="cd_dia_chi_cty" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" placeholder="Tự động điền" value="${s.oldCompany.address || ''}">
                 </div>
-                ${cdRenderInput('Vốn điều lệ cũ (VNĐ)', 'cd_von_cu', s.oldCompany.von, 'VD: 1.000.000.000', 'formatCurrencyInput(this)')}
+                ${cdRenderInput('Vốn điều lệ cũ (VNĐ)', 'cd_von_cu', s.oldCompany.von, 'VD: 1.000.000.000', 'handleCDVonCuChange(this)')}
+                <div id="cd_von_cu_spellout" class="text-xs text-secondary mt-1">${s.oldCompany.von ? 'Bằng chữ: ' + (window.docSoThanhChu ? window.docSoThanhChu(s.oldCompany.von) : '') : ''}</div>
             </div>
         </div>
 

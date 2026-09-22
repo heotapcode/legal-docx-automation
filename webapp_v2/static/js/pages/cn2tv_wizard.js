@@ -13,6 +13,82 @@ window.formatMoneyStr = window.formatMoneyStr || function(val) {
     return raw ? Number(raw).toLocaleString('vi-VN') : '';
 };
 
+window.docSoThanhChu = window.docSoThanhChu || function(s) {
+    if (!s) return '';
+    const digits = String(s).replace(/\D/g, '');
+    if (!digits) return '';
+    let n;
+    try { n = BigInt(digits); } catch(e) { n = parseInt(digits, 10); }
+    if (n === 0n || n === 0) return 'Không đồng';
+
+    const donVi = ['', 'nghìn', 'triệu', 'tỷ', 'nghìn tỷ', 'triệu tỷ'];
+    const chuSo = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
+
+    function docBaChuSo(val, isHighest) {
+        val = Number(val);
+        const tram = Math.floor(val / 100);
+        const chuc = Math.floor((val % 100) / 10);
+        const dv = val % 10;
+        let res = '';
+        if (tram > 0 || !isHighest) {
+            res += chuSo[tram] + ' trăm ';
+            if (chuc === 0 && dv > 0) res += 'lẻ ';
+        }
+        if (chuc > 1) {
+            res += chuSo[chuc] + ' mươi ';
+            if (dv === 1) res += 'mốt ';
+            else if (dv === 5) res += 'lăm ';
+            else if (dv > 0) res += chuSo[dv] + ' ';
+        } else if (chuc === 1) {
+            res += 'mười ';
+            if (dv === 1) res += 'một ';
+            else if (dv === 5) res += 'lăm ';
+            else if (dv > 0) res += chuSo[dv] + ' ';
+        } else {
+            if (dv > 0) res += chuSo[dv] + ' ';
+        }
+        return res.trim();
+    }
+
+    let groups = [];
+    let temp = BigInt(digits);
+    while (temp > 0n) {
+        groups.push(Number(temp % 1000n));
+        temp = temp / 1000n;
+    }
+
+    let chuoi = '';
+    for (let i = 0; i < groups.length; i++) {
+        const val = groups[i];
+        if (val > 0) {
+            const isHighest = (i === groups.length - 1);
+            const doc = docBaChuSo(val, isHighest);
+            if (doc) {
+                const dv = donVi[i] || '';
+                chuoi = doc + (dv ? ' ' + dv : '') + (chuoi ? ' ' + chuoi : '');
+            }
+        }
+    }
+    chuoi = chuoi.trim();
+    if (!chuoi) return '';
+    return chuoi.charAt(0).toUpperCase() + chuoi.slice(1) + ' đồng';
+};
+
+window.handleCN2TVCompanyMoney = function(input) {
+    if (window.formatMoneyInput) window.formatMoneyInput(input);
+    const raw = String(input.value || '').replace(/\D/g, '');
+    const words = raw && window.docSoThanhChu ? window.docSoThanhChu(raw) : '';
+    const chuEl = document.getElementById('COMP_VON_DIEU_LE_CHU');
+    if (chuEl && words) {
+        chuEl.value = words;
+    }
+    if (window.cn2tvState && window.cn2tvState.company) {
+        window.cn2tvState.company.VON_DIEU_LE_SO = input.value;
+        if (words) window.cn2tvState.company.VON_DIEU_LE_CHU = words;
+    }
+    if (window.updateCN2TVState) window.updateCN2TVState();
+};
+
 function getInitialCN2TVState() {
     return {
         company: {
@@ -375,7 +451,7 @@ window.renderCN2TVWizard = function(container) {
                         ${renderInput('Tên công ty (tiếng Việt) *', 'COMP_TEN_CONG_TY_VN', state.company.TEN_CONG_TY_VN, 'text', 'CÔNG TY TNHH...', 'updateCN2TVState()', 'updateCN2TVState()')}
                     </div>
                     <div class="grid-form-2 mt-2">
-                        ${renderInput('Vốn điều lệ (Số)', 'COMP_VON_DIEU_LE_SO', state.company.VON_DIEU_LE_SO, 'text', 'VD: 1,000,000,000', 'updateCN2TVState()', 'formatMoneyInput(this); updateCN2TVState()')}
+                        ${renderInput('Vốn điều lệ (Số)', 'COMP_VON_DIEU_LE_SO', state.company.VON_DIEU_LE_SO, 'text', 'VD: 1,000,000,000', 'handleCN2TVCompanyMoney(this)', 'handleCN2TVCompanyMoney(this)')}
                         ${renderInput('Vốn điều lệ (Chữ)', 'COMP_VON_DIEU_LE_CHU', state.company.VON_DIEU_LE_CHU, 'text', 'VD: Một tỷ đồng', 'updateCN2TVState()', 'updateCN2TVState()')}
                     </div>
                 </div>
