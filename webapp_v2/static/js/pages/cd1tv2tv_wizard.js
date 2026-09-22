@@ -1,5 +1,17 @@
 // Specialized Dynamic Wizard for Chuyển đổi loại hình 1TV sang 2 TV
 
+window.formatMoneyInput = window.formatMoneyInput || function(input) {
+    if (!input) return;
+    const raw = String(input.value || '').replace(/\D/g, '');
+    input.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
+};
+window.formatCurrencyInput = window.formatMoneyInput;
+window.formatMoneyStr = window.formatMoneyStr || function(val) {
+    if (!val) return '';
+    const raw = String(val).replace(/\D/g, '');
+    return raw ? Number(raw).toLocaleString('vi-VN') : '';
+};
+
 function getInitialCD1TV2TVState() {
     return {
         step: 1,

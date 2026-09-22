@@ -19,6 +19,13 @@ function formatMoneyStr(val) {
     if (!digits) return '';
     return Number(digits).toLocaleString('vi-VN');
 }
+window.formatMoneyStr = formatMoneyStr;
+window.formatMoneyInput = function(input) {
+    if (!input) return;
+    const raw = String(input.value || '').replace(/\D/g, '');
+    input.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
+};
+window.formatCurrencyInput = window.formatMoneyInput;
 
 function numToVietnameseWords(s) {
     if (!s) return '';
