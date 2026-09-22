@@ -1,6 +1,18 @@
 // Specialized Dynamic Wizard for Chuyển nhượng Công ty TNHH 2 TV
 // Supports N Old Members and N New Members dynamically
 
+window.formatMoneyInput = window.formatMoneyInput || function(input) {
+    if (!input) return;
+    const raw = String(input.value || '').replace(/\D/g, '');
+    input.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
+};
+window.formatCurrencyInput = window.formatMoneyInput;
+window.formatMoneyStr = window.formatMoneyStr || function(val) {
+    if (!val) return '';
+    const raw = String(val).replace(/\D/g, '');
+    return raw ? Number(raw).toLocaleString('vi-VN') : '';
+};
+
 function getInitialCN2TVState() {
     return {
         company: {
