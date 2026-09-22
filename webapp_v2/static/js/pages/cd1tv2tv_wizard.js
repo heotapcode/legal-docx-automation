@@ -1,47 +1,51 @@
 // Specialized Dynamic Wizard for Chuyển đổi loại hình 1TV sang 2 TV
 
-window.cd1tv2tvState = window.cd1tv2tvState || {
-    step: 1,
-    hinhThucCN: 'mot_phan', // 'mot_phan' (CSH giữ lại vốn làm TV1) hoặc 'toan_bo' (CSH thoái 100% vốn)
-    oldCompany: {
-        mst: '',
-        name: '',
-        address: '',
-        von: ''
-    },
-    csh: {
-        HO_TEN: '',
-        CCCD: '',
-        NGAY_SINH: '',
-        GIOI_TINH: 'Nam',
-        DIA_CHI: ''
-    },
-    ddplCu: {
-        HO_TEN: '',
-        CCCD: '',
-        NGAY_SINH: '',
-        GIOI_TINH: 'Nam',
-        DIA_CHI: ''
-    },
-    newCompany: {
-        nameVn: '',
-        nameEn: '',
-        nameShort: '',
-        phone: '',
-        email: ''
-    },
-    ddplMoi: {
-        HO_TEN: '',
-        CCCD: '',
-        NGAY_SINH: '',
-        GIOI_TINH: 'Nam',
-        DIA_CHI: ''
-    },
-    members: [
-        { id: 1, ho_ten: '', cccd: '', ngay_sinh: '', dia_chi: '', gioi_tinh: 'Nam', von: '', ty_le: '', nhan_cn: '' },
-        { id: 2, ho_ten: '', cccd: '', ngay_sinh: '', dia_chi: '', gioi_tinh: 'Nam', von: '', ty_le: '', nhan_cn: '' }
-    ]
-};
+function getInitialCD1TV2TVState() {
+    return {
+        step: 1,
+        hinhThucCN: 'mot_phan', // 'mot_phan' (CSH giữ lại vốn làm TV1) hoặc 'toan_bo' (CSH thoái 100% vốn)
+        oldCompany: {
+            mst: '',
+            name: '',
+            address: '',
+            von: ''
+        },
+        csh: {
+            HO_TEN: '',
+            CCCD: '',
+            NGAY_SINH: '',
+            GIOI_TINH: 'Nam',
+            DIA_CHI: ''
+        },
+        ddplCu: {
+            HO_TEN: '',
+            CCCD: '',
+            NGAY_SINH: '',
+            GIOI_TINH: 'Nam',
+            DIA_CHI: ''
+        },
+        newCompany: {
+            nameVn: '',
+            nameEn: '',
+            nameShort: '',
+            phone: '',
+            email: ''
+        },
+        ddplMoi: {
+            HO_TEN: '',
+            CCCD: '',
+            NGAY_SINH: '',
+            GIOI_TINH: 'Nam',
+            DIA_CHI: ''
+        },
+        members: [
+            { id: 1, ho_ten: '', cccd: '', ngay_sinh: '', dia_chi: '', gioi_tinh: 'Nam', von: '', ty_le: '', nhan_cn: '' },
+            { id: 2, ho_ten: '', cccd: '', ngay_sinh: '', dia_chi: '', gioi_tinh: 'Nam', von: '', ty_le: '', nhan_cn: '' }
+        ]
+    };
+}
+
+window.cd1tv2tvState = window.cd1tv2tvState || getInitialCD1TV2TVState();
 
 function cdRenderInput(label, id, val, placeholder = '', oninput = '') {
     return `
@@ -134,6 +138,9 @@ window.cdCopyCSHToDDPL = function() {
 };
 
 window.renderCD1TV2TVWizard = function(container) {
+    if (!window.cd1tv2tvState) {
+        window.cd1tv2tvState = getInitialCD1TV2TVState();
+    }
     container.innerHTML = `
         <div class="flex justify-between mb-6 border-b border-gray-700 pb-4">
             <div class="text-center flex-1 cursor-pointer" onclick="window.cd1tv2tvGotoStep(1)">
@@ -175,6 +182,9 @@ window.renderCD1TV2TVWizard = function(container) {
 };
 
 window.cdSyncFromDOM = function() {
+    if (!window.cd1tv2tvState) {
+        window.cd1tv2tvState = getInitialCD1TV2TVState();
+    }
     const s = window.cd1tv2tvState;
     const getVal = (id) => {
         const el = document.getElementById(id);
