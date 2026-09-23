@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notion / Editorial Document-First | Legal Workspace</title>
+    <!-- Google Fonts: Source Serif 4 (Editorial Serif), Inter (Sans) & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Notion Warm Paper Palette */
+            --notion-canvas: #fbfbfa;
+            --notion-panel: #f7f6f3;
+            --notion-white: #ffffff;
+            --notion-callout: #f1f1ef;
+            --notion-border: rgba(55, 53, 47, 0.09);
+            --notion-border-strong: rgba(55, 53, 47, 0.16);
+
+            --text-primary: #37352f;
+            --text-secondary: #787774;
+            --text-muted: #9b9a97;
+
+            /* Notion Warm Tag Colors */
+            --tag-brown: #937264;
+            --tag-brown-bg: #ece1db;
+            --tag-orange: #d9730d;
+            --tag-orange-bg: #faebdd;
+            --tag-yellow: #cb912f;
+            --tag-yellow-bg: #fbf3db;
+            --tag-green: #0f7b6c;
+            --tag-green-bg: #ddedea;
+            --tag-blue: #0b6e99;
+            --tag-blue-bg: #ddebf1;
+            --tag-purple: #6940a5;
+            --tag-purple-bg: #eae4f2;
+            --tag-red: #e03e3e;
+            --tag-red-bg: #fbe4e4;
+
+            --font-serif: 'Source Serif 4', Georgia, serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+            --radius-xs: 3px;
+            --radius-sm: 5px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--notion-canvas);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Top Minimal Notion Breadcrumb Bar */
+        .notion-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(251, 251, 250, 0.92);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--notion-border);
+            padding: 10px 24px;
+        }
+        .topbar-content {
+            max-width: 1480px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .notion-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            color: var(--text-secondary);
+        }
+        .nb-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 6px;
+            border-radius: var(--radius-xs);
+            transition: background 0.15s;
+        }
+        .nb-link:hover {
+            background: var(--notion-panel);
+            color: var(--text-primary);
+        }
+        .nb-active {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .notion-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-notion {
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--notion-border);
+            background: var(--notion-white);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+        .btn-notion:hover {
+            background: var(--notion-panel);
+            border-color: var(--notion-border-strong);
+        }
+        .btn-notion-primary {
+            background: var(--text-primary);
+            color: #fff;
+            border-color: var(--text-primary);
+        }
+        .btn-notion-primary:hover {
+            background: #1f1f1d;
+            color: #fff;
+        }
+
+        /* Warm Cover Banner */
+        .notion-cover {
+            height: 120px;
+            background: linear-gradient(135deg, #e3edf7 0%, #ede7f6 50%, #fceed8 100%);
+            border-bottom: 1px solid var(--notion-border);
+        }
+
+        /* Workspace Container */
+        .notion-container {
+            max-width: 1480px;
+            width: 96%;
+            margin: 0 auto 80px auto;
+            padding-top: 10px;
+        }
+
+        /* Notion Page Title & Icon */
+        .page-header {
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .page-emoji {
+            font-size: 54px;
+            margin-top: -38px;
+            display: inline-block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            cursor: pointer;
+        }
+        .page-h1 {
+            font-family: var(--font-serif);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            margin: 8px 0 6px 0;
+        }
+        .page-meta {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Notion Callout Box */
+        .notion-callout-box {
+            background: var(--notion-callout);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(55, 53, 47, 0.06);
+            font-size: 13.5px;
+            line-height: 1.55;
+        }
+        .callout-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        /* Procedure Tabs */
+        .notion-tab-strip {
+            display: flex;
+            gap: 6px;
+            border-bottom: 1px solid var(--notion-border);
+            margin-bottom: 24px;
+            padding-bottom: 6px;
+        }
+        .n-tab {
+            background: transparent;
+            border: none;
+            font-family: var(--font-sans);
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .n-tab:hover {
+            background: var(--notion-panel);
+            color: var(--text-primary);
+        }
+        .n-tab.active {
+            background: var(--notion-white);
+            color: var(--text-primary);
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        /* 2-Column Document Split Grid */
+        .document-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 380px;
+            gap: 32px;
+            align-items: start;
+        }
+        @media (max-width: 1100px) {
+            .document-grid { grid-template-columns: 1fr; }
+            .dossier-panel { position: static; }
+        }
+
+        /* Left Editorial Document Pane */
+        .editorial-col {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        .paper-card {
+            background: var(--notion-white);
+            border: 1px solid var(--notion-border);
+            border-radius: var(--radius-md);
+            padding: 24px 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            transition: box-shadow 0.2s;
+        }
+        .paper-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .card-toggle-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--notion-border);
+        }
+        .toggle-title {
+            font-family: var(--font-serif);
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .notion-tag {
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 3px 8px;
+            border-radius: var(--radius-xs);
+        }
+
+        /* Fields & Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 20px;
+        }
+        .col-span-2 { grid-column: span 2; }
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .notion-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .notion-label .req {
+            color: var(--tag-red);
+        }
+
+        .notion-input {
+            width: 100%;
+            background: var(--notion-white);
+            border: 1px solid var(--notion-border-strong);
+            border-radius: var(--radius-sm);
+            padding: 9px 12px;
+            font-family: var(--font-sans);
+            font-size: 13.5px;
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.15s ease;
+        }
+        .notion-input:focus {
+            border-color: #2eaadc;
+            box-shadow: 0 0 0 2px rgba(46, 170, 220, 0.2);
+        }
+        .notion-input.font-mono {
+            font-family: var(--font-mono);
+            font-size: 13px;
+        }
+
+        /* Member Table / Database View */
+        .notion-member-item {
+            background: var(--notion-panel);
+            border: 1px solid var(--notion-border);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            margin-bottom: 12px;
+        }
+        .member-header-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        /* Notion Capital Distribution Bar */
+        .notion-capital-summary {
+            background: var(--notion-panel);
+            border: 1px solid var(--notion-border);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+        .capital-track-notion {
+            height: 7px;
+            background: rgba(55, 53, 47, 0.09);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            display: flex;
+            margin: 8px 0 10px 0;
+        }
+
+        /* Right Dossier Panel (Checklist Notebook) */
+        .dossier-panel {
+            position: sticky;
+            top: 72px;
+        }
+        .notebook-card {
+            background: var(--notion-white);
+            border: 1px solid var(--notion-border);
+            border-radius: var(--radius-md);
+            padding: 22px 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .notebook-title {
+            font-family: var(--font-serif);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .doc-check-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin: 16px 0 20px 0;
+        }
+        .doc-check-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 12px;
+            background: var(--notion-panel);
+            border-radius: var(--radius-sm);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .doc-check-row:hover {
+            border-color: var(--notion-border-strong);
+            background: #edece9;
+            transform: translateX(3px);
+        }
+        .doc-name-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Breadcrumb Bar -->
+    <header class="notion-topbar">
+        <div class="topbar-content">
+            <div class="notion-breadcrumb">
+                <a href="#" class="nb-link"><i class="fa-solid fa-house"></i> Không gian làm việc</a>
+                <span>/</span>
+                <a href="#" class="nb-link">📁 Hồ sơ ĐKKD</a>
+                <span>/</span>
+                <span class="nb-active" id="notion-crumb">Thành lập mới công ty TNHH 2 TV</span>
+            </div>
+            <div class="notion-actions">
+                <button class="btn-notion" onclick="window.history.back()"><i class="fa-solid fa-arrow-left"></i> Quay lại</button>
+                <button class="btn-notion btn-notion-primary" onclick="simulateExport()"><i class="fa-solid fa-download"></i> Tải hồ sơ .ZIP</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Warm Pastel Banner -->
+    <div class="notion-cover"></div>
+
+    <!-- Workspace -->
+    <main class="notion-container">
+        <!-- Page Title & Icon -->
+        <div class="page-header">
+            <div class="page-emoji" title="Đổi biểu tượng">🏢</div>
+            <h1 class="page-h1" id="notion-title">Thành lập mới công ty TNHH 2 TV</h1>
+            <div class="page-meta">
+                <span><i class="fa-regular fa-clock"></i> Cập nhật theo Nghị định 01/2021/NĐ-CP</span>
+                <span>&bull;</span>
+                <span class="notion-tag" style="background: var(--tag-green-bg); color: var(--tag-green);" id="notion-badge">5 Biểu mẫu sẵn sàng</span>
+            </div>
+        </div>
+
+        <!-- Notion Callout Box -->
+        <div class="notion-callout-box">
+            <div class="callout-icon">💡</div>
+            <div>
+                <b>Lưu ý nghiệp vụ:</b> Hệ thống tự động trích xuất các trường dữ liệu và lồng ghép chính xác vào Điều lệ công ty, Giấy đề nghị ĐKKD, Danh sách thành viên và Giấy ủy quyền. Mọi thông tin sau khi nhập sẽ được lưu tự động.
+            </div>
+        </div>
+
+        <!-- Procedure Tabs -->
+        <div class="notion-tab-strip">
+            <button class="n-tab active" onclick="switchNotionTpl('Thành lập mới công ty TNHH 2 TV', this)">
+                <span>🏢</span> Thành lập mới 2 TV
+            </button>
+            <button class="n-tab" onclick="switchNotionTpl('Tăng vốn công ty TNHH 2 TV', this)">
+                <span>📈</span> Tăng vốn 2 TV
+            </button>
+            <button class="n-tab" onclick="switchNotionTpl('Chuyển nhượng Công ty TNHH 2 TV', this)">
+                <span>🔄</span> Chuyển nhượng 2 TV
+            </button>
+        </div>
+
+        <!-- 2 Columns Grid -->
+        <div class="document-grid">
+            <!-- Left Editorial Document Pane -->
+            <div class="editorial-col">
+                <!-- Card 1: Enterprise Profile -->
+                <div class="paper-card">
+                    <div class="card-toggle-header">
+                        <div class="toggle-title">
+                            <i class="fa-solid fa-caret-down" style="font-size: 13px; color: var(--text-secondary);"></i>
+                            <span>1. Thông tin Doanh nghiệp & Vốn điều lệ</span>
+                        </div>
+                        <span class="notion-tag" style="background: var(--tag-blue-bg); color: var(--tag-blue);">Trụ sở chính</span>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-row col-span-2">
+                            <label class="notion-label">Tên doanh nghiệp (tiếng Việt) <span class="req">*</span></label>
+                            <input type="text" id="n_ten_cong_ty" class="notion-input" style="font-weight: 600;" value="CÔNG TY TNHH GIẢI PHÁP SỐ HÓA DOANH NGHIỆP AN PHÁT">
+                        </div>
+
+                        <div class="form-row col-span-2">
+                            <label class="notion-label">Mã số thuế</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="n_mst" class="notion-input font-mono" style="max-width: 260px;" value="0317889922">
+                                <button type="button" class="btn-notion" onclick="mockLookupMST()"><i class="fa-solid fa-magnifying-glass"></i> Tra cứu Tổng cục Thuế</button>
+                            </div>
+                        </div>
+
+                        <div class="form-row col-span-2">
+                            <label class="notion-label">Số nhà, tên đường (Trụ sở chính) <span class="req">*</span></label>
+                            <input type="text" id="n_so_nha" class="notion-input" value="Số 102 đường Nguyễn Đình Chiểu">
+                        </div>
+
+                        <div class="form-row">
+                            <label class="notion-label">Phường / Xã <span class="req">*</span></label>
+                            <input type="text" id="n_xa" class="notion-input" value="Phường Đa Kao">
+                        </div>
+
+                        <div class="form-row">
+                            <label class="notion-label">Tỉnh / Thành phố <span class="req">*</span></label>
+                            <input type="text" id="n_tinh" class="notion-input" value="Thành phố Hồ Chí Minh">
+                        </div>
+
+                        <div class="form-row col-span-2">
+                            <label class="notion-label">Vốn điều lệ (VNĐ) <span class="req">*</span></label>
+                            <input type="text" id="n_von" class="notion-input font-mono" style="font-weight: 700; color: #0b6e99; font-size: 15px;" value="4,000,000,000" onkeyup="handleMoney(this)">
+                            <div id="n_spellout" style="font-size: 12px; color: var(--tag-orange); margin-top: 3px; font-weight: 500;">Bằng chữ: Bốn tỷ đồng</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Legal Representative -->
+                <div class="paper-card">
+                    <div class="card-toggle-header">
+                        <div class="toggle-title">
+                            <i class="fa-solid fa-caret-down" style="font-size: 13px; color: var(--text-secondary);"></i>
+                            <span>2. Người đại diện theo pháp luật</span>
+                        </div>
+                        <button type="button" class="btn-notion" onclick="mockScanVNeID('ddpl')">
+                            <i class="fa-solid fa-id-card" style="color: var(--tag-blue);"></i> Quét VNeID
+                        </button>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-row">
+                            <label class="notion-label">Họ và tên <span class="req">*</span></label>
+                            <input type="text" id="n_ddpl_name" class="notion-input" value="NGUYỄN MINH ANH">
+                        </div>
+                        <div class="form-row">
+                            <label class="notion-label">Số CCCD <span class="req">*</span></label>
+                            <input type="text" id="n_ddpl_cccd" class="notion-input font-mono" value="079090001234">
+                        </div>
+                        <div class="form-row">
+                            <label class="notion-label">Ngày sinh</label>
+                            <input type="text" class="notion-input" value="05/09/1990">
+                        </div>
+                        <div class="form-row">
+                            <label class="notion-label">Giới tính</label>
+                            <select class="notion-input">
+                                <option value="Nam" selected>Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Members & Capital Allocation -->
+                <div class="paper-card">
+                    <div class="card-toggle-header">
+                        <div class="toggle-title">
+                            <i class="fa-solid fa-caret-down" style="font-size: 13px; color: var(--text-secondary);"></i>
+                            <span>3. Thành viên sáng lập & Phần vốn góp</span>
+                        </div>
+                        <button type="button" class="btn-notion" onclick="addMemberRow()"><i class="fa-solid fa-plus"></i> Thêm thành viên</button>
+                    </div>
+
+                    <!-- Notion Capital Summary -->
+                    <div class="notion-capital-summary">
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px;">
+                            <span style="font-weight: 600;"><i class="fa-solid fa-chart-pie" style="color: #0b6e99;"></i> Phân bổ tỷ lệ vốn</span>
+                            <span id="n_cap_badge" class="notion-tag" style="background: var(--tag-green-bg); color: var(--tag-green); font-weight: 600;">
+                                Khớp 100%
+                            </span>
+                        </div>
+                        <div class="capital-track-notion" id="n_cap_track">
+                            <div style="width: 75%; background: #0b6e99; height: 100%;"></div>
+                            <div style="width: 25%; background: #0f7b6c; height: 100%;"></div>
+                        </div>
+                        <div id="n_cap_summary" style="display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px;">
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="width: 7px; height: 7px; border-radius: 50%; background: #0b6e99;"></span>
+                                <span>Nguyễn Minh Anh:</span>
+                                <b style="color: #0b6e99; font-family: var(--font-mono);">75.0% (3,000,000,000 đ)</b>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="width: 7px; height: 7px; border-radius: 50%; background: #0f7b6c;"></span>
+                                <span>Lê Hồng Sơn:</span>
+                                <b style="color: #0f7b6c; font-family: var(--font-mono);">25.0% (1,000,000,000 đ)</b>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="n_members_list">
+                        <!-- Member 1 -->
+                        <div class="notion-member-item">
+                            <div class="member-header-strip">
+                                <span style="font-size: 13px; font-weight: 600; color: #0b6e99;">Thành viên #1</span>
+                                <button type="button" class="btn-notion" style="font-size: 11px; padding: 3px 8px;" onclick="mockScanVNeID('m1')"><i class="fa-solid fa-id-card"></i> VNeID</button>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-row">
+                                    <label class="notion-label">Họ và tên</label>
+                                    <input type="text" class="notion-input m-name" value="NGUYỄN MINH ANH" oninput="recalcCap()">
+                                </div>
+                                <div class="form-row">
+                                    <label class="notion-label">Số CCCD</label>
+                                    <input type="text" class="notion-input font-mono" value="079090001234">
+                                </div>
+                                <div class="form-row">
+                                    <label class="notion-label">Vốn góp (VNĐ)</label>
+                                    <input type="text" class="notion-input font-mono m-von" value="3,000,000,000" onkeyup="handleMoney(this); recalcCap()">
+                                </div>
+                                <div class="form-row">
+                                    <label class="notion-label">Tỷ lệ (%)</label>
+                                    <input type="text" class="notion-input font-mono m-pct" value="75.0" readonly style="background: var(--notion-callout);">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 2 -->
+                        <div class="notion-member-item">
+                            <div class="member-header-strip">
+                                <span style="font-size: 13px; font-weight: 600; color: #0f7b6c;">Thành viên #2</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button type="button" class="btn-notion" style="font-size: 11px; padding: 3px 8px;" onclick="mockScanVNeID('m2')"><i class="fa-solid fa-id-card"></i> VNeID</button>
+                                    <button type="button" class="btn-notion" style="font-size: 11px; padding: 3px 8px; color: var(--tag-red);" onclick="this.closest('.notion-member-item').remove(); recalcCap();"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-row">
+                                    <label class="notion-label">Họ và tên</label>
+                                    <input type="text" class="notion-input m-name" value="LÊ HỒNG SƠN" oninput="recalcCap()">
+                                </div>
+                                <div class="form-row">
+                                    <label class="notion-label">Số CCCD</label>
+                                    <input type="text" class="notion-input font-mono" value="079193005678">
+                                </div>
+                                <div class="form-row">
+                                    <label class="notion-label">Vốn góp (VNĐ)</label>
+                                    <input type="text" class="notion-input font-mono m-von" value="1,000,000,000" onkeyup="handleMoney(this); recalcCap()">
+                                </div>
+                                <div class="form-row">
+                                    <label class="notion-label">Tỷ lệ (%)</label>
+                                    <input type="text" class="notion-input font-mono m-pct" value="25.0" readonly style="background: var(--notion-callout);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Dossier Panel (Notebook Checklist) -->
+            <div class="dossier-panel">
+                <div class="notebook-card">
+                    <div class="notebook-title">
+                        <i class="fa-regular fa-clipboard" style="color: #0b6e99;"></i>
+                        <span>Cặp Hồ Sơ Điện Tử</span>
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Danh mục văn bản Word chuẩn hóa:
+                    </div>
+
+                    <div class="doc-check-list" id="notion-doc-list">
+                        <div class="doc-check-row" onclick="alert('File: 01. Giấy đề nghị.docx đã sẵn sàng.')">
+                            <span class="doc-name-text">📄 01. Giấy đề nghị.docx</span>
+                            <span class="notion-tag" style="background: var(--tag-green-bg); color: var(--tag-green); font-size: 11px;">Hoàn tất</span>
+                        </div>
+                        <div class="doc-check-row" onclick="alert('File: 02. Điều lệ.docx đã sẵn sàng.')">
+                            <span class="doc-name-text">📄 02. Điều lệ.docx</span>
+                            <span class="notion-tag" style="background: var(--tag-green-bg); color: var(--tag-green); font-size: 11px;">Hoàn tất</span>
+                        </div>
+                        <div class="doc-check-row" onclick="alert('File: 03. Danh sách thành viên.docx đã sẵn sàng.')">
+                            <span class="doc-name-text">📄 03. Danh sách thành viên.docx</span>
+                            <span class="notion-tag" style="background: var(--tag-green-bg); color: var(--tag-green); font-size: 11px;">Hoàn tất</span>
+                        </div>
+                        <div class="doc-check-row" onclick="alert('File: 04. Giấy ủy quyền.docx đã sẵn sàng.')">
+                            <span class="doc-name-text">📄 04. Giấy ủy quyền.docx</span>
+                            <span class="notion-tag" style="background: var(--tag-green-bg); color: var(--tag-green); font-size: 11px;">Hoàn tất</span>
+                        </div>
+                        <div class="doc-check-row" onclick="alert('File: 05. Danh sách CSHHL.docx đã sẵn sàng.')">
+                            <span class="doc-name-text">📄 05. Danh sách CSHHL.docx</span>
+                            <span class="notion-tag" style="background: var(--tag-green-bg); color: var(--tag-green); font-size: 11px;">Hoàn tất</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-notion btn-notion-primary" style="width: 100%; padding: 11px; justify-content: center;" onclick="simulateExport()">
+                        <i class="fa-solid fa-file-zipper"></i> Tải Trọn Bộ Hồ Sơ (.ZIP)
+                    </button>
+
+                    <div style="margin-top: 14px; font-size: 11.5px; color: var(--text-muted); text-align: center;">
+                        <i class="fa-solid fa-lock"></i> Lưu trữ và đồng bộ an toàn theo phiên bản
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const notionTpls = {
+            'Thành lập mới công ty TNHH 2 TV': {
+                emoji: '🏢',
+                title: 'Thành lập mới công ty TNHH 2 TV',
+                files: ['01. Giấy đề nghị.docx', '02. Điều lệ.docx', '03. Danh sách thành viên.docx', '04. Giấy ủy quyền.docx', '05. Danh sách CSHHL.docx']
+            },
+            'Tăng vốn công ty TNHH 2 TV': {
+                emoji: '📈',
+                title: 'Tăng vốn công ty TNHH 2 TV',
+                files: ['01. Thông báo thay đổi ĐKKD.docx', '02. Biên bản họp.docx', '03. Quyết định của HĐTV.docx', '04. Danh sách thành viên sau tăng vốn.docx', '05. Giấy xác nhận góp vốn.docx', '06. Giấy ủy quyền.docx', '07. Danh sách CSHHL.docx']
+            },
+            'Chuyển nhượng Công ty TNHH 2 TV': {
+                emoji: '🔄',
+                title: 'Chuyển nhượng Công ty TNHH 2 TV',
+                files: ['01. Thông báo thay đổi ĐKKD.docx', '02. Hợp đồng chuyển nhượng vốn.docx', '03. Biên bản thanh lý hợp đồng.docx', '04. Biên bản họp Hội đồng thành viên.docx', '05. Quyết định của HĐTV.docx', '06. Danh sách thành viên mới.docx', '07. Giấy ủy quyền.docx']
+            }
+        };
+
+        function switchNotionTpl(name, btn) {
+            document.querySelectorAll('.n-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const data = notionTpls[name];
+            document.getElementById('notion-crumb').innerText = data.title;
+            document.getElementById('notion-title').innerText = data.title;
+            document.getElementById('notion-badge').innerText = `${data.files.length} Biểu mẫu sẵn sàng`;
+            document.querySelector('.page-emoji').innerText = data.emoji;
+
+            let html = '';
+            data.files.forEach(f => {
+                html += `
+                    <div class="doc-check-row" onclick="alert('Đã sẵn sàng: ${f}')">
+                        <span class="doc-name-text">📄 ${f}</span>
+                        <span class="notion-tag" style="background: var(--tag-green-bg); color: var(--tag-green); font-size: 11px;">Hoàn tất</span>
+                    </div>
+                `;
+            });
+            document.getElementById('notion-doc-list').innerHTML = html;
+        }
+
+        function handleMoney(inp) {
+            const raw = inp.value.replace(/\D/g, '');
+            inp.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
+            if (inp.id === 'n_von') recalcCap();
+        }
+
+        function recalcCap() {
+            const totalVon = parseInt(document.getElementById('n_von').value.replace(/\D/g, '') || '0', 10);
+            const items = document.querySelectorAll('#n_members_list .notion-member-item');
+            const colors = ['#0b6e99', '#0f7b6c', '#d9730d', '#6940a5', '#e03e3e'];
+
+            let distributed = 0;
+            let trackHtml = '';
+            let summaryHtml = '';
+
+            items.forEach((it, idx) => {
+                const nameInp = it.querySelector('.m-name');
+                const vonInp = it.querySelector('.m-von');
+                const pctInp = it.querySelector('.m-pct');
+
+                const name = (nameInp && nameInp.value) ? nameInp.value : `Thành viên #${idx + 1}`;
+                const mVal = parseInt((vonInp && vonInp.value) ? vonInp.value.replace(/\D/g, '') : '0', 10);
+                distributed += mVal;
+
+                const pct = totalVon > 0 ? ((mVal / totalVon) * 100).toFixed(1) : 0;
+                if (pctInp) pctInp.value = pct;
+
+                const color = colors[idx % colors.length];
+                if (mVal > 0) {
+                    trackHtml += `<div style="width: ${pct}%; background: ${color}; height: 100%;"></div>`;
+                }
+
+                summaryHtml += `
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="width: 7px; height: 7px; border-radius: 50%; background: ${color};"></span>
+                        <span>${name}:</span>
+                        <b style="color: ${color}; font-family: var(--font-mono);">${pct}% (${(mVal || 0).toLocaleString('vi-VN')} đ)</b>
+                    </div>
+                `;
+            });
+
+            document.getElementById('n_cap_track').innerHTML = trackHtml || '<div style="width: 100%; background: rgba(55,53,47,0.09);"></div>';
+            document.getElementById('n_cap_summary').innerHTML = summaryHtml;
+
+            const remain = totalVon - distributed;
+            const badge = document.getElementById('n_cap_badge');
+            if (remain === 0 && totalVon > 0) {
+                badge.innerText = 'Khớp 100%';
+                badge.style.background = 'var(--tag-green-bg)';
+                badge.style.color = 'var(--tag-green)';
+            } else if (remain > 0) {
+                badge.innerText = `Thiếu ${remain.toLocaleString('vi-VN')} đ`;
+                badge.style.background = 'var(--tag-yellow-bg)';
+                badge.style.color = 'var(--tag-yellow)';
+            } else {
+                badge.innerText = `Vượt +${Math.abs(remain).toLocaleString('vi-VN')} đ`;
+                badge.style.background = 'var(--tag-red-bg)';
+                badge.style.color = 'var(--tag-red)';
+            }
+        }
+
+        let nCount = 2;
+        function addMemberRow() {
+            const list = document.getElementById('n_members_list');
+            const idx = nCount++;
+            const colors = ['#0b6e99', '#0f7b6c', '#d9730d', '#6940a5', '#e03e3e'];
+            const color = colors[idx % colors.length];
+
+            const html = `
+                <div class="notion-member-item">
+                    <div class="member-header-strip">
+                        <span style="font-size: 13px; font-weight: 600; color: ${color};">Thành viên #${idx + 1}</span>
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" class="btn-notion" style="font-size: 11px; padding: 3px 8px;" onclick="mockScanVNeID('m${idx}')"><i class="fa-solid fa-id-card"></i> VNeID</button>
+                            <button type="button" class="btn-notion" style="font-size: 11px; padding: 3px 8px; color: var(--tag-red);" onclick="this.closest('.notion-member-item').remove(); recalcCap();"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-row">
+                            <label class="notion-label">Họ và tên</label>
+                            <input type="text" class="notion-input m-name" placeholder="NGUYỄN VĂN..." oninput="recalcCap()">
+                        </div>
+                        <div class="form-row">
+                            <label class="notion-label">Số CCCD</label>
+                            <input type="text" class="notion-input font-mono" placeholder="001...">
+                        </div>
+                        <div class="form-row">
+                            <label class="notion-label">Vốn góp (VNĐ)</label>
+                            <input type="text" class="notion-input font-mono m-von" placeholder="1,000,000,000" onkeyup="handleMoney(this); recalcCap()">
+                        </div>
+                        <div class="form-row">
+                            <label class="notion-label">Tỷ lệ (%)</label>
+                            <input type="text" class="notion-input font-mono m-pct" value="0.0" readonly style="background: var(--notion-callout);">
+                        </div>
+                    </div>
+                </div>
+            `;
+            list.insertAdjacentHTML('beforeend', html);
+            recalcCap();
+        }
+
+        function mockLookupMST() {
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Tra cứu...';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-solid fa-check text-green"></i> Đã đồng bộ';
+                document.getElementById('n_ten_cong_ty').value = 'CÔNG TY TNHH GIẢI PHÁP SỐ HÓA DOANH NGHIỆP AN PHÁT';
+            }, 600);
+        }
+
+        function mockScanVNeID(target) {
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> VNeID...';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-solid fa-check" style="color: var(--tag-green);"></i> Đã đọc thẻ';
+                if (target === 'ddpl') {
+                    document.getElementById('n_ddpl_name').value = 'NGUYỄN MINH ANH';
+                    document.getElementById('n_ddpl_cccd').value = '079090001234';
+                }
+            }, 700);
+        }
+
+        function simulateExport() {
+            alert('Đang tải trọn bộ hồ sơ .ZIP với định dạng chuẩn văn phòng điện tử Notion Editorial...');
+        }
+    </script>
+</body>
+</html>
