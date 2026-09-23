@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Design System | Legal Docx Automation OS</title>
+    <!-- Google Fonts: Inter & JetBrains Mono (Linear Official Font Substitutes) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;550;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Linear Official Palette */
+            --linear-canvas: #08090a;
+            --linear-panel: #0f1012;
+            --linear-surface: rgba(255, 255, 255, 0.03);
+            --linear-surface-hover: rgba(255, 255, 255, 0.06);
+            --linear-surface-active: rgba(255, 255, 255, 0.09);
+
+            --linear-border: rgba(255, 255, 255, 0.07);
+            --linear-border-subtle: rgba(255, 255, 255, 0.04);
+            --linear-border-hover: rgba(255, 255, 255, 0.16);
+            
+            --linear-text-primary: #f7f8f8;
+            --linear-text-secondary: #8a8f98;
+            --linear-text-muted: #62666d;
+            --linear-text-disabled: #43444a;
+
+            /* Linear Brand Accents */
+            --linear-purple: #5e6ad2;
+            --linear-purple-glow: rgba(94, 106, 210, 0.35);
+            --linear-purple-subtle: rgba(94, 106, 210, 0.12);
+            --linear-teal: #00f0ff;
+            --linear-mint: #4ade80;
+            --linear-mint-subtle: rgba(74, 222, 128, 0.12);
+            --linear-amber: #f59e0b;
+            --linear-amber-subtle: rgba(245, 158, 11, 0.12);
+            --linear-rose: #f43f5e;
+            --linear-rose-subtle: rgba(244, 63, 94, 0.12);
+
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+            --radius-xs: 4px;
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--linear-canvas);
+            color: var(--linear-text-secondary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.01em;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Subtle Radial Background Glow */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1000px;
+            height: 380px;
+            background: radial-gradient(circle at 50% 0%, rgba(94, 106, 210, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Top Minimal Linear Navbar */
+        .linear-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(8, 9, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--linear-border);
+            height: 52px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+        }
+        .header-content {
+            max-width: 1520px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .brand-cluster {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--linear-text-primary);
+        }
+        .linear-logo {
+            width: 26px;
+            height: 26px;
+            border-radius: var(--radius-xs);
+            background: linear-gradient(135deg, #5e6ad2 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 13px;
+            box-shadow: 0 0 12px var(--linear-purple-glow);
+        }
+        .brand-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--linear-text-primary);
+            letter-spacing: -0.02em;
+        }
+        .breadcrumb-sep {
+            color: var(--linear-text-muted);
+            font-size: 11px;
+        }
+        .brand-sub {
+            font-size: 13.5px;
+            color: var(--linear-text-secondary);
+        }
+
+        .header-search {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--linear-surface);
+            border: 1px solid var(--linear-border);
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            color: var(--linear-text-muted);
+            font-size: 12.5px;
+            cursor: pointer;
+            transition: all 0.15s;
+            width: 280px;
+        }
+        .header-search:hover {
+            border-color: var(--linear-border-hover);
+            color: var(--linear-text-secondary);
+        }
+        .kbd-pill {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: auto;
+            color: var(--linear-text-secondary);
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Procedure Linear Tabs */
+        .linear-subnav {
+            border-bottom: 1px solid var(--linear-border);
+            background: var(--linear-panel);
+            padding: 8px 24px;
+        }
+        .subnav-content {
+            max-width: 1520px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+        }
+        .nav-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--linear-text-secondary);
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-tab-btn:hover {
+            color: var(--linear-text-primary);
+            background: var(--linear-surface);
+        }
+        .nav-tab-btn.active {
+            color: var(--linear-text-primary);
+            background: var(--linear-surface-active);
+            font-weight: 600;
+        }
+        .tab-count {
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.07);
+            padding: 1px 6px;
+            border-radius: var(--radius-full);
+            color: var(--linear-text-muted);
+        }
+
+        /* Main Workspace Container */
+        .workspace-wrap {
+            max-width: 1520px;
+            width: 96%;
+            margin: 24px auto 80px auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Linear Hero Header */
+        .linear-hero {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .hero-id-tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--linear-purple);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .hero-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--linear-text-primary);
+            letter-spacing: -0.03em;
+        }
+        .hero-desc {
+            font-size: 13.5px;
+            color: var(--linear-text-secondary);
+        }
+        .hero-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 2-Column Linear Split Grid */
+        .linear-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 390px;
+            gap: 28px;
+            align-items: start;
+        }
+        @media (max-width: 1100px) {
+            .linear-grid { grid-template-columns: 1fr; }
+            .queue-col { position: static; }
+        }
+
+        /* Left Form Pane */
+        .form-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .linear-card {
+            background: var(--linear-panel);
+            border: 1px solid var(--linear-border);
+            border-radius: var(--radius-lg);
+            padding: 24px 26px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.2s;
+        }
+        .linear-card:hover {
+            border-color: var(--linear-border-hover);
+        }
+        .card-header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--linear-border-subtle);
+        }
+        .card-heading {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--linear-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            letter-spacing: -0.01em;
+        }
+        .card-heading i {
+            color: var(--linear-purple);
+            font-size: 13px;
+        }
+        .card-tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--linear-text-muted);
+        }
+
+        /* Form Grid & Inputs */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 20px;
+        }
+        .col-span-2 {
+            grid-column: span 2;
+        }
+        .form-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .item-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--linear-text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+        .item-label .req {
+            color: var(--linear-rose);
+        }
+
+        .linear-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--linear-border);
+            border-radius: var(--radius-sm);
+            padding: 9px 13px;
+            font-family: var(--font-sans);
+            font-size: 13.5px;
+            color: var(--linear-text-primary);
+            outline: none;
+            transition: all 0.15s ease;
+        }
+        .linear-input:focus {
+            border-color: var(--linear-purple);
+            box-shadow: 0 0 0 1px var(--linear-purple), 0 0 16px var(--linear-purple-glow);
+            background: rgba(0, 0, 0, 0.55);
+        }
+        .linear-input.font-mono {
+            font-family: var(--font-mono);
+            font-size: 13px;
+        }
+
+        /* Linear Buttons */
+        .btn {
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: var(--radius-sm);
+            border: 1px solid transparent;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            transition: all 0.15s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .btn-linear-primary {
+            background: var(--linear-purple);
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 16px var(--linear-purple-glow);
+        }
+        .btn-linear-primary:hover {
+            background: #4f5bc4;
+            transform: translateY(-1px);
+        }
+        .btn-linear-ghost {
+            background: var(--linear-surface);
+            border-color: var(--linear-border);
+            color: var(--linear-text-secondary);
+        }
+        .btn-linear-ghost:hover {
+            background: var(--linear-surface-hover);
+            color: var(--linear-text-primary);
+            border-color: var(--linear-border-hover);
+        }
+        .btn-linear-ocr {
+            background: var(--linear-surface);
+            border-color: var(--linear-border);
+            color: var(--linear-teal);
+            font-size: 12px;
+            padding: 5px 11px;
+        }
+        .btn-linear-ocr:hover {
+            border-color: var(--linear-teal);
+            background: rgba(0, 240, 255, 0.08);
+        }
+
+        /* Linear Member Issue Rows */
+        .member-issue-row {
+            background: var(--linear-surface);
+            border: 1px solid var(--linear-border);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+        .member-issue-row:hover {
+            border-color: var(--linear-border-hover);
+        }
+        .member-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .status-dot-done {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--linear-mint);
+            box-shadow: 0 0 8px var(--linear-mint);
+        }
+
+        /* Capital Distribution Bar (Linear High-Contrast Palette) */
+        .capital-track-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--linear-border);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+        .cap-progress {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            display: flex;
+            margin: 10px 0;
+        }
+
+        /* Right Queue Column (Linear Issue Tracker Style) */
+        .queue-col {
+            position: sticky;
+            top: 76px;
+        }
+        .queue-card {
+            background: var(--linear-panel);
+            border: 1px solid var(--linear-border);
+            border-radius: var(--radius-lg);
+            padding: 22px 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+        .queue-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .queue-title {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--linear-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .queue-pill {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--linear-mint);
+            background: var(--linear-mint-subtle);
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+        }
+
+        .issue-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin: 16px 0 20px 0;
+        }
+        .issue-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: var(--linear-surface);
+            border: 1px solid var(--linear-border-subtle);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .issue-item:hover {
+            background: var(--linear-surface-hover);
+            border-color: var(--linear-border-hover);
+            transform: translateX(2px);
+        }
+        .issue-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .issue-id {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--linear-text-muted);
+            min-width: 58px;
+        }
+        .issue-title {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--linear-text-primary);
+        }
+        .issue-status-icon {
+            color: var(--linear-purple);
+            font-size: 12px;
+        }
+
+        .btn-full {
+            width: 100%;
+            padding: 11px;
+            font-size: 13.5px;
+        }
+
+        /* Command Palette Modal */
+        #cmd-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 15vh;
+        }
+        .cmd-dialog {
+            width: 580px;
+            max-width: 92%;
+            background: var(--linear-panel);
+            border: 1px solid var(--linear-border-hover);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+        }
+        .cmd-input-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--linear-border);
+        }
+        .cmd-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: var(--font-sans);
+            font-size: 15px;
+            color: var(--linear-text-primary);
+        }
+        .cmd-results {
+            padding: 10px 12px;
+            max-height: 280px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .cmd-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 12px;
+            border-radius: var(--radius-sm);
+            color: var(--linear-text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        .cmd-row:hover, .cmd-row.active {
+            background: var(--linear-purple);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glow -->
+    <div class="ambient-glow"></div>
+
+    <!-- 1. Header Bar -->
+    <header class="linear-header">
+        <div class="header-content">
+            <div class="brand-cluster">
+                <div class="linear-logo"><i class="fa-solid fa-shapes"></i></div>
+                <span class="brand-name">Linear Legal OS</span>
+                <span class="breadcrumb-sep">/</span>
+                <span class="brand-sub">Hồ sơ Doanh nghiệp</span>
+            </div>
+
+            <div class="header-search" onclick="openCmdModal()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Tìm nhanh thủ tục, file, MST...</span>
+                <span class="kbd-pill">⌘K</span>
+            </div>
+
+            <div class="header-nav">
+                <button class="btn btn-linear-ghost" onclick="window.history.back()"><i class="fa-solid fa-arrow-left"></i> Quay lại</button>
+                <button class="btn btn-linear-primary" onclick="simulateExport()"><i class="fa-solid fa-bolt"></i> Xuất hồ sơ</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Subnav Procedure Switcher -->
+    <nav class="linear-subnav">
+        <div class="subnav-content">
+            <div class="nav-tabs">
+                <button class="nav-tab-btn active" onclick="switchLinearTpl('Thành lập mới công ty TNHH 2 TV', this)">
+                    <i class="fa-solid fa-folder"></i> Thành lập mới 2 TV <span class="tab-count">5</span>
+                </button>
+                <button class="nav-tab-btn" onclick="switchLinearTpl('Tăng vốn công ty TNHH 2 TV', this)">
+                    <i class="fa-solid fa-arrow-trend-up"></i> Tăng vốn 2 TV <span class="tab-count">7</span>
+                </button>
+                <button class="nav-tab-btn" onclick="switchLinearTpl('Chuyển nhượng Công ty TNHH 2 TV', this)">
+                    <i class="fa-solid fa-repeat"></i> Chuyển nhượng 2 TV <span class="tab-count">10</span>
+                </button>
+            </div>
+            <div style="font-size: 12px; color: var(--linear-text-muted); display: flex; align-items: center; gap: 8px;">
+                <span class="status-dot-done"></span>
+                <span>docxtpl engine: <b>Ready</b></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3. Workspace Wrap -->
+    <div class="workspace-wrap">
+        <!-- Hero Header -->
+        <div class="linear-hero">
+            <div class="hero-left">
+                <div class="hero-id-tag">
+                    <i class="fa-solid fa-cube"></i> <span id="procedure-tag">CORP-TLM-2TV</span>
+                </div>
+                <h1 class="hero-title" id="procedure-heading">Thành lập mới công ty TNHH 2 TV</h1>
+                <p class="hero-desc" id="procedure-desc">Quy trình chuẩn hóa hồ sơ ĐKKD theo Nghị định 01/2021/NĐ-CP & Luật Doanh nghiệp 2020</p>
+            </div>
+            <div class="hero-controls">
+                <span class="kbd-pill" style="padding: 4px 8px; font-size: 11px;">Nhấn ⌘K để mở menu lệnh</span>
+            </div>
+        </div>
+
+        <!-- Linear 2-Column Split Grid -->
+        <div class="linear-grid">
+            <!-- Left Form Column -->
+            <div class="form-col">
+                <!-- Card 1: Enterprise Profile -->
+                <div class="linear-card">
+                    <div class="card-header-bar">
+                        <div class="card-heading">
+                            <i class="fa-solid fa-building"></i>
+                            <span>1. Thông tin Doanh nghiệp & Vốn điều lệ</span>
+                        </div>
+                        <span class="card-tag">SECTION_01</span>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-item col-span-2">
+                            <label class="item-label">Tên công ty (tiếng Việt) <span class="req">*</span></label>
+                            <input type="text" id="linear_ten_cong_ty" class="linear-input" style="font-weight: 600; color: #fff;" value="CÔNG TY TNHH PHÁT TRIỂN CÔNG NGHỆ QUỐC TẾ NEXUS" oninput="syncQueue()">
+                        </div>
+
+                        <div class="form-item col-span-2">
+                            <label class="item-label">Mã số thuế</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="linear_mst" class="linear-input font-mono" style="max-width: 280px;" value="0318992211" placeholder="Nhập mã số thuế...">
+                                <button type="button" class="btn btn-linear-ghost" onclick="mockLookupMST()"><i class="fa-solid fa-magnifying-glass"></i> Tra cứu Tổng cục Thuế</button>
+                            </div>
+                        </div>
+
+                        <div class="form-item col-span-2">
+                            <label class="item-label">Số nhà, tên đường (Trụ sở chính) <span class="req">*</span></label>
+                            <input type="text" id="linear_so_nha" class="linear-input" value="Số 88 đường Lê Duẩn" oninput="syncQueue()">
+                        </div>
+
+                        <div class="form-item">
+                            <label class="item-label">Phường / Xã <span class="req">*</span></label>
+                            <input type="text" id="linear_xa" class="linear-input" value="Phường Bến Nghé" oninput="syncQueue()">
+                        </div>
+
+                        <div class="form-item">
+                            <label class="item-label">Tỉnh / Thành phố <span class="req">*</span></label>
+                            <input type="text" id="linear_tinh" class="linear-input" value="Thành phố Hồ Chí Minh" oninput="syncQueue()">
+                        </div>
+
+                        <div class="form-item col-span-2">
+                            <label class="item-label">Vốn điều lệ (VNĐ) <span class="req">*</span></label>
+                            <input type="text" id="linear_von" class="linear-input font-mono" style="font-weight: 700; color: var(--linear-teal); font-size: 15px;" value="6,000,000,000" onkeyup="handleLinearMoney(this)">
+                            <div id="linear_spellout" style="font-size: 12px; color: var(--linear-amber); margin-top: 4px; font-weight: 500;">Bằng chữ: Sáu tỷ đồng</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Legal Representative -->
+                <div class="linear-card">
+                    <div class="card-header-bar">
+                        <div class="card-heading">
+                            <i class="fa-solid fa-user-shield"></i>
+                            <span>2. Người đại diện theo pháp luật</span>
+                        </div>
+                        <button class="btn btn-linear-ocr" type="button" onclick="mockScanVNeID('ddpl')">
+                            <i class="fa-solid fa-id-card"></i> Quét VNeID
+                        </button>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-item">
+                            <label class="item-label">Họ và tên <span class="req">*</span></label>
+                            <input type="text" id="linear_ddpl_name" class="linear-input" value="TRẦN QUỐC BẢO" oninput="syncQueue()">
+                        </div>
+                        <div class="form-item">
+                            <label class="item-label">Số CCCD <span class="req">*</span></label>
+                            <input type="text" id="linear_ddpl_cccd" class="linear-input font-mono" value="079089004321">
+                        </div>
+                        <div class="form-item">
+                            <label class="item-label">Ngày sinh</label>
+                            <input type="text" class="linear-input" value="22/04/1989">
+                        </div>
+                        <div class="form-item">
+                            <label class="item-label">Giới tính</label>
+                            <select class="linear-input">
+                                <option value="Nam" selected>Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Members & Capital Allocation -->
+                <div class="linear-card">
+                    <div class="card-header-bar">
+                        <div class="card-heading">
+                            <i class="fa-solid fa-users"></i>
+                            <span>3. Thành viên sáng lập & Phân bổ vốn</span>
+                        </div>
+                        <button class="btn btn-linear-ghost" type="button" onclick="addMemberRow()"><i class="fa-solid fa-plus"></i> Thêm thành viên</button>
+                    </div>
+
+                    <!-- Linear Capital Track -->
+                    <div class="capital-track-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px;">
+                            <span style="font-weight: 500; color: var(--linear-text-primary);">Tỷ lệ phân bổ vốn</span>
+                            <span id="linear-cap-badge" style="font-family: var(--font-mono); font-size: 11px; background: var(--linear-mint-subtle); color: var(--linear-mint); padding: 2px 7px; border-radius: var(--radius-full);">
+                                100% Khớp
+                            </span>
+                        </div>
+                        <div class="cap-progress" id="linear-cap-progress">
+                            <div style="width: 60%; background: #5e6ad2; height: 100%;"></div>
+                            <div style="width: 40%; background: #00f0ff; height: 100%;"></div>
+                        </div>
+                        <div id="linear-cap-badges" style="display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px;">
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="width: 7px; height: 7px; border-radius: 50%; background: #5e6ad2;"></span>
+                                <span>Trần Quốc Bảo:</span>
+                                <b style="color: #5e6ad2; font-family: var(--font-mono);">60.0% (3,600,000,000 đ)</b>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="width: 7px; height: 7px; border-radius: 50%; background: #00f0ff;"></span>
+                                <span>Phạm Thảo Vy:</span>
+                                <b style="color: #00f0ff; font-family: var(--font-mono);">40.0% (2,400,000,000 đ)</b>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="linear-members-container" style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Member 1 -->
+                        <div class="member-issue-row">
+                            <div class="member-header">
+                                <span style="font-size: 13px; font-weight: 600; color: #5e6ad2; display: flex; align-items: center; gap: 8px;">
+                                    <span style="width: 7px; height: 7px; border-radius: 50%; background: #5e6ad2;"></span>
+                                    <span>Thành viên #1</span>
+                                </span>
+                                <button class="btn btn-linear-ocr" type="button" onclick="mockScanVNeID('m1')"><i class="fa-solid fa-id-card"></i> VNeID</button>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-item">
+                                    <label class="item-label">Họ và tên</label>
+                                    <input type="text" class="linear-input m-name" value="TRẦN QUỐC BẢO" oninput="recalcLinearCap()">
+                                </div>
+                                <div class="form-item">
+                                    <label class="item-label">Số CCCD</label>
+                                    <input type="text" class="linear-input font-mono" value="079089004321">
+                                </div>
+                                <div class="form-item">
+                                    <label class="item-label">Vốn góp (VNĐ)</label>
+                                    <input type="text" class="linear-input font-mono m-von" value="3,600,000,000" onkeyup="handleLinearMoney(this); recalcLinearCap()">
+                                </div>
+                                <div class="form-item">
+                                    <label class="item-label">Tỷ lệ (%)</label>
+                                    <input type="text" class="linear-input font-mono m-pct" value="60.0" readonly style="background: rgba(255, 255, 255, 0.02);">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 2 -->
+                        <div class="member-issue-row">
+                            <div class="member-header">
+                                <span style="font-size: 13px; font-weight: 600; color: #00f0ff; display: flex; align-items: center; gap: 8px;">
+                                    <span style="width: 7px; height: 7px; border-radius: 50%; background: #00f0ff;"></span>
+                                    <span>Thành viên #2</span>
+                                </span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-linear-ocr" type="button" onclick="mockScanVNeID('m2')"><i class="fa-solid fa-id-card"></i> VNeID</button>
+                                    <button class="btn-linear-ghost" style="padding: 4px 8px; color: var(--linear-rose); border: none;" type="button" onclick="this.closest('.member-issue-row').remove(); recalcLinearCap();"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-item">
+                                    <label class="item-label">Họ và tên</label>
+                                    <input type="text" class="linear-input m-name" value="PHẠM THẢO VY" oninput="recalcLinearCap()">
+                                </div>
+                                <div class="form-item">
+                                    <label class="item-label">Số CCCD</label>
+                                    <input type="text" class="linear-input font-mono" value="079194002345">
+                                </div>
+                                <div class="form-item">
+                                    <label class="item-label">Vốn góp (VNĐ)</label>
+                                    <input type="text" class="linear-input font-mono m-von" value="2,400,000,000" onkeyup="handleLinearMoney(this); recalcLinearCap()">
+                                </div>
+                                <div class="form-item">
+                                    <label class="item-label">Tỷ lệ (%)</label>
+                                    <input type="text" class="linear-input font-mono m-pct" value="40.0" readonly style="background: rgba(255, 255, 255, 0.02);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Queue Column (Linear Issue Tracker Style) -->
+            <div class="queue-col">
+                <div class="queue-card">
+                    <div class="queue-header">
+                        <div class="queue-title">
+                            <i class="fa-solid fa-layer-group" style="color: var(--linear-purple);"></i>
+                            <span>Dossier Queue</span>
+                        </div>
+                        <span class="queue-pill" id="queue-status-pill">100% Synced</span>
+                    </div>
+
+                    <div style="font-size: 12px; color: var(--linear-text-muted); margin-bottom: 12px;">
+                        Bộ biểu mẫu tự động đồng bộ theo tiến trình:
+                    </div>
+
+                    <!-- Issues List -->
+                    <div class="issue-list" id="issue-list">
+                        <div class="issue-item" onclick="alert('Đã đồng bộ biểu mẫu: 01. Giấy đề nghị.docx')">
+                            <div class="issue-left">
+                                <span class="issue-id">DKKD-01</span>
+                                <span class="issue-title">01. Giấy đề nghị.docx</span>
+                            </div>
+                            <i class="fa-solid fa-circle-check issue-status-icon"></i>
+                        </div>
+
+                        <div class="issue-item" onclick="alert('Đã đồng bộ biểu mẫu: 02. Điều lệ.docx')">
+                            <div class="issue-left">
+                                <span class="issue-id">DKKD-02</span>
+                                <span class="issue-title">02. Điều lệ.docx</span>
+                            </div>
+                            <i class="fa-solid fa-circle-check issue-status-icon"></i>
+                        </div>
+
+                        <div class="issue-item" onclick="alert('Đã đồng bộ biểu mẫu: 03. Danh sách thành viên.docx')">
+                            <div class="issue-left">
+                                <span class="issue-id">DKKD-03</span>
+                                <span class="issue-title">03. Danh sách thành viên.docx</span>
+                            </div>
+                            <i class="fa-solid fa-circle-check issue-status-icon"></i>
+                        </div>
+
+                        <div class="issue-item" onclick="alert('Đã đồng bộ biểu mẫu: 04. Giấy ủy quyền.docx')">
+                            <div class="issue-left">
+                                <span class="issue-id">DKKD-04</span>
+                                <span class="issue-title">04. Giấy ủy quyền.docx</span>
+                            </div>
+                            <i class="fa-solid fa-circle-check issue-status-icon"></i>
+                        </div>
+
+                        <div class="issue-item" onclick="alert('Đã đồng bộ biểu mẫu: 05. Danh sách CSHHL.docx')">
+                            <div class="issue-left">
+                                <span class="issue-id">DKKD-05</span>
+                                <span class="issue-title">05. Danh sách CSHHL.docx</span>
+                            </div>
+                            <i class="fa-solid fa-circle-check issue-status-icon"></i>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-linear-primary btn-full" onclick="simulateExport()">
+                        <i class="fa-solid fa-bolt"></i> Xuất trọn bộ hồ sơ (.ZIP)
+                    </button>
+
+                    <div style="margin-top: 14px; font-size: 11.5px; color: var(--linear-text-muted); text-align: center;">
+                        <i class="fa-solid fa-lock" style="color: var(--linear-purple);"></i> Jinja2 Dynamic Templating • 0.82s
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Command Palette (⌘K) Modal -->
+    <div id="cmd-modal" onclick="if (event.target === this) closeCmdModal()">
+        <div class="cmd-dialog">
+            <div class="cmd-input-bar">
+                <i class="fa-solid fa-terminal" style="color: var(--linear-purple); font-size: 13px;"></i>
+                <input type="text" class="cmd-input" id="cmd-input-field" placeholder="Nhập lệnh hoặc tìm thủ tục..." autofocus>
+                <span class="kbd-pill">ESC</span>
+            </div>
+            <div class="cmd-results">
+                <div class="cmd-row active" onclick="switchLinearTpl('Thành lập mới công ty TNHH 2 TV'); closeCmdModal();">
+                    <span><i class="fa-solid fa-folder"></i> Thành lập mới công ty TNHH 2 TV</span>
+                    <span class="kbd-pill">Enter</span>
+                </div>
+                <div class="cmd-row" onclick="switchLinearTpl('Tăng vốn công ty TNHH 2 TV'); closeCmdModal();">
+                    <span><i class="fa-solid fa-arrow-trend-up"></i> Tăng vốn công ty TNHH 2 TV</span>
+                    <span class="kbd-pill">Alt+2</span>
+                </div>
+                <div class="cmd-row" onclick="switchLinearTpl('Chuyển nhượng Công ty TNHH 2 TV'); closeCmdModal();">
+                    <span><i class="fa-solid fa-repeat"></i> Chuyển nhượng Công ty TNHH 2 TV</span>
+                    <span class="kbd-pill">Alt+3</span>
+                </div>
+                <div class="cmd-row" onclick="simulateExport(); closeCmdModal();">
+                    <span><i class="fa-solid fa-file-zipper"></i> Xuất trọn bộ hồ sơ .ZIP ngay lập tức</span>
+                    <span class="kbd-pill">⌘E</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const linearTpls = {
+            'Thành lập mới công ty TNHH 2 TV': {
+                tag: 'CORP-TLM-2TV',
+                heading: 'Thành lập mới công ty TNHH 2 TV',
+                desc: 'Quy trình chuẩn hóa hồ sơ ĐKKD theo Nghị định 01/2021/NĐ-CP & Luật Doanh nghiệp 2020',
+                files: ['01. Giấy đề nghị.docx', '02. Điều lệ.docx', '03. Danh sách thành viên.docx', '04. Giấy ủy quyền.docx', '05. Danh sách CSHHL.docx']
+            },
+            'Tăng vốn công ty TNHH 2 TV': {
+                tag: 'CORP-TV-2TV',
+                heading: 'Tăng vốn công ty TNHH 2 TV',
+                desc: 'Thay đổi nội dung ĐKKD: Tăng vốn điều lệ công ty TNHH Hai thành viên trở lên',
+                files: ['01. Thông báo thay đổi ĐKKD.docx', '02. Biên bản họp.docx', '03. Quyết định của HĐTV.docx', '04. Danh sách thành viên sau tăng vốn.docx', '05. Giấy xác nhận góp vốn.docx', '06. Giấy ủy quyền.docx', '07. Danh sách CSHHL.docx']
+            },
+            'Chuyển nhượng Công ty TNHH 2 TV': {
+                tag: 'CORP-CN-2TV',
+                heading: 'Chuyển nhượng Công ty TNHH 2 TV',
+                desc: 'Thay đổi thành viên do chuyển nhượng phần vốn góp công ty TNHH Hai thành viên',
+                files: ['01. Thông báo thay đổi ĐKKD.docx', '02. Hợp đồng chuyển nhượng vốn.docx', '03. Biên bản thanh lý hợp đồng.docx', '04. Biên bản họp Hội đồng thành viên.docx', '05. Quyết định của HĐTV.docx', '06. Danh sách thành viên mới.docx', '07. Giấy ủy quyền.docx']
+            }
+        };
+
+        function switchLinearTpl(name, btn) {
+            if (btn) {
+                document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            const data = linearTpls[name];
+            document.getElementById('procedure-tag').innerText = data.tag;
+            document.getElementById('procedure-heading').innerText = data.heading;
+            document.getElementById('procedure-desc').innerText = data.desc;
+
+            let html = '';
+            data.files.forEach((f, idx) => {
+                const num = String(idx + 1).padStart(2, '0');
+                html += `
+                    <div class="issue-item" onclick="alert('Đã đồng bộ biểu mẫu: ${f}')">
+                        <div class="issue-left">
+                            <span class="issue-id">DKKD-${num}</span>
+                            <span class="issue-title">${f}</span>
+                        </div>
+                        <i class="fa-solid fa-circle-check issue-status-icon"></i>
+                    </div>
+                `;
+            });
+            document.getElementById('issue-list').innerHTML = html;
+        }
+
+        function handleLinearMoney(inp) {
+            const raw = inp.value.replace(/\D/g, '');
+            inp.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
+            if (inp.id === 'linear_von') {
+                recalcLinearCap();
+            }
+        }
+
+        function recalcLinearCap() {
+            const totalVon = parseInt(document.getElementById('linear_von').value.replace(/\D/g, '') || '0', 10);
+            const rows = document.querySelectorAll('#linear-members-container .member-issue-row');
+            const colors = ['#5e6ad2', '#00f0ff', '#4ade80', '#f59e0b', '#f43f5e'];
+
+            let distributed = 0;
+            let trackHtml = '';
+            let badgesHtml = '';
+
+            rows.forEach((r, idx) => {
+                const nameInp = r.querySelector('.m-name');
+                const vonInp = r.querySelector('.m-von');
+                const pctInp = r.querySelector('.m-pct');
+
+                const name = (nameInp && nameInp.value) ? nameInp.value : `Thành viên #${idx + 1}`;
+                const mVal = parseInt((vonInp && vonInp.value) ? vonInp.value.replace(/\D/g, '') : '0', 10);
+                distributed += mVal;
+
+                const pct = totalVon > 0 ? ((mVal / totalVon) * 100).toFixed(1) : 0;
+                if (pctInp) pctInp.value = pct;
+
+                const color = colors[idx % colors.length];
+                if (mVal > 0) {
+                    trackHtml += `<div style="width: ${pct}%; background: ${color}; height: 100%; transition: width 0.3s;"></div>`;
+                }
+
+                badgesHtml += `
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="width: 7px; height: 7px; border-radius: 50%; background: ${color};"></span>
+                        <span>${name}:</span>
+                        <b style="color: ${color}; font-family: var(--font-mono);">${pct}% (${(mVal || 0).toLocaleString('vi-VN')} đ)</b>
+                    </div>
+                `;
+            });
+
+            document.getElementById('linear-cap-progress').innerHTML = trackHtml || '<div style="width: 100%; background: rgba(255,255,255,0.06);"></div>';
+            document.getElementById('linear-cap-badges').innerHTML = badgesHtml;
+
+            const remain = totalVon - distributed;
+            const badge = document.getElementById('linear-cap-badge');
+            if (remain === 0 && totalVon > 0) {
+                badge.innerText = '100% Khớp';
+                badge.style.background = 'var(--linear-mint-subtle)';
+                badge.style.color = 'var(--linear-mint)';
+            } else if (remain > 0) {
+                badge.innerText = `Còn thiếu ${remain.toLocaleString('vi-VN')} đ`;
+                badge.style.background = 'var(--linear-amber-subtle)';
+                badge.style.color = 'var(--linear-amber)';
+            } else {
+                badge.innerText = `Vượt +${Math.abs(remain).toLocaleString('vi-VN')} đ`;
+                badge.style.background = 'var(--linear-rose-subtle)';
+                badge.style.color = 'var(--linear-rose)';
+            }
+        }
+
+        let lCount = 2;
+        function addMemberRow() {
+            const container = document.getElementById('linear-members-container');
+            const idx = lCount++;
+            const colors = ['#5e6ad2', '#00f0ff', '#4ade80', '#f59e0b', '#f43f5e'];
+            const color = colors[idx % colors.length];
+
+            const html = `
+                <div class="member-issue-row">
+                    <div class="member-header">
+                        <span style="font-size: 13px; font-weight: 600; color: ${color}; display: flex; align-items: center; gap: 8px;">
+                            <span style="width: 7px; height: 7px; border-radius: 50%; background: ${color};"></span>
+                            <span>Thành viên #${idx + 1}</span>
+                        </span>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-linear-ocr" type="button" onclick="mockScanVNeID('m${idx}')"><i class="fa-solid fa-id-card"></i> VNeID</button>
+                            <button class="btn-linear-ghost" style="padding: 4px 8px; color: var(--linear-rose); border: none;" type="button" onclick="this.closest('.member-issue-row').remove(); recalcLinearCap();"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-item">
+                            <label class="item-label">Họ và tên</label>
+                            <input type="text" class="linear-input m-name" placeholder="NGUYỄN VĂN..." oninput="recalcLinearCap()">
+                        </div>
+                        <div class="form-item">
+                            <label class="item-label">Số CCCD</label>
+                            <input type="text" class="linear-input font-mono" placeholder="079...">
+                        </div>
+                        <div class="form-item">
+                            <label class="item-label">Vốn góp (VNĐ)</label>
+                            <input type="text" class="linear-input font-mono m-von" placeholder="1,000,000,000" onkeyup="handleLinearMoney(this); recalcLinearCap()">
+                        </div>
+                        <div class="form-item">
+                            <label class="item-label">Tỷ lệ (%)</label>
+                            <input type="text" class="linear-input font-mono m-pct" value="0.0" readonly style="background: rgba(255, 255, 255, 0.02);">
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+            recalcLinearCap();
+        }
+
+        function mockLookupMST() {
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Tra cứu...';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-solid fa-check text-green"></i> Đã đồng bộ';
+                document.getElementById('linear_ten_cong_ty').value = 'CÔNG TY TNHH PHÁT TRIỂN CÔNG NGHỆ QUỐC TẾ NEXUS';
+            }, 600);
+        }
+
+        function mockScanVNeID(target) {
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> VNeID...';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-solid fa-check" style="color: var(--linear-mint);"></i> Đã quét';
+                if (target === 'ddpl') {
+                    document.getElementById('linear_ddpl_name').value = 'TRẦN QUỐC BẢO';
+                    document.getElementById('linear_ddpl_cccd').value = '079089004321';
+                }
+            }, 700);
+        }
+
+        function syncQueue() {
+            // Live reactive
+        }
+
+        function simulateExport() {
+            alert('Đang đóng gói 5 biểu mẫu Word (.docx) sang file ZIP theo tốc độ Linear Engine (~0.82s)...');
+        }
+
+        function openCmdModal() {
+            document.getElementById('cmd-modal').style.display = 'flex';
+            setTimeout(() => document.getElementById('cmd-input-field').focus(), 50);
+        }
+
+        function closeCmdModal() {
+            document.getElementById('cmd-modal').style.display = 'none';
+        }
+
+        // Keyboard Shortcut: Cmd+K / Ctrl+K / Escape
+        window.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                openCmdModal();
+            }
+            if (e.key === 'Escape') {
+                closeCmdModal();
+            }
+        });
+    </script>
+</body>
+</html>
