@@ -62,4 +62,11 @@ def get_template_schema(template_name: str):
         raise HTTPException(status_code=404, detail=f"Không tìm thấy schema cho mẫu: {template_name}")
 
     with open(schema_path, "r", encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
+
+    # Lấy danh sách các file docx thực tế trong bộ mẫu
+    docx_files = sorted([f.name for f in schema_path.parent.glob("*.docx") if not f.name.startswith(("~$", "_"))])
+    data["doc_files"] = docx_files
+    data["file_count"] = len(docx_files)
+
+    return data

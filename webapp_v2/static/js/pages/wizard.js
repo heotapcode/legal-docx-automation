@@ -160,6 +160,19 @@ function renderCurrentStep() {
         const currentStep = window.wizardState.step;
         progressBar.style.width = `${(currentStep / 4) * 100}%`;
 
+        const pCont = content.closest('.container');
+        if (pCont) {
+            if (currentStep === 1 || currentStep === 3) {
+                pCont.style.maxWidth = '1300px';
+                pCont.style.width = '96%';
+                pCont.style.padding = '0 16px';
+            } else if (currentStep === 4) {
+                pCont.style.maxWidth = '1200px';
+                pCont.style.width = '96%';
+                pCont.style.padding = '0 16px';
+            }
+        }
+
         switch (currentStep) {
             case 1:
                 stepText.innerHTML = '<span>Bước 1/4: Chọn thủ tục</span>';
@@ -442,44 +455,313 @@ async function loadStep2Schema() {
     }
 }
 
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+window.isGlobalModernUI = function() {
+    return localStorage.getItem('global_ui_mode') !== 'legacy';
+};
+
+window.toggleGlobalUIMode = function() {
+    const current = window.isGlobalModernUI();
+    localStorage.setItem('global_ui_mode', current ? 'legacy' : 'modern');
+    if (window.wizardState && window.wizardState.step === 2 && window.wizardState.schema) {
+        renderStep2Form(window.wizardState.schema);
+    }
+};
+
+window.previewDocInfo = function(docName) {
+    if (window.showToast) {
+        window.showToast(`Biểu mẫu "${docName}" đã sẵn sàng và sẽ được tạo tự động với đầy đủ dữ liệu.`);
+    } else {
+        alert(`Biểu mẫu "${docName}" sẽ được tạo tự động khi bạn xuất hồ sơ.`);
+    }
+};
+
+window.updateUniversalCompleteness = function() {
+    const inputs = document.querySelectorAll('#dynamic-form-container input:not([type="hidden"]):not([type="file"]), #dynamic-form-container select');
+    if (!inputs.length) return;
+
+    let filled = 0;
+    inputs.forEach(inp => {
+        if (inp.value && inp.value.trim().length > 0) {
+            filled++;
+        }
+    });
+
+    const pct = Math.max(25, Math.min(100, Math.round((filled / inputs.length) * 100)));
+    const scoreEl = document.getElementById('universal-completeness-score');
+    const fillEl = document.getElementById('universal-progress-fill');
+    if (scoreEl) scoreEl.innerText = `${pct}%`;
+    if (fillEl) fillEl.style.width = `${pct}%`;
+};
+
+window.updateUniversalCapitalDistribution = function() {
+    const vonInput = document.getElementById('input-von_dieu_le_so');
+    const container = document.getElementById('universal-capital-bar-container');
+    if (!container) return;
+
+    if (!vonInput) {
+        container.innerHTML = '';
+        return;
+    }
+
+    const totalVon = parseInt(vonInput.value.replace(/\D/g, '') || '0', 10);
+    const memberList = window.wizardState.thanhVienList || [];
+    if (!memberList.length || totalVon <= 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    const colors = ['#f97316', '#3b82f6', '#10b981', '#a855f7', '#ec4899', '#eab308', '#06b6d4'];
+    let distributed = 0;
+    let segmentsHtml = '';
+    let badgesHtml = '';
+
+    memberList.forEach((m, idx) => {
+        const mInput = document.querySelector(`.m-field[data-idx="${idx}"][data-prop="von_gop"]`);
+        const valStr = mInput ? mInput.value : (m.von_gop || '0');
+        const mVal = parseInt(String(valStr).replace(/\D/g, '') || '0', 10);
+        distributed += mVal;
+
+        const pct = ((mVal / totalVon) * 100).toFixed(1);
+        const color = colors[idx % colors.length];
+        const nameInput = document.querySelector(`.m-field[data-idx="${idx}"][data-prop="ho_ten"]`);
+        const name = (nameInput && nameInput.value) ? nameInput.value : (m.ho_ten || `Thành viên ${idx + 1}`);
+
+        if (mVal > 0) {
+            segmentsHtml += `<div style="width: ${pct}%; background: ${color}; height: 100%; transition: width 0.3s;" title="${name}: ${pct}% (${formatMoneyStr(String(mVal))} đ)"></div>`;
+        }
+        badgesHtml += `
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">
+                <span style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: ${color};"></span>
+                <span style="color: var(--text-secondary); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${name}:</span>
+                <b style="color: ${color}; font-family: var(--font-mono);">${pct}%</b>
+            </div>
+        `;
+    });
+
+    const remain = totalVon - distributed;
+    const remainPct = ((remain / totalVon) * 100).toFixed(1);
+
+    let statusBadge = '';
+    if (remain === 0) {
+        statusBadge = '<span class="badge badge-green"><i class="fa-solid fa-check"></i> Khớp 100% vốn</span>';
+    } else if (remain > 0) {
+        statusBadge = `<span class="badge" style="background: rgba(234, 179, 8, 0.2); color: #facc15;"><i class="fa-solid fa-triangle-exclamation"></i> Còn thiếu: ${formatMoneyStr(String(remain))} đ (${remainPct}%)</span>`;
+    } else {
+        statusBadge = `<span class="badge badge-red"><i class="fa-solid fa-triangle-exclamation"></i> Vượt mức: +${formatMoneyStr(String(Math.abs(remain)))} đ</span>`;
+    }
+
+    container.innerHTML = `
+        <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-size: 13px; font-weight: 700; color: #fff;">
+                    <i class="fa-solid fa-chart-pie text-cyan"></i> Phân bổ vốn điều lệ (${formatMoneyStr(String(totalVon))} đ)
+                </span>
+                <div>${statusBadge}</div>
+            </div>
+            <div style="height: 10px; background: rgba(255,255,255,0.07); border-radius: 5px; overflow: hidden; display: flex; margin-bottom: 10px;">
+                ${segmentsHtml || '<div style="width: 100%; background: rgba(255,255,255,0.08);"></div>'}
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px 12px;">
+                ${badgesHtml}
+            </div>
+        </div>
+    `;
+};
+
 function renderStep2Form(schema) {
     const content = document.getElementById('wizard-content');
     if (!content) return;
 
-    let html = `
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-4); gap: 16px;">
-            <div>
-                <h2 class="text-2xl font-bold">${schema.display_name}</h2>
-                <p class="text-secondary text-sm">${schema.description || ''}</p>
-            </div>
-            ${schema.name === 'Tăng vốn công ty TNHH 2 TV' ? `
-                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleTangVonUIMode()" style="white-space: nowrap;">
+    const isModern = window.isGlobalModernUI();
+    const parentContainer = content.closest('.container');
+    if (parentContainer) {
+        parentContainer.style.maxWidth = isModern ? '1540px' : '950px';
+        parentContainer.style.width = isModern ? '96%' : '100%';
+        parentContainer.style.padding = '0 16px';
+    }
+
+    if (!isModern) {
+        let html = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-4); gap: 16px;">
+                <div>
+                    <h2 class="text-2xl font-bold">${schema.display_name}</h2>
+                    <p class="text-secondary text-sm">${schema.description || ''}</p>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleGlobalUIMode()" style="white-space: nowrap;">
                     <i class="fa-solid fa-sparkles text-cyan"></i> Dùng giao diện Split-Screen mới
                 </button>
-            ` : ''}
-        </div>
-        <div id="dynamic-form-container" style="display: flex; flex-direction: column; gap: var(--space-6);">
-    `;
-
-    (schema.steps || []).forEach((step, sIdx) => {
-        html += `
-            <div class="card-sub" style="border-left: 4px solid var(--accent-primary);">
-                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: var(--space-4);">
-                    <i class="fa-solid fa-clipboard-list text-cyan"></i>
-                    <h3 class="font-bold text-lg">${step.title}</h3>
-                </div>
-                <div>
+            </div>
+            <div id="dynamic-form-container" style="display: flex; flex-direction: column; gap: var(--space-6);">
         `;
 
-        (step.fields || []).forEach(f => {
-            html += renderField(f);
+        (schema.steps || []).forEach((step, sIdx) => {
+            html += `
+                <div class="card-sub" style="border-left: 4px solid var(--accent-primary);">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: var(--space-4);">
+                        <i class="fa-solid fa-clipboard-list text-cyan"></i>
+                        <h3 class="font-bold text-lg">${step.title}</h3>
+                    </div>
+                    <div>
+            `;
+
+            (step.fields || []).forEach(f => {
+                html += renderField(f);
+            });
+
+            html += `</div></div>`;
         });
 
-        html += `</div></div>`;
+        html += `</div>`;
+        content.innerHTML = html;
+        return;
+    }
+
+    // Modern Split-Screen & Live Dossier Layout
+    const docFiles = schema.doc_files || [];
+    const docCount = docFiles.length || (schema.file_count || 0);
+
+    let docListHtml = '';
+    if (docFiles.length > 0) {
+        docListHtml = docFiles.map((doc, idx) => {
+            const cleanName = doc.replace(/\.docx$/i, '');
+            return `
+                <div class="modern-doc-item" title="${escapeHtml(doc)}" onclick="previewDocInfo('${escapeHtml(doc)}')">
+                    <div class="modern-doc-left">
+                        <i class="fa-solid fa-file-word modern-doc-icon"></i>
+                        <div>
+                            <div class="modern-doc-name">${escapeHtml(cleanName)}</div>
+                            <div class="modern-doc-meta">Biểu mẫu chuẩn ĐKKD</div>
+                        </div>
+                    </div>
+                    <span class="modern-doc-badge ready"><i class="fa-solid fa-check"></i> Sẵn sàng</span>
+                </div>
+            `;
+        }).join('');
+    } else {
+        docListHtml = `
+            <div class="text-center py-6 text-secondary text-sm" style="border: 1px dashed var(--border-glass); border-radius: var(--radius-sm);">
+                <i class="fa-solid fa-folder-open fa-2x mb-2" style="opacity: 0.5;"></i>
+                <div>Bộ hồ sơ gồm các biểu mẫu chuẩn hóa theo Nghị định 01/2021/NĐ-CP</div>
+            </div>
+        `;
+    }
+
+    let formStepsHtml = '';
+    (schema.steps || []).forEach((step, sIdx) => {
+        let stepFieldsHtml = '';
+        (step.fields || []).forEach(f => {
+            stepFieldsHtml += renderField(f);
+        });
+
+        formStepsHtml += `
+            <div class="modern-card">
+                <div class="modern-card-header">
+                    <div class="modern-card-title">
+                        <i class="fa-solid fa-folder-tree text-cyan"></i>
+                        <span>${step.title}</span>
+                    </div>
+                    <span class="modern-pill-tag">Mục ${sIdx + 1}/${schema.steps.length}</span>
+                </div>
+                <div>
+                    ${stepFieldsHtml}
+                </div>
+            </div>
+        `;
     });
 
-    html += `</div>`;
+    const ctaBtnHtml = schema.has_nganh ? `
+        <button type="button" class="btn btn-primary modern-download-btn" onclick="nextStep()">
+            <i class="fa-solid fa-arrow-right"></i> Tiếp tục: Chọn ngành nghề &rarr;
+        </button>
+    ` : `
+        <button type="button" class="btn btn-primary modern-download-btn" onclick="nextStep()">
+            <i class="fa-solid fa-file-zipper"></i> Tiến hành xuất hồ sơ (.ZIP) &rarr;
+        </button>
+    `;
+
+    const html = `
+        <div class="modern-container">
+            <!-- Header Toolbar -->
+            <div class="modern-header-toolbar">
+                <div class="modern-title-cluster">
+                    <div class="modern-badge">
+                        <i class="fa-solid fa-bolt"></i> ${escapeHtml(schema.category || 'THỦ TỤC DOANH NGHIỆP')}
+                    </div>
+                    <h2 class="modern-main-title">${escapeHtml(schema.display_name)}</h2>
+                    <p class="text-secondary text-sm" style="margin: 0;">${escapeHtml(schema.description || 'Hệ thống tự động điền toàn bộ hồ sơ đăng ký doanh nghiệp')}</p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="toggleGlobalUIMode()" title="Chuyển về giao diện form truyền thống">
+                        <i class="fa-solid fa-rotate-left"></i> Dùng giao diện cũ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Workspace: 2 Cột -->
+            <div class="modern-workspace">
+                <!-- Cột trái: Form nhập liệu -->
+                <div class="modern-form-col">
+                    <div id="dynamic-form-container" style="display: flex; flex-direction: column; gap: var(--space-6);">
+                        ${formStepsHtml}
+                    </div>
+                </div>
+
+                <!-- Cột phải: Live Dossier Inspector -->
+                <div class="modern-dossier-col">
+                    <div class="modern-dossier-card">
+                        <div class="modern-dossier-header">
+                            <span class="modern-dossier-title">
+                                <i class="fa-solid fa-file-shield text-cyan"></i> Bảng kiểm soát hồ sơ
+                            </span>
+                            <span class="modern-score" id="universal-completeness-score">100%</span>
+                        </div>
+                        <div class="modern-progress-track">
+                            <div class="modern-progress-fill" id="universal-progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-secondary); display: flex; justify-content: space-between;">
+                            <span>Độ hoàn thiện thông tin</span>
+                            <span id="universal-completeness-text">${docCount} biểu mẫu</span>
+                        </div>
+
+                        <div class="modern-doc-list">
+                            ${docListHtml}
+                        </div>
+
+                        ${ctaBtnHtml}
+
+                        <div style="margin-top: 14px; font-size: 11.5px; color: var(--text-muted); text-align: center; line-height: 1.5;">
+                            <i class="fa-solid fa-shield-halved text-cyan"></i> Tự động kiểm tra dữ liệu và bảo mật thông tin theo tiêu chuẩn ĐKKD
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
     content.innerHTML = html;
+
+    // Attach listener & initial calculations
+    const formContainer = document.getElementById('dynamic-form-container');
+    if (formContainer) {
+        formContainer.removeEventListener('input', updateUniversalCompleteness);
+        formContainer.addEventListener('input', updateUniversalCompleteness);
+        updateUniversalCompleteness();
+    }
+    setTimeout(() => {
+        if (window.updateUniversalCapitalDistribution) {
+            window.updateUniversalCapitalDistribution();
+        }
+    }, 50);
 }
 
 function renderField(field) {
@@ -588,6 +870,30 @@ function handleMoneyChange(input, spelloutId) {
             window.wizardState.formData[chuKey] = words;
         }
     }
+
+    // Nếu sửa vốn điều lệ, tự tính lại tỷ lệ của tất cả các thành viên
+    if (fKey === 'von_dieu_le_so' || input.id === 'input-von_dieu_le_so') {
+        const totalVon = parseInt(raw || '0', 10);
+        if (totalVon > 0) {
+            (window.wizardState.thanhVienList || []).forEach((m, idx) => {
+                const mInput = document.querySelector(`.m-field[data-idx="${idx}"][data-prop="von_gop"]`);
+                const valStr = mInput ? mInput.value : (m.von_gop || '0');
+                const mVal = parseInt(String(valStr).replace(/\D/g, '') || '0', 10);
+                if (mVal > 0) {
+                    const pct = ((mVal / totalVon) * 100).toFixed(1);
+                    const tyLeInput = document.querySelector(`.m-field[data-idx="${idx}"][data-prop="ty_le"]`);
+                    if (tyLeInput) {
+                        tyLeInput.value = pct;
+                        m.ty_le = pct;
+                    }
+                }
+            });
+        }
+    }
+
+    if (window.updateUniversalCapitalDistribution) {
+        window.updateUniversalCapitalDistribution();
+    }
 }
 
 // Single Person Card
@@ -658,6 +964,7 @@ function renderPersonList(field) {
     const list = window.wizardState.thanhVienList || [];
     let html = `
         <div id="person-list-wrapper">
+            <div id="universal-capital-bar-container"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
                 <span class="font-bold text-sm text-secondary">${field.label} (${list.length})</span>
                 <button type="button" class="btn btn-secondary btn-sm" onclick="addMember()">
@@ -752,6 +1059,28 @@ function renderMemberItem(m, idx, extraFields) {
 function handleMemberMoneyChange(input) {
     const raw = input.value.replace(/\D/g, '');
     input.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
+
+    // Auto calculate and update ty_le if von_dieu_le_so exists
+    const vonInput = document.getElementById('input-von_dieu_le_so');
+    if (vonInput) {
+        const totalVon = parseInt(vonInput.value.replace(/\D/g, '') || '0', 10);
+        const idx = input.getAttribute('data-idx');
+        if (totalVon > 0 && idx !== null) {
+            const mVal = parseInt(raw || '0', 10);
+            const pct = ((mVal / totalVon) * 100).toFixed(1);
+            const tyLeInput = document.querySelector(`.m-field[data-idx="${idx}"][data-prop="ty_le"]`);
+            if (tyLeInput) {
+                tyLeInput.value = pct;
+                if (window.wizardState.thanhVienList[idx]) {
+                    window.wizardState.thanhVienList[idx]['ty_le'] = pct;
+                }
+            }
+        }
+    }
+
+    if (window.updateUniversalCapitalDistribution) {
+        window.updateUniversalCapitalDistribution();
+    }
 }
 
 window.addMember = function() {
