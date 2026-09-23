@@ -1,6 +1,6 @@
 // ==============================================================================
 // NAC v2 - Giao diện Tăng vốn công ty TNHH 2 TV (Split-Screen & Live Dossier)
-// Module độc lập - Hỗ trợ chuyển đổi qua lại mượt mà với giao diện truyền thống
+// Module độc lập - Thiết kế màn hình rộng rãi, hiển thị đầy đủ thông tin
 // ==============================================================================
 
 (function() {
@@ -16,6 +16,19 @@
     window.toggleTangVonUIMode = function() {
         const current = window.isTangVon2TVNewUI();
         localStorage.setItem('tangvon_ui_mode', current ? 'legacy' : 'modern');
+        
+        // Điều chỉnh lại độ rộng container phù hợp với chế độ được chọn
+        const parentContainer = document.getElementById('wizard-content')?.closest('.container');
+        if (parentContainer) {
+            if (!current) { // chuẩn bị chuyển sang modern
+                parentContainer.style.maxWidth = '1520px';
+                parentContainer.style.width = '96%';
+            } else { // chuẩn bị chuyển sang legacy
+                parentContainer.style.maxWidth = '950px';
+                parentContainer.style.width = '100%';
+            }
+        }
+
         // Re-render
         if (window.wizardState && window.wizardState.step === 2) {
             const content = document.getElementById('wizard-content');
@@ -23,7 +36,6 @@
                 if (window.isTangVon2TVNewUI()) {
                     window.renderTangVon2TVWizard(content);
                 } else {
-                    // Chạy lại render giao diện truyền thống của wizard.js
                     if (window.wizardState.schema) {
                         window.renderStep2Form(window.wizardState.schema);
                     } else {
@@ -37,6 +49,14 @@
     // Hàm render chính được gọi từ wizard.js
     window.renderTangVon2TVWizard = function(container) {
         if (!container) return;
+
+        // Mở rộng container bao ngoài để giao diện hiển thị rộng rãi, không bị gò bó 950px
+        const parentContainer = container.closest('.container');
+        if (parentContainer) {
+            parentContainer.style.maxWidth = '1540px';
+            parentContainer.style.width = '96%';
+            parentContainer.style.padding = '0 20px';
+        }
 
         // Khởi tạo dữ liệu mặc định nếu chưa có
         const fd = window.wizardState.formData = window.wizardState.formData || {};
@@ -69,10 +89,9 @@
             ];
         }
 
-        // Ẩn thanh progress bar mặc định của wizard.js để dùng layout full-width cao cấp
         const stepText = document.getElementById('wizard-step-text');
         if (stepText) {
-            stepText.innerHTML = `<span>Thủ tục: <b>Tăng vốn công ty TNHH 2 TV</b></span>`;
+            stepText.innerHTML = `<span>Thủ tục: <b>Tăng vốn công ty TNHH 2 TV</b> (Chế độ Split-Screen mở rộng)</span>`;
         }
 
         const tvList = window.wizardState.thanhVienList;
@@ -82,7 +101,7 @@
                 <!-- Header Toolbar -->
                 <div class="tv2-header-toolbar">
                     <div class="tv2-title-cluster">
-                        <div class="tv2-badge"><i class="fa-solid fa-chart-line"></i> TĂNG VỐN ĐIỀU LỆ</div>
+                        <div class="tv2-badge"><i class="fa-solid fa-chart-line"></i> THỦ TỤC ĐĂNG KÝ TĂNG VỐN ĐIỀU LỆ</div>
                         <h2 class="tv2-main-title">Công ty TNHH Hai thành viên trở lên</h2>
                     </div>
                     <div class="tv2-actions">
@@ -94,10 +113,10 @@
 
                 <!-- Split-screen Workspace -->
                 <div class="tv2-workspace">
-                    <!-- Left Column: Smart Form -->
+                    <!-- Left Column: Smart Form (Chiếm toàn bộ không gian rộng rãi) -->
                     <div class="tv2-form-col">
                         
-                        <!-- Card 1: Doanh nghiệp & Vốn -->
+                        <!-- Card 1: Doanh nghiệp & Vốn điều lệ -->
                         <div class="tv2-card">
                             <div class="tv2-card-header">
                                 <div class="tv2-card-title">
@@ -110,53 +129,53 @@
                             <div class="tv2-grid-2">
                                 <div class="tv2-field col-span-2">
                                     <label class="tv2-label">Mã số thuế doanh nghiệp <span class="text-error">*</span></label>
-                                    <div style="display: flex; gap: 8px;">
-                                        <input type="text" id="tv2_mst" name="ma_so_thue" value="${fd.ma_so_thue || ''}" class="form-control font-mono" placeholder="Nhập mã số thuế (10 hoặc 13 số)..." onkeyup="tv2Sync()">
-                                        <button type="button" class="btn btn-secondary" onclick="tv2LookupMST()" id="btn-tv2-mst" style="white-space: nowrap;">
-                                            <i class="fa-solid fa-magnifying-glass"></i> Tra cứu
+                                    <div style="display: flex; gap: 10px; align-items: center;">
+                                        <input type="text" id="tv2_mst" name="ma_so_thue" value="${fd.ma_so_thue || ''}" class="form-control font-mono font-bold" style="max-width: 340px; font-size: 15px;" placeholder="Nhập mã số thuế (10 hoặc 13 số)..." onkeyup="tv2Sync()">
+                                        <button type="button" class="btn btn-secondary" onclick="tv2LookupMST()" id="btn-tv2-mst" style="white-space: nowrap; padding: 10px 20px; font-weight: 600;">
+                                            <i class="fa-solid fa-magnifying-glass"></i> Tra cứu Tổng cục Thuế
                                         </button>
                                     </div>
-                                    <div id="tv2-mst-status" style="font-size: 12px; margin-top: 4px;"></div>
+                                    <div id="tv2-mst-status" style="font-size: 12.5px; margin-top: 4px;"></div>
                                 </div>
 
                                 <div class="tv2-field col-span-2">
                                     <label class="tv2-label">Tên công ty (tiếng Việt) <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_ten_cong_ty" name="ten_cong_ty_vn" value="${fd.ten_cong_ty_vn || ''}" class="form-control" placeholder="CÔNG TY TNHH..." onkeyup="tv2Sync()">
+                                    <input type="text" id="tv2_ten_cong_ty" name="ten_cong_ty_vn" value="${fd.ten_cong_ty_vn || ''}" class="form-control tv2-input-lg font-bold" placeholder="CÔNG TY TNHH..." onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field col-span-2">
-                                    <label class="tv2-label">Số nhà, tên đường (Trụ sở) <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_so_nha" name="dia_chi_so_nha" value="${fd.dia_chi_so_nha || ''}" class="form-control" placeholder="Số 123 đường..." onkeyup="tv2Sync()">
+                                    <label class="tv2-label">Số nhà, tên đường (Trụ sở chính) <span class="text-error">*</span></label>
+                                    <input type="text" id="tv2_so_nha" name="dia_chi_so_nha" value="${fd.dia_chi_so_nha || ''}" class="form-control tv2-input-lg" placeholder="Số 123 đường..." onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Xã / Phường <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_xa_phuong" name="dia_chi_xa_phuong" value="${fd.dia_chi_xa_phuong || ''}" class="form-control" placeholder="Phường..." onkeyup="tv2Sync()">
+                                    <input type="text" id="tv2_xa_phuong" name="dia_chi_xa_phuong" value="${fd.dia_chi_xa_phuong || ''}" class="form-control tv2-input-lg" placeholder="Phường..." onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Tỉnh / Thành phố <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_tinh_thanh" name="dia_chi_tinh_thanh" value="${fd.dia_chi_tinh_thanh || ''}" class="form-control" placeholder="Thành phố..." onkeyup="tv2Sync()">
+                                    <input type="text" id="tv2_tinh_thanh" name="dia_chi_tinh_thanh" value="${fd.dia_chi_tinh_thanh || ''}" class="form-control tv2-input-lg" placeholder="Thành phố..." onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
-                                    <label class="tv2-label">Vốn điều lệ cũ (VNĐ) <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_von_cu" name="von_cu_so" value="${fd.von_cu_so ? formatMoneyStr(fd.von_cu_so) : ''}" class="form-control font-mono" placeholder="Ví dụ: 1,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-tv2-von-cu'); tv2Sync()">
-                                    <div id="spellout-tv2-von-cu" class="money-spellout">${fd.von_cu_so ? 'Bằng chữ: ' + (window.docSoThanhChu ? window.docSoThanhChu(fd.von_cu_so) : numToVietnameseWords(fd.von_cu_so)) : ''}</div>
+                                    <label class="tv2-label">Vốn điều lệ đang đăng ký (cũ) <span class="text-error">*</span></label>
+                                    <input type="text" id="tv2_von_cu" name="von_cu_so" value="${fd.von_cu_so ? formatMoneyStr(fd.von_cu_so) : ''}" class="form-control font-mono tv2-input-lg" placeholder="Ví dụ: 1,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-tv2-von-cu'); tv2Sync()">
+                                    <div id="spellout-tv2-von-cu" class="money-spellout tv2-spellout">${fd.von_cu_so ? 'Bằng chữ: ' + (window.docSoThanhChu ? window.docSoThanhChu(fd.von_cu_so) : numToVietnameseWords(fd.von_cu_so)) : ''}</div>
                                 </div>
 
                                 <div class="tv2-field">
-                                    <label class="tv2-label">Vốn mới sau khi tăng (VNĐ) <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_von_moi" name="von_dieu_le_so" value="${fd.von_dieu_le_so ? formatMoneyStr(fd.von_dieu_le_so) : ''}" class="form-control font-mono font-bold" style="border-color: var(--accent-primary);" placeholder="Ví dụ: 3,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-tv2-von-moi'); tv2UpdateCapitalDistribution(); tv2Sync()">
-                                    <div id="spellout-tv2-von-moi" class="money-spellout">${fd.von_dieu_le_so ? 'Bằng chữ: ' + (window.docSoThanhChu ? window.docSoThanhChu(fd.von_dieu_le_so) : numToVietnameseWords(fd.von_dieu_le_so)) : ''}</div>
+                                    <label class="tv2-label">Vốn điều lệ mới sau khi tăng <span class="text-error">*</span></label>
+                                    <input type="text" id="tv2_von_moi" name="von_dieu_le_so" value="${fd.von_dieu_le_so ? formatMoneyStr(fd.von_dieu_le_so) : ''}" class="form-control font-mono font-bold tv2-input-lg" style="border-color: var(--accent-primary);" placeholder="Ví dụ: 3,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-tv2-von-moi'); tv2UpdateCapitalDistribution(); tv2Sync()">
+                                    <div id="spellout-tv2-von-moi" class="money-spellout tv2-spellout" style="color: var(--accent-orange); font-weight: 600;">${fd.von_dieu_le_so ? 'Bằng chữ: ' + (window.docSoThanhChu ? window.docSoThanhChu(fd.von_dieu_le_so) : numToVietnameseWords(fd.von_dieu_le_so)) : ''}</div>
                                 </div>
                             </div>
 
                             <!-- Live Capital Distribution Bar -->
                             <div class="tv2-distribution-wrap">
                                 <div class="tv2-dist-header">
-                                    <span>Cơ cấu vốn sau tăng: <b id="tv2-dist-total" style="color: var(--accent-primary);">0 VNĐ</b></span>
-                                    <span id="tv2-dist-ratios" style="font-family: var(--font-mono); font-weight: 600; color: var(--accent-green);">Đang tính toán...</span>
+                                    <span style="font-size: 13px;">Cơ cấu vốn sau tăng: <b id="tv2-dist-total" style="color: var(--accent-primary); font-size: 14px;">0 VNĐ</b></span>
+                                    <span id="tv2-dist-ratios" style="font-family: var(--font-mono); font-weight: 600; font-size: 13px; color: var(--accent-green);">Đang tính toán...</span>
                                 </div>
                                 <div class="tv2-bar-track" id="tv2-bar-track">
                                     <!-- Dynamic segments -->
@@ -182,41 +201,41 @@
                             <div class="tv2-grid-2">
                                 <div class="tv2-field">
                                     <label class="tv2-label">Họ và tên <span class="text-error">*</span></label>
-                                    <input type="text" name="ddpl_ho_ten" id="input-ddpl_ho_ten" value="${fd.ddpl_ho_ten || ''}" class="form-control" placeholder="NGUYỄN VĂN A" onkeyup="tv2Sync()">
+                                    <input type="text" name="ddpl_ho_ten" id="input-ddpl_ho_ten" value="${fd.ddpl_ho_ten || ''}" class="form-control tv2-input-lg font-bold" placeholder="NGUYỄN VĂN A" onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-grid-2">
                                     <div class="tv2-field">
                                         <label class="tv2-label">Giới tính</label>
-                                        <select name="ddpl_gioi_tinh" id="input-ddpl_gioi_tinh" class="form-control" onchange="tv2Sync()">
+                                        <select name="ddpl_gioi_tinh" id="input-ddpl_gioi_tinh" class="form-control tv2-input-lg" onchange="tv2Sync()">
                                             <option value="Nam" ${(fd.ddpl_gioi_tinh || 'Nam') === 'Nam' ? 'selected' : ''}>Nam</option>
                                             <option value="Nữ" ${(fd.ddpl_gioi_tinh || '') === 'Nữ' ? 'selected' : ''}>Nữ</option>
                                         </select>
                                     </div>
                                     <div class="tv2-field">
                                         <label class="tv2-label">Ngày sinh</label>
-                                        <input type="text" name="ddpl_ngay_sinh" id="input-ddpl_ngay_sinh" value="${fd.ddpl_ngay_sinh || ''}" class="form-control" placeholder="DD/MM/YYYY" onkeyup="tv2Sync()">
+                                        <input type="text" name="ddpl_ngay_sinh" id="input-ddpl_ngay_sinh" value="${fd.ddpl_ngay_sinh || ''}" class="form-control tv2-input-lg" placeholder="DD/MM/YYYY" onkeyup="tv2Sync()">
                                     </div>
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Số CCCD (12 số) <span class="text-error">*</span></label>
-                                    <input type="text" name="ddpl_so_cccd" id="input-ddpl_so_cccd" value="${fd.ddpl_so_cccd || ''}" class="form-control font-mono" placeholder="001090001234" onkeyup="tv2Sync()">
+                                    <input type="text" name="ddpl_so_cccd" id="input-ddpl_so_cccd" value="${fd.ddpl_so_cccd || ''}" class="form-control font-mono tv2-input-lg" placeholder="001090001234" onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
-                                    <label class="tv2-label">Số nhà, đường</label>
-                                    <input type="text" name="ddpl_dia_chi_so_nha" id="input-ddpl_dia_chi_so_nha" value="${fd.ddpl_dia_chi_so_nha || ''}" class="form-control" placeholder="Số 12, đường..." onkeyup="tv2Sync()">
+                                    <label class="tv2-label">Số nhà, đường (Thường trú)</label>
+                                    <input type="text" name="ddpl_dia_chi_so_nha" id="input-ddpl_dia_chi_so_nha" value="${fd.ddpl_dia_chi_so_nha || ''}" class="form-control tv2-input-lg" placeholder="Số 12, đường..." onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Xã / Phường</label>
-                                    <input type="text" name="ddpl_dia_chi_xa_phuong" id="input-ddpl_dia_chi_xa_phuong" value="${fd.ddpl_dia_chi_xa_phuong || ''}" class="form-control" placeholder="Xã/Phường" onkeyup="tv2Sync()">
+                                    <input type="text" name="ddpl_dia_chi_xa_phuong" id="input-ddpl_dia_chi_xa_phuong" value="${fd.ddpl_dia_chi_xa_phuong || ''}" class="form-control tv2-input-lg" placeholder="Xã/Phường" onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Tỉnh / Thành phố</label>
-                                    <input type="text" name="ddpl_dia_chi_tinh_thanh" id="input-ddpl_dia_chi_tinh_thanh" value="${fd.ddpl_dia_chi_tinh_thanh || ''}" class="form-control" placeholder="Tỉnh/Thành phố" onkeyup="tv2Sync()">
+                                    <input type="text" name="ddpl_dia_chi_tinh_thanh" id="input-ddpl_dia_chi_tinh_thanh" value="${fd.ddpl_dia_chi_tinh_thanh || ''}" class="form-control tv2-input-lg" placeholder="Tỉnh/Thành phố" onkeyup="tv2Sync()">
                                 </div>
                             </div>
                         </div>
@@ -233,17 +252,17 @@
                                 </button>
                             </div>
 
-                            <div id="tv2-members-container" style="display: flex; flex-direction: column; gap: 14px;">
+                            <div id="tv2-members-container" style="display: flex; flex-direction: column; gap: 16px;">
                                 ${tvList.map((m, idx) => renderTV2MemberCard(m, idx)).join('')}
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right Column: Live Dossier Inspector (Sticky) -->
+                    <!-- Right Column: Live Dossier Inspector (Sticky 380px) -->
                     <div class="tv2-dossier-col">
                         <div class="tv2-dossier-card">
                             <div class="tv2-dossier-header">
-                                <span class="tv2-dossier-title"><i class="fa-solid fa-file-shield text-cyan"></i> Bảng kiểm soát hồ sơ</span>
+                                <span class="tv2-dossier-title"><i class="fa-solid fa-file-shield text-cyan"></i> Kiểm soát hồ sơ</span>
                                 <span class="tv2-score" id="tv2-completeness-score">100%</span>
                             </div>
 
@@ -251,8 +270,8 @@
                             <div class="tv2-progress-track">
                                 <div class="tv2-progress-fill" id="tv2-progress-fill" style="width: 100%;"></div>
                             </div>
-                            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">
-                                Tự động chuẩn hóa 7 văn bản pháp lý theo đúng quy chuẩn ĐKKD 2026.
+                            <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 16px;">
+                                Sẵn sàng tạo trọn bộ 7 văn bản hành chính theo Luật Doanh nghiệp 2020.
                             </div>
 
                             <!-- Document Items -->
@@ -346,10 +365,10 @@
             </div>
         `;
 
-        // Áp dụng styles CSS đặc thù cho giao diện mới
+        // Áp dụng styles CSS mở rộng
         injectTangVonStyles();
 
-        // Kích hoạt tính toán phân bổ vốn ban đầu
+        // Kích hoạt tính toán ban đầu
         tv2UpdateCapitalDistribution();
         tv2UpdateMeta();
     };
@@ -359,19 +378,19 @@
         return `
             <div class="tv2-member-card" id="member-card-${idx}">
                 <div class="tv2-member-header">
-                    <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
                         <span class="tv2-member-idx">${idx + 1}</span>
-                        <span style="font-weight: 700; font-size: 13px; color: var(--text-primary);">
-                            Thành viên #${idx + 1} ${idx === 0 ? '<span style="font-size: 11px; color: var(--accent-primary); font-weight: normal;">(ĐDPL)</span>' : ''}
+                        <span style="font-weight: 700; font-size: 14px; color: var(--text-primary);">
+                            Thành viên #${idx + 1} ${idx === 0 ? '<span style="font-size: 12px; color: var(--accent-primary); font-weight: normal;">(ĐDPL)</span>' : ''}
                         </span>
                     </div>
-                    <div style="display: flex; gap: 6px;">
+                    <div style="display: flex; gap: 8px;">
                         <input type="file" id="ocr-member-${idx}" accept="image/*" style="display: none;" onchange="handleMemberOcrUpload(this, ${idx})">
-                        <button type="button" class="btn btn-ocr btn-sm" onclick="document.getElementById('ocr-member-${idx}').click()" style="padding: 3px 8px; font-size: 11px;">
+                        <button type="button" class="btn btn-ocr btn-sm" onclick="document.getElementById('ocr-member-${idx}').click()" style="padding: 4px 10px; font-size: 12px;">
                             <i class="fa-solid fa-id-card"></i> VNeID
                         </button>
                         ${idx >= 2 ? `
-                            <button type="button" class="btn btn-ghost btn-sm text-error" onclick="tv2RemoveMember(${idx})" style="padding: 3px 8px;">
+                            <button type="button" class="btn btn-ghost btn-sm text-error" onclick="tv2RemoveMember(${idx})" style="padding: 4px 8px;">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         ` : ''}
@@ -381,51 +400,51 @@
                 <div class="tv2-grid-2">
                     <div class="tv2-field">
                         <label class="tv2-label">Họ và tên <span class="text-error">*</span></label>
-                        <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="ho_ten" value="${m.ho_ten || ''}" placeholder="NGUYỄN VĂN A" onkeyup="tv2Sync()">
+                        <input type="text" class="form-control m-field tv2-input-lg font-bold" data-idx="${idx}" data-prop="ho_ten" value="${m.ho_ten || ''}" placeholder="NGUYỄN VĂN A" onkeyup="tv2Sync()">
                     </div>
 
                     <div class="tv2-grid-2">
                         <div class="tv2-field">
                             <label class="tv2-label">Giới tính</label>
-                            <select class="form-control m-field" data-idx="${idx}" data-prop="gioi_tinh" onchange="tv2Sync()">
+                            <select class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="gioi_tinh" onchange="tv2Sync()">
                                 <option value="Nam" ${(m.gioi_tinh || 'Nam') === 'Nam' ? 'selected' : ''}>Nam</option>
                                 <option value="Nữ" ${(m.gioi_tinh || '') === 'Nữ' ? 'selected' : ''}>Nữ</option>
                             </select>
                         </div>
                         <div class="tv2-field">
                             <label class="tv2-label">Ngày sinh</label>
-                            <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="ngay_sinh" value="${m.ngay_sinh || ''}" placeholder="DD/MM/YYYY" onkeyup="tv2Sync()">
+                            <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="ngay_sinh" value="${m.ngay_sinh || ''}" placeholder="DD/MM/YYYY" onkeyup="tv2Sync()">
                         </div>
                     </div>
 
                     <div class="tv2-field">
-                        <label class="tv2-label">Số CCCD <span class="text-error">*</span></label>
-                        <input type="text" class="form-control m-field font-mono" data-idx="${idx}" data-prop="so_cccd" value="${m.so_cccd || ''}" placeholder="001090001234" onkeyup="tv2Sync()">
+                        <label class="tv2-label">Số CCCD (12 số) <span class="text-error">*</span></label>
+                        <input type="text" class="form-control m-field font-mono tv2-input-lg" data-idx="${idx}" data-prop="so_cccd" value="${m.so_cccd || ''}" placeholder="001090001234" onkeyup="tv2Sync()">
                     </div>
 
                     <div class="tv2-field">
-                        <label class="tv2-label">Số nhà, đường</label>
-                        <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="dia_chi_so_nha" value="${m.dia_chi_so_nha || ''}" placeholder="Số nhà..." onkeyup="tv2Sync()">
+                        <label class="tv2-label">Số nhà, tên đường</label>
+                        <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="dia_chi_so_nha" value="${m.dia_chi_so_nha || ''}" placeholder="Số nhà..." onkeyup="tv2Sync()">
                     </div>
 
                     <div class="tv2-field">
                         <label class="tv2-label">Xã / Phường</label>
-                        <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="dia_chi_xa_phuong" value="${m.dia_chi_xa_phuong || ''}" placeholder="Xã/Phường" onkeyup="tv2Sync()">
+                        <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="dia_chi_xa_phuong" value="${m.dia_chi_xa_phuong || ''}" placeholder="Xã/Phường" onkeyup="tv2Sync()">
                     </div>
 
                     <div class="tv2-field">
                         <label class="tv2-label">Tỉnh / Thành phố</label>
-                        <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="dia_chi_tinh_thanh" value="${m.dia_chi_tinh_thanh || ''}" placeholder="Tỉnh/Thành phố" onkeyup="tv2Sync()">
+                        <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="dia_chi_tinh_thanh" value="${m.dia_chi_tinh_thanh || ''}" placeholder="Tỉnh/Thành phố" onkeyup="tv2Sync()">
                     </div>
 
                     <div class="tv2-field">
                         <label class="tv2-label">Vốn góp mới (VNĐ) <span class="text-error">*</span></label>
-                        <input type="text" class="form-control m-field font-mono" data-idx="${idx}" data-prop="von_gop" value="${m.von_gop ? formatMoneyStr(m.von_gop) : ''}" placeholder="1,000,000,000" onkeyup="handleMemberMoneyChange(this); tv2RecalcRatio(${idx}); tv2Sync()">
+                        <input type="text" class="form-control m-field font-mono tv2-input-lg font-bold" data-idx="${idx}" data-prop="von_gop" value="${m.von_gop ? formatMoneyStr(m.von_gop) : ''}" placeholder="1,000,000,000" onkeyup="handleMemberMoneyChange(this); tv2RecalcRatio(${idx}); tv2Sync()">
                     </div>
 
                     <div class="tv2-field">
                         <label class="tv2-label">Tỷ lệ góp vốn (%) <span class="text-error">*</span></label>
-                        <input type="number" class="form-control m-field font-mono" data-idx="${idx}" data-prop="ty_le" value="${m.ty_le || ''}" placeholder="Tỷ lệ %" onkeyup="tv2UpdateCapitalDistribution(); tv2Sync()">
+                        <input type="number" class="form-control m-field font-mono tv2-input-lg font-bold" data-idx="${idx}" data-prop="ty_le" value="${m.ty_le || ''}" placeholder="Tỷ lệ %" onkeyup="tv2UpdateCapitalDistribution(); tv2Sync()">
                     </div>
                 </div>
             </div>
@@ -697,7 +716,8 @@
         style.id = 'tv2-custom-styles';
         style.textContent = `
             .tv2-container {
-                max-width: 1480px;
+                width: 100%;
+                max-width: 100%;
                 margin: 0 auto;
                 padding-bottom: 60px;
             }
@@ -705,11 +725,11 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-bottom: 20px;
-                padding: 12px 18px;
+                margin-bottom: 22px;
+                padding: 14px 22px;
                 background: var(--bg-card);
                 border: 1px solid var(--border-glass);
-                border-radius: var(--radius-md);
+                border-radius: var(--radius-lg);
             }
             .tv2-title-cluster {
                 display: flex;
@@ -718,123 +738,134 @@
             }
             .tv2-badge {
                 font-size: 11px;
-                font-weight: 700;
+                font-weight: 800;
                 color: var(--accent-primary);
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
+                letter-spacing: 0.6px;
                 display: flex;
                 align-items: center;
                 gap: 6px;
             }
             .tv2-main-title {
-                font-size: 18px;
+                font-size: 19px;
                 font-weight: 800;
                 color: var(--text-primary);
                 margin: 0;
             }
             .tv2-workspace {
                 display: grid;
-                grid-template-columns: minmax(0, 1.45fr) minmax(350px, 0.95fr);
-                gap: 24px;
+                grid-template-columns: minmax(0, 1fr) 380px;
+                gap: 28px;
                 align-items: start;
             }
-            @media (max-width: 1024px) {
+            @media (max-width: 1100px) {
                 .tv2-workspace { grid-template-columns: 1fr; }
+                .tv2-dossier-col { position: static; }
             }
             .tv2-form-col {
                 display: flex;
                 flex-direction: column;
-                gap: 20px;
+                gap: 22px;
             }
             .tv2-card {
                 background: var(--bg-card);
                 border: 1px solid var(--border-glass);
                 border-radius: var(--radius-lg);
-                padding: 22px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+                padding: 26px 28px;
+                box-shadow: 0 4px 24px rgba(0,0,0,0.25);
             }
             .tv2-card-header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-bottom: 18px;
-                padding-bottom: 12px;
+                margin-bottom: 20px;
+                padding-bottom: 14px;
                 border-bottom: 1px solid var(--border-glass);
             }
             .tv2-card-title {
-                font-size: 15px;
+                font-size: 16px;
                 font-weight: 700;
                 color: var(--text-primary);
                 display: flex;
                 align-items: center;
-                gap: 8px;
+                gap: 10px;
             }
             .tv2-pill-tag {
                 background: rgba(16, 185, 129, 0.15);
                 color: var(--accent-green);
-                font-size: 11px;
+                font-size: 11.5px;
                 font-weight: 700;
-                padding: 3px 8px;
+                padding: 4px 10px;
                 border-radius: var(--radius-full);
             }
             .tv2-grid-2 {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 14px;
+                gap: 16px 20px;
             }
             .tv2-field {
                 display: flex;
                 flex-direction: column;
-                gap: 5px;
+                gap: 6px;
             }
             .tv2-label {
-                font-size: 13px;
+                font-size: 13.5px;
                 font-weight: 600;
                 color: var(--text-secondary);
+                letter-spacing: 0.2px;
+            }
+            .tv2-input-lg {
+                padding: 11px 15px !important;
+                font-size: 14.5px !important;
+                border-radius: var(--radius-md) !important;
+            }
+            .tv2-spellout {
+                font-size: 12.5px;
+                margin-top: 4px;
             }
             .tv2-distribution-wrap {
-                margin-top: 14px;
-                background: rgba(0,0,0,0.2);
+                margin-top: 18px;
+                background: rgba(0,0,0,0.25);
                 border: 1px solid var(--border-glass);
                 border-radius: var(--radius-md);
-                padding: 12px 14px;
+                padding: 14px 18px;
             }
             .tv2-dist-header {
                 display: flex;
                 justify-content: space-between;
-                font-size: 12px;
+                font-size: 13px;
                 font-weight: 600;
-                margin-bottom: 8px;
+                margin-bottom: 10px;
             }
             .tv2-bar-track {
-                height: 10px;
-                background: rgba(255,255,255,0.05);
+                height: 12px;
+                background: rgba(255,255,255,0.06);
                 border-radius: var(--radius-full);
                 overflow: hidden;
                 display: flex;
             }
             .tv2-member-card {
-                background: rgba(0,0,0,0.2);
+                background: rgba(0,0,0,0.22);
                 border: 1px solid var(--border-glass);
                 border-radius: var(--radius-md);
-                padding: 16px;
+                padding: 18px 20px;
             }
             .tv2-member-header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-bottom: 12px;
+                margin-bottom: 14px;
             }
             .tv2-member-idx {
                 background: var(--accent-primary);
                 color: #fff;
-                width: 22px;
-                height: 22px;
+                width: 24px;
+                height: 24px;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
                 border-radius: var(--radius-full);
-                font-size: 11px;
+                font-size: 12px;
                 font-weight: 800;
             }
             .tv2-dossier-col {
@@ -846,17 +877,17 @@
                 background: var(--bg-card);
                 border: 1px solid var(--border-glass);
                 border-radius: var(--radius-lg);
-                padding: 20px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                padding: 22px;
+                box-shadow: 0 4px 24px rgba(0,0,0,0.3);
             }
             .tv2-dossier-header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-bottom: 8px;
+                margin-bottom: 10px;
             }
             .tv2-dossier-title {
-                font-size: 14px;
+                font-size: 15px;
                 font-weight: 700;
                 color: var(--text-primary);
                 display: flex;
@@ -865,16 +896,16 @@
             }
             .tv2-score {
                 font-family: var(--font-mono);
-                font-size: 14px;
+                font-size: 15px;
                 font-weight: 700;
                 color: var(--accent-green);
             }
             .tv2-progress-track {
-                height: 6px;
+                height: 7px;
                 background: rgba(255,255,255,0.08);
                 border-radius: var(--radius-full);
                 overflow: hidden;
-                margin-bottom: 6px;
+                margin-bottom: 8px;
             }
             .tv2-progress-fill {
                 height: 100%;
@@ -884,7 +915,7 @@
             .tv2-doc-list {
                 display: flex;
                 flex-direction: column;
-                gap: 8px;
+                gap: 9px;
                 margin-top: 14px;
                 margin-bottom: 18px;
             }
@@ -892,8 +923,8 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding: 10px 12px;
-                background: rgba(0,0,0,0.2);
+                padding: 11px 13px;
+                background: rgba(0,0,0,0.22);
                 border: 1px solid var(--border-glass);
                 border-radius: var(--radius-sm);
                 cursor: pointer;
@@ -901,20 +932,20 @@
             }
             .tv2-doc-item:hover {
                 border-color: var(--accent-primary);
-                background: rgba(249, 115, 22, 0.06);
-                transform: translateX(3px);
+                background: rgba(249, 115, 22, 0.08);
+                transform: translateX(4px);
             }
             .tv2-doc-left {
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 12px;
             }
             .tv2-doc-icon {
                 color: #38bdf8;
-                font-size: 14px;
+                font-size: 15px;
             }
             .tv2-doc-name {
-                font-size: 12px;
+                font-size: 12.5px;
                 font-weight: 600;
                 color: var(--text-primary);
             }
@@ -923,9 +954,9 @@
                 color: var(--text-muted);
             }
             .tv2-doc-badge {
-                font-size: 10px;
+                font-size: 10.5px;
                 font-weight: 700;
-                padding: 2px 7px;
+                padding: 2px 8px;
                 border-radius: var(--radius-full);
             }
             .tv2-doc-badge.ready {
@@ -934,14 +965,14 @@
             }
             .tv2-download-btn {
                 width: 100%;
-                padding: 13px;
+                padding: 14px;
                 font-weight: 700;
-                font-size: 14px;
+                font-size: 14.5px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 gap: 8px;
-                box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+                box-shadow: 0 4px 18px rgba(249, 115, 22, 0.35);
             }
         `;
         document.head.appendChild(style);
