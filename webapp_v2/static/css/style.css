@@ -667,3 +667,298 @@ select.form-control option {
     gap: 8px;
     box-shadow: 0 4px 18px rgba(249, 115, 22, 0.35);
 }
+
+/* ==========================================================================
+   HARVEY LEGAL TECH EXECUTIVE & SIDEBAR SYSTEM (NEW PRIMARY UI)
+   ========================================================================== */
+:root {
+    --harvey-canvas: #060a14;
+    --harvey-sidebar: #090e1d;
+    --harvey-card: #0d152a;
+    --harvey-card-hover: #121c38;
+    --harvey-input: #080d1a;
+
+    --gold-primary: #d4af37;
+    --gold-light: #f5e7b8;
+    --gold-burnished: #aa8628;
+    --gold-glow: rgba(212, 175, 55, 0.25);
+    --gold-border: rgba(212, 175, 55, 0.28);
+    --gold-border-subtle: rgba(212, 175, 55, 0.12);
+
+    --harvey-text-heading: #fbf8f2;
+    --harvey-text-body: #c1c9d6;
+    --harvey-text-muted: #6f7c94;
+
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-display: 'Cinzel', serif;
+}
+
+.harvey-app-shell {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--harvey-canvas);
+    color: var(--harvey-text-body);
+    background-image: 
+        radial-gradient(ellipse at 65% 0%, rgba(212, 175, 55, 0.07) 0%, transparent 55%),
+        radial-gradient(circle at 10% 40%, rgba(13, 21, 42, 0.7) 0%, transparent 60%);
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Sidebar */
+.harvey-sidebar {
+    width: 270px;
+    background: var(--harvey-sidebar);
+    border-right: 1px solid var(--gold-border-subtle);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 50;
+}
+.harvey-sidebar-brand {
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--gold-border-subtle);
+    background: rgba(6, 10, 20, 0.4);
+}
+.harvey-seal-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gold-primary);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(13, 21, 42, 0.9) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-primary);
+    font-size: 16px;
+    box-shadow: 0 0 16px var(--gold-glow);
+}
+.harvey-brand-title {
+    font-family: var(--font-display);
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: var(--harvey-text-heading);
+}
+.harvey-brand-tag {
+    font-size: 10px;
+    color: var(--gold-primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.harvey-sidebar-nav {
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    overflow-y: auto;
+}
+.harvey-nav-group-title {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--gold-burnished);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 12px 4px 12px;
+}
+.harvey-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    color: var(--harvey-text-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+.harvey-nav-item:hover {
+    background: rgba(212, 175, 55, 0.06);
+    color: var(--gold-light);
+    border-color: rgba(212, 175, 55, 0.15);
+}
+.harvey-nav-item.active {
+    background: rgba(212, 175, 55, 0.12);
+    color: var(--gold-light);
+    font-weight: 600;
+    border: 1px solid var(--gold-border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.harvey-nav-item i {
+    font-size: 13.5px;
+    width: 18px;
+    text-align: center;
+    color: var(--gold-primary);
+    opacity: 0.9;
+}
+.harvey-nav-badge {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 1px 6px;
+    border-radius: var(--radius-xs);
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold-primary);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.harvey-sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--gold-border-subtle);
+    background: rgba(6, 10, 20, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.harvey-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold-primary);
+    box-shadow: 0 0 10px var(--gold-primary);
+}
+
+/* Main Area */
+.harvey-main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 100vh;
+}
+.harvey-topbar {
+    height: 60px;
+    background: var(--harvey-sidebar);
+    border-bottom: 1px solid var(--gold-border-subtle);
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+.harvey-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+.harvey-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(6, 10, 20, 0.7);
+    border: 1px solid var(--gold-border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 7px 14px;
+    width: 320px;
+    color: var(--harvey-text-muted);
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.harvey-search-bar:hover {
+    border-color: var(--gold-border);
+    color: var(--gold-light);
+}
+
+/* Workspace */
+.harvey-workspace {
+    padding: 26px 32px 80px 32px;
+    max-width: 1540px;
+    width: 100%;
+    margin: 0 auto;
+}
+.harvey-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+@media (max-width: 1200px) {
+    .harvey-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.harvey-kpi-card {
+    background: var(--harvey-card);
+    border: 1px solid var(--gold-border-subtle);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+}
+.harvey-kpi-card:hover {
+    border-color: var(--gold-border);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.harvey-kpi-num {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--gold-light);
+    font-family: var(--font-serif);
+    letter-spacing: -0.3px;
+}
+.harvey-card {
+    background: var(--harvey-card);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    transition: all 0.25s ease;
+}
+.harvey-card:hover {
+    border-color: rgba(212, 175, 55, 0.45);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 20px rgba(212, 175, 55, 0.08);
+}
+.harvey-btn-gold {
+    background: linear-gradient(135deg, #d4af37 0%, #aa8628 100%);
+    color: #060a14 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.harvey-btn-gold:hover {
+    background: linear-gradient(135deg, #e5c07b 0%, #be9732 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.45);
+}
+.harvey-btn-ghost {
+    background: rgba(212, 175, 55, 0.06);
+    border: 1px solid var(--gold-border);
+    color: var(--gold-light);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.harvey-btn-ghost:hover {
+    background: rgba(212, 175, 55, 0.14);
+    border-color: var(--gold-primary);
+}
+
+.tpl-item {
+    transition: all 0.2s ease;
+}
+.tpl-item:hover {
+    border-color: rgba(212, 175, 55, 0.45) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 16px rgba(212, 175, 55, 0.1) !important;
+    transform: translateY(-2px);
+}
