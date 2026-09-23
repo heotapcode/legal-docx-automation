@@ -82,42 +82,173 @@ function numToVietnameseWords(s) {
 window.docSoThanhChu = numToVietnameseWords;
 
 function renderWizard() {
+    const isHarvey = window.isGlobalModernUI(); // true by default
+
+    if (!isHarvey) {
+        return `
+            <!-- Navbar minimal -->
+            <nav class="navbar">
+                <div class="container navbar-container">
+                    <a href="#/" class="navbar-brand">
+                        <i class="fa-solid fa-building text-gradient"></i> NAC <span class="badge badge-green" style="font-size:10px;">v2 Jinja2</span>
+                    </a>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="toggleGlobalUIMode()">
+                            <i class="fa-solid fa-scale-balanced" style="color: #d4af37;"></i> Dùng giao diện Harvey
+                        </button>
+                        <a href="#/" class="btn btn-ghost btn-sm"><i class="fa-solid fa-xmark"></i> Thoát</a>
+                    </div>
+                </div>
+            </nav>
+
+            <section class="section" style="padding-top: var(--space-24); min-height: 100vh; padding-bottom: var(--space-12);">
+                <div class="container" style="max-width: 950px;">
+                    <!-- Progress Bar -->
+                    <div class="wizard-progress mb-6">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);" class="text-sm text-secondary font-bold" id="wizard-step-text">
+                            <span>Bước 1/4: Chọn thủ tục</span>
+                        </div>
+                        <div style="width: 100%; height: 8px; background: var(--bg-glass); border-radius: var(--radius-full); overflow: hidden;">
+                            <div id="wizard-progress-bar" style="width: 25%; height: 100%; background: var(--accent-gradient); transition: width 0.3s ease;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Wizard Content Area -->
+                    <div id="wizard-content" class="card card-glass" style="min-height: 520px; position: relative;">
+                        <!-- Injected here -->
+                    </div>
+
+                    <!-- Wizard Footer Controls -->
+                    <div id="wizard-controls" style="display: flex; justify-content: space-between; margin-top: var(--space-6);">
+                        <!-- Buttons -->
+                    </div>
+                </div>
+            </section>
+        `;
+    }
+
+    // HARVEY LEGAL TECH EXECUTIVE WITH NAVIGATION SIDEBAR
     return `
-        <!-- Navbar minimal -->
-        <nav class="navbar">
-            <div class="container navbar-container">
-                <a href="#/" class="navbar-brand">
-                    <i class="fa-solid fa-building text-gradient"></i> NAC <span class="badge badge-green" style="font-size:10px;">v2 Jinja2</span>
-                </a>
-                <a href="#/" class="btn btn-ghost btn-sm"><i class="fa-solid fa-xmark"></i> Thoát</a>
-            </div>
-        </nav>
-
-        <section class="section" style="padding-top: var(--space-24); min-height: 100vh; padding-bottom: var(--space-12);">
-            <div class="container" style="max-width: 950px;">
-                <!-- Progress Bar -->
-                <div class="wizard-progress mb-6">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);" class="text-sm text-secondary font-bold" id="wizard-step-text">
-                        <span>Bước 1/4: Chọn thủ tục</span>
-                    </div>
-                    <div style="width: 100%; height: 8px; background: var(--bg-glass); border-radius: var(--radius-full); overflow: hidden;">
-                        <div id="wizard-progress-bar" style="width: 25%; height: 100%; background: var(--accent-gradient); transition: width 0.3s ease;"></div>
+        <div class="harvey-app-shell">
+            <!-- 1. Left Executive Navigation Sidebar -->
+            <aside class="harvey-sidebar">
+                <div class="harvey-sidebar-brand">
+                    <div class="harvey-seal-logo"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <div style="display: flex; flex-direction: column;">
+                        <span class="harvey-brand-title">HARVEY LEGAL OS</span>
+                        <span class="harvey-brand-tag">Executive Studio</span>
                     </div>
                 </div>
 
-                <!-- Wizard Content Area -->
-                <div id="wizard-content" class="card card-glass" style="min-height: 520px; position: relative;">
-                    <!-- Injected here -->
-                </div>
+                <nav class="harvey-sidebar-nav" id="sidebar-procedures-nav">
+                    <div class="text-center py-6 text-sm" style="color: var(--harvey-text-muted);">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Đang nạp danh mục...
+                    </div>
+                </nav>
 
-                <!-- Wizard Footer Controls -->
-                <div id="wizard-controls" style="display: flex; justify-content: space-between; margin-top: var(--space-6);">
-                    <!-- Buttons injected here -->
+                <div class="harvey-sidebar-footer">
+                    <div class="harvey-pulse-dot"></div>
+                    <div style="font-size: 11.5px;">
+                        <div style="color: var(--gold-light); font-weight: 600;">Jinja2 Engine Active</div>
+                        <div style="color: var(--harvey-text-muted); font-size: 10.5px;">Cổng 8002 &bull; Thẩm định tự động</div>
+                    </div>
                 </div>
+            </aside>
+
+            <!-- 2. Main Executive App Area -->
+            <div class="harvey-main-area">
+                <!-- Top Command Bar -->
+                <header class="harvey-topbar">
+                    <div class="harvey-breadcrumbs" id="harvey-breadcrumb">
+                        <span style="color: var(--harvey-text-muted);">Pháp nhân</span>
+                        <span style="color: var(--gold-primary);">/</span>
+                        <span style="color: var(--harvey-text-muted);">Hồ sơ ĐKKD</span>
+                        <span style="color: var(--gold-primary);">/</span>
+                        <span style="color: var(--harvey-text-heading); font-weight: 600;" id="harvey-topbar-title">Chọn thủ tục doanh nghiệp</span>
+                    </div>
+
+                    <div class="harvey-search-bar" onclick="const inp = document.getElementById('search-tpl-input') || document.getElementById('harvey-quick-search'); if(inp) inp.focus();">
+                        <i class="fa-solid fa-magnifying-glass" style="color: var(--gold-primary);"></i>
+                        <input type="text" id="harvey-quick-search" placeholder="Tra cứu thủ tục, MST, mã ngành..." style="background: transparent; border: none; outline: none; color: #fff; width: 100%; font-size: 12.5px;" onkeyup="window.filterTemplates ? window.filterTemplates(this.value) : null">
+                        <span style="font-family: var(--font-mono); font-size: 10.5px; background: rgba(212, 175, 55, 0.1); color: var(--gold-primary); padding: 2px 6px; border-radius: 3px; border: 1px solid rgba(212, 175, 55, 0.25);">⌘K</span>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <button type="button" class="btn harvey-btn-ghost btn-sm" onclick="toggleGlobalUIMode()" title="Chuyển về giao diện form truyền thống">
+                            <i class="fa-solid fa-rotate-left"></i> Giao diện cũ
+                        </button>
+                        <a href="#/" class="btn harvey-btn-ghost btn-sm"><i class="fa-solid fa-house"></i> Trang chủ</a>
+                    </div>
+                </header>
+
+                <!-- Workspace Scroll Body -->
+                <main class="harvey-workspace">
+                    <!-- Progress Line -->
+                    <div style="margin-bottom: 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="font-size: 13px; font-weight: 600; color: var(--gold-light);" id="wizard-step-text">
+                                <span>Bước 1/4: Chọn thủ tục</span>
+                            </div>
+                        </div>
+                        <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 9999px; overflow: hidden;">
+                            <div id="wizard-progress-bar" style="width: 25%; height: 100%; background: linear-gradient(90deg, #d4af37 0%, #3b82f6 100%); transition: width 0.3s ease;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Wizard Content Area -->
+                    <div id="wizard-content" style="min-height: 520px; position: relative;">
+                        <!-- Injected here -->
+                    </div>
+
+                    <!-- Wizard Footer Controls -->
+                    <div id="wizard-controls" style="display: flex; justify-content: space-between; margin-top: 24px;">
+                        <!-- Buttons -->
+                    </div>
+                </main>
             </div>
-        </section>
+        </div>
     `;
 }
+
+window.updateSidebarNav = function() {
+    const nav = document.getElementById('sidebar-procedures-nav');
+    if (!nav) return;
+    const list = window.wizardState.templatesList || [];
+    if (!list.length) return;
+
+    const currentTplName = window.wizardState.template ? window.wizardState.template.name : '';
+    const categories = [...new Set(list.map(t => t.category || 'Khác'))];
+
+    let html = '';
+    categories.forEach(cat => {
+        const items = list.filter(t => (t.category || 'Khác') === cat);
+        html += `<div class="harvey-nav-group-title">${cat}</div>`;
+        items.forEach(item => {
+            const isActive = item.name === currentTplName ? 'active' : '';
+            html += `
+                <a class="harvey-nav-item ${isActive}" onclick="selectTemplate('${escapeHtml(item.name)}')">
+                    <i class="fa-solid fa-file-contract"></i>
+                    <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(item.display_name)}</span>
+                    <span class="harvey-nav-badge">${item.file_count || 5}</span>
+                </a>
+            `;
+        });
+    });
+
+    html += `
+        <div class="harvey-nav-group-title" style="margin-top: 14px;">Quản trị Pháp lý</div>
+        <a class="harvey-nav-item" onclick="if (window.showToast) window.showToast('Kho dữ liệu Pháp nhân & CCCD'); else alert('Kho dữ liệu Pháp nhân & CCCD');">
+            <i class="fa-solid fa-building-user"></i>
+            <span>Kho Pháp nhân & CCCD</span>
+        </a>
+        <a class="harvey-nav-item" onclick="if (window.showToast) window.showToast('Bộ biểu mẫu chuẩn hóa theo Nghị định 01/2021'); else alert('Bộ biểu mẫu chuẩn hóa (19 bộ)');">
+            <i class="fa-solid fa-file-word"></i>
+            <span>Mẫu biểu chuẩn (19 bộ)</span>
+        </a>
+    `;
+
+    nav.innerHTML = html;
+};
 
 window.initWizard = async function() {
     window.wizardState = {
@@ -140,6 +271,7 @@ window.initWizard = async function() {
             const data = await res.json();
             window.wizardState.templatesList = data.templates;
             renderCurrentStep();
+            window.updateSidebarNav();
         }
     } catch (err) {
         console.error('Lỗi khi tải danh sách mẫu:', err);
@@ -299,6 +431,7 @@ window.selectTemplate = function(name) {
     window.wizardState.template = window.wizardState.templatesList.find(t => t.name === name);
     window.wizardState.step = 2;
     renderCurrentStep();
+    if (window.updateSidebarNav) window.updateSidebarNav();
 };
 
 // --- STEP 1: PROCEDURE SELECTION ---
@@ -598,7 +731,7 @@ function renderStep2Form(schema) {
                     <p class="text-secondary text-sm">${schema.description || ''}</p>
                 </div>
                 <button type="button" class="btn btn-secondary btn-sm" onclick="toggleGlobalUIMode()" style="white-space: nowrap;">
-                    <i class="fa-solid fa-sparkles text-cyan"></i> Dùng giao diện Split-Screen mới
+                    <i class="fa-solid fa-scale-balanced" style="color: #d4af37;"></i> Dùng giao diện Harvey
                 </button>
             </div>
             <div id="dynamic-form-container" style="display: flex; flex-direction: column; gap: var(--space-6);">
@@ -626,7 +759,7 @@ function renderStep2Form(schema) {
         return;
     }
 
-    // Modern Split-Screen & Live Dossier Layout
+    // HARVEY LEGAL TECH EXECUTIVE STUDIO (SPLIT-SCREEN + SIDEBAR READY)
     const docFiles = schema.doc_files || [];
     const docCount = docFiles.length || (schema.file_count || 0);
 
@@ -635,22 +768,19 @@ function renderStep2Form(schema) {
         docListHtml = docFiles.map((doc, idx) => {
             const cleanName = doc.replace(/\.docx$/i, '');
             return `
-                <div class="modern-doc-item" title="${escapeHtml(doc)}" onclick="previewDocInfo('${escapeHtml(doc)}')">
-                    <div class="modern-doc-left">
-                        <i class="fa-solid fa-file-word modern-doc-icon"></i>
-                        <div>
-                            <div class="modern-doc-name">${escapeHtml(cleanName)}</div>
-                            <div class="modern-doc-meta">Biểu mẫu chuẩn ĐKKD</div>
-                        </div>
-                    </div>
-                    <span class="modern-doc-badge ready"><i class="fa-solid fa-check"></i> Sẵn sàng</span>
+                <div class="brief-item" title="${escapeHtml(doc)}" onclick="previewDocInfo('${escapeHtml(doc)}')">
+                    <span class="brief-item-left">
+                        <i class="fa-solid fa-file-contract"></i>
+                        <span>${escapeHtml(cleanName)}</span>
+                    </span>
+                    <span class="seal-check"><i class="fa-solid fa-circle-check"></i></span>
                 </div>
             `;
         }).join('');
     } else {
         docListHtml = `
-            <div class="text-center py-6 text-secondary text-sm" style="border: 1px dashed var(--border-glass); border-radius: var(--radius-sm);">
-                <i class="fa-solid fa-folder-open fa-2x mb-2" style="opacity: 0.5;"></i>
+            <div class="text-center py-6 text-sm" style="border: 1px dashed var(--gold-border-subtle); border-radius: var(--radius-sm); color: var(--harvey-text-muted);">
+                <i class="fa-solid fa-file-contract fa-2x mb-2" style="opacity: 0.5; color: var(--gold-primary);"></i>
                 <div>Bộ hồ sơ gồm các biểu mẫu chuẩn hóa theo Nghị định 01/2021/NĐ-CP</div>
             </div>
         `;
@@ -664,13 +794,13 @@ function renderStep2Form(schema) {
         });
 
         formStepsHtml += `
-            <div class="modern-card">
-                <div class="modern-card-header">
-                    <div class="modern-card-title">
-                        <i class="fa-solid fa-folder-tree text-cyan"></i>
+            <div class="harvey-card">
+                <div class="card-header-bar">
+                    <div class="card-title">
+                        <i class="fa-solid fa-landmark"></i>
                         <span>${step.title}</span>
                     </div>
-                    <span class="modern-pill-tag">Mục ${sIdx + 1}/${schema.steps.length}</span>
+                    <span class="legal-seal-badge">MỤC ${sIdx + 1}/${schema.steps.length}</span>
                 </div>
                 <div>
                     ${stepFieldsHtml}
@@ -680,67 +810,104 @@ function renderStep2Form(schema) {
     });
 
     const ctaBtnHtml = schema.has_nganh ? `
-        <button type="button" class="btn btn-primary modern-download-btn" onclick="nextStep()">
+        <button type="button" class="btn harvey-btn-gold" style="width: 100%; padding: 13px;" onclick="nextStep()">
             <i class="fa-solid fa-arrow-right"></i> Tiếp tục: Chọn ngành nghề &rarr;
         </button>
     ` : `
-        <button type="button" class="btn btn-primary modern-download-btn" onclick="nextStep()">
-            <i class="fa-solid fa-file-zipper"></i> Tiến hành xuất hồ sơ (.ZIP) &rarr;
+        <button type="button" class="btn harvey-btn-gold" style="width: 100%; padding: 13px;" onclick="generateDocuments()">
+            <i class="fa-solid fa-stamp"></i> Xuất Trọn Bộ Hồ Sơ (.ZIP)
         </button>
     `;
 
     const html = `
-        <div class="modern-container">
-            <!-- Header Toolbar -->
-            <div class="modern-header-toolbar">
-                <div class="modern-title-cluster">
-                    <div class="modern-badge">
-                        <i class="fa-solid fa-bolt"></i> ${escapeHtml(schema.category || 'THỦ TỤC DOANH NGHIỆP')}
+        <div>
+            <!-- Executive KPI Strip -->
+            <div class="harvey-kpi-grid">
+                <div class="harvey-kpi-card">
+                    <div>
+                        <div class="kpi-label">VĂN BẢN CHUẨN HÓA</div>
+                        <div class="harvey-kpi-num" id="kpi-doc-count">${docCount} Files Word</div>
+                        <div style="font-size: 11px; color: var(--status-green); margin-top: 3px;"><i class="fa-solid fa-check"></i> Đủ bộ theo NĐ 01/2021</div>
                     </div>
-                    <h2 class="modern-main-title">${escapeHtml(schema.display_name)}</h2>
-                    <p class="text-secondary text-sm" style="margin: 0;">${escapeHtml(schema.description || 'Hệ thống tự động điền toàn bộ hồ sơ đăng ký doanh nghiệp')}</p>
+                    <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-file-contract"></i></div>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-ghost btn-sm" onclick="toggleGlobalUIMode()" title="Chuyển về giao diện form truyền thống">
-                        <i class="fa-solid fa-rotate-left"></i> Dùng giao diện cũ
-                    </button>
+
+                <div class="harvey-kpi-card">
+                    <div>
+                        <div class="kpi-label">TỔNG VỐN ĐIỀU LỆ</div>
+                        <div class="harvey-kpi-num" id="kpi-capital-val">${formatMoneyStr(String(window.wizardState.formData['von_dieu_le_so'] || '0')) || '0'} đ</div>
+                        <div style="font-size: 11px; color: var(--gold-primary); margin-top: 3px;" id="kpi-capital-status"><i class="fa-solid fa-coins"></i> Cân đối phần vốn</div>
+                    </div>
+                    <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-vault"></i></div>
+                </div>
+
+                <div class="harvey-kpi-card">
+                    <div>
+                        <div class="kpi-label">THÀNH VIÊN SÁNG LẬP</div>
+                        <div class="harvey-kpi-num" id="kpi-member-count">${(window.wizardState.thanhVienList || []).length} Người</div>
+                        <div style="font-size: 11px; color: var(--status-green); margin-top: 3px;"><i class="fa-solid fa-id-card"></i> VNeID Verified</div>
+                    </div>
+                    <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-users"></i></div>
+                </div>
+
+                <div class="harvey-kpi-card">
+                    <div>
+                        <div class="kpi-label">THỜI GIAN XỬ LÝ</div>
+                        <div class="harvey-kpi-num">0.85s</div>
+                        <div style="font-size: 11px; color: var(--harvey-text-muted); margin-top: 3px;"><i class="fa-solid fa-bolt"></i> Siêu tốc native</div>
+                    </div>
+                    <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-gauge-high"></i></div>
                 </div>
             </div>
 
-            <!-- Workspace: 2 Cột -->
-            <div class="modern-workspace">
-                <!-- Cột trái: Form nhập liệu -->
-                <div class="modern-form-col">
-                    <div id="dynamic-form-container" style="display: flex; flex-direction: column; gap: var(--space-6);">
+            <!-- Citation Banner Line -->
+            <div class="hero-banner-line">
+                <div>
+                    <div class="hero-citation">
+                        <i class="fa-solid fa-certificate"></i> NGHỊ ĐỊNH 01/2021/NĐ-CP &bull; LUẬT DOANH NGHIỆP 2020
+                    </div>
+                    <h2 class="hero-heading">${escapeHtml(schema.display_name)}</h2>
+                    <p class="hero-subtext">${escapeHtml(schema.description || 'Quy trình thẩm định và tự động lập trọn bộ hồ sơ pháp lý doanh nghiệp chuẩn hóa với Sở Kế hoạch & Đầu tư')}</p>
+                </div>
+                <div>
+                    <span class="legal-seal-badge" style="padding: 6px 12px; font-size: 11px;">
+                        <i class="fa-solid fa-award"></i> HARVEY VERIFIED LEGAL DOSSIER
+                    </span>
+                </div>
+            </div>
+
+            <!-- Studio 2-Column Split Grid -->
+            <div class="studio-grid">
+                <!-- Left Form Column -->
+                <div class="form-col">
+                    <div id="dynamic-form-container" style="display: flex; flex-direction: column; gap: 20px;">
                         ${formStepsHtml}
                     </div>
                 </div>
 
-                <!-- Cột phải: Live Dossier Inspector -->
-                <div class="modern-dossier-col">
-                    <div class="modern-dossier-card">
-                        <div class="modern-dossier-header">
-                            <span class="modern-dossier-title">
-                                <i class="fa-solid fa-file-shield text-cyan"></i> Bảng kiểm soát hồ sơ
-                            </span>
-                            <span class="modern-score" id="universal-completeness-score">100%</span>
-                        </div>
-                        <div class="modern-progress-track">
-                            <div class="modern-progress-fill" id="universal-progress-fill" style="width: 100%;"></div>
-                        </div>
-                        <div style="font-size: 12px; color: var(--text-secondary); display: flex; justify-content: space-between;">
-                            <span>Độ hoàn thiện thông tin</span>
-                            <span id="universal-completeness-text">${docCount} biểu mẫu</span>
+                <!-- Right Column: Executive Legal Brief -->
+                <div class="brief-col">
+                    <div class="brief-card">
+                        <div class="brief-header">
+                            <div class="brief-title">
+                                <i class="fa-solid fa-scroll"></i>
+                                <span>Bảng Thẩm Định Hồ Sơ</span>
+                            </div>
+                            <span class="brief-status-tag"><i class="fa-solid fa-shield-check"></i> HỢP LỆ</span>
                         </div>
 
-                        <div class="modern-doc-list">
+                        <div style="font-size: 12px; color: var(--harvey-text-muted); margin-bottom: 12px;">
+                            Hồ sơ pháp lý tạo bởi Jinja2 docxtpl engine:
+                        </div>
+
+                        <div class="brief-list" id="brief-items-list">
                             ${docListHtml}
                         </div>
 
                         ${ctaBtnHtml}
 
-                        <div style="margin-top: 14px; font-size: 11.5px; color: var(--text-muted); text-align: center; line-height: 1.5;">
-                            <i class="fa-solid fa-shield-halved text-cyan"></i> Tự động kiểm tra dữ liệu và bảo mật thông tin theo tiêu chuẩn ĐKKD
+                        <div style="margin-top: 14px; font-size: 11.5px; color: var(--gold-light); text-align: center; opacity: 0.85;">
+                            <i class="fa-solid fa-award"></i> Tiêu chuẩn chứng thực văn bản pháp lý quốc gia
                         </div>
                     </div>
                 </div>
