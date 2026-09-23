@@ -118,6 +118,12 @@ function getInitialCN2TVState() {
 window.cn2tvState = window.cn2tvState || getInitialCN2TVState();
 
 window.renderCN2TVWizard = function(container) {
+    const parentContainer = container.closest('.container');
+    if (parentContainer) {
+        parentContainer.style.maxWidth = '1540px';
+        parentContainer.style.width = '96%';
+        parentContainer.style.padding = '0 16px';
+    }
     if (!window.cn2tvState) {
         window.cn2tvState = getInitialCN2TVState();
     }

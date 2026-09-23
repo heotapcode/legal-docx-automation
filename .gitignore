@@ -42,6 +42,7 @@ yarn-error.log*
 # Temporary test & scratch folders
 scratch/
 test_output/
+scripts_and_tools/backup_*/
 *.log
 *.tmp
 

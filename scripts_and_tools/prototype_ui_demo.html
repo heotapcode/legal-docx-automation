@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAC v2 - Demo Giao Diện Mới (Split-Screen & Live Dossier)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+            
+            /* Dark Theme (Slate Obsidian) */
+            --bg-body: #090d16;
+            --bg-surface: #111726;
+            --bg-card: #151d30;
+            --bg-card-sub: #1a243b;
+            --bg-glass: rgba(21, 29, 48, 0.75);
+            --border: #222f4c;
+            --border-focus: #f97316;
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            --accent: #f97316;
+            --accent-hover: #ea580c;
+            --accent-glow: rgba(249, 115, 22, 0.25);
+            --accent-light: rgba(249, 115, 22, 0.12);
+            
+            --emerald: #10b981;
+            --emerald-light: rgba(16, 185, 129, 0.15);
+            --sky: #0ea5e9;
+            --sky-light: rgba(14, 165, 233, 0.15);
+            --amber: #f59e0b;
+            --purple: #8b5cf6;
+            
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-xl: 18px;
+            --radius-full: 9999px;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 12px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 12px 28px -4px rgba(0, 0, 0, 0.45);
+        }
+
+        [data-theme="light"] {
+            --bg-body: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-sub: #f1f5f9;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            --border: #e2e8f0;
+            --border-focus: #ea580c;
+            
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            
+            --accent: #ea580c;
+            --accent-hover: #c2410c;
+            --accent-glow: rgba(234, 88, 12, 0.18);
+            --accent-light: rgba(234, 88, 12, 0.08);
+            
+            --emerald: #059669;
+            --emerald-light: rgba(5, 150, 105, 0.12);
+            --sky: #0284c7;
+            --sky-light: rgba(2, 132, 199, 0.12);
+            --amber: #d97706;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: background 0.25s, color 0.25s;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation Bar */
+        .topbar {
+            height: 60px;
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+        }
+
+        .brand-cluster {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-badge {
+            background: var(--accent-gradient, linear-gradient(135deg, #f97316, #ea580c));
+            color: #fff;
+            padding: 2px 7px;
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .procedure-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card-sub);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .procedure-pill i { color: var(--accent); }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cmd-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card-sub);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cmd-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+        }
+        .kbd {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card-sub);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .icon-btn:hover { color: var(--text-primary); border-color: var(--text-muted); }
+
+        /* Split-screen Workspace Layout */
+        .workspace {
+            display: grid;
+            grid-template-columns: minmax(0, 1.45fr) minmax(360px, 0.95fr);
+            gap: 28px;
+            max-width: 1540px;
+            margin: 0 auto;
+            padding: 24px 28px 100px 28px;
+        }
+
+        /* Form Area (Left) */
+        .form-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            transition: border-color 0.2s;
+        }
+        .section-card:focus-within {
+            border-color: var(--border-focus);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .card-title i { color: var(--accent); font-size: 17px; }
+
+        /* Grids & Forms */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .col-span-2 { grid-column: span 2; }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ai-tag {
+            background: var(--emerald-light);
+            color: var(--emerald);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: var(--radius-full);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .input-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            outline: none;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .input-box:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .input-mono {
+            font-family: var(--font-mono);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action {
+            background: var(--bg-card-sub);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 13px;
+            padding: 0 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .btn-action:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .money-spellout {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 2px;
+        }
+
+        /* Distribution Bar */
+        .capital-bar-wrap {
+            margin-top: 14px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+        }
+        .bar-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .bar-track {
+            height: 10px;
+            background: var(--bg-card-sub);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            display: flex;
+        }
+        .bar-seg {
+            height: 100%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .seg-1 { background: #f97316; }
+        .seg-2 { background: #10b981; }
+        .seg-3 { background: #0ea5e9; }
+
+        /* Member Card */
+        .member-card {
+            background: var(--bg-card-sub);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 14px;
+            position: relative;
+        }
+
+        .member-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .member-title {
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .member-badge-idx {
+            background: var(--accent);
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .ocr-upload-btn {
+            background: var(--sky-light);
+            border: 1px dashed var(--sky);
+            color: var(--sky);
+            font-weight: 600;
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .ocr-upload-btn:hover {
+            background: var(--sky);
+            color: #fff;
+        }
+
+        /* Right Drawer: Live Dossier Inspector */
+        .dossier-pane {
+            position: sticky;
+            top: 84px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            height: fit-content;
+        }
+
+        .dossier-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .meter-container {
+            margin-bottom: 20px;
+        }
+        .meter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .meter-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+        .meter-score { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--emerald); }
+        .meter-bar {
+            height: 6px;
+            background: var(--bg-surface);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+        .meter-fill {
+            width: 90%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--emerald) 0%, #34d399 100%);
+            border-radius: var(--radius-full);
+            transition: width 0.5s;
+        }
+
+        .doc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .doc-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .doc-item:hover {
+            border-color: var(--accent);
+            transform: translateX(4px);
+        }
+        .doc-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .doc-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            background: rgba(37, 99, 235, 0.15);
+            color: #3b82f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        .doc-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .doc-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .doc-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .doc-badge.ready {
+            background: var(--emerald-light);
+            color: var(--emerald);
+        }
+        .doc-badge.warn {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--amber);
+        }
+
+        .cta-generate {
+            width: 100%;
+            background: var(--accent-gradient, linear-gradient(135deg, #f97316 0%, #ea580c 100%));
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 18px var(--accent-glow);
+            transition: all 0.2s;
+            margin-top: 14px;
+        }
+        .cta-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px var(--accent-glow);
+        }
+
+        /* Floating Bottom Dock */
+        .bottom-dock {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            z-index: 40;
+        }
+        .dock-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* Quick Command Palette Modal (Ctrl + K) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .modal-overlay.active { display: flex; }
+        .palette-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            width: 560px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+        .palette-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .palette-input-wrap i { color: var(--text-muted); font-size: 16px; }
+        .palette-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            width: 100%;
+            font-family: inherit;
+        }
+        .palette-list {
+            padding: 10px;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        .palette-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.15s;
+        }
+        .palette-item:hover, .palette-item.active {
+            background: var(--bg-card-sub);
+            color: var(--accent);
+        }
+
+        @media (max-width: 1024px) {
+            .workspace { grid-template-columns: 1fr; }
+            .dossier-pane { position: static; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <header class="topbar">
+        <div class="brand-cluster">
+            <a href="#" class="brand-logo">
+                <i class="fa-solid fa-cube text-gradient" style="color: var(--accent);"></i>
+                NAC LegalTech
+                <span class="brand-badge">PRO V2</span>
+            </a>
+            <div class="procedure-pill">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Tăng vốn công ty TNHH 2 TV</span>
+            </div>
+        </div>
+
+        <div class="topbar-actions">
+            <button class="cmd-btn" onclick="togglePalette()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Tìm thủ tục, MST, ngành...</span>
+                <span class="kbd">Ctrl K</span>
+            </button>
+            <button class="icon-btn" onclick="toggleTheme()" title="Đổi giao diện Sáng / Tối">
+                <i class="fa-solid fa-circle-half-stroke" id="theme-icon"></i>
+            </button>
+            <button class="icon-btn" title="Trợ giúp & Hướng dẫn">
+                <i class="fa-solid fa-question"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace (Split Screen) -->
+    <main class="workspace">
+        
+        <!-- Left: Form inputs -->
+        <section class="form-pane">
+            
+            <!-- Card 1: Doanh nghiệp & Vốn -->
+            <div class="section-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fa-solid fa-building"></i>
+                        Thông tin Doanh nghiệp & Vốn Điều lệ
+                    </h2>
+                    <span class="ai-tag"><i class="fa-solid fa-bolt"></i> Tra cứu MST tự động</span>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group col-span-2">
+                        <label class="label">Mã số thuế (Doanh nghiệp)</label>
+                        <div class="input-group">
+                            <input type="text" id="mst-input" class="input-box input-mono" value="0109876543" placeholder="Nhập 10 hoặc 13 số...">
+                            <button class="btn-action" onclick="simulateLookup()"><i class="fa-solid fa-arrows-rotate"></i> Tra cứu Tổng cục Thuế</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-span-2">
+                        <label class="label">Tên công ty (tiếng Việt)</label>
+                        <input type="text" id="company-name" class="input-box" value="CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ AN BÌNH">
+                    </div>
+
+                    <div class="form-group col-span-2">
+                        <label class="label">Địa chỉ trụ sở chính</label>
+                        <input type="text" class="input-box" value="Số 123 đường Giải Phóng, Phường Đồng Tâm, Quận Hai Bà Trưng, Thành phố Hà Nội">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label">Vốn điều lệ cũ (Đang đăng ký)</label>
+                        <input type="text" class="input-box input-mono" value="1,000,000,000" id="von-cu" oninput="updateCapital()">
+                        <div class="money-spellout">Bằng chữ: Một tỷ đồng</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label">Vốn mới sau khi tăng <span class="ai-tag">Target</span></label>
+                        <input type="text" class="input-box input-mono" value="3,000,000,000" id="von-moi" style="border-color: var(--accent); font-weight: 700;" oninput="updateCapital()">
+                        <div class="money-spellout">Bằng chữ: Ba tỷ đồng</div>
+                    </div>
+                </div>
+
+                <!-- Live Distribution Bar -->
+                <div class="capital-bar-wrap">
+                    <div class="bar-labels">
+                        <span>Cơ cấu vốn sau tăng: <b id="bar-summary" style="color: var(--accent);">100% (3,000,000,000 VNĐ)</b></span>
+                        <span id="bar-dist-text" style="color: var(--emerald); font-family: var(--font-mono);">60% TV1 — 40% TV2</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-seg seg-1" id="seg-1" style="width: 60%;" title="Thành viên 1: 60%"></div>
+                        <div class="bar-seg seg-2" id="seg-2" style="width: 40%;" title="Thành viên 2: 40%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Đại diện pháp luật -->
+            <div class="section-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fa-solid fa-user-tie"></i>
+                        Người đại diện theo pháp luật
+                    </h2>
+                    <button class="ocr-upload-btn" onclick="simulateOcr('ddpl')">
+                        <i class="fa-solid fa-id-card"></i> Quét ảnh VNeID / CCCD
+                    </button>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="label">Họ và tên <span class="ai-tag">✨ VNeID Match</span></label>
+                        <input type="text" id="ddpl-name" class="input-box" value="NGUYỄN VĂN AN" style="border-color: var(--emerald);">
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label">Giới tính</label>
+                            <select class="input-box" id="ddpl-gender">
+                                <option value="Nam" selected>Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Ngày sinh</label>
+                            <input type="text" id="ddpl-dob" class="input-box input-mono" value="15/05/1985">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label">Số CCCD / Căn cước</label>
+                        <input type="text" class="input-box input-mono" value="001085001234">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label">Chức danh</label>
+                        <select class="input-box">
+                            <option value="Giám đốc" selected>Giám đốc</option>
+                            <option value="Chủ tịch HĐTV">Chủ tịch Hội đồng thành viên</option>
+                            <option value="Tổng giám đốc">Tổng giám đốc</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-span-2">
+                        <label class="label">Địa chỉ thường trú (theo CCCD)</label>
+                        <input type="text" class="input-box" value="Số 10 ngõ 5 phố Vọng, Phường Đồng Tâm, Quận Hai Bà Trưng, Thành phố Hà Nội">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Danh sách Thành viên sau tăng vốn -->
+            <div class="section-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fa-solid fa-users"></i>
+                        Danh sách Thành viên sau tăng vốn (2)
+                    </h2>
+                    <button class="btn-action" onclick="addMemberDemo()"><i class="fa-solid fa-plus"></i> Thêm thành viên</button>
+                </div>
+
+                <!-- Member 1 -->
+                <div class="member-card" id="member-row-1">
+                    <div class="member-header">
+                        <div class="member-title">
+                            <span class="member-badge-idx">1</span>
+                            <span>NGUYỄN VĂN AN (ĐDPL)</span>
+                        </div>
+                        <button class="ocr-upload-btn" onclick="simulateOcr('tv1')">
+                            <i class="fa-solid fa-id-card"></i> Quét VNeID
+                        </button>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group col-span-2">
+                            <label class="label">Họ và tên</label>
+                            <input type="text" class="input-box" value="NGUYỄN VĂN AN">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Số CCCD</label>
+                            <input type="text" class="input-box input-mono" value="001085001234">
+                        </div>
+
+                        <div class="form-group col-span-2">
+                            <label class="label">Phần vốn góp mới (VNĐ)</label>
+                            <input type="text" class="input-box input-mono" id="m1-von" value="1,800,000,000" oninput="calcRatios()">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Tỷ lệ (%)</label>
+                            <input type="text" class="input-box input-mono" id="m1-ratio" value="60" readonly style="background: var(--bg-surface);">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="member-card" id="member-row-2">
+                    <div class="member-header">
+                        <div class="member-title">
+                            <span class="member-badge-idx">2</span>
+                            <span>TRẦN THỊ BÌNH</span>
+                        </div>
+                        <button class="ocr-upload-btn" onclick="simulateOcr('tv2')">
+                            <i class="fa-solid fa-id-card"></i> Quét VNeID
+                        </button>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group col-span-2">
+                            <label class="label">Họ và tên</label>
+                            <input type="text" class="input-box" value="TRẦN THỊ BÌNH">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Số CCCD</label>
+                            <input type="text" class="input-box input-mono" value="001190005678">
+                        </div>
+
+                        <div class="form-group col-span-2">
+                            <label class="label">Phần vốn góp mới (VNĐ)</label>
+                            <input type="text" class="input-box input-mono" id="m2-von" value="1,200,000,000" oninput="calcRatios()">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Tỷ lệ (%)</label>
+                            <input type="text" class="input-box input-mono" id="m2-ratio" value="40" readonly style="background: var(--bg-surface);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Right: Live Dossier Drawer (Sticky Inspector) -->
+        <aside class="dossier-pane">
+            <div class="dossier-card">
+                <div class="meter-container">
+                    <div class="meter-header">
+                        <span class="meter-title"><i class="fa-solid fa-shield-halved text-gradient" style="color: var(--emerald);"></i> Kiểm soát chất lượng hồ sơ</span>
+                        <span class="meter-score" id="meter-num">100%</span>
+                    </div>
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="meter-bar-fill"></div>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">
+                        Đã sẵn sàng đủ 7/7 văn bản hành chính theo Luật Doanh nghiệp 2020.
+                    </p>
+                </div>
+
+                <div class="doc-list">
+                    <div class="doc-item" onclick="showDocPreview('01. Thông báo thay đổi ĐKKD')">
+                        <div class="doc-info">
+                            <div class="doc-icon"><i class="fa-solid fa-file-word"></i></div>
+                            <div>
+                                <div class="doc-name">01. Thông báo thay đổi ĐKKD</div>
+                                <div class="doc-meta">Mẫu Phụ lục II-1 • Vốn: 3 tỷ VNĐ</div>
+                            </div>
+                        </div>
+                        <span class="doc-badge ready"><i class="fa-solid fa-circle-check"></i> Đủ</span>
+                    </div>
+
+                    <div class="doc-item" onclick="showDocPreview('02. Biên bản họp HĐTV')">
+                        <div class="doc-info">
+                            <div class="doc-icon"><i class="fa-solid fa-file-word"></i></div>
+                            <div>
+                                <div class="doc-name">02. Biên bản họp HĐTV</div>
+                                <div class="doc-meta">Biểu quyết: 60% An - 40% Bình</div>
+                            </div>
+                        </div>
+                        <span class="doc-badge ready"><i class="fa-solid fa-circle-check"></i> Đủ</span>
+                    </div>
+
+                    <div class="doc-item" onclick="showDocPreview('03. Quyết định HĐTV')">
+                        <div class="doc-info">
+                            <div class="doc-icon"><i class="fa-solid fa-file-word"></i></div>
+                            <div>
+                                <div class="doc-name">03. Quyết định HĐTV</div>
+                                <div class="doc-meta">Sửa đổi Điều 1 & Điều 6 Điều lệ</div>
+                            </div>
+                        </div>
+                        <span class="doc-badge ready"><i class="fa-solid fa-circle-check"></i> Đủ</span>
+                    </div>
+
+                    <div class="doc-item" onclick="showDocPreview('04. Giấy ủy quyền')">
+                        <div class="doc-info">
+                            <div class="doc-icon"><i class="fa-solid fa-file-word"></i></div>
+                            <div>
+                                <div class="doc-name">04. Giấy ủy quyền</div>
+                                <div class="doc-meta">Ủy quyền: Đỗ Quang Hiếu</div>
+                            </div>
+                        </div>
+                        <span class="doc-badge ready"><i class="fa-solid fa-circle-check"></i> Đủ</span>
+                    </div>
+
+                    <div class="doc-item" onclick="showDocPreview('05. Danh sách CSH hưởng lợi')">
+                        <div class="doc-info">
+                            <div class="doc-icon"><i class="fa-solid fa-file-word"></i></div>
+                            <div>
+                                <div class="doc-name">05. Danh sách CSH hưởng lợi</div>
+                                <div class="doc-meta">Tự động sinh 2 dòng sở hữu</div>
+                            </div>
+                        </div>
+                        <span class="doc-badge ready"><i class="fa-solid fa-circle-check"></i> Đủ</span>
+                    </div>
+
+                    <div class="doc-item" onclick="showDocPreview('06. Danh sách thành viên')">
+                        <div class="doc-info">
+                            <div class="doc-icon"><i class="fa-solid fa-file-word"></i></div>
+                            <div>
+                                <div class="doc-name">06. Danh sách thành viên</div>
+                                <div class="doc-meta">Thời hạn góp vốn: …/…/2026</div>
+                            </div>
+                        </div>
+                        <span class="doc-badge ready"><i class="fa-solid fa-circle-check"></i> Đủ</span>
+                    </div>
+
+                    <div class="doc-item" onclick="showDocPreview('07. Giấy chứng nhận góp vốn')">
+                        <div class="doc-info">
+                            <div class="doc-icon"><i class="fa-solid fa-copy"></i></div>
+                            <div>
+                                <div class="doc-name">07. GCN phần vốn góp (2 bản)</div>
+                                <div class="doc-meta">Tách file: _a (An) & _b (Bình)</div>
+                            </div>
+                        </div>
+                        <span class="doc-badge ready"><i class="fa-solid fa-circle-check"></i> Đủ</span>
+                    </div>
+                </div>
+
+                <button class="cta-generate" onclick="alert('Đang tải trọn bộ hồ sơ ZIP với 8 file văn bản hoàn chỉnh!')">
+                    <i class="fa-solid fa-download"></i>
+                    Tải trọn bộ hồ sơ (.ZIP)
+                </button>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- Floating Dock at bottom -->
+    <div class="bottom-dock">
+        <div class="dock-stat">
+            <i class="fa-solid fa-circle-check text-gradient" style="color: var(--emerald);"></i>
+            <span>Không có lỗi cú pháp</span>
+        </div>
+        <div style="width: 1px; height: 16px; background: var(--border);"></div>
+        <div class="dock-stat">
+            <i class="fa-solid fa-layer-group text-gradient" style="color: var(--accent);"></i>
+            <span>8 văn bản Word (.docx)</span>
+        </div>
+        <button class="btn-action" style="background: var(--accent); color: #fff; border: none; padding: 6px 16px; border-radius: var(--radius-full);" onclick="alert('Form đã được kiểm tra tính hợp lệ 100%')">
+            Kiểm tra hồ sơ
+        </button>
+    </div>
+
+    <!-- Command Palette (Ctrl+K) -->
+    <div class="modal-overlay" id="palette-modal" onclick="if(event.target === this) togglePalette()">
+        <div class="palette-box">
+            <div class="palette-input-wrap">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="palette-search" class="palette-input" placeholder="Gõ tên thủ tục, mã số thuế hoặc ngành nghề..." autofocus>
+                <span class="kbd">ESC</span>
+            </div>
+            <div class="palette-list">
+                <div class="palette-item active" onclick="alert('Chuyển tới: Tăng vốn công ty TNHH 2 TV')">
+                    <span><i class="fa-solid fa-arrow-trend-up" style="margin-right: 8px;"></i> Tăng vốn công ty TNHH 2 TV</span>
+                    <span class="kbd">Mẫu #16</span>
+                </div>
+                <div class="palette-item" onclick="alert('Chuyển tới: Thành lập mới công ty TNHH 2 TV')">
+                    <span><i class="fa-solid fa-building" style="margin-right: 8px;"></i> Thành lập mới công ty TNHH 2 TV</span>
+                    <span class="kbd">Mẫu #10</span>
+                </div>
+                <div class="palette-item" onclick="alert('Chuyển tới: Chuyển nhượng Công ty TNHH 2 TV')">
+                    <span><i class="fa-solid fa-handshake" style="margin-right: 8px;"></i> Chuyển nhượng Công ty TNHH 2 TV</span>
+                    <span class="kbd">Mẫu #17</span>
+                </div>
+                <div class="palette-item" onclick="alert('Chuyển tới: Thay đổi nội dung ĐKKD')">
+                    <span><i class="fa-solid fa-pen-to-square" style="margin-right: 8px;"></i> Thay đổi nội dung ĐKKD</span>
+                    <span class="kbd">Mẫu #09</span>
+                </div>
+                <div class="palette-item" onclick="alert('Tra cứu MST nhanh')">
+                    <span><i class="fa-solid fa-bolt" style="margin-right: 8px;"></i> Tra cứu MST từ Tổng cục Thuế</span>
+                    <span class="kbd">Service</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', target);
+            const icon = document.getElementById('theme-icon');
+            if (target === 'light') {
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                icon.className = 'fa-solid fa-circle-half-stroke';
+            }
+        }
+
+        // Palette Toggle
+        function togglePalette() {
+            const modal = document.getElementById('palette-modal');
+            modal.classList.toggle('active');
+            if (modal.classList.contains('active')) {
+                document.getElementById('palette-search').focus();
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                togglePalette();
+            }
+            if (e.key === 'Escape') {
+                document.getElementById('palette-modal').classList.remove('active');
+            }
+        });
+
+        // Simulate MST Lookup
+        function simulateLookup() {
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tra...';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-solid fa-check text-success"></i> Đã kết nối';
+                document.getElementById('company-name').style.borderColor = 'var(--emerald)';
+            }, 600);
+        }
+
+        // Simulate OCR
+        function simulateOcr(target) {
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang đọc AI...';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-solid fa-check text-success"></i> Đã nhận diện VNeID';
+                btn.style.borderColor = 'var(--emerald)';
+                btn.style.color = 'var(--emerald)';
+            }, 800);
+        }
+
+        // Dynamic Ratio & Capital calculation
+        function calcRatios() {
+            const v1 = parseInt(document.getElementById('m1-von').value.replace(/\D/g, '') || 0);
+            const v2 = parseInt(document.getElementById('m2-von').value.replace(/\D/g, '') || 0);
+            const total = v1 + v2;
+            if (total > 0) {
+                const r1 = Math.round((v1 / total) * 100);
+                const r2 = 100 - r1;
+                document.getElementById('m1-ratio').value = r1;
+                document.getElementById('m2-ratio').value = r2;
+                document.getElementById('seg-1').style.width = r1 + '%';
+                document.getElementById('seg-2').style.width = r2 + '%';
+                document.getElementById('bar-dist-text').innerText = `${r1}% TV1 — ${r2}% TV2`;
+            }
+        }
+
+        function updateCapital() {
+            calcRatios();
+        }
+
+        function showDocPreview(docName) {
+            alert(`Xem trước cấu trúc: ${docName}\n\n- Đã mapping: Vốn mới 3,000,000,000 VNĐ (Ba tỷ đồng)\n- Tỷ lệ biểu quyết: 60% (An) - 40% (Bình)\n- Thời hạn góp vốn: …/…/2026\n- Tất cả các trường đã sẵn sàng render.`);
+        }
+
+        function addMemberDemo() {
+            alert('Tính năng thêm thành viên: Bấm nút sẽ sinh thêm Card thành viên #3 và tự động chia lại thanh tỷ lệ phân bổ vốn 3 phần!');
+        }
+    </script>
+</body>
+</html>

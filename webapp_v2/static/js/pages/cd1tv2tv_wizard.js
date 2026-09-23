@@ -164,6 +164,12 @@ window.cdCopyCSHToDDPL = function() {
 };
 
 window.renderCD1TV2TVWizard = function(container) {
+    const parentContainer = container.closest('.container');
+    if (parentContainer) {
+        parentContainer.style.maxWidth = '1540px';
+        parentContainer.style.width = '96%';
+        parentContainer.style.padding = '0 16px';
+    }
     if (!window.cd1tv2tvState) {
         window.cd1tv2tvState = getInitialCD1TV2TVState();
     }
