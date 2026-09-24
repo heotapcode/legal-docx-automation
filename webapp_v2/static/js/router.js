@@ -22,6 +22,10 @@ function handleRoute() {
     if (path === '/wizard' && window.initWizard) {
         setTimeout(window.initWizard, 0);
     }
+
+    if ((path === '/' || path === '') && window.initLandingHarvey) {
+        setTimeout(window.initLandingHarvey, 0);
+    }
     
     if (['/pricing', '/contact', '/about'].includes(path)) {
         setTimeout(() => {
