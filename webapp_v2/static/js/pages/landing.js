@@ -1,300 +1,319 @@
+// ==============================================================================
+// NAC v2 - Harvey Legal Tech Executive Landing Portal (With Navigation Sidebar)
+// ==============================================================================
+
 function renderLanding() {
-    return `
-        <!-- Navbar -->
-        <nav class="navbar">
-            <div class="container navbar-container">
-                <a href="#/" class="navbar-brand">
-                    <i class="fa-solid fa-building text-gradient"></i> NAC
-                </a>
-                <div class="navbar-menu">
-                    <a href="#/services">Dịch vụ</a>
-                    <a href="#/pricing">Bảng giá</a>
-                    <a href="#/about">Về chúng tôi</a>
-                    <a href="#/contact">Liên hệ</a>
-                </div>
-                <a href="#/wizard" class="btn btn-primary btn-sm">Tạo hồ sơ ngay</a>
-            </div>
-        </nav>
+    const isHarvey = window.isGlobalModernUI ? window.isGlobalModernUI() : true;
 
-        <!-- Hero -->
-        <section class="hero">
-            <div class="blob blob-1"></div>
-            <div class="blob blob-2"></div>
-            
-            <div class="container grid-2" style="align-items: center;">
-                <div class="hero-content">
-                    <span class="badge mb-4">🚀 Công nghệ AI Mới Nhất 2026</span>
-                    <h1 class="mb-4" style="font-size: var(--font-size-5xl); font-weight: 800; line-height: 1.2; margin-bottom: var(--space-6);">
-                        Tạo Hồ Sơ Doanh Nghiệp<br>
-                        <span class="text-gradient">Trong 5 Phút Với AI</span>
-                    </h1>
-                    <p class="text-secondary text-lg mb-8" style="margin-bottom: var(--space-8); max-width: 90%;">
-                        Chỉ cần chụp ảnh VNeID — AI tự động điền thông tin. Hỗ trợ 17+ loại thủ tục ĐKKD. Tải ngay bộ hồ sơ hoàn chỉnh.
-                    </p>
-                    <div class="hero-cta" style="display: flex; gap: var(--space-4); margin-bottom: var(--space-12);">
-                        <a href="#/wizard" class="btn btn-primary">
-                            <i class="fa-solid fa-robot"></i> Tự Tạo Hồ Sơ — Từ 99K
-                        </a>
-                        <a href="#/contact" class="btn btn-secondary">
-                            <i class="fa-solid fa-briefcase"></i> NAC Làm Hộ — Trọn Gói
-                        </a>
-                    </div>
-                    
-                    <div class="stats grid-3 text-center" style="border-top: 1px solid var(--border-glass); padding-top: var(--space-6);">
-                        <div>
-                            <div class="text-2xl font-bold text-gradient">1,200+</div>
-                            <div class="text-sm text-muted">Hồ sơ đã tạo</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold text-gradient">5 phút</div>
-                            <div class="text-sm text-muted">Thời gian TB</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold text-gradient">17+</div>
-                            <div class="text-sm text-muted">Loại thủ tục</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="hero-visual" style="animation: float 6s ease-in-out infinite;">
-                    <!-- Simple Glassmorphism App Mockup -->
-                    <div class="card-glass" style="position: relative; height: 500px; border-radius: var(--radius-2xl); overflow: hidden; padding: 0;">
-                        <div style="background: rgba(0,0,0,0.3); padding: var(--space-4); border-bottom: 1px solid var(--border-glass); display: flex; gap: var(--space-2);">
-                            <div style="width: 12px; height: 12px; border-radius: 50%; background: #ef4444;"></div>
-                            <div style="width: 12px; height: 12px; border-radius: 50%; background: #f59e0b;"></div>
-                            <div style="width: 12px; height: 12px; border-radius: 50%; background: #10b981;"></div>
-                        </div>
-                        <div style="padding: var(--space-6);">
-                            <div style="height: 40px; background: rgba(255,255,255,0.05); border-radius: var(--radius-md); margin-bottom: var(--space-4);"></div>
-                            <div style="height: 120px; background: rgba(255,255,255,0.05); border-radius: var(--radius-md); margin-bottom: var(--space-4); display: flex; align-items: center; justify-content: center; border: 2px dashed rgba(255,255,255,0.2);">
-                                <span class="text-muted"><i class="fa-solid fa-camera"></i> Kéo thả ảnh VNeID vào đây</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
-                                <div style="height: 30px; background: rgba(255,255,255,0.05); border-radius: var(--radius-sm);"></div>
-                                <div style="height: 30px; background: rgba(255,255,255,0.05); border-radius: var(--radius-sm);"></div>
-                                <div style="height: 30px; background: rgba(255,255,255,0.05); border-radius: var(--radius-sm);"></div>
-                                <div style="height: 30px; background: rgba(255,255,255,0.05); border-radius: var(--radius-sm);"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- How it works -->
-        <section class="section">
-            <div class="container">
-                <div class="text-center mb-12 animate-on-scroll" style="margin-bottom: var(--space-12);">
-                    <h2 class="text-4xl font-bold mb-4" style="margin-bottom: var(--space-4);">Cách Thức <span class="text-gradient">Hoạt Động</span></h2>
-                    <p class="text-secondary text-lg">Đơn giản hóa quy trình đăng ký doanh nghiệp với sức mạnh của AI.</p>
-                </div>
-                
-                <div class="grid-3">
-                    <div class="card text-center animate-on-scroll">
-                        <div style="font-size: 3rem; color: var(--accent-primary); margin-bottom: var(--space-4);"><i class="fa-solid fa-id-card"></i></div>
-                        <h3 class="text-xl font-bold mb-2" style="margin-bottom: var(--space-2);">1. Chụp ảnh VNeID</h3>
-                        <p class="text-secondary">Hệ thống AI tự động trích xuất thông tin CMND/CCCD chính xác tuyệt đối.</p>
-                    </div>
-                    <div class="card text-center animate-on-scroll delay-100">
-                        <div style="font-size: 3rem; color: var(--accent-secondary); margin-bottom: var(--space-4);"><i class="fa-solid fa-pen-to-square"></i></div>
-                        <h3 class="text-xl font-bold mb-2" style="margin-bottom: var(--space-2);">2. Điền thông tin</h3>
-                        <p class="text-secondary">Chỉ cần nhập MST hoặc tên công ty dự kiến, các biểu mẫu sẽ tự động điền.</p>
-                    </div>
-                    <div class="card text-center animate-on-scroll delay-200">
-                        <div style="font-size: 3rem; color: var(--success); margin-bottom: var(--space-4);"><i class="fa-solid fa-file-arrow-down"></i></div>
-                        <h3 class="text-xl font-bold mb-2" style="margin-bottom: var(--space-2);">3. Tải hồ sơ Word</h3>
-                        <p class="text-secondary">Nhận ngay trọn bộ hồ sơ chuẩn chỉnh, đúng quy định pháp luật hiện hành.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services -->
-        <section class="section" style="background: var(--bg-secondary);">
-            <div class="container">
-                <div class="text-center mb-12 animate-on-scroll" style="margin-bottom: var(--space-12);">
-                    <div class="badge mb-4">Không chỉ là công cụ</div>
-                    <h2 class="text-4xl font-bold mb-4" style="margin-bottom: var(--space-4);">NAC là <span class="text-gradient">Đối Tác Kinh Doanh</span> của bạn</h2>
-                </div>
-                
-                <div class="grid-2">
-                    <div class="card card-glass animate-on-scroll">
-                        <div style="display: flex; gap: var(--space-4); align-items: flex-start;">
-                            <div style="font-size: 2.5rem; color: var(--accent-primary);"><i class="fa-solid fa-file-signature"></i></div>
-                            <div>
-                                <h3 class="text-xl font-bold mb-2">Đăng ký Doanh nghiệp</h3>
-                                <div class="text-sm text-gradient font-bold mb-2">Từ 1.5 triệu trọn gói</div>
-                                <p class="text-secondary mb-4" style="margin-bottom: var(--space-4);">Thành lập mới, thay đổi nội dung ĐKKD, giải thể, chuyển nhượng cổ phần uy tín.</p>
-                                <a href="#/services" class="btn btn-outline btn-sm">Tư vấn ngay &rarr;</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-glass animate-on-scroll delay-100">
-                        <div style="display: flex; gap: var(--space-4); align-items: flex-start;">
-                            <div style="font-size: 2.5rem; color: var(--success);"><i class="fa-solid fa-chart-pie"></i></div>
-                            <div>
-                                <h3 class="text-xl font-bold mb-2">Kế toán Thuế</h3>
-                                <div class="text-sm text-gradient font-bold mb-2">Từ 2 triệu/tháng</div>
-                                <p class="text-secondary mb-4" style="margin-bottom: var(--space-4);">Chuyên nghiệp, chính xác. Báo cáo thuế đúng hạn, dọn dẹp sổ sách, quyết toán thuế.</p>
-                                <a href="#/services" class="btn btn-outline btn-sm">Tư vấn ngay &rarr;</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-glass animate-on-scroll">
-                        <div style="display: flex; gap: var(--space-4); align-items: flex-start;">
-                            <div style="font-size: 2.5rem; color: var(--warning);"><i class="fa-solid fa-pen-nib"></i></div>
-                            <div>
-                                <h3 class="text-xl font-bold mb-2">Chữ ký số</h3>
-                                <div class="text-sm text-gradient font-bold mb-2">Từ 1.5 triệu/năm</div>
-                                <p class="text-secondary mb-4" style="margin-bottom: var(--space-4);">Token USB chính hãng, bảo mật cao. Hỗ trợ cài đặt tận nơi, khai báo thuế nhanh chóng.</p>
-                                <a href="#/services" class="btn btn-outline btn-sm">Đặt mua ngay &rarr;</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-glass animate-on-scroll delay-100">
-                        <div style="display: flex; gap: var(--space-4); align-items: flex-start;">
-                            <div style="font-size: 2.5rem; color: var(--info);"><i class="fa-solid fa-file-invoice"></i></div>
-                            <div>
-                                <h3 class="text-xl font-bold mb-2">Hóa đơn điện tử</h3>
-                                <div class="text-sm text-gradient font-bold mb-2">Từ 800K/năm</div>
-                                <p class="text-secondary mb-4" style="margin-bottom: var(--space-4);">Đầy đủ tính năng, giao diện dễ dùng. Kết nối phần mềm kế toán mượt mà.</p>
-                                <a href="#/services" class="btn btn-outline btn-sm">Đăng ký ngay &rarr;</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Starter Pack Upsell -->
-        <section class="section" style="padding: var(--space-8) 0;">
-            <div class="container animate-on-scroll">
-                <div style="background: var(--accent-gradient); border-radius: var(--radius-2xl); padding: var(--space-8); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-6);">
-                    <div>
-                        <div class="badge mb-2" style="background: rgba(255,255,255,0.2); color: white; border: none;">🎁 GÓI KHỞI NGHIỆP</div>
-                        <h2 class="text-3xl font-bold text-white mb-2">Chỉ 4.5 Triệu Đồng</h2>
-                        <p class="text-white" style="opacity: 0.9;">ĐKDN + Khắc dấu + Chữ ký số + HĐĐT + Biển hiệu. Tiết kiệm 2 triệu so với mua lẻ!</p>
-                    </div>
-                    <a href="#/contact" class="btn" style="background: white; color: var(--accent-primary);">ĐĂNG KÝ GÓI KHỞI NGHIỆP &rarr;</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing -->
-        <section class="section" id="pricing">
-            <div class="container">
-                <div class="text-center mb-12 animate-on-scroll" style="margin-bottom: var(--space-12);">
-                    <h2 class="text-4xl font-bold mb-4" style="margin-bottom: var(--space-4);">Bảng Giá <span class="text-gradient">Phần Mềm</span></h2>
-                    <p class="text-secondary text-lg">Lựa chọn gói phù hợp với nhu cầu tạo hồ sơ tự động của bạn.</p>
-                </div>
-                
-                <div class="grid-3" style="align-items: center;">
-                    <!-- Basic -->
-                    <div class="card animate-on-scroll">
-                        <div class="text-center mb-6">
-                            <h3 class="text-xl font-bold mb-2">Cơ bản</h3>
-                            <div class="text-4xl font-bold mb-2">FREE</div>
-                            <p class="text-muted text-sm">Cho cá nhân trải nghiệm</p>
-                        </div>
-                        <ul style="margin-bottom: var(--space-8);">
-                            <li style="margin-bottom: var(--space-3);"><i class="fa-solid fa-check text-success" style="margin-right: var(--space-2);"></i> 2 bộ HS đơn giản/tháng</li>
-                            <li style="margin-bottom: var(--space-3);"><i class="fa-solid fa-check text-success" style="margin-right: var(--space-2);"></i> Tra mã ngành 5 lần/ngày</li>
-                            <li class="text-muted"><i class="fa-solid fa-xmark" style="margin-right: var(--space-2);"></i> Không hỗ trợ Auto-fill VNeID</li>
-                        </ul>
-                        <button class="btn btn-secondary" style="width: 100%;">Bắt đầu miễn phí</button>
-                    </div>
-                    
-                    <!-- Pro -->
-                    <div class="card pricing-card highlight animate-on-scroll delay-100">
-                        <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent-gradient); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase;">Phổ biến nhất</div>
-                        <div class="text-center mb-6">
-                            <h3 class="text-xl font-bold mb-2">Professional</h3>
-                            <div class="text-4xl font-bold mb-2 text-gradient">499K<span class="text-lg text-muted">/tháng</span></div>
-                            <p class="text-muted text-sm">Cho văn phòng luật & dịch vụ</p>
-                        </div>
-                        <ul style="margin-bottom: var(--space-8);">
-                            <li style="margin-bottom: var(--space-3);"><i class="fa-solid fa-check text-success" style="margin-right: var(--space-2);"></i> <b>Không giới hạn</b> bộ hồ sơ</li>
-                            <li style="margin-bottom: var(--space-3);"><i class="fa-solid fa-check text-success" style="margin-right: var(--space-2);"></i> OCR VNeID không giới hạn</li>
-                            <li style="margin-bottom: var(--space-3);"><i class="fa-solid fa-check text-success" style="margin-right: var(--space-2);"></i> Tra MST auto-fill</li>
-                            <li style="margin-bottom: var(--space-3);"><i class="fa-solid fa-check text-success" style="margin-right: var(--space-2);"></i> Lưu profile công ty</li>
-                            <li style="margin-bottom: var(--space-3);"><i class="fa-solid fa-check text-success" style="margin-right: var(--space-2);"></i> Ưu tiên hỗ trợ</li>
-                        </ul>
-                        <button class="btn btn-primary" style="width: 100%;">Đăng ký ngay</button>
-                    </div>
-                    
-                    <!-- Standard -->
-                    <div class="card animate-on-scroll delay-200">
-                        <div class="text-center mb-6">
-                            <h3 class="text-xl font-bold mb-2">Standard</h3>
-                            <div class="text-4xl font-bold mb-2">199K<span class="text-lg text-muted">/tháng</span></div>
-                            <p class="text-muted text-sm">Cho doanh nghiệp nhỏ</p>
-                        </div>
-                        <ul style="margin-bottom: var(--space-8);">
-                            <li style="margin-bottom: var(--space-3);"><i class="fa-solid fa-check text-success" style="margin-right: var(--space-2);"></i> 10 bộ HS bất kỳ/tháng</li>
-                            <li style="margin-bottom: var(--space-3);"><i class="fa-solid fa-check text-success" style="margin-right: var(--space-2);"></i> OCR VNeID không giới hạn</li>
-                            <li style="margin-bottom: var(--space-3);"><i class="fa-solid fa-check text-success" style="margin-right: var(--space-2);"></i> Tra MST auto-fill</li>
-                        </ul>
-                        <button class="btn btn-secondary" style="width: 100%;">Đăng ký ngay</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Final -->
-        <section class="section">
-            <div class="container">
-                <div class="card text-center animate-on-scroll" style="background: var(--bg-secondary);">
-                    <h2 class="text-4xl font-bold mb-4">Sẵn Sàng Mở Công Ty?</h2>
-                    <p class="text-secondary text-lg mb-8" style="margin-bottom: var(--space-8);">Đội ngũ NAC luôn sẵn sàng hỗ trợ bạn từ A-Z, cả online lẫn offline.</p>
-                    <div style="display: flex; gap: var(--space-4); justify-content: center; margin-bottom: var(--space-8); flex-wrap: wrap;">
-                        <a href="#/wizard" class="btn btn-primary">🤖 Tự Tạo Hồ Sơ Ngay</a>
-                        <a href="#/contact" class="btn btn-secondary">💼 NAC Làm Hộ Trọn Gói</a>
-                    </div>
-                    <div class="text-muted">
-                        Hotline: <b>0988.xxx.xxx</b> | Zalo: <b>0988.xxx.xxx</b>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer style="background: #05070a; padding: var(--space-12) 0; border-top: 1px solid var(--border-glass);">
-            <div class="container grid-4">
-                <div>
-                    <a href="#/" class="navbar-brand mb-4" style="display: block; margin-bottom: var(--space-4);">
+    if (!isHarvey) {
+        // Legacy marketing landing page
+        return `
+            <nav class="navbar">
+                <div class="container navbar-container">
+                    <a href="#/" class="navbar-brand">
                         <i class="fa-solid fa-building text-gradient"></i> NAC
                     </a>
-                    <p class="text-muted text-sm">Đối tác tin cậy về Kế toán Thuế và Đăng ký Doanh nghiệp.</p>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="toggleGlobalUIMode()">
+                            <i class="fa-solid fa-scale-balanced" style="color: #d4af37;"></i> Dùng giao diện Harvey
+                        </button>
+                        <a href="#/wizard" class="btn btn-primary btn-sm">Tạo hồ sơ ngay</a>
+                    </div>
                 </div>
-                <div>
-                    <h4 class="font-bold mb-4" style="margin-bottom: var(--space-4);">Dịch vụ</h4>
-                    <ul class="text-muted text-sm" style="display: flex; flex-direction: column; gap: var(--space-2);">
-                        <li><a href="#/services">Đăng ký doanh nghiệp</a></li>
-                        <li><a href="#/services">Kế toán thuế</a></li>
-                        <li><a href="#/services">Chữ ký số</a></li>
-                        <li><a href="#/services">Hóa đơn điện tử</a></li>
-                    </ul>
+            </nav>
+
+            <section class="hero" style="min-height: 85vh; display: flex; align-items: center;">
+                <div class="container grid-2" style="align-items: center;">
+                    <div class="hero-content">
+                        <span class="badge mb-4">🚀 Công nghệ AI Mới Nhất 2026</span>
+                        <h1 class="mb-4" style="font-size: var(--font-size-5xl); font-weight: 800; line-height: 1.2;">
+                            Tạo Hồ Sơ Doanh Nghiệp<br>
+                            <span class="text-gradient">Trong 5 Phút Với AI</span>
+                        </h1>
+                        <p class="text-secondary text-lg mb-8" style="max-width: 90%;">
+                            Chỉ cần chụp ảnh VNeID — AI tự động điền thông tin. Hỗ trợ 19 loại thủ tục ĐKKD. Tải ngay bộ hồ sơ hoàn chỉnh.
+                        </p>
+                        <div style="display: flex; gap: var(--space-4); margin-bottom: var(--space-8);">
+                            <a href="#/wizard" class="btn btn-primary">
+                                <i class="fa-solid fa-robot"></i> Bắt đầu soạn thảo
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <h4 class="font-bold mb-4" style="margin-bottom: var(--space-4);">Phần mềm</h4>
-                    <ul class="text-muted text-sm" style="display: flex; flex-direction: column; gap: var(--space-2);">
-                        <li><a href="#/wizard">Tạo hồ sơ AI</a></li>
-                        <li><a href="#/pricing">Bảng giá</a></li>
-                        <li><a href="#">Hướng dẫn</a></li>
-                    </ul>
+            </section>
+        `;
+    }
+
+    // HARVEY LEGAL TECH EXECUTIVE PORTAL WITH NAVIGATION SIDEBAR
+    return `
+        <div class="harvey-app-shell">
+            <!-- 1. Left Executive Navigation Sidebar -->
+            <aside class="harvey-sidebar">
+                <div class="harvey-sidebar-brand">
+                    <div class="harvey-seal-logo"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <div style="display: flex; flex-direction: column;">
+                        <span class="harvey-brand-title">HARVEY LEGAL OS</span>
+                        <span class="harvey-brand-tag">Executive Studio</span>
+                    </div>
                 </div>
-                <div>
-                    <h4 class="font-bold mb-4" style="margin-bottom: var(--space-4);">Liên hệ</h4>
-                    <ul class="text-muted text-sm" style="display: flex; flex-direction: column; gap: var(--space-2);">
-                        <li><i class="fa-solid fa-location-dot"></i> Hà Nội, Việt Nam</li>
-                        <li><i class="fa-solid fa-phone"></i> 0988.xxx.xxx</li>
-                        <li><i class="fa-solid fa-envelope"></i> contact@nac.vn</li>
-                    </ul>
+
+                <nav class="harvey-sidebar-nav" id="landing-sidebar-nav">
+                    <div class="text-center py-6 text-sm" style="color: var(--harvey-text-muted);">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Đang nạp danh mục...
+                    </div>
+                </nav>
+
+                <div class="harvey-sidebar-footer">
+                    <div class="harvey-pulse-dot"></div>
+                    <div style="font-size: 11.5px;">
+                        <div style="color: var(--gold-light); font-weight: 600;">Jinja2 Engine Active</div>
+                        <div style="color: var(--harvey-text-muted); font-size: 10.5px;">Cổng 8002 &bull; Thẩm định tự động</div>
+                    </div>
                 </div>
+            </aside>
+
+            <!-- 2. Main Executive App Area -->
+            <div class="harvey-main-area">
+                <!-- Top Command Bar -->
+                <header class="harvey-topbar">
+                    <div class="harvey-breadcrumbs">
+                        <span style="color: var(--harvey-text-muted);">Pháp nhân</span>
+                        <span style="color: var(--gold-primary);">/</span>
+                        <span style="color: var(--harvey-text-heading); font-weight: 600;">Trung tâm Điều hành Pháp lý Doanh nghiệp</span>
+                    </div>
+
+                    <div class="harvey-search-bar" onclick="const inp = document.getElementById('landing-global-search'); if(inp) inp.focus();">
+                        <i class="fa-solid fa-magnifying-glass" style="color: var(--gold-primary);"></i>
+                        <input type="text" id="landing-global-search" placeholder="Tra cứu thủ tục, MST, mã ngành..." style="background: transparent; border: none; outline: none; color: #fff; width: 100%; font-size: 12.5px;" onkeyup="filterLandingProcedures(this.value)">
+                        <span style="font-family: var(--font-mono); font-size: 10.5px; background: rgba(212, 175, 55, 0.1); color: var(--gold-primary); padding: 2px 6px; border-radius: 3px; border: 1px solid rgba(212, 175, 55, 0.25);">⌘K</span>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <button type="button" class="btn harvey-btn-ghost btn-sm" onclick="toggleGlobalUIMode()" title="Chuyển về giao diện giới thiệu cũ">
+                            <i class="fa-solid fa-rotate-left"></i> Giao diện cũ
+                        </button>
+                        <a href="#/wizard" class="btn harvey-btn-gold btn-sm"><i class="fa-solid fa-wand-magic-sparkles"></i> Tạo hồ sơ ngay</a>
+                    </div>
+                </header>
+
+                <!-- Workspace Scroll Body -->
+                <main class="harvey-workspace">
+                    <!-- Executive Hero Banner -->
+                    <div class="hero-banner-line">
+                        <div>
+                            <div class="hero-citation">
+                                <i class="fa-solid fa-certificate"></i> NGHỊ ĐỊNH 01/2021/NĐ-CP &bull; LUẬT DOANH NGHIỆP 2020
+                            </div>
+                            <h1 class="hero-heading" style="font-size: 28px;">Trung Tâm Soạn Thảo & Thẩm Định Hồ Sơ Doanh Nghiệp</h1>
+                            <p class="hero-subtext">Hệ thống pháp lý tự động hóa cao cấp: tra cứu Tổng cục Thuế, nhận diện thẻ VNeID, tự động cân đối vốn điều lệ và khởi tạo trọn bộ hồ sơ Word (.docx) chuẩn hóa.</p>
+                        </div>
+                        <div>
+                            <span class="legal-seal-badge" style="padding: 6px 14px; font-size: 11.5px;">
+                                <i class="fa-solid fa-award"></i> 19 BỘ THỦ TỤC ĐÃ ĐƯỢC CHUẨN HÓA
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Executive KPI Strip -->
+                    <div class="harvey-kpi-grid">
+                        <div class="harvey-kpi-card">
+                            <div>
+                                <div class="kpi-label">QUY TRÌNH DOANH NGHIỆP</div>
+                                <div class="harvey-kpi-num">19 Bộ Thủ Tục</div>
+                                <div style="font-size: 11px; color: var(--status-green); margin-top: 3px;"><i class="fa-solid fa-check"></i> Đầy đủ biểu mẫu Sở KH&ĐT</div>
+                            </div>
+                            <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-folder-tree"></i></div>
+                        </div>
+
+                        <div class="harvey-kpi-card">
+                            <div>
+                                <div class="kpi-label">TỐC ĐỘ BIÊN DỊCH</div>
+                                <div class="harvey-kpi-num">~0.85s / Bộ</div>
+                                <div style="font-size: 11px; color: var(--gold-primary); margin-top: 3px;"><i class="fa-solid fa-bolt"></i> docxtpl Jinja2 siêu tốc</div>
+                            </div>
+                            <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-gauge-high"></i></div>
+                        </div>
+
+                        <div class="harvey-kpi-card">
+                            <div>
+                                <div class="kpi-label">CHUẨN MỰC PHÁP LÝ</div>
+                                <div class="harvey-kpi-num">100% Khớp Luật</div>
+                                <div style="font-size: 11px; color: var(--status-green); margin-top: 3px;"><i class="fa-solid fa-shield-halved"></i> Căn cứ Nghị định 01/2021</div>
+                            </div>
+                            <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-scale-balanced"></i></div>
+                        </div>
+
+                        <div class="harvey-kpi-card">
+                            <div>
+                                <div class="kpi-label">XÁC THỰC DANH TÍNH</div>
+                                <div class="harvey-kpi-num">VNeID / CCCD</div>
+                                <div style="font-size: 11px; color: var(--gold-primary); margin-top: 3px;"><i class="fa-solid fa-id-card"></i> AI OCR chống lỗi sai</div>
+                            </div>
+                            <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-fingerprint"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- Executive 3-Step Workflow -->
+                    <div class="harvey-card" style="margin-bottom: 28px; background: rgba(13, 21, 42, 0.7);">
+                        <div class="card-header-bar" style="margin-bottom: 16px;">
+                            <div class="card-title">
+                                <i class="fa-solid fa-diagram-project"></i>
+                                <span>Quy Trình Tự Động Hóa 3 Bước Chuẩn Harvey</span>
+                            </div>
+                            <span class="legal-seal-badge">EXECUTIVE WORKFLOW</span>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                            <div style="background: rgba(6, 10, 20, 0.5); padding: 18px 20px; border-radius: var(--radius-md); border: 1px solid var(--gold-border-subtle);">
+                                <div style="font-size: 12px; font-weight: 700; color: var(--gold-primary); margin-bottom: 6px; font-family: var(--font-mono);">BƯỚC 01 &bull; KHỞI TẠO</div>
+                                <h4 style="font-family: var(--font-serif); font-size: 15.5px; color: #fff; margin-bottom: 6px;">Tra cứu Thuế & Quét VNeID</h4>
+                                <p style="font-size: 12.5px; color: var(--harvey-text-body); margin: 0;">Nhập mã số thuế để đồng bộ tên công ty, địa chỉ từ Tổng cục Thuế. Quét thẻ CCCD để tự động điền ĐDPL và các thành viên sáng lập.</p>
+                            </div>
+
+                            <div style="background: rgba(6, 10, 20, 0.5); padding: 18px 20px; border-radius: var(--radius-md); border: 1px solid var(--gold-border-subtle);">
+                                <div style="font-size: 12px; font-weight: 700; color: var(--gold-primary); margin-bottom: 6px; font-family: var(--font-mono);">BƯỚC 02 &bull; CÂN ĐỐI</div>
+                                <h4 style="font-family: var(--font-serif); font-size: 15.5px; color: #fff; margin-bottom: 6px;">Cân Đối Vốn & Thẩm Định</h4>
+                                <p style="font-size: 12.5px; color: var(--harvey-text-body); margin: 0;">Thanh phân bổ vốn thông minh tự động tính tỷ lệ % sở hữu, kiểm tra chéo tính hợp lệ 100% của vốn điều lệ trước khi tạo file.</p>
+                            </div>
+
+                            <div style="background: rgba(6, 10, 20, 0.5); padding: 18px 20px; border-radius: var(--radius-md); border: 1px solid var(--gold-border-subtle);">
+                                <div style="font-size: 12px; font-weight: 700; color: var(--gold-primary); margin-bottom: 6px; font-family: var(--font-mono);">BƯỚC 03 &bull; BIÊN DỊCH</div>
+                                <h4 style="font-family: var(--font-serif); font-size: 15.5px; color: #fff; margin-bottom: 6px;">Xuất Bộ Hồ Sơ Word (.ZIP)</h4>
+                                <p style="font-size: 12.5px; color: var(--harvey-text-body); margin: 0;">Engine docxtpl tạo ngay toàn bộ các văn bản Word (.docx) chuẩn hóa (Điều lệ, Thông báo, Biên bản họp...) và đóng gói thành 1 file ZIP duy nhất.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Procedures Directory Section -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+                        <div>
+                            <h3 style="font-family: var(--font-serif); font-size: 20px; font-weight: 600; color: var(--gold-light); margin: 0;">Bảng Danh Mục 19 Quy Trình Thủ Tục ĐKKD</h3>
+                            <p style="font-size: 12.5px; color: var(--harvey-text-muted); margin: 2px 0 0 0;">Chọn thủ tục bất kỳ bên dưới hoặc từ thanh Sidebar để bắt đầu soạn thảo</p>
+                        </div>
+                        <a href="#/wizard" class="btn harvey-btn-gold"><i class="fa-solid fa-play"></i> Bắt đầu soạn thảo &rarr;</a>
+                    </div>
+
+                    <div id="landing-procedures-grid" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div class="text-center py-10" style="color: var(--harvey-text-muted);">
+                            <i class="fa-solid fa-spinner fa-spin fa-2x" style="color: var(--gold-primary);"></i>
+                            <div class="mt-3">Đang đồng bộ 19 bộ thủ tục...</div>
+                        </div>
+                    </div>
+                </main>
             </div>
-            <div class="container mt-8 pt-8 text-center text-muted text-sm" style="border-top: 1px solid var(--border-glass); margin-top: var(--space-8); padding-top: var(--space-8);">
-                &copy; 2026 NAC. All rights reserved.
-            </div>
-        </footer>
+        </div>
     `;
 }
+
+window.initLandingHarvey = async function() {
+    if (!window.isGlobalModernUI || !window.isGlobalModernUI()) return;
+
+    try {
+        const res = await fetch('/api/templates');
+        if (res.ok) {
+            const data = await res.json();
+            window.allTemplatesCache = data.templates || [];
+            renderLandingProcedures(data.templates);
+            renderLandingSidebar(data.templates);
+        }
+    } catch (err) {
+        console.error('Lỗi nạp danh mục thủ tục tại trang chủ:', err);
+    }
+};
+
+function renderLandingSidebar(templates) {
+    const nav = document.getElementById('landing-sidebar-nav');
+    if (!nav || !templates) return;
+
+    const categories = [...new Set(templates.map(t => t.category || 'Khác'))];
+    let html = '';
+
+    categories.forEach(cat => {
+        const items = templates.filter(t => (t.category || 'Khác') === cat);
+        html += `<div class="harvey-nav-group-title">${cat}</div>`;
+        items.forEach(item => {
+            html += `
+                <a class="harvey-nav-item" onclick="startProcedure('${escapeHtml(item.name)}')">
+                    <i class="fa-solid fa-file-contract"></i>
+                    <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(item.display_name)}</span>
+                    <span class="harvey-nav-badge">${item.file_count || 5}</span>
+                </a>
+            `;
+        });
+    });
+
+    html += `
+        <div class="harvey-nav-group-title" style="margin-top: 14px;">Quản trị Pháp lý</div>
+        <a class="harvey-nav-item" onclick="if (window.showToast) window.showToast('Kho dữ liệu Doanh nghiệp & CCCD'); else alert('Kho dữ liệu Doanh nghiệp');">
+            <i class="fa-solid fa-building-user"></i>
+            <span>Kho Pháp nhân & CCCD</span>
+        </a>
+        <a class="harvey-nav-item" onclick="if (window.showToast) window.showToast('19 bộ biểu mẫu chuẩn hóa ĐKKD'); else alert('19 bộ biểu mẫu chuẩn hóa ĐKKD');">
+            <i class="fa-solid fa-file-word"></i>
+            <span>Mẫu biểu chuẩn (19 bộ)</span>
+        </a>
+    `;
+
+    nav.innerHTML = html;
+}
+
+function renderLandingProcedures(templates) {
+    const grid = document.getElementById('landing-procedures-grid');
+    if (!grid || !templates) return;
+
+    const categories = [...new Set(templates.map(t => t.category || 'Khác'))];
+    let html = '';
+
+    categories.forEach(cat => {
+        const items = templates.filter(t => (t.category || 'Khác') === cat);
+        html += `
+            <div class="landing-cat-group">
+                <div style="font-family: var(--font-serif); font-size: 16px; font-weight: 600; color: var(--gold-light); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-folder-open" style="color: var(--gold-primary);"></i>
+                    <span>${cat}</span>
+                    <span style="font-size: 12px; font-family: var(--font-mono); color: var(--harvey-text-muted); font-weight: normal;">(${items.length} thủ tục)</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px;">
+        `;
+
+        items.forEach(item => {
+            html += `
+                <div class="harvey-card tpl-item" style="cursor: pointer; padding: 20px 22px; display: flex; flex-direction: column; justify-content: space-between;" onclick="startProcedure('${escapeHtml(item.name)}')">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                            <h4 style="font-family: var(--font-serif); font-size: 15px; font-weight: 600; color: #fff; margin: 0; line-height: 1.4;">${escapeHtml(item.display_name)}</h4>
+                            <span class="legal-seal-badge" style="white-space: nowrap; margin-left: 8px;">${item.file_count || 5} docs</span>
+                        </div>
+                        <p style="font-size: 12.5px; color: var(--harvey-text-body); margin-bottom: 16px; line-height: 1.5;">${escapeHtml(item.description || 'Bộ hồ sơ đầy đủ các văn bản pháp lý theo Nghị định 01/2021/NĐ-CP.')}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--gold-border-subtle); padding-top: 12px;">
+                        <span style="font-size: 11.5px; color: var(--gold-primary); font-family: var(--font-mono);"><i class="fa-solid fa-stamp"></i> Chuẩn Sở KH&ĐT</span>
+                        <span class="btn harvey-btn-ghost btn-sm" style="padding: 4px 10px; font-size: 11.5px;">Bắt đầu &rarr;</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += `</div></div>`;
+    });
+
+    grid.innerHTML = html;
+}
+
+window.startProcedure = function(name) {
+    window.location.hash = '#/wizard';
+    setTimeout(() => {
+        if (window.selectTemplate) {
+            window.selectTemplate(name);
+        }
+    }, 100);
+};
+
+window.filterLandingProcedures = function(query) {
+    const q = query.toLowerCase().trim();
+    const items = document.querySelectorAll('#landing-procedures-grid .tpl-item');
+    items.forEach(el => {
+        const txt = el.innerText.toLowerCase();
+        el.style.display = txt.includes(q) ? 'flex' : 'none';
+    });
+};
