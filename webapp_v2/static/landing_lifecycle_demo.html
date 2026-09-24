@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mẫu 2: Corporate Lifecycle Solutions | Harvey Legal OS</title>
+    <!-- Google Fonts: Playfair Display, Cinzel, Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --legal-canvas: #060a14;
+            --legal-sidebar: #090e1d;
+            --legal-card: #0d152a;
+            --legal-card-hover: #121c38;
+            --gold-primary: #d4af37;
+            --gold-light: #f5e7b8;
+            --gold-burnished: #aa8628;
+            --gold-glow: rgba(212, 175, 55, 0.25);
+            --gold-border: rgba(212, 175, 55, 0.28);
+            --gold-border-subtle: rgba(212, 175, 55, 0.12);
+            --text-heading: #fbf8f2;
+            --text-body: #c1c9d6;
+            --text-muted: #6f7c94;
+            --status-green: #10b981;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--legal-canvas);
+            color: var(--text-body);
+            line-height: 1.55;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(ellipse at 70% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 55%),
+                radial-gradient(circle at 10% 40%, rgba(13, 21, 42, 0.7) 0%, transparent 60%);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 270px;
+            background: var(--legal-sidebar);
+            border-right: 1px solid var(--gold-border-subtle);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            user-select: none;
+        }
+        .sidebar-brand {
+            padding: 20px 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--gold-border-subtle);
+        }
+        .seal-logo {
+            width: 36px; height: 36px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gold-primary);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(13, 21, 42, 0.9) 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gold-primary); font-size: 16px;
+            box-shadow: 0 0 16px var(--gold-glow);
+        }
+        .brand-title {
+            font-family: var(--font-display);
+            font-size: 14.5px; font-weight: 700;
+            letter-spacing: 0.8px; color: var(--text-heading);
+        }
+        .brand-tag {
+            font-size: 10px; color: var(--gold-primary);
+            letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+        }
+        .sidebar-nav {
+            padding: 16px 12px;
+            display: flex; flex-direction: column; gap: 4px;
+            flex: 1; overflow-y: auto;
+        }
+        .nav-group-title {
+            font-size: 10.5px; font-weight: 700;
+            color: var(--gold-burnished);
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 10px 12px 4px 12px;
+        }
+        .nav-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 12px; border-radius: var(--radius-sm);
+            color: var(--text-body); font-size: 13px; font-weight: 500;
+            cursor: pointer; transition: all 0.15s ease;
+            text-decoration: none; border: 1px solid transparent;
+        }
+        .nav-item:hover {
+            background: rgba(212, 175, 55, 0.06); color: var(--gold-light);
+            border-color: rgba(212, 175, 55, 0.15);
+        }
+        .nav-item.active {
+            background: rgba(212, 175, 55, 0.12); color: var(--gold-light);
+            font-weight: 600; border: 1px solid var(--gold-border);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .nav-item i { font-size: 13.5px; width: 18px; text-align: center; color: var(--gold-primary); }
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--gold-border-subtle);
+            background: rgba(6, 10, 20, 0.6);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .pulse-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--gold-primary); box-shadow: 0 0 10px var(--gold-primary);
+        }
+
+        /* Main Workspace */
+        .main-app {
+            flex: 1; display: flex; flex-direction: column;
+            overflow: hidden; background: var(--legal-canvas);
+        }
+        .topbar {
+            height: 58px; background: var(--legal-sidebar);
+            border-bottom: 1px solid var(--gold-border-subtle);
+            padding: 0 28px; display: flex; align-items: center;
+            justify-content: space-between; flex-shrink: 0;
+        }
+        .workspace-scroll {
+            flex: 1; overflow-y: auto; padding: 28px 34px 80px 34px;
+        }
+
+        /* Hero */
+        .hero-section {
+            margin-bottom: 30px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gold-border-subtle);
+        }
+        .hero-badge-tag {
+            font-family: var(--font-mono); font-size: 11px;
+            color: var(--gold-primary); letter-spacing: 1px;
+            text-transform: uppercase; margin-bottom: 8px;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .hero-title {
+            font-family: var(--font-serif); font-size: 32px;
+            font-weight: 700; color: var(--text-heading);
+            letter-spacing: -0.5px; margin-bottom: 10px; line-height: 1.25;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #d4af37 0%, #aa8628 100%);
+            color: #060a14 !important; font-weight: 700 !important;
+            box-shadow: 0 2px 12px rgba(212, 175, 55, 0.35);
+            border: none; padding: 10px 22px; border-radius: var(--radius-sm);
+            cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+            font-size: 13.5px; text-decoration: none; transition: all 0.2s;
+        }
+        .btn-ghost-gold {
+            background: rgba(212, 175, 55, 0.06);
+            border: 1px solid var(--gold-border);
+            color: var(--gold-light); padding: 10px 20px;
+            border-radius: var(--radius-sm); cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 13.5px; text-decoration: none; transition: all 0.2s;
+        }
+
+        /* Quick MST Health Check Box */
+        .mst-check-banner {
+            background: rgba(13, 21, 42, 0.8);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 30px;
+            display: flex; align-items: center; justify-content: space-between; gap: 20px;
+        }
+        .mst-input-wrap {
+            display: flex; gap: 10px; flex: 1; max-width: 520px;
+        }
+        .mst-input {
+            flex: 1; background: rgba(6, 10, 20, 0.7);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 9px 14px; border-radius: var(--radius-sm);
+            font-family: var(--font-mono); color: #fff; font-size: 14px;
+            outline: none;
+        }
+        .mst-input:focus { border-color: var(--gold-primary); }
+
+        /* Lifecycle Timeline Stepper */
+        .lifecycle-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+            margin-bottom: 34px;
+        }
+        @media (max-width: 1200px) {
+            .lifecycle-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        .lifecycle-card {
+            background: var(--legal-card);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            padding: 22px 20px;
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.25s ease; position: relative;
+        }
+        .lifecycle-card:hover {
+            border-color: rgba(212, 175, 55, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+        }
+        .stage-pill {
+            font-family: var(--font-mono); font-size: 11px;
+            color: var(--gold-primary); background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold-border); padding: 2px 7px;
+            border-radius: var(--radius-xs); display: inline-block;
+            margin-bottom: 12px;
+        }
+        .stage-title {
+            font-family: var(--font-serif); font-size: 17.5px;
+            font-weight: 600; color: var(--gold-light); margin-bottom: 8px;
+        }
+        .stage-desc {
+            font-size: 12.5px; color: var(--text-body); margin-bottom: 14px; line-height: 1.5;
+        }
+        .stage-services {
+            list-style: none; display: flex; flex-direction: column; gap: 6px;
+            margin-bottom: 18px;
+        }
+        .stage-services li {
+            font-size: 12px; color: var(--text-heading); display: flex; align-items: center; gap: 6px;
+        }
+        .stage-services li i { color: var(--gold-primary); font-size: 10px; }
+
+        /* Pricing Retainers */
+        .pricing-section {
+            background: rgba(13, 21, 42, 0.6);
+            border: 1px solid var(--gold-border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 26px 30px;
+        }
+        .pricing-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 18px;
+        }
+        .price-card {
+            background: rgba(6, 10, 20, 0.6);
+            border: 1px solid var(--gold-border-subtle);
+            border-radius: var(--radius-md);
+            padding: 22px 20px; text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="seal-logo"><i class="fa-solid fa-scale-balanced"></i></div>
+            <div style="display: flex; flex-direction: column;">
+                <span class="brand-title">HARVEY LEGAL OS</span>
+                <span class="brand-tag">Lifecycle Solutions</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-group-title">Vòng đời Doanh nghiệp</div>
+            <a class="nav-item active"><i class="fa-solid fa-seedling"></i><span>1. Khởi sự (Formation)</span></a>
+            <a class="nav-item" onclick="alert('Giai đoạn: Tăng tốc & Mở rộng')"><i class="fa-solid fa-chart-line"></i><span>2. Mở rộng (Growth)</span></a>
+            <a class="nav-item" onclick="alert('Giai đoạn: Tái cấu trúc & M&A')"><i class="fa-solid fa-arrows-split-up-and-left"></i><span>3. Tái cấu trúc (M&A)</span></a>
+            <a class="nav-item" onclick="alert('Giai đoạn: Thoái vốn & Giải thể')"><i class="fa-solid fa-door-open"></i><span>4. Thoái vốn (Exit)</span></a>
+
+            <div class="nav-group-title">Công cụ Pháp lý AI</div>
+            <a class="nav-item" onclick="window.location.href='/#/wizard'">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Soạn thảo 19 biểu mẫu</span>
+            </a>
+            <a class="nav-item" onclick="window.location.href='/static/harvey_sidebar_demo.html'">
+                <i class="fa-solid fa-file-contract"></i>
+                <span>Xem Form Harvey Studio</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="pulse-dot"></div>
+            <div style="font-size: 11.5px;">
+                <div style="color: var(--gold-light); font-weight: 600;">Jinja2 Engine Active</div>
+                <div style="color: var(--text-muted); font-size: 10.5px;">Port 8002 &bull; Giải pháp chu kỳ</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main-app">
+        <header class="topbar">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 13px;">
+                <span style="color: var(--text-muted);">Giải pháp Pháp lý</span>
+                <span style="color: var(--gold-primary);">/</span>
+                <span style="color: var(--text-heading); font-weight: 600;">Corporate Lifecycle Solutions</span>
+            </div>
+            <div>
+                <a href="#/wizard" class="btn-gold" style="font-size: 12.5px; padding: 7px 14px;"><i class="fa-solid fa-bolt"></i> Soạn thảo AI</a>
+            </div>
+        </header>
+
+        <main class="workspace-scroll">
+            <!-- Hero -->
+            <div class="hero-section">
+                <div class="hero-badge-tag"><i class="fa-solid fa-circle-nodes"></i> GIẢI PHÁP PHÁP LÝ TOÀN VÒNG ĐỜI DOANH NGHIỆP</div>
+                <h1 class="hero-title">Đồng Hành Pháp Lý Mọi Chặng Đường Phát Triển</h1>
+                <p style="font-size: 14.5px; color: var(--text-body); max-width: 860px; margin-bottom: 20px;">
+                    Dù doanh nghiệp của bạn đang ở giai đoạn khởi nghiệp ban đầu, mở rộng quy mô, thay đổi thành viên hay thoái vốn giải thể — chúng tôi cung cấp giải pháp pháp lý và quản trị thuế chuẩn xác theo đúng từng cột mốc phát triển.
+                </p>
+                <div style="display: flex; gap: 12px;">
+                    <a href="#/wizard" class="btn-gold"><i class="fa-solid fa-wand-magic-sparkles"></i> Soạn thảo hồ sơ AI ngay</a>
+                    <button class="btn-ghost-gold" onclick="alert('Đội ngũ chuyên viên sẽ tư vấn giải pháp cho doanh nghiệp của bạn')"><i class="fa-solid fa-phone"></i> Đặt lịch tư vấn miễn phí</button>
+                </div>
+            </div>
+
+            <!-- MST Health Check -->
+            <div class="mst-check-banner">
+                <div>
+                    <h4 style="font-family: var(--font-serif); font-size: 17px; color: var(--gold-light); margin-bottom: 4px;"><i class="fa-solid fa-magnifying-glass-chart text-gold"></i> Kiểm Tra Nhanh Tình Trạng Doanh Nghiệp</h4>
+                    <p style="font-size: 12.5px; color: var(--text-body); margin: 0;">Nhập mã số thuế để kiểm tra nghĩa vụ thuế, tình trạng pháp lý và đề xuất thủ tục cần thực hiện.</p>
+                </div>
+                <div class="mst-input-wrap">
+                    <input type="text" class="mst-input" placeholder="Nhập mã số thuế (10 hoặc 13 số)..." id="mst-quick-check">
+                    <button class="btn-gold" onclick="alert('Hệ thống đang đối chiếu dữ liệu Tổng cục Thuế cho MST: ' + document.getElementById('mst-quick-check').value)">Kiểm tra</button>
+                </div>
+            </div>
+
+            <!-- 4 Lifecycle Stages -->
+            <h3 style="font-family: var(--font-serif); font-size: 21px; color: var(--gold-light); margin-bottom: 16px;">4 Giai Đoạn Phát Triển Của Doanh Nghiệp</h3>
+
+            <div class="lifecycle-grid">
+                <!-- Stage 1 -->
+                <div class="lifecycle-card">
+                    <div>
+                        <span class="stage-pill">GIAI ĐOẠN 01</span>
+                        <h4 class="stage-title">🌱 Khởi Sự Doanh Nghiệp</h4>
+                        <p class="stage-desc">Đặt nền móng pháp lý vững chắc và hoàn thiện mọi thủ tục vận hành ban đầu.</p>
+                        <ul class="stage-services">
+                            <li><i class="fa-solid fa-check"></i> Thành lập Cty TNHH 1TV, 2TV, CP</li>
+                            <li><i class="fa-solid fa-check"></i> Khắc dấu & công bố mẫu dấu</li>
+                            <li><i class="fa-solid fa-check"></i> Chữ ký số & Hóa đơn điện tử</li>
+                            <li><i class="fa-solid fa-check"></i> Khai thuế ban đầu & nộp môn bài</li>
+                        </ul>
+                    </div>
+                    <a href="#/wizard" class="btn-ghost-gold" style="justify-content: center; width: 100%;">Tạo hồ sơ Thành lập &rarr;</a>
+                </div>
+
+                <!-- Stage 2 -->
+                <div class="lifecycle-card">
+                    <div>
+                        <span class="stage-pill">GIAI ĐOẠN 02</span>
+                        <h4 class="stage-title">📈 Tăng Tốc & Mở Rộng</h4>
+                        <p class="stage-desc">Gia tăng năng lực vốn và mở rộng mạng lưới kinh doanh hợp pháp.</p>
+                        <ul class="stage-services">
+                            <li><i class="fa-solid fa-check"></i> Tăng vốn điều lệ công ty</li>
+                            <li><i class="fa-solid fa-check"></i> Mở chi nhánh, văn phòng đại diện</li>
+                            <li><i class="fa-solid fa-check"></i> Bổ sung ngành nghề kinh doanh</li>
+                            <li><i class="fa-solid fa-check"></i> Đại lý thuế & kế toán định kỳ</li>
+                        </ul>
+                    </div>
+                    <a href="#/wizard" class="btn-ghost-gold" style="justify-content: center; width: 100%;">Tạo hồ sơ Tăng vốn &rarr;</a>
+                </div>
+
+                <!-- Stage 3 -->
+                <div class="lifecycle-card">
+                    <div>
+                        <span class="stage-pill">GIAI ĐOẠN 03</span>
+                        <h4 class="stage-title">🔄 Tái Cấu Trúc & M&A</h4>
+                        <p class="stage-desc">Chuyển giao quyền sở hữu, gọi vốn đầu tư và tối ưu mô hình pháp nhân.</p>
+                        <ul class="stage-services">
+                            <li><i class="fa-solid fa-check"></i> Hợp đồng chuyển nhượng vốn góp</li>
+                            <li><i class="fa-solid fa-check"></i> Thay đổi thành viên / cổ đông</li>
+                            <li><i class="fa-solid fa-check"></i> Chuyển đổi loại hình (1TV lên 2TV/CP)</li>
+                            <li><i class="fa-solid fa-check"></i> Soát xét pháp lý trước đầu tư</li>
+                        </ul>
+                    </div>
+                    <a href="#/wizard" class="btn-ghost-gold" style="justify-content: center; width: 100%;">Tạo hồ sơ Chuyển nhượng &rarr;</a>
+                </div>
+
+                <!-- Stage 4 -->
+                <div class="lifecycle-card">
+                    <div>
+                        <span class="stage-pill">GIAI ĐOẠN 04</span>
+                        <h4 class="stage-title">🛑 Tạm Dừng & Giải Thể</h4>
+                        <p class="stage-desc">Đóng mã số thuế an toàn, xử lý dứt điểm công nợ và chấm dứt hoạt động đúng luật.</p>
+                        <ul class="stage-services">
+                            <li><i class="fa-solid fa-check"></i> Tạm ngừng kinh doanh có thời hạn</li>
+                            <li><i class="fa-solid fa-check"></i> Quyết toán thuế giải thể doanh nghiệp</li>
+                            <li><i class="fa-solid fa-check"></i> Phương án giải quyết nợ & thanh lý</li>
+                            <li><i class="fa-solid fa-check"></i> Trả giấy phép & hủy con dấu</li>
+                        </ul>
+                    </div>
+                    <a href="#/wizard" class="btn-ghost-gold" style="justify-content: center; width: 100%;">Tạo hồ sơ Giải thể &rarr;</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
