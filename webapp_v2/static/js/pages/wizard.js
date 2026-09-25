@@ -127,38 +127,17 @@ function renderWizard() {
         `;
     }
 
-    // HARVEY LEGAL TECH EXECUTIVE WITH NAVIGATION SIDEBAR
+    // HARVEY LEGAL TECH EXECUTIVE (FULL-WIDTH SPLIT-SCREEN NO SIDEBAR)
     return `
         <div class="harvey-app-shell">
-            <!-- 1. Left Executive Navigation Sidebar -->
-            <aside class="harvey-sidebar">
-                <div class="harvey-sidebar-brand">
-                    <div class="harvey-seal-logo"><i class="fa-solid fa-scale-balanced"></i></div>
-                    <div style="display: flex; flex-direction: column;">
-                        <span class="harvey-brand-title">HARVEY LEGAL OS</span>
-                        <span class="harvey-brand-tag">Executive Studio</span>
-                    </div>
-                </div>
-
-                <nav class="harvey-sidebar-nav" id="sidebar-procedures-nav">
-                    <div class="text-center py-6 text-sm" style="color: var(--harvey-text-muted);">
-                        <i class="fa-solid fa-spinner fa-spin"></i> Đang nạp danh mục...
-                    </div>
-                </nav>
-
-                <div class="harvey-sidebar-footer">
-                    <div class="harvey-pulse-dot"></div>
-                    <div style="font-size: 11.5px;">
-                        <div style="color: var(--gold-light); font-weight: 600;">Jinja2 Engine Active</div>
-                        <div style="color: var(--harvey-text-muted); font-size: 10.5px;">Cổng 8002 &bull; Thẩm định tự động</div>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- 2. Main Executive App Area -->
-            <div class="harvey-main-area">
-                <!-- Top Command Bar -->
-                <header class="harvey-topbar">
+            <!-- Top Command Bar -->
+            <header class="harvey-topbar" style="position: sticky; top: 0; z-index: 100; height: 60px; padding: 0 32px; background: rgba(9, 14, 29, 0.94); backdrop-filter: blur(14px); border-bottom: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <a href="#/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                        <div class="harvey-seal-logo" style="width: 32px; height: 32px; font-size: 14px;"><i class="fa-solid fa-scale-balanced"></i></div>
+                        <span class="harvey-brand-title" style="font-size: 14.5px;">HARVEY LEGAL OS</span>
+                    </a>
+                    <span style="color: var(--gold-border-subtle);">|</span>
                     <div class="harvey-breadcrumbs" id="harvey-breadcrumb">
                         <span style="color: var(--harvey-text-muted);">Pháp nhân</span>
                         <span style="color: var(--gold-primary);">/</span>
@@ -166,23 +145,25 @@ function renderWizard() {
                         <span style="color: var(--gold-primary);">/</span>
                         <span style="color: var(--harvey-text-heading); font-weight: 600;" id="harvey-topbar-title">Chọn thủ tục doanh nghiệp</span>
                     </div>
+                </div>
 
-                    <div class="harvey-search-bar" onclick="const inp = document.getElementById('search-tpl-input') || document.getElementById('harvey-quick-search'); if(inp) inp.focus();">
-                        <i class="fa-solid fa-magnifying-glass" style="color: var(--gold-primary);"></i>
-                        <input type="text" id="harvey-quick-search" placeholder="Tra cứu thủ tục, MST, mã ngành..." style="background: transparent; border: none; outline: none; color: #fff; width: 100%; font-size: 12.5px;" onkeyup="window.filterTemplates ? window.filterTemplates(this.value) : null">
-                        <span style="font-family: var(--font-mono); font-size: 10.5px; background: rgba(212, 175, 55, 0.1); color: var(--gold-primary); padding: 2px 6px; border-radius: 3px; border: 1px solid rgba(212, 175, 55, 0.25);">⌘K</span>
-                    </div>
+                <div class="harvey-search-bar" onclick="const inp = document.getElementById('search-tpl-input') || document.getElementById('harvey-quick-search'); if(inp) inp.focus();">
+                    <i class="fa-solid fa-magnifying-glass" style="color: var(--gold-primary);"></i>
+                    <input type="text" id="harvey-quick-search" placeholder="Tra cứu thủ tục, MST, mã ngành..." style="background: transparent; border: none; outline: none; color: #fff; width: 100%; font-size: 12.5px;" onkeyup="window.filterTemplates ? window.filterTemplates(this.value) : null">
+                    <span style="font-family: var(--font-mono); font-size: 10.5px; background: rgba(212, 175, 55, 0.1); color: var(--gold-primary); padding: 2px 6px; border-radius: 3px; border: 1px solid rgba(212, 175, 55, 0.25);">⌘K</span>
+                </div>
 
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <button type="button" class="btn harvey-btn-ghost btn-sm" onclick="toggleGlobalUIMode()" title="Chuyển về giao diện form truyền thống">
-                            <i class="fa-solid fa-rotate-left"></i> Giao diện cũ
-                        </button>
-                        <a href="#/" class="btn harvey-btn-ghost btn-sm"><i class="fa-solid fa-house"></i> Trang chủ</a>
-                    </div>
-                </header>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button type="button" class="btn harvey-btn-ghost btn-sm" onclick="toggleGlobalUIMode()" title="Chuyển về giao diện form truyền thống">
+                        <i class="fa-solid fa-rotate-left"></i> Giao diện cũ
+                    </button>
+                    <a href="#/" class="btn harvey-btn-ghost btn-sm"><i class="fa-solid fa-house"></i> Trang chủ</a>
+                </div>
+            </header>
 
-                <!-- Workspace Scroll Body -->
-                <main class="harvey-workspace">
+            <!-- Main Executive App Area -->
+            <main class="harvey-main-area" style="width: 100%;">
+                <div class="harvey-workspace" style="max-width: 1540px; width: 96%; margin: 26px auto 80px auto; padding: 0 16px;">
                     <!-- Progress Line -->
                     <div style="margin-bottom: 22px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
@@ -204,8 +185,8 @@ function renderWizard() {
                     <div id="wizard-controls" style="display: flex; justify-content: space-between; margin-top: 24px;">
                         <!-- Buttons -->
                     </div>
-                </main>
-            </div>
+                </div>
+            </main>
         </div>
     `;
 }
