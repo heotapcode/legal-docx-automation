@@ -51,7 +51,9 @@
     "DIA_CHI_TINH_THANH",
     "DIA_CHI_XA_PHUONG",
     "MA_SO_THUE",
-    "TEN_CONG_TY_VN"
+    "TEN_CONG_TY_VN",
+    "VON_DIEU_LE_CHU",
+    "VON_DIEU_LE_SO"
   ],
   "Giải thể công ty TNHH 2 TV": [
     "DDPL_DIA_CHI_SO_NHA",

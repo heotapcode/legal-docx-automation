@@ -35,6 +35,12 @@
           "key": "dia_chi_tinh_thanh",
           "label": "Tỉnh/Thành phố",
           "type": "text"
+        },
+        {
+          "key": "von_dieu_le_so",
+          "label": "Vốn điều lệ (VNĐ)",
+          "type": "money",
+          "required": true
         }
       ]
     },
