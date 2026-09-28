@@ -162,13 +162,22 @@ def get_schema_for_template(template_clean_name: str) -> dict:
             "steps": [
                 {
                     "id": "company",
-                    "title": "Thông tin Công ty mẹ & Địa điểm mới",
+                    "title": "Thông tin Công ty chủ quản",
                     "fields": [
                         {"key": "ten_cong_ty_vn", "label": "Tên công ty chủ quản", "type": "text", "required": True},
                         {"key": "ma_so_thue", "label": "Mã số thuế công ty", "type": "mst_lookup", "required": True},
-                        {"key": "dia_chi_so_nha", "label": "Địa chỉ địa điểm mới (Số nhà, đường)", "type": "text", "required": True},
-                        {"key": "dia_chi_xa_phuong", "label": "Xã/Phường địa điểm mới", "type": "text", "required": True},
-                        {"key": "dia_chi_tinh_thanh", "label": "Tỉnh/Thành phố", "type": "text", "required": True}
+                        {"key": "dia_chi_so_nha", "label": "Số nhà, tên đường (Trụ sở chính)", "type": "text", "required": True},
+                        {"key": "dia_chi_xa_phuong", "label": "Xã/Phường (Trụ sở chính)", "type": "text", "required": True},
+                        {"key": "dia_chi_tinh_thanh", "label": "Tỉnh/Thành phố (Trụ sở chính)", "type": "text", "required": True}
+                    ]
+                },
+                {
+                    "id": "ddkd",
+                    "title": "Địa chỉ Địa điểm kinh doanh",
+                    "fields": [
+                        {"key": "ddkd_dia_chi_so_nha", "label": "Số nhà/phòng, ngách/ngõ, đường/phố (Địa điểm KD)", "type": "text", "required": True},
+                        {"key": "ddkd_dia_chi_xa_phuong", "label": "Xã/Phường/Đặc khu (Địa điểm KD)", "type": "text", "required": True},
+                        {"key": "ddkd_dia_chi_tinh_thanh", "label": "Tỉnh/Thành phố trực thuộc TW (Địa điểm KD)", "type": "text", "required": True}
                     ]
                 },
                 {

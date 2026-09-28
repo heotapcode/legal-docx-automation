@@ -482,6 +482,25 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
     ctx["dia_chi_day_du"] = full_addr
     ctx["DIA_CHI_DAY_DU"] = full_addr
 
+    # Parse Địa điểm kinh doanh address (DDKD)
+    ddkd_sn = ctx.get("ddkd_dia_chi_so_nha") or ctx.get("dia_chi_ddkd_so_nha") or ctx.get("DDKD_DIA_CHI_SO_NHA") or ""
+    ddkd_xp = ctx.get("ddkd_dia_chi_xa_phuong") or ctx.get("dia_chi_ddkd_xa_phuong") or ctx.get("DDKD_DIA_CHI_XA_PHUONG") or ""
+    ddkd_tt = ctx.get("ddkd_dia_chi_tinh_thanh") or ctx.get("dia_chi_ddkd_tinh_thanh") or ctx.get("DDKD_DIA_CHI_TINH_THANH") or ""
+    ddkd_parts = [p for p in [ddkd_sn, ddkd_xp, ddkd_tt] if p]
+    ddkd_full = ctx.get("ddkd_dia_chi_day_du") or ctx.get("DDKD_DIA_CHI_DAY_DU") or ", ".join(ddkd_parts)
+
+    ctx["ddkd_dia_chi_so_nha"] = ddkd_sn
+    ctx["DDKD_DIA_CHI_SO_NHA"] = ddkd_sn
+    ctx["dia_chi_ddkd_so_nha"] = ddkd_sn
+    ctx["ddkd_dia_chi_xa_phuong"] = ddkd_xp
+    ctx["DDKD_DIA_CHI_XA_PHUONG"] = ddkd_xp
+    ctx["dia_chi_ddkd_xa_phuong"] = ddkd_xp
+    ctx["ddkd_dia_chi_tinh_thanh"] = ddkd_tt
+    ctx["DDKD_DIA_CHI_TINH_THANH"] = ddkd_tt
+    ctx["dia_chi_ddkd_tinh_thanh"] = ddkd_tt
+    ctx["ddkd_dia_chi_day_du"] = ddkd_full
+    ctx["DDKD_DIA_CHI_DAY_DU"] = ddkd_full
+
     # DDPL normalization
     ddpl_raw = ctx.get("ddpl") if isinstance(ctx.get("ddpl"), dict) else {}
     ddpl_gt = ddpl_raw.get("gioi_tinh") or ctx.get("ddpl_gioi_tinh") or ctx.get("DDPL_GIOI_TINH") or "Nam"

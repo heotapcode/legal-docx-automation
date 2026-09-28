@@ -7,7 +7,7 @@
   "steps": [
     {
       "id": "company",
-      "title": "Thông tin Công ty mẹ & Địa điểm mới",
+      "title": "Thông tin Công ty chủ quản",
       "fields": [
         {
           "key": "ten_cong_ty_vn",
@@ -23,19 +23,43 @@
         },
         {
           "key": "dia_chi_so_nha",
-          "label": "Địa chỉ địa điểm mới (Số nhà, đường)",
+          "label": "Số nhà, tên đường (Trụ sở chính)",
           "type": "text",
           "required": true
         },
         {
           "key": "dia_chi_xa_phuong",
-          "label": "Xã/Phường địa điểm mới",
+          "label": "Xã/Phường (Trụ sở chính)",
           "type": "text",
           "required": true
         },
         {
           "key": "dia_chi_tinh_thanh",
-          "label": "Tỉnh/Thành phố",
+          "label": "Tỉnh/Thành phố (Trụ sở chính)",
+          "type": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ddkd",
+      "title": "Địa chỉ Địa điểm kinh doanh",
+      "fields": [
+        {
+          "key": "ddkd_dia_chi_so_nha",
+          "label": "Số nhà/phòng, ngách/ngõ, đường/phố (Địa điểm KD)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddkd_dia_chi_xa_phuong",
+          "label": "Xã/Phường/Đặc khu (Địa điểm KD)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddkd_dia_chi_tinh_thanh",
+          "label": "Tỉnh/Thành phố trực thuộc TW (Địa điểm KD)",
           "type": "text",
           "required": true
         }
