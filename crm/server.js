@@ -17,8 +17,8 @@ const path = require('path');
 const { initDatabase, generateCustomerCode, generateRecordCode, generateTransactionCode } = require('./database');
 
 const app = express();
-const PORT = 3000;
-const JWT_SECRET = 'nac-crm-secret-key-2026';
+const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || 'nac-crm-dev-fallback-secret-2026';
 let db; // Sẽ được gán sau khi initDatabase() hoàn tất
 
 // ============================================================
