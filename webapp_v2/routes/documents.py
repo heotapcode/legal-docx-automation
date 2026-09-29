@@ -44,6 +44,8 @@ def generate_docs(req: DocGenRequest):
                 "Content-Disposition": f'attachment; filename="Ho_So_{ascii_name}.zip"; filename*=UTF-8\'\'{utf8_encoded}'
             }
         )
+    except (ValueError, FileNotFoundError) as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

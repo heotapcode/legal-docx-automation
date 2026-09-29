@@ -70,7 +70,7 @@
   function buildUserOptions(selected, includeAll) {
     let html = includeAll ? '<option value="">-- Tất cả --</option>' : '<option value="">-- Chọn người phụ trách --</option>';
     _users.forEach(u => {
-      html += `<option value="${u.id}" ${selected == u.id ? 'selected' : ''}>${u.full_name}</option>`;
+      html += `<option value="${u.id}" ${selected == u.id ? 'selected' : ''}>${CRM.Utils.escapeHtml(u.full_name || '')}</option>`;
     });
     return html;
   }
@@ -81,7 +81,7 @@
   function buildCustomerOptions(selected) {
     let html = '<option value="">-- Chọn khách hàng --</option>';
     _customers.forEach(c => {
-      html += `<option value="${c.id}" ${selected == c.id ? 'selected' : ''}>${c.code} - ${c.company_name}</option>`;
+      html += `<option value="${c.id}" ${selected == c.id ? 'selected' : ''}>${CRM.Utils.escapeHtml(c.code || '')} - ${CRM.Utils.escapeHtml(c.company_name || '')}</option>`;
     });
     return html;
   }
@@ -250,7 +250,7 @@
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px;">
           <div>
             <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Mã hồ sơ</div>
-            <div style="font-size:16px; font-weight:600; color:var(--accent-primary);">${record.code || ''}</div>
+            <div style="font-size:16px; font-weight:600; color:var(--accent-primary);">${CRM.Utils.escapeHtml(record.code || '')}</div>
           </div>
           <div>
             <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Trạng thái</div>
@@ -262,7 +262,7 @@
           </div>
           <div>
             <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Khách hàng</div>
-            <div style="color:var(--text-primary);">${record.customer_name || ''}</div>
+            <div style="color:var(--text-primary);">${CRM.Utils.escapeHtml(record.customer_name || '')}</div>
           </div>
           <div>
             <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Ngày nhận</div>
@@ -274,14 +274,14 @@
           </div>
           <div>
             <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Người phụ trách</div>
-            <div style="color:var(--text-primary);">${record.assigned_name || '—'}</div>
+            <div style="color:var(--text-primary);">${CRM.Utils.escapeHtml(record.assigned_name || '—')}</div>
           </div>
           <div>
             <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Phí dịch vụ / Phí nhà nước</div>
             <div style="color:var(--text-primary);">${CRM.Utils.formatCurrency(record.fee_service || 0)} / ${CRM.Utils.formatCurrency(record.fee_state || 0)}</div>
           </div>
         </div>
-        ${record.notes ? `<div style="padding:12px 16px; background:var(--bg-input); border-radius:var(--border-radius-sm); margin-bottom:16px;"><div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">Ghi chú</div><div style="font-size:13px; color:var(--text-secondary);">${record.notes}</div></div>` : ''}
+        ${record.notes ? `<div style="padding:12px 16px; background:var(--bg-input); border-radius:var(--border-radius-sm); margin-bottom:16px;"><div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">Ghi chú</div><div style="font-size:13px; color:var(--text-secondary);">${CRM.Utils.escapeHtml(record.notes)}</div></div>` : ''}
         ${statusButtons}
       `;
 

@@ -39,15 +39,21 @@ def so_thanh_chu(s: Any) -> str:
     don_vi = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"]
     chu_so = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"]
 
-    def doc_ba_chu_so(val: int) -> str:
+    def doc_ba_chu_so(val: int, co_nhom_cao: bool) -> str:
         tram = val // 100
         chuc = (val % 100) // 10
         dv = val % 10
         res = ""
+
         if tram > 0:
             res += chu_so[tram] + " trăm "
             if chuc == 0 and dv > 0:
                 res += "lẻ "
+        elif co_nhom_cao:
+            res += "không trăm "
+            if chuc == 0 and dv > 0:
+                res += "lẻ "
+
         if chuc > 1:
             res += chu_so[chuc] + " mươi "
             if dv == 1:
@@ -67,6 +73,7 @@ def so_thanh_chu(s: Any) -> str:
         else:
             if dv > 0:
                 res += chu_so[dv] + " "
+
         return res.strip()
 
     chuoi_kq = ""
@@ -74,10 +81,12 @@ def so_thanh_chu(s: Any) -> str:
     temp_n = n
     while temp_n > 0:
         phan_ba = temp_n % 1000
+        co_nhom_cao = (temp_n // 1000) > 0
         if phan_ba > 0:
-            doc_phan_ba = doc_ba_chu_so(phan_ba)
+            doc_phan_ba = doc_ba_chu_so(phan_ba, co_nhom_cao)
             if doc_phan_ba:
-                chuoi_kq = doc_phan_ba + " " + don_vi[i] + " " + chuoi_kq
+                prefix = don_vi[i] + " " if don_vi[i] else ""
+                chuoi_kq = doc_phan_ba + " " + prefix + chuoi_kq
         temp_n = temp_n // 1000
         i += 1
 
@@ -95,7 +104,22 @@ def danh_xung(gioi_tinh: Any) -> str:
     return "Ông/Bà"
 
 def format_date_vn(d: Any = None) -> str:
-    dt = datetime.now()
+    if d:
+        from datetime import date
+        if isinstance(d, (datetime, date)):
+            dt = d
+        elif isinstance(d, str):
+            try:
+                dt = datetime.strptime(d.strip(), "%d/%m/%Y")
+            except ValueError:
+                try:
+                    dt = datetime.strptime(d.strip(), "%Y-%m-%d")
+                except ValueError:
+                    dt = datetime.now()
+        else:
+            dt = datetime.now()
+    else:
+        dt = datetime.now()
     return f"ngày {dt.day:02d} tháng {dt.month:02d} năm {dt.year}"
 
 def parse_address_str(addr: str):
@@ -113,10 +137,31 @@ def parse_address_str(addr: str):
     so_nha = ", ".join(parts)
     return so_nha, xa_phuong, tinh_thanh
 
+def validate_template_dir(template_name: str) -> Path:
+    clean_name = re.sub(r"\s+", " ", template_name.replace("Mẫu ", "").strip())
+    if ".." in clean_name or "/" in clean_name or "\\" in clean_name:
+        raise ValueError(f"Tên mẫu hồ sơ không hợp lệ: {template_name}")
+    
+    target_dir = (TEMPLATES_DIR / clean_name).resolve()
+    templates_root = TEMPLATES_DIR.resolve()
+    
+    try:
+        target_dir.relative_to(templates_root)
+    except ValueError:
+        raise ValueError(f"Tên mẫu hồ sơ không hợp lệ: {template_name}")
+        
+    if not target_dir.exists() or not target_dir.is_dir():
+        for d in TEMPLATES_DIR.iterdir():
+            if d.is_dir() and re.sub(r"\s+", " ", d.name.strip()).lower() == clean_name.lower():
+                return d
+        raise FileNotFoundError(f"Không tìm thấy mẫu hồ sơ: {template_name}")
+        
+    return target_dir
+
 # --- CUSTOM JINJA2 ENVIRONMENT ---
 
 def create_jinja_env() -> Environment:
-    env = Environment(autoescape=False)
+    env = Environment(autoescape=True)
     env.filters["money"] = fmt_money
     env.filters["fmt_money"] = fmt_money
     env.filters["so_thanh_chu"] = so_thanh_chu
@@ -1372,15 +1417,7 @@ def render_documents(
     special_payload: Optional[Dict[str, Any]] = None
 ) -> bytes:
     clean_name = re.sub(r"\s+", " ", template_name.replace("Mẫu ", "").strip())
-    template_dir = TEMPLATES_DIR / clean_name
-
-    if not template_dir.exists():
-        for d in TEMPLATES_DIR.iterdir():
-            if d.is_dir() and re.sub(r"\s+", " ", d.name.strip()).lower() == clean_name.lower():
-                template_dir = d
-                break
-        else:
-            raise FileNotFoundError(f"Thư mục mẫu không tồn tại: {template_name}")
+    template_dir = validate_template_dir(template_name)
 
     # Merge special_payload into raw_data if provided
     merged_data = dict(raw_data)
@@ -1403,6 +1440,7 @@ def render_documents(
 
     with tempfile.TemporaryDirectory() as tmp_out:
         out_dir = Path(tmp_out)
+        render_errors = []
 
         for tpl_file in sorted(template_dir.glob("*.docx")):
             fname = tpl_file.name
@@ -1662,8 +1700,22 @@ def render_documents(
                     doc.save(str(out_path))
 
             except Exception as e:
+                err_msg = f"{fname}: {type(e).__name__} - {str(e)}"
                 print(f"Lỗi khi render {fname}: {e}")
-                shutil.copy2(str(tpl_file), str(out_dir / fname))
+                render_errors.append(err_msg)
+
+        docx_count = len([f for f in out_dir.iterdir() if f.is_file() and f.suffix == ".docx"])
+        if render_errors:
+            if docx_count == 0:
+                raise RuntimeError("Toàn bộ tài liệu render thất bại:\n" + "\n".join(render_errors))
+            warning_file = out_dir / "_CANH_BAO_LOI_HO_SO.txt"
+            with open(warning_file, "w", encoding="utf-8") as wf:
+                wf.write("CẢNH BÁO QUAN TRỌNG TỪ HỆ THỐNG:\n")
+                wf.write("=" * 50 + "\n")
+                wf.write("Một số file trong bộ hồ sơ gặp lỗi trong quá trình tự động điền và không thể xuất bản:\n\n")
+                for err in render_errors:
+                    wf.write(f"- {err}\n")
+                wf.write("\nCác file còn lại vẫn được điền thành công. Vui lòng kiểm tra lại thông tin đầu vào.\n")
 
         # Áp dụng tiêu chuẩn văn bản hành chính (Times New Roman, xóa highlight, chuẩn hóa font)
         from services.docx_standardizer import standardize_document

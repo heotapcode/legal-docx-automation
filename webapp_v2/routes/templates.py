@@ -3,6 +3,7 @@ import json
 import re
 from fastapi import APIRouter, HTTPException
 from config import TEMPLATES_DIR
+from services.render_service import validate_template_dir
 
 router = APIRouter(prefix="/api/templates", tags=["Templates"])
 
@@ -48,16 +49,12 @@ def get_templates():
 
 @router.get("/{template_name}/schema")
 def get_template_schema(template_name: str):
-    clean_name = re.sub(r"\s+", " ", template_name.replace("Mẫu ", "").strip())
-    schema_path = TEMPLATES_DIR / clean_name / "_schema.json"
+    try:
+        target_dir = validate_template_dir(template_name)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(status_code=404, detail=f"Không tìm thấy schema cho mẫu: {template_name}")
 
-    if not schema_path.exists():
-        # Try case-insensitive lookup
-        for d in TEMPLATES_DIR.iterdir():
-            if d.is_dir() and re.sub(r"\s+", " ", d.name.strip()).lower() == clean_name.lower():
-                schema_path = d / "_schema.json"
-                break
-
+    schema_path = target_dir / "_schema.json"
     if not schema_path.exists():
         raise HTTPException(status_code=404, detail=f"Không tìm thấy schema cho mẫu: {template_name}")
 
@@ -65,7 +62,7 @@ def get_template_schema(template_name: str):
         data = json.load(f)
 
     # Lấy danh sách các file docx thực tế trong bộ mẫu
-    docx_files = sorted([f.name for f in schema_path.parent.glob("*.docx") if not f.name.startswith(("~$", "_"))])
+    docx_files = sorted([f.name for f in target_dir.glob("*.docx") if not f.name.startswith(("~$", "_"))])
     data["doc_files"] = docx_files
     data["file_count"] = len(docx_files)
 
