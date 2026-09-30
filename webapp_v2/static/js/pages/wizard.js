@@ -924,7 +924,7 @@ function renderField(field) {
             <div class="form-group">
                 <label class="form-label">${fLabel} ${reqBadge}</label>
                 <div class="input-with-btn">
-                    <input type="text" id="input-${fKey}" name="${fKey}" value="${curVal}" class="form-control" placeholder="Nhập mã số thuế (10 hoặc 13 số)">
+                    <input type="text" id="input-${fKey}" name="${fKey}" value="${curVal}" class="form-control font-mono font-bold" placeholder="Nhập mã số thuế (10 hoặc 13 số)" onkeydown="if(event.key==='Enter'){event.preventDefault();lookupMST('${fKey}');}">
                     <button type="button" class="btn btn-secondary btn-sm" onclick="lookupMST('${fKey}')">
                         <i class="fa-solid fa-search"></i> Tra cứu
                     </button>
@@ -1549,11 +1549,29 @@ window.lookupMST = async function(fieldKey) {
             if (statusEl) statusEl.innerHTML = `<span class="text-success"><i class="fa-solid fa-check"></i> Tìm thấy: <b>${data.name}</b></span>`;
 
             // Auto-fill company fields
+            window.wizardState.formData['ma_so_thue'] = el.value.trim();
+
             const nameEl = document.getElementById('input-ten_cong_ty_vn');
             if (nameEl) {
                 nameEl.value = data.name;
                 nameEl.style.borderColor = 'var(--accent-green)';
                 window.wizardState.formData['ten_cong_ty_vn'] = data.name;
+            }
+
+            const nnEl = document.getElementById('input-ten_cong_ty_nn');
+            if (nnEl && (data.internationalName || data.ten_quoc_te)) {
+                const val = data.internationalName || data.ten_quoc_te;
+                nnEl.value = val;
+                nnEl.style.borderColor = 'var(--accent-green)';
+                window.wizardState.formData['ten_cong_ty_nn'] = val;
+            }
+
+            const vtEl = document.getElementById('input-ten_cong_ty_viet_tat');
+            if (vtEl && (data.shortName || data.ten_viet_tat)) {
+                const val = data.shortName || data.ten_viet_tat;
+                vtEl.value = val;
+                vtEl.style.borderColor = 'var(--accent-green)';
+                window.wizardState.formData['ten_cong_ty_viet_tat'] = val;
             }
 
             // Parse address if available
@@ -1566,10 +1584,28 @@ window.lookupMST = async function(fieldKey) {
                 const snEl = document.getElementById('input-dia_chi_so_nha');
                 const xpEl = document.getElementById('input-dia_chi_xa_phuong');
                 const ttEl = document.getElementById('input-dia_chi_tinh_thanh');
+                const fullEl = document.getElementById('input-dia_chi_day_du');
 
-                if (snEl) { snEl.value = sonha; window.wizardState.formData['dia_chi_so_nha'] = sonha; }
-                if (xpEl) { xpEl.value = xa; window.wizardState.formData['dia_chi_xa_phuong'] = xa; }
-                if (ttEl) { ttEl.value = tinh; window.wizardState.formData['dia_chi_tinh_thanh'] = tinh; }
+                if (snEl) { 
+                    snEl.value = sonha; 
+                    snEl.style.borderColor = 'var(--accent-green)';
+                    window.wizardState.formData['dia_chi_so_nha'] = sonha; 
+                }
+                if (xpEl) { 
+                    xpEl.value = xa; 
+                    xpEl.style.borderColor = 'var(--accent-green)';
+                    window.wizardState.formData['dia_chi_xa_phuong'] = xa; 
+                }
+                if (ttEl) { 
+                    ttEl.value = tinh; 
+                    ttEl.style.borderColor = 'var(--accent-green)';
+                    window.wizardState.formData['dia_chi_tinh_thanh'] = tinh; 
+                }
+                if (fullEl) {
+                    fullEl.value = data.address;
+                    fullEl.style.borderColor = 'var(--accent-green)';
+                    window.wizardState.formData['dia_chi_day_du'] = data.address;
+                }
             }
         } else {
             if (statusEl) statusEl.innerHTML = '<span class="text-warning"><i class="fa-solid fa-circle-exclamation"></i> Không tìm thấy dữ liệu từ Tổng cục Thuế. Vui lòng nhập tay.</span>';
