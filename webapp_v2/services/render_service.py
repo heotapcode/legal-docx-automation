@@ -48,11 +48,11 @@ def so_thanh_chu(s: Any) -> str:
         if tram > 0:
             res += chu_so[tram] + " trăm "
             if chuc == 0 and dv > 0:
-                res += "lẻ "
+                res += "linh "
         elif co_nhom_cao:
             res += "không trăm "
             if chuc == 0 and dv > 0:
-                res += "lẻ "
+                res += "linh "
 
         if chuc > 1:
             res += chu_so[chuc] + " mươi "
