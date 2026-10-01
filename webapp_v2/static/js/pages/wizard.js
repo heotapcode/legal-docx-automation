@@ -31,21 +31,25 @@ function numToVietnameseWords(s) {
     if (!s) return '';
     const digits = String(s).replace(/\D/g, '');
     if (!digits) return '';
-    const n = parseInt(digits, 10);
-    if (n === 0) return 'Không đồng';
+    if (/^0+$/.test(digits)) return 'Không đồng';
 
     const donVi = ['', 'nghìn', 'triệu', 'tỷ', 'nghìn tỷ', 'triệu tỷ'];
     const chuSo = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
 
-    function docBaChuSo(val) {
+    function docBaChuSo(val, coNhomCao) {
         const tram = Math.floor(val / 100);
         const chuc = Math.floor((val % 100) / 10);
         const dv = val % 10;
         let res = '';
+
         if (tram > 0) {
             res += chuSo[tram] + ' trăm ';
-            if (chuc === 0 && dv > 0) res += 'lẻ ';
+            if (chuc === 0 && dv > 0) res += 'linh ';
+        } else if (coNhomCao) {
+            res += 'không trăm ';
+            if (chuc === 0 && dv > 0) res += 'linh ';
         }
+
         if (chuc > 1) {
             res += chuSo[chuc] + ' mươi ';
             if (dv === 1) res += 'mốt ';
@@ -63,20 +67,24 @@ function numToVietnameseWords(s) {
     }
 
     let chuoiKq = '';
-    let tempN = n;
+    let tempN = BigInt(digits);
     let i = 0;
-    while (tempN > 0) {
-        const phanBa = tempN % 1000;
+    while (tempN > 0n) {
+        const phanBa = Number(tempN % 1000n);
+        const coNhomCao = (tempN / 1000n) > 0n;
         if (phanBa > 0) {
-            const docPhanBa = docBaChuSo(phanBa);
+            const docPhanBa = docBaChuSo(phanBa, coNhomCao);
             if (docPhanBa) {
-                chuoiKq = docPhanBa + ' ' + donVi[i] + ' ' + chuoiKq;
+                const prefix = donVi[i] ? donVi[i] + ' ' : '';
+                chuoiKq = docPhanBa + ' ' + prefix + chuoiKq;
             }
         }
-        tempN = Math.floor(tempN / 1000);
+        tempN = tempN / 1000n;
         i++;
     }
+
     chuoiKq = chuoiKq.trim();
+    if (!chuoiKq) return '';
     return chuoiKq.charAt(0).toUpperCase() + chuoiKq.slice(1) + ' đồng';
 }
 window.docSoThanhChu = numToVietnameseWords;

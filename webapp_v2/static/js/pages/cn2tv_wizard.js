@@ -32,7 +32,7 @@ window.docSoThanhChu = window.docSoThanhChu || function(s) {
         let res = '';
         if (tram > 0 || !isHighest) {
             res += chuSo[tram] + ' trăm ';
-            if (chuc === 0 && dv > 0) res += 'lẻ ';
+            if (chuc === 0 && dv > 0) res += 'linh ';
         }
         if (chuc > 1) {
             res += chuSo[chuc] + ' mươi ';
