@@ -15,7 +15,8 @@ class NganhInfo(BaseModel):
 
 class DocGenRequest(BaseModel):
     template_name: str
-    data: Dict[str, Any]
+    data: Optional[Dict[str, Any]] = None
+    context: Optional[Dict[str, Any]] = None
     ma_nganh: Optional[List[NganhInfo]] = []
     special_payload: Optional[Dict[str, Any]] = None
 
@@ -27,10 +28,11 @@ def make_ascii_filename(s: str) -> str:
 @router.post("/generate")
 def generate_docs(req: DocGenRequest):
     try:
+        raw_data = req.data if req.data is not None else (req.context if req.context is not None else {})
         ma_nganh_dicts = [n.model_dump() for n in req.ma_nganh] if req.ma_nganh else []
         zip_bytes = render_documents(
             template_name=req.template_name,
-            raw_data=req.data,
+            raw_data=raw_data,
             ma_nganh_list=ma_nganh_dicts,
             special_payload=req.special_payload
         )
