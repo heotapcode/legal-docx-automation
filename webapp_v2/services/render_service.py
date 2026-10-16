@@ -137,8 +137,85 @@ def parse_address_str(addr: str):
     so_nha = ", ".join(parts)
     return so_nha, xa_phuong, tinh_thanh
 
+TEMPLATE_ALIASES = {
+    # Hoạt động lại trước thời hạn
+    "hoạt động lại trước thời hạn": "Hoạt động lại trước thời hạn",
+    "hoạt động lại": "Hoạt động lại trước thời hạn",
+    "hoạt động trở lại": "Hoạt động lại trước thời hạn",
+    "hoạt động trở lại trước thời hạn": "Hoạt động lại trước thời hạn",
+    "hoạt động trở lại trước thời hạn tạm dừng": "Hoạt động lại trước thời hạn",
+    "tiếp tục kinh doanh": "Hoạt động lại trước thời hạn",
+    "tiếp tục kinh doanh trước thời hạn": "Hoạt động lại trước thời hạn",
+    "tiếp tục kinh doanh trước thời hạn đã thông báo": "Hoạt động lại trước thời hạn",
+    "thông báo tiếp tục kinh doanh": "Hoạt động lại trước thời hạn",
+    "thông báo tiếp tục kinh doanh trước thời hạn": "Hoạt động lại trước thời hạn",
+    "thông báo về việc tiếp tục kinh doanh": "Hoạt động lại trước thời hạn",
+    "thông báo về việc tiếp tục kinh doanh trước thời hạn": "Hoạt động lại trước thời hạn",
+    "thông báo hoạt động trở lại trước thời hạn tạm dừng": "Hoạt động lại trước thời hạn",
+    "thông báo hoạt động trở lại": "Hoạt động lại trước thời hạn",
+    # Tạm dừng
+    "tạm dừng công ty tnhh 1 tv": "Tạm dừng công ty TNHH 1 TV",
+    "tạm dừng công ty tnhh một thành viên": "Tạm dừng công ty TNHH 1 TV",
+    "tạm ngừng công ty tnhh 1 tv": "Tạm dừng công ty TNHH 1 TV",
+    "tạm ngừng kinh doanh công ty tnhh 1 tv": "Tạm dừng công ty TNHH 1 TV",
+    "tạm dừng công ty tnhh 2 tv": "Tạm dừng công ty TNHH 2 TV",
+    "tạm dừng công ty tnhh hai thành viên": "Tạm dừng công ty TNHH 2 TV",
+    "tạm ngừng kinh doanh công ty tnhh 2 tv": "Tạm dừng công ty TNHH 2 TV",
+    "tạm dừng công ty cổ phần": "Tạm dừng công ty Cổ Phần",
+    "tạm ngừng kinh doanh công ty cổ phần": "Tạm dừng công ty Cổ Phần",
+    # Thành lập mới
+    "thành lập công ty tnhh 1 tv": "Thành lập mới công ty TNHH 1 TV",
+    "thành lập cty tnhh 1 tv": "Thành lập mới công ty TNHH 1 TV",
+    "thành lập mới cty tnhh 1 tv": "Thành lập mới công ty TNHH 1 TV",
+    "thành lập công ty tnhh một thành viên": "Thành lập mới công ty TNHH 1 TV",
+    "thành lập công ty tnhh 2 tv": "Thành lập mới công ty TNHH 2 TV",
+    "thành lập cty tnhh 2 tv": "Thành lập mới công ty TNHH 2 TV",
+    "thành lập mới cty tnhh 2 tv": "Thành lập mới công ty TNHH 2 TV",
+    "thành lập công ty tnhh hai thành viên": "Thành lập mới công ty TNHH 2 TV",
+    "thành lập công ty cổ phần": "Thành lập mới công ty Cổ Phần",
+    "thành lập cty cổ phần": "Thành lập mới công ty Cổ Phần",
+    "thành lập mới cty cổ phần": "Thành lập mới công ty Cổ Phần",
+    # Giải thể
+    "giải thể công ty tnhh 1 tv": "Giải thể công ty TNHH 1 TV",
+    "giải thể công ty tnhh một thành viên": "Giải thể công ty TNHH 1 TV",
+    "giải thể công ty tnhh 2 tv": "Giải thể công ty TNHH 2 TV",
+    "giải thể công ty tnhh hai thành viên": "Giải thể công ty TNHH 2 TV",
+    "giải thể công ty cổ phần": "Giải thể công ty Cổ Phần",
+    # Chuyển nhượng & chuyển đổi
+    "chuyển nhượng công ty tnhh 1 tv": "Chuyển nhượng công ty TNHH 1 TV",
+    "chuyển nhượng công ty tnhh 2 tv": "Chuyển nhượng Công ty TNHH 2 TV",
+    "chuyển đổi loại hình 1tv sang 2 tv": "Chuyển đổi loại hình 1TV sang 2 TV",
+    "chuyển đổi 1tv sang 2tv": "Chuyển đổi loại hình 1TV sang 2 TV",
+    # Địa điểm kinh doanh
+    "thành lập địa điểm kinh doanh": "Thành lập mới địa điểm kinh doanh",
+    "thành lập mới đđkd": "Thành lập mới địa điểm kinh doanh",
+    "chấm dứt địa điểm kinh doanh": "Chấm dứt hoạt động địa điểm kinh doanh",
+    "chấm dứt hoạt động đđkd": "Chấm dứt hoạt động địa điểm kinh doanh",
+    # Cấp lại & Thay đổi
+    "cấp lại đăng ký kinh doanh": "Cấp lại giấy đăng ký kinh doanh",
+    "cấp lại gđkkd": "Cấp lại giấy đăng ký kinh doanh",
+    "thay đổi đăng ký kinh doanh": "Thay đổi nội dung ĐKKD",
+}
+
+def resolve_template_name(template_name: str) -> str:
+    clean = re.sub(r"\s+", " ", template_name.replace("Mẫu ", "").replace("mẫu ", "").strip())
+    lower = clean.lower()
+    if lower in TEMPLATE_ALIASES:
+        return TEMPLATE_ALIASES[lower]
+    # Fuzzy keyword heuristics
+    if "tiếp tục kinh doanh" in lower or ("hoạt động" in lower and "lại" in lower):
+        return "Hoạt động lại trước thời hạn"
+    if "tạm dừng" in lower or "tạm ngừng" in lower:
+        if "cổ phần" in lower or "cp" in lower:
+            return "Tạm dừng công ty Cổ Phần"
+        if "1 tv" in lower or "1tv" in lower or "một thành viên" in lower:
+            return "Tạm dừng công ty TNHH 1 TV"
+        if "2 tv" in lower or "2tv" in lower or "hai thành viên" in lower:
+            return "Tạm dừng công ty TNHH 2 TV"
+    return clean
+
 def validate_template_dir(template_name: str) -> Path:
-    clean_name = re.sub(r"\s+", " ", template_name.replace("Mẫu ", "").strip())
+    clean_name = resolve_template_name(template_name)
     if ".." in clean_name or "/" in clean_name or "\\" in clean_name:
         raise ValueError(f"Tên mẫu hồ sơ không hợp lệ: {template_name}")
     
