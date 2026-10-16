@@ -1493,7 +1493,7 @@ def render_documents(
     ma_nganh_list: Optional[List[Dict[str, Any]]] = None,
     special_payload: Optional[Dict[str, Any]] = None
 ) -> bytes:
-    clean_name = re.sub(r"\s+", " ", template_name.replace("Mẫu ", "").strip())
+    clean_name = resolve_template_name(template_name)
     template_dir = validate_template_dir(template_name)
 
     # Merge special_payload into raw_data if provided
