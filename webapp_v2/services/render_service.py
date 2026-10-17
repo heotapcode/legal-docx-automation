@@ -766,6 +766,14 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
             ctx["von_cu_chu"] = ctx.get("von_cu_chu") or ctx.get("VON_CU_CHU") or vc_chu
             ctx["VON_CU_CHU"] = ctx["von_cu_chu"]
 
+    # Share count calculations (mệnh giá 10.000 VNĐ/cổ phần)
+    v_n = re.sub(r"[^\d]", "", str(ctx.get("von_dieu_le_so") or ""))
+    if v_n:
+        ctx["so_luong_cp_moi"] = f"{int(v_n) // 10000:,}".replace(',', '.')
+    vc_n = re.sub(r"[^\d]", "", str(ctx.get("von_cu_so") or ""))
+    if vc_n:
+        ctx["so_luong_cp_cu"] = f"{int(vc_n) // 10000:,}".replace(',', '.')
+
     # Members list (thanh_vien)
     thanh_vien = ctx.get("thanh_vien") or []
     if isinstance(thanh_vien, list):
@@ -874,6 +882,12 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
         pass
     else:
         ctx["ma_nganh"] = []
+
+    # Secretary (Thư ký) fallback
+    if not ctx.get("thu_ky_ho_ten"):
+        other_sh = [tv.get("ho_ten") for tv in norm_tv if (tv.get("ho_ten") or "").upper() != ddpl_ho_ten] if isinstance(thanh_vien, list) else []
+        ctx["thu_ky_ho_ten"] = other_sh[0] if other_sh else ddpl_ho_ten
+    ctx["so_luong_co_dong"] = f"{len(norm_tv)}/{len(norm_tv)}" if isinstance(thanh_vien, list) and norm_tv else "3/3"
 
     # Signer defaults
     if not ctx.get("chuc_danh_ky") and not ctx.get("CHUC_DANH_KY"):
