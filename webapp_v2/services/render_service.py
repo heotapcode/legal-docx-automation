@@ -1369,6 +1369,63 @@ def populate_bbh_tang_von_cp(doc: docx.Document, shareholders: List[Dict[str, An
         ty_le = str(sh.get("TY_LE") or sh.get("ty_le", ""))
         cells[1].text = f"Cổ đông số {i+1:02d}, sở hữu {sl_cp} cổ phần phổ thông, tương đương {sl_cp} số phiếu biểu quyết, chiếm {ty_le}% tổng số phiếu biểu quyết của công ty;"
 
+def populate_bbh_giam_von_cp(doc: docx.Document, shareholders: List[Dict[str, Any]], von_cu_so: str = "", von_moi_so: str = ""):
+    if not shareholders or len(doc.tables) < 2:
+        return
+    t2 = doc.tables[1]
+    if len(t2.rows) == 0:
+        return
+    template_tr = copy.deepcopy(t2.rows[0]._tr)
+    while len(t2.rows) > 0:
+        t2._tbl.remove(t2.rows[-1]._tr)
+
+    vc_num = re.sub(r'[^\d]', '', str(von_cu_so))
+    vc_int = int(vc_num) if vc_num else 0
+
+    for i, sh in enumerate(shareholders):
+        new_tr = copy.deepcopy(template_tr)
+        t2._tbl.append(new_tr)
+        cells = t2.rows[-1].cells
+        ht = str(sh.get("HO_TEN") or sh.get("ho_ten", "")).upper()
+        cells[0].text = ht
+        ty_le_str = str(sh.get("TY_LE") or sh.get("ty_le", "0"))
+        try:
+            ty_le_val = float(ty_le_str.replace('%', '').strip())
+        except ValueError:
+            ty_le_val = 0.0
+
+        # Tính số cổ phần và số vốn TRƯỚC GIẢM tại Mục IV (Thành phần dự họp)
+        if vc_int > 0 and ty_le_val > 0:
+            v_cu_sh = int(round(vc_int * (ty_le_val / 100.0)))
+            sl_cp_cu = f"{v_cu_sh // 10000:,}".replace(',', '.')
+        else:
+            v_raw = str(sh.get("VON_GOP") or sh.get("von_gop") or sh.get("von_so", "0"))
+            v_num = re.sub(r'[^\d]', '', v_raw)
+            v_int = int(v_num) if v_num else 0
+            sl_cp_cu = f"{v_int // 10000:,}".replace(',', '.') if v_int else "0"
+
+        cells[1].text = f"Cổ đông số {i+1:02d}, sở hữu {sl_cp_cu} cổ phần phổ thông, tương đương {sl_cp_cu} số phiếu biểu quyết, chiếm {ty_le_str}% tổng số phiếu biểu quyết của công ty;"
+
+    # Bổ sung cơ cấu sở hữu cổ phần SAU GIẢM vào Mục V.1
+    p_target = None
+    for p in doc.paragraphs:
+        if "Tài sản góp vốn sau khi thay đổi" in p.text:
+            p_target = p
+            break
+    if p_target:
+        p_head = p_target.insert_paragraph_before("Cơ cấu sở hữu cổ phần của các cổ đông sau khi giảm vốn:")
+        p_head.style = 'Normal'
+        for i, sh in enumerate(shareholders):
+            ht = str(sh.get("HO_TEN") or sh.get("ho_ten", "")).upper()
+            v_raw = str(sh.get("VON_GOP") or sh.get("von_gop") or sh.get("von_so", "0"))
+            v_num = re.sub(r'[^\d]', '', v_raw)
+            v_fmt = fmt_money(v_num) if v_num else "0"
+            v_int = int(v_num) if v_num else 0
+            sl_cp = f"{v_int // 10000:,}".replace(',', '.') if v_int else "0"
+            ty_le = str(sh.get("TY_LE") or sh.get("ty_le", ""))
+            p_sh = p_target.insert_paragraph_before(f"- Cổ đông {ht}: sở hữu {sl_cp} cổ phần phổ thông (giá trị {v_fmt} đồng), chiếm {ty_le}% tổng số vốn điều lệ;")
+            p_sh.style = 'Normal'
+
 def populate_bbh_tang_von_2tv(doc: docx.Document, members_list: List[Dict[str, Any]]):
     try:
         lines = []
@@ -1774,10 +1831,16 @@ def render_documents(
                         populate_dieu_le_tlm_cp(doc, tv_moi_list, v_so, v_chu)
                     doc.save(str(out_path))
 
-                # Biên bản họp in Tăng vốn / Giảm vốn Cổ Phần
-                if "04. Biên bản họp" in fname and ("Tăng vốn" in clean_name or "Giảm vốn" in clean_name) and "Cổ Phần" in clean_name and tv_moi_list:
+                # Biên bản họp in Tăng vốn Cổ Phần
+                if "04. Biên bản họp" in fname and "Tăng vốn" in clean_name and "Cổ Phần" in clean_name and tv_moi_list:
                     doc = docx.Document(str(out_path))
                     populate_bbh_tang_von_cp(doc, tv_moi_list)
+                    doc.save(str(out_path))
+
+                # Biên bản họp in Giảm vốn Cổ Phần
+                if "04. Biên bản họp" in fname and "Giảm vốn" in clean_name and "Cổ Phần" in clean_name and tv_moi_list:
+                    doc = docx.Document(str(out_path))
+                    populate_bbh_giam_von_cp(doc, tv_moi_list, von_cu_so=context.get("von_cu_so", ""), von_moi_so=context.get("von_dieu_le_so", ""))
                     doc.save(str(out_path))
 
                 # Biên bản họp in Tăng vốn 2TV
