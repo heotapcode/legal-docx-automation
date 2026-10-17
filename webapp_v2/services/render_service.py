@@ -1760,8 +1760,8 @@ def render_documents(
                         populate_dieu_le_tlm_cp(doc, tv_moi_list, v_so, v_chu)
                     doc.save(str(out_path))
 
-                # Biên bản họp in Tăng vốn Cổ Phần
-                if "04. Biên bản họp" in fname and "Tăng vốn" in clean_name and "Cổ Phần" in clean_name and tv_moi_list:
+                # Biên bản họp in Tăng vốn / Giảm vốn Cổ Phần
+                if "04. Biên bản họp" in fname and ("Tăng vốn" in clean_name or "Giảm vốn" in clean_name) and "Cổ Phần" in clean_name and tv_moi_list:
                     doc = docx.Document(str(out_path))
                     populate_bbh_tang_von_cp(doc, tv_moi_list)
                     doc.save(str(out_path))
