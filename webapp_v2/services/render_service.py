@@ -195,6 +195,11 @@ TEMPLATE_ALIASES = {
     "cấp lại đăng ký kinh doanh": "Cấp lại giấy đăng ký kinh doanh",
     "cấp lại gđkkd": "Cấp lại giấy đăng ký kinh doanh",
     "thay đổi đăng ký kinh doanh": "Thay đổi nội dung ĐKKD",
+    # Giảm vốn
+    "giảm vốn công ty cổ phần": "Giảm vốn công ty Cổ Phần",
+    "giảm vốn cty cổ phần": "Giảm vốn công ty Cổ Phần",
+    "giảm vốn ctcp": "Giảm vốn công ty Cổ Phần",
+    "giảm vốn điều lệ công ty cổ phần": "Giảm vốn công ty Cổ Phần",
 }
 
 def resolve_template_name(template_name: str) -> str:
@@ -203,6 +208,9 @@ def resolve_template_name(template_name: str) -> str:
     if lower in TEMPLATE_ALIASES:
         return TEMPLATE_ALIASES[lower]
     # Fuzzy keyword heuristics
+    if "giảm vốn" in lower:
+        if "cổ phần" in lower or "cp" in lower or "ctcp" in lower:
+            return "Giảm vốn công ty Cổ Phần"
     if "tiếp tục kinh doanh" in lower or ("hoạt động" in lower and "lại" in lower):
         return "Hoạt động lại trước thời hạn"
     if "tạm dừng" in lower or "tạm ngừng" in lower:
