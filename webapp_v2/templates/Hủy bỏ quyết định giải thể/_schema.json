@@ -1,0 +1,103 @@
+{
+  "name": "Hủy bỏ quyết định giải thể",
+  "display_name": "Hủy bỏ quyết định giải thể",
+  "description": "Hồ sơ hủy bỏ quyết định giải thể doanh nghiệp (tiếp tục hoạt động kinh doanh)",
+  "fields": [
+    {
+      "name": "ten_cong_ty_vn",
+      "label": "Tên công ty",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ma_so_thue",
+      "label": "Mã số thuế",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "dia_chi_day_du",
+      "label": "Địa chỉ trụ sở",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "so_qd_huy",
+      "label": "Số Quyết định hủy bỏ",
+      "type": "string",
+      "default": "02/2026/QĐ"
+    },
+    {
+      "name": "ngay_qd_huy",
+      "label": "Ngày Quyết định hủy bỏ",
+      "type": "string",
+      "default": "16/10/2026"
+    },
+    {
+      "name": "so_qd_giai_the_cu",
+      "label": "Số Quyết định giải thể cũ",
+      "type": "string",
+      "default": "01/2026/QĐ"
+    },
+    {
+      "name": "ngay_qd_giai_the_cu",
+      "label": "Ngày Quyết định giải thể cũ",
+      "type": "string",
+      "default": "05/10/2026"
+    },
+    {
+      "name": "so_thong_bao",
+      "label": "Số Thông báo",
+      "type": "string",
+      "default": "02/2026/TB"
+    },
+    {
+      "name": "ly_do_huy",
+      "label": "Lý do hủy bỏ",
+      "type": "string",
+      "default": "Doanh nghiệp tiếp tục duy trì hoạt động kinh doanh và tìm kiếm cơ hội kinh doanh mới"
+    },
+    {
+      "name": "csh_ho_ten",
+      "label": "Họ tên Chủ sở hữu/Chủ tịch HĐTV",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_ho_ten",
+      "label": "Họ tên ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_chuc_danh",
+      "label": "Chức danh ĐDPL",
+      "type": "string",
+      "default": "Giám đốc"
+    },
+    {
+      "name": "ddpl_gioi_tinh",
+      "label": "Giới tính ĐDPL",
+      "type": "string",
+      "default": "Nữ"
+    },
+    {
+      "name": "ddpl_ngay_sinh",
+      "label": "Ngày sinh ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_so_cccd",
+      "label": "Số CCCD ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_dia_chi_day_du",
+      "label": "Địa chỉ ĐDPL",
+      "type": "string",
+      "required": true
+    }
+  ]
+}
