@@ -1694,9 +1694,16 @@ async function searchNganh(query) {
             const isAdded = window.wizardState.maNganh.some(n => n.ma === r.ma);
             html += `
                 <div class="nganh-item">
-                    <div>
-                        <span class="badge" style="margin-right: 8px;">${r.ma}</span>
-                        <span class="text-sm font-bold text-white">${r.ten}</span>
+                    <div style="flex: 1; padding-right: 12px;">
+                        <div>
+                            <span class="badge" style="margin-right: 8px; font-weight: bold;">${r.ma}</span>
+                            <span class="text-sm font-bold text-white">${r.ten}</span>
+                        </div>
+                        ${r.match_note ? `
+                            <div style="font-size: 11px; color: var(--accent-yellow, #f59e0b); margin-top: 3px; display: flex; align-items: center; gap: 4px;">
+                                <i class="fa-solid fa-circle-info"></i> <span>${r.match_note}</span>
+                            </div>
+                        ` : ''}
                     </div>
                     <div>
                         ${isAdded ? `
