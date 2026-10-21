@@ -1,0 +1,858 @@
+[
+  {
+    "id": "xay_dung",
+    "name": "Xây dựng & Kiến trúc",
+    "icon": "fa-trowel-bricks",
+    "badge_color": "orange",
+    "description": "Gói ngành nghề toàn diện cho doanh nghiệp xây dựng công trình dân dụng, công nghiệp, thi công lắp đặt và thiết kế kiến trúc",
+    "danh_sach_nganh": [
+      {
+        "ma": "4102",
+        "is_main": true,
+        "chi_tiet": "(Ngành chính) Xây dựng nhà xưởng, văn phòng, trung tâm thương mại, công trình công cộng",
+        "ten": "Xây dựng nhà không để ở"
+      },
+      {
+        "ma": "4101",
+        "is_main": false,
+        "chi_tiet": "Xây dựng nhà ở biệt thự, chung cư, nhà liền kề",
+        "ten": "Xây dựng nhà để ở"
+      },
+      {
+        "ma": "4212",
+        "is_main": false,
+        "chi_tiet": "Thi công đường giao thông, cầu đường bộ, vỉa hè",
+        "ten": "Xây dựng công trình đường bộ"
+      },
+      {
+        "ma": "4221",
+        "is_main": false,
+        "chi_tiet": "Thi công đường dây và trạm biến áp, hệ thống chiếu sáng",
+        "ten": "Xây dựng công trình điện"
+      },
+      {
+        "ma": "4222",
+        "is_main": false,
+        "chi_tiet": "Thi công mạng lưới cấp thoát nước đô thị và công nghiệp",
+        "ten": "Xây dựng công trình cấp, thoát nước"
+      },
+      {
+        "ma": "4299",
+        "is_main": false,
+        "chi_tiet": "Xây dựng công trình kỹ thuật dân dụng khác",
+        "ten": "Xây dựng công trình kỹ thuật dân dụng khác"
+      },
+      {
+        "ma": "4311",
+        "is_main": false,
+        "chi_tiet": "Phá dỡ công trình xây dựng, giải phóng mặt bằng",
+        "ten": "Phá dỡ"
+      },
+      {
+        "ma": "4321",
+        "is_main": false,
+        "chi_tiet": "Lắp đặt hệ thống điện công trình, mạng viễn thông, camera an ninh",
+        "ten": "Lắp đặt hệ thống điện"
+      },
+      {
+        "ma": "4322",
+        "is_main": false,
+        "chi_tiet": "Lắp đặt hệ thống điều hòa không khí, cấp thoát nước và PCCC",
+        "ten": "Lắp đặt hệ thống cấp, thoát nước, hệ thống sưởi và điều hoà không khí"
+      },
+      {
+        "ma": "4329",
+        "is_main": false,
+        "chi_tiet": "Lắp đặt thang máy, hệ thống chống trộm, chống sét",
+        "ten": "Lắp đặt hệ thống xây dựng khác"
+      },
+      {
+        "ma": "4330",
+        "is_main": false,
+        "chi_tiet": "Sơn bả, trát vữa, ốp lát gạch, trần thạch cao, trang trí nội ngoại thất",
+        "ten": "Hoàn thiện công trình xây dựng"
+      },
+      {
+        "ma": "4390",
+        "is_main": false,
+        "chi_tiet": "Xây móng, ép cọc, đóng cọc, xử lý nền móng công trình",
+        "ten": "Hoạt động xây dựng chuyên dụng khác"
+      },
+      {
+        "ma": "4673",
+        "is_main": false,
+        "chi_tiet": "Bán buôn xi măng, cát, đá, sắt thép xây dựng, thiết bị vệ sinh",
+        "ten": "Bán buôn vật liệu, thiết bị lắp đặt khác trong xây dựng"
+      },
+      {
+        "ma": "4752",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ sơn tường, vật tư kim khí, vật liệu hoàn thiện",
+        "ten": "Bán lẻ đồ ngũ kim, sơn, kính, vật liệu và thiết bị lắp đặt khác trong xây dựng"
+      },
+      {
+        "ma": "7110",
+        "is_main": false,
+        "chi_tiet": "Thiết kế kiến trúc công trình, quy hoạch đô thị, khảo sát và giám sát thi công xây dựng",
+        "ten": "Hoạt động kiến trúc và tư vấn kỹ thuật có liên quan"
+      },
+      {
+        "ma": "7410",
+        "is_main": false,
+        "chi_tiet": "Thiết kế trang trí nội thất, cảnh quan sân vườn",
+        "ten": "Hoạt động thiết kế chuyên dụng"
+      }
+    ],
+    "color": "orange"
+  },
+  {
+    "id": "cong_nghe_thong_tin",
+    "name": "Công nghệ thông tin & Phần mềm",
+    "icon": "fa-laptop-code",
+    "badge_color": "blue",
+    "description": "Gói ngành nghề cho công ty công nghệ, phát triển phần mềm, ứng dụng di động, giải pháp hệ thống và thương mại số",
+    "danh_sach_nganh": [
+      {
+        "ma": "6219",
+        "is_main": true,
+        "chi_tiet": "(Ngành chính) Lập trình phần mềm, ứng dụng web, mobile app, hệ thống thông tin doanh nghiệp",
+        "ten": "Lập trình máy tính khác"
+      },
+      {
+        "ma": "6211",
+        "is_main": false,
+        "chi_tiet": "Thiết kế và phát triển game online, mobile game, game engine",
+        "ten": "Phát triển trò chơi điện tử, phần mềm trò chơi điện tử và các công cụ phần mềm trò chơi điện tử"
+      },
+      {
+        "ma": "6290",
+        "is_main": false,
+        "chi_tiet": "Tư vấn công nghệ thông tin, quản trị hệ thống mạng, tích hợp hệ thống phần mềm",
+        "ten": "Hoạt động dịch vụ máy tính và công nghệ thông tin khác"
+      },
+      {
+        "ma": "6310",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ điện toán đám mây (Cloud), lưu trữ web (Hosting/VPS), xử lý và quản lý dữ liệu",
+        "ten": "Cơ sở hạ tầng công nghệ thông tin, xử lý dữ liệu, lưu trữ và các hoạt động liên quan"
+      },
+      {
+        "ma": "6390",
+        "is_main": false,
+        "chi_tiet": "Vận hành cổng thông tin điện tử, công cụ tìm kiếm, dịch vụ thông tin trực tuyến",
+        "ten": "Hoạt động cổng tìm kiếm web và các dịch vụ thông tin khác"
+      },
+      {
+        "ma": "5829",
+        "is_main": false,
+        "chi_tiet": "Phát hành và phân phối phần mềm ứng dụng, tiện ích máy tính",
+        "ten": "Xuất bản phần mềm khác"
+      },
+      {
+        "ma": "4651",
+        "is_main": false,
+        "chi_tiet": "Bán buôn máy chủ, máy tính để bàn, laptop, thiết bị mạng và bản quyền phần mềm",
+        "ten": "Bán buôn máy tính, thiết bị ngoại vi và phần mềm"
+      },
+      {
+        "ma": "4652",
+        "is_main": false,
+        "chi_tiet": "Bán buôn linh kiện bán dẫn, vi mạch, thiết bị truyền dẫn viễn thông",
+        "ten": "Bán buôn thiết bị và linh kiện điện tử, viễn thông"
+      },
+      {
+        "ma": "4740",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ máy tính, điện thoại di động, thiết bị viễn thông và phụ kiện số",
+        "ten": "Bán lẻ thiết bị công nghệ thông tin và truyền thông"
+      },
+      {
+        "ma": "9510",
+        "is_main": false,
+        "chi_tiet": "Bảo trì, sửa chữa phần cứng máy tính, thiết bị mạng, cứu dữ liệu",
+        "ten": "Sửa chữa, bảo dưỡng máy tính, thiết bị thông tin và truyền thông"
+      },
+      {
+        "ma": "6110",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ mạng viễn thông có dây, không dây và vệ tinh",
+        "ten": "Hoạt động viễn thông có dây, không dây và vệ tinh"
+      },
+      {
+        "ma": "6120",
+        "is_main": false,
+        "chi_tiet": "Bán lại dịch vụ viễn thông, dịch vụ trung gian viễn thông",
+        "ten": "Hoạt động bán lại dịch vụ viễn thông và dịch vụ trung gian cho hoạt động viễn thông"
+      },
+      {
+        "ma": "7310",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ quảng cáo trực tuyến, digital marketing, tối ưu hóa công cụ tìm kiếm (SEO)",
+        "ten": "Quảng cáo"
+      }
+    ],
+    "color": "blue"
+  },
+  {
+    "id": "thuong_mai_tong_hop",
+    "name": "Thương mại & Bán lẻ (E-Commerce)",
+    "icon": "fa-cart-shopping",
+    "badge_color": "green",
+    "description": "Gói ngành nghề cho doanh nghiệp kinh doanh xuất nhập khẩu, phân phối bán buôn, bán lẻ đa kênh và sàn thương mại điện tử",
+    "danh_sach_nganh": [
+      {
+        "ma": "4719",
+        "is_main": true,
+        "chi_tiet": "(Ngành chính) Bán lẻ tổng hợp đa dạng hàng hóa trong siêu thị, cửa hàng bách hóa và trực tuyến",
+        "ten": "Bán lẻ tổng hợp khác"
+      },
+      {
+        "ma": "4690",
+        "is_main": false,
+        "chi_tiet": "Bán buôn tổng hợp đa dạng ngành hàng, xuất nhập khẩu hàng hóa thương mại",
+        "ten": "Bán buôn tổng hợp"
+      },
+      {
+        "ma": "4790",
+        "is_main": false,
+        "chi_tiet": "Hoạt động sàn thương mại điện tử, dịch vụ trung gian mua bán hàng hóa trực tuyến",
+        "ten": "Hoạt động dịch vụ trung gian bán lẻ"
+      },
+      {
+        "ma": "4610",
+        "is_main": false,
+        "chi_tiet": "Đại lý phân phối hàng hóa độc quyền, môi giới thương mại, đấu giá hàng hóa",
+        "ten": "Đại lý, môi giới, đấu giá hàng hóa"
+      },
+      {
+        "ma": "4711",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ tại cửa hàng tiện lợi, siêu thị mini, bách hóa thực phẩm đồ uống",
+        "ten": "Bán lẻ tổng hợp với lương thực, thực phẩm, đồ uống, thuốc lá, thuốc lào chiếm tỷ trọng lớn"
+      },
+      {
+        "ma": "4771",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ thời trang, quần áo may sẵn, giày dép, túi xách thời trang",
+        "ten": "Bán lẻ hàng may mặc, giày, dép, hàng da và giả da"
+      },
+      {
+        "ma": "4772",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ mỹ phẩm, thực phẩm chức năng, nước hoa và chế phẩm vệ sinh",
+        "ten": "Bán lẻ thuốc, dụng cụ y tế, mỹ phẩm và vật phẩm vệ sinh"
+      },
+      {
+        "ma": "4759",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ đồ điện gia dụng, đèn chiếu sáng, đồ dùng nội thất gia đình",
+        "ten": "Bán lẻ đồ điện gia dụng, giường, tủ, bàn, ghế và đồ nội thất tương tự, đèn và bộ đèn điện, đồ dùng gia đình khác chưa được phân vào đâu"
+      },
+      {
+        "ma": "4773",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ quà lưu niệm, đồ thủ công mỹ nghệ, đồng hồ, phụ kiện thời trang",
+        "ten": "Bán lẻ hàng hóa khác mới (trừ ô tô, mô tô, xe máy và các bộ phận phụ trợ)"
+      },
+      {
+        "ma": "4641",
+        "is_main": false,
+        "chi_tiet": "Bán buôn vải, hàng may mặc, giày dép xuất khẩu",
+        "ten": "Bán buôn vải, hàng may mặc, giày dép"
+      },
+      {
+        "ma": "4649",
+        "is_main": false,
+        "chi_tiet": "Bán buôn hàng tiêu dùng gia đình, mỹ phẩm, đồ gia dụng, văn phòng phẩm",
+        "ten": "Bán buôn đồ dùng khác cho gia đình"
+      },
+      {
+        "ma": "5320",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ chuyển phát hàng hóa chặng cuối, giao hàng thu tiền hộ (COD)",
+        "ten": "Chuyển phát"
+      },
+      {
+        "ma": "8292",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ đóng gói kiện hàng, xử lý đơn hàng (fulfillment) cho thương mại điện tử",
+        "ten": "Dịch vụ đóng gói"
+      }
+    ],
+    "color": "green"
+  },
+  {
+    "id": "bat_dong_san",
+    "name": "Bất động sản",
+    "icon": "fa-building",
+    "badge_color": "purple",
+    "description": "Gói ngành nghề cho công ty đầu tư phát triển dự án, môi giới nhà đất, quản lý vận hành tòa nhà và tư vấn địa ốc",
+    "danh_sach_nganh": [
+      {
+        "ma": "6810",
+        "is_main": true,
+        "chi_tiet": "(Ngành chính) Mua bán, đầu tư, cho thuê nhà ở, căn hộ, văn phòng, mặt bằng thương mại, khu công nghiệp",
+        "ten": "Kinh doanh bất động sản, quyền sử dụng đất thuộc chủ sở hữu, chủ sử dụng hoặc đi thuê"
+      },
+      {
+        "ma": "6821",
+        "is_main": false,
+        "chi_tiet": "Sàn giao dịch bất động sản, môi giới nhà đất, dịch vụ định giá bất động sản",
+        "ten": "Dịch vụ trung gian cho hoạt động bất động sản"
+      },
+      {
+        "ma": "6829",
+        "is_main": false,
+        "chi_tiet": "Quản lý vận hành chung cư, tòa nhà văn phòng, khu đô thị, trung tâm thương mại",
+        "ten": "Hoạt động bất động sản khác trên cơ sở phí hoặc hợp đồng"
+      },
+      {
+        "ma": "4101",
+        "is_main": false,
+        "chi_tiet": "Đầu tư xây dựng công trình nhà ở, khu đô thị, khu dân cư",
+        "ten": "Xây dựng nhà để ở"
+      },
+      {
+        "ma": "4102",
+        "is_main": false,
+        "chi_tiet": "Đầu tư xây dựng tòa nhà văn phòng, khách sạn, trung tâm thương mại",
+        "ten": "Xây dựng nhà không để ở"
+      },
+      {
+        "ma": "7110",
+        "is_main": false,
+        "chi_tiet": "Tư vấn quy hoạch dự án, thiết kế kiến trúc và quản lý dự án bất động sản",
+        "ten": "Hoạt động kiến trúc và tư vấn kỹ thuật có liên quan"
+      },
+      {
+        "ma": "7020",
+        "is_main": false,
+        "chi_tiet": "Tư vấn chiến lược đầu tư, tư vấn quản lý dự án bất động sản",
+        "ten": "Hoạt động tư vấn quản lý kinh doanh và hoạt động tư vấn quản lý khác"
+      },
+      {
+        "ma": "7310",
+        "is_main": false,
+        "chi_tiet": "Quảng bá, tiếp thị dự án bất động sản, phân phối truyền thông bán hàng",
+        "ten": "Quảng cáo"
+      },
+      {
+        "ma": "8210",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ quản trị văn phòng, dịch vụ văn phòng chia sẻ (coworking space)",
+        "ten": "Hoạt động hành chính và hỗ trợ văn phòng"
+      },
+      {
+        "ma": "8230",
+        "is_main": false,
+        "chi_tiet": "Tổ chức sự kiện lễ mở bán dự án, triển lãm và hội chợ bất động sản",
+        "ten": "Tổ chức giới thiệu và xúc tiến thương mại"
+      }
+    ],
+    "color": "purple"
+  },
+  {
+    "id": "nha_hang_cafe",
+    "name": "Nhà hàng, F&B & Quán Cafe",
+    "icon": "fa-utensils",
+    "badge_color": "red",
+    "description": "Gói ngành nghề cho chuỗi nhà hàng ẩm thực, quán cà phê, quầy trà sữa bar-pub, dịch vụ tiệc lưu động và F&B",
+    "danh_sach_nganh": [
+      {
+        "ma": "5610",
+        "is_main": true,
+        "chi_tiet": "(Ngành chính) Nhà hàng ẩm thực, quán ăn, quán buffet, phục vụ ăn uống tại chỗ và mang đi",
+        "ten": "Nhà hàng và các dịch vụ ăn uống phục vụ lưu động"
+      },
+      {
+        "ma": "5630",
+        "is_main": false,
+        "chi_tiet": "Quán cà phê, trà sữa, quán nước giải khát, quầy bar, pub",
+        "ten": "Dịch vụ phục vụ đồ uống"
+      },
+      {
+        "ma": "5621",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ cung cấp tiệc cưới, hội nghị, liên hoan lưu động (Catering)",
+        "ten": "Cung cấp dịch vụ ăn uống theo hợp đồng không thường xuyên với khách hàng"
+      },
+      {
+        "ma": "5629",
+        "is_main": false,
+        "chi_tiet": "Cung cấp suất ăn công nghiệp cho nhà máy, trường học, bệnh viện",
+        "ten": "Dịch vụ ăn uống khác"
+      },
+      {
+        "ma": "5640",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ trung gian đặt bàn, giao nhận thức ăn và dịch vụ F&B",
+        "ten": "Hoạt động dịch vụ trung gian cho dịch vụ ăn uống"
+      },
+      {
+        "ma": "1075",
+        "is_main": false,
+        "chi_tiet": "Sản xuất món ăn chế biến sẵn, thực phẩm sơ chế đóng gói cho chuỗi nhà hàng",
+        "ten": "Sản xuất món ăn, thức ăn chế biến sẵn"
+      },
+      {
+        "ma": "1071",
+        "is_main": false,
+        "chi_tiet": "Sản xuất bánh mì, bánh ngọt tươi phục vụ tại quầy và bán lẻ",
+        "ten": "Sản xuất các loại bánh từ bột"
+      },
+      {
+        "ma": "1105",
+        "is_main": false,
+        "chi_tiet": "Pha chế và sản xuất đồ uống không cồn, nước ép hoa quả tươi",
+        "ten": "Sản xuất đồ uống không cồn, nước khoáng"
+      },
+      {
+        "ma": "4711",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ thực phẩm, đồ ăn nhẹ, thức uống đóng hộp tại quầy",
+        "ten": "Bán lẻ tổng hợp với lương thực, thực phẩm, đồ uống, thuốc lá, thuốc lào chiếm tỷ trọng lớn"
+      },
+      {
+        "ma": "4723",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ đồ uống đóng chai, cà phê hạt, trà gói đặc sản",
+        "ten": "Bán lẻ đồ uống"
+      },
+      {
+        "ma": "4722",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ thực phẩm chế biến, đồ nguội ăn nhanh",
+        "ten": "Bán lẻ thực phẩm"
+      }
+    ],
+    "color": "red"
+  },
+  {
+    "id": "van_tai_logistics",
+    "name": "Vận tải & Logistics",
+    "icon": "fa-truck-fast",
+    "badge_color": "amber",
+    "description": "Gói ngành nghề cho công ty vận tải hàng hóa đường bộ, giao nhận kho vận, chuỗi cung ứng và chuyển phát nhanh",
+    "danh_sach_nganh": [
+      {
+        "ma": "4933",
+        "is_main": true,
+        "chi_tiet": "(Ngành chính) Vận tải hàng hóa bằng xe ô tô tải, xe đầu kéo container đường bộ nội tỉnh và liên tỉnh",
+        "ten": "Vận tải hàng hóa bằng đường bộ"
+      },
+      {
+        "ma": "5210",
+        "is_main": false,
+        "chi_tiet": "Kho bãi lưu giữ hàng hóa, kho lạnh bảo quản thực phẩm, trung tâm phân phối logistics",
+        "ten": "Kho bãi và lưu giữ hàng hóa"
+      },
+      {
+        "ma": "5224",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ bốc xếp hàng hóa, dỡ hàng xe tải và container",
+        "ten": "Bốc xếp hàng hóa"
+      },
+      {
+        "ma": "5225",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ đỗ xe, bến bãi đỗ xe tải, trạm dừng nghỉ vận tải đường bộ",
+        "ten": "Hoạt động dịch vụ hỗ trợ trực tiếp cho vận tải đường bộ"
+      },
+      {
+        "ma": "5229",
+        "is_main": false,
+        "chi_tiet": "Đại lý giao nhận hàng hóa (freight forwarding), đại lý làm thủ tục hải quan",
+        "ten": "Hoạt động dịch vụ hỗ trợ khác liên quan đến vận tải"
+      },
+      {
+        "ma": "5231",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ trung gian kết nối vận tải hàng hóa, sàn điều phối xe tải",
+        "ten": "Hoạt động dịch vụ trung gian cho vận tải hàng hóa"
+      },
+      {
+        "ma": "5320",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ chuyển phát nhanh hàng hóa, bưu kiện chặng cuối (last-mile)",
+        "ten": "Chuyển phát"
+      },
+      {
+        "ma": "5330",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ trung gian đại lý thu gom, gửi chuyển phát bưu phẩm bưu kiện",
+        "ten": "Hoạt động dịch vụ trung gian cho hoạt động bưu chính và chuyển phát"
+      },
+      {
+        "ma": "4931",
+        "is_main": false,
+        "chi_tiet": "Vận tải hành khách bằng xe taxi, xe buýt hợp đồng, xe đưa đón học sinh nhân viên",
+        "ten": "Vận tải hành khách đường bộ trong nội thành, ngoại thành (trừ vận tải bằng xe buýt)"
+      },
+      {
+        "ma": "4932",
+        "is_main": false,
+        "chi_tiet": "Vận tải hành khách bằng xe hợp đồng liên tỉnh, xe du lịch",
+        "ten": "Vận tải hành khách đường bộ khác"
+      },
+      {
+        "ma": "7710",
+        "is_main": false,
+        "chi_tiet": "Cho thuê xe tải, xe bán tải, xe ô tô chở khách tự lái hoặc kèm tài xế",
+        "ten": "Cho thuê xe có động cơ"
+      },
+      {
+        "ma": "8292",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ đóng gói kiện hàng, bọc pallet chuyên dụng cho vận chuyển",
+        "ten": "Dịch vụ đóng gói"
+      }
+    ],
+    "color": "amber"
+  },
+  {
+    "id": "giao_duc",
+    "name": "Giáo dục & Đào tạo",
+    "icon": "fa-graduation-cap",
+    "badge_color": "indigo",
+    "description": "Gói ngành nghề cho trường học, trung tâm ngoại ngữ, tin học, viện đào tạo kỹ năng, bồi dưỡng văn hóa và tư vấn du học",
+    "danh_sach_nganh": [
+      {
+        "ma": "8559",
+        "is_main": true,
+        "chi_tiet": "(Ngành chính) Trung tâm đào tạo ngoại ngữ, tin học, bồi dưỡng văn hóa, đào tạo kỹ năng mềm và kỹ năng số",
+        "ten": "Giáo dục khác chưa được phân vào đâu"
+      },
+      {
+        "ma": "8569",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ tư vấn du học, đánh giá kết quả học tập, hỗ trợ giáo dục",
+        "ten": "Hoạt động hỗ trợ giáo dục khác"
+      },
+      {
+        "ma": "8511",
+        "is_main": false,
+        "chi_tiet": "Giáo dục mầm non, nhóm trẻ độc lập, chăm sóc trẻ dưới 3 tuổi",
+        "ten": "Giáo dục nhà trẻ"
+      },
+      {
+        "ma": "8512",
+        "is_main": false,
+        "chi_tiet": "Giáo dục mẫu giáo mầm non cho trẻ từ 3 đến 6 tuổi",
+        "ten": "Giáo dục mẫu giáo"
+      },
+      {
+        "ma": "8531",
+        "is_main": false,
+        "chi_tiet": "Đào tạo nghề sơ cấp, đào tạo chứng chỉ kỹ năng nghề nghiệp",
+        "ten": "Đào tạo sơ cấp"
+      },
+      {
+        "ma": "8532",
+        "is_main": false,
+        "chi_tiet": "Đào tạo trình độ trung cấp chuyên nghiệp, trung cấp nghề",
+        "ten": "Đào tạo trung cấp"
+      },
+      {
+        "ma": "8551",
+        "is_main": false,
+        "chi_tiet": "Giáo dục thể thao, dạy bơi, võ thuật, yoga, gym thể hình",
+        "ten": "Giáo dục thể thao và giải trí"
+      },
+      {
+        "ma": "8552",
+        "is_main": false,
+        "chi_tiet": "Giáo dục nghệ thuật, dạy đàn piano, guitar, hội họa, múa thẩm mỹ",
+        "ten": "Giáo dục văn hóa nghệ thuật"
+      },
+      {
+        "ma": "8553",
+        "is_main": false,
+        "chi_tiet": "Đào tạo lái xe ô tô, mô tô và phương tiện giao thông",
+        "ten": "Hoạt động đào tạo sử dụng phương tiện vận tải phi thương mại"
+      },
+      {
+        "ma": "4761",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ sách giáo khoa, giáo trình học tập, văn phòng phẩm học đường",
+        "ten": "Bán lẻ sách, báo, tạp chí, văn phòng phẩm"
+      },
+      {
+        "ma": "5811",
+        "is_main": false,
+        "chi_tiet": "Xuất bản sách giáo trình, tài liệu tham khảo và học liệu số",
+        "ten": "Xuất bản sách"
+      },
+      {
+        "ma": "8230",
+        "is_main": false,
+        "chi_tiet": "Tổ chức hội thảo giáo dục, ngày hội tư vấn tuyển sinh và triển lãm du học",
+        "ten": "Tổ chức giới thiệu và xúc tiến thương mại"
+      }
+    ],
+    "color": "indigo"
+  },
+  {
+    "id": "spa_lam_dep",
+    "name": "Spa, Thẩm mỹ & Mỹ phẩm",
+    "icon": "fa-spa",
+    "badge_color": "pink",
+    "description": "Gói ngành nghề cho thẩm mỹ viện, spa chăm sóc da, massage trị liệu, salon tóc - móng và kinh doanh mỹ phẩm",
+    "danh_sach_nganh": [
+      {
+        "ma": "9622",
+        "is_main": true,
+        "chi_tiet": "(Ngành chính) Dịch vụ chăm sóc sắc đẹp da mặt, trang điểm nghệ thuật, phun xăm thẩm mỹ, chăm sóc móng (nail)",
+        "ten": "Dịch vụ chăm sóc sắc đẹp và các hoạt động làm đẹp khác"
+      },
+      {
+        "ma": "9623",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ spa xông hơi, massage trị liệu bấm huyệt, tắm thảo dược thư giãn",
+        "ten": "Dịch vụ spa và xông hơi"
+      },
+      {
+        "ma": "9621",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ cắt tóc, uốn nhuộm tóc, gội đầu dưỡng sinh thư giãn",
+        "ten": "Dịch vụ làm tóc"
+      },
+      {
+        "ma": "4772",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ mỹ phẩm thiên nhiên, kem dưỡng da, nước hoa và chế phẩm vệ sinh",
+        "ten": "Bán lẻ thuốc, dụng cụ y tế, mỹ phẩm và vật phẩm vệ sinh"
+      },
+      {
+        "ma": "4649",
+        "is_main": false,
+        "chi_tiet": "Bán buôn mỹ phẩm, nước hoa, dụng cụ và thiết bị làm đẹp thẩm mỹ",
+        "ten": "Bán buôn đồ dùng khác cho gia đình"
+      },
+      {
+        "ma": "2023",
+        "is_main": false,
+        "chi_tiet": "Sản xuất mỹ phẩm làm đẹp, serum dưỡng da, dầu gội thảo mộc thiên nhiên (OEM)",
+        "ten": "Sản xuất mỹ phẩm, nước hoa, xà phòng, chất tẩy rửa, làm bóng và chế phẩm vệ sinh"
+      },
+      {
+        "ma": "8559",
+        "is_main": false,
+        "chi_tiet": "Đào tạo nghề spa thẩm mỹ, nghề nối mi, chăm sóc da và trang điểm chuyên nghiệp",
+        "ten": "Giáo dục khác chưa được phân vào đâu"
+      },
+      {
+        "ma": "9640",
+        "is_main": false,
+        "chi_tiet": "Hoạt động dịch vụ trung gian đặt lịch spa, làm đẹp trực tuyến",
+        "ten": "Hoạt động trung gian cho dịch vụ cá nhân"
+      },
+      {
+        "ma": "9690",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ phục vụ cá nhân khác liên quan đến chăm sóc ngoại hình",
+        "ten": "Hoạt động dịch vụ phục vụ cá nhân khác"
+      },
+      {
+        "ma": "7730",
+        "is_main": false,
+        "chi_tiet": "Cho thuê máy móc, thiết bị chăm sóc da công nghệ cao và thiết bị spa",
+        "ten": "Cho thuê máy móc, thiết bị và đồ dùng hữu hình khác không kèm người điều khiển"
+      }
+    ],
+    "color": "pink"
+  },
+  {
+    "id": "che_bien_thuc_pham",
+    "name": "Sản xuất & Chế biến thực phẩm",
+    "icon": "fa-boxes-packing",
+    "badge_color": "emerald",
+    "description": "Gói ngành nghề cho xưởng sản xuất, chế biến nông sản, thực phẩm tươi sống, đồ hộp, bánh kẹo và nước giải khát",
+    "danh_sach_nganh": [
+      {
+        "ma": "1079",
+        "is_main": true,
+        "chi_tiet": "(Ngành chính) Sản xuất gia vị, nước tương, nước mắm, sốt chấm, thực phẩm dinh dưỡng chế biến khác",
+        "ten": "Sản xuất thực phẩm khác chưa được phân vào đâu"
+      },
+      {
+        "ma": "1010",
+        "is_main": false,
+        "chi_tiet": "Chế biến và bảo quản thịt, giò lụa, xúc xích, thịt sấy đóng gói",
+        "ten": "Chế biến, bảo quản thịt và các sản phẩm từ thịt"
+      },
+      {
+        "ma": "1020",
+        "is_main": false,
+        "chi_tiet": "Chế biến và bảo quản thủy sản đông lạnh, chả cá, thủy hải sản phơi khô",
+        "ten": "Chế biến, bảo quản thủy sản và các sản phẩm từ thủy sản"
+      },
+      {
+        "ma": "1030",
+        "is_main": false,
+        "chi_tiet": "Chế biến và sấy khô rau củ quả, mứt trái cây, nước hoa quả cô đặc",
+        "ten": "Chế biến và bảo quản rau quả"
+      },
+      {
+        "ma": "1040",
+        "is_main": false,
+        "chi_tiet": "Sản xuất dầu thực vật tinh luyện, dầu phộng, dầu mè nguyên chất",
+        "ten": "Sản xuất dầu, mỡ động, thực vật"
+      },
+      {
+        "ma": "1050",
+        "is_main": false,
+        "chi_tiet": "Chế biến sữa tươi, sữa chua, phô mai và các chế phẩm từ sữa",
+        "ten": "Chế biến sữa và các sản phẩm từ sữa"
+      },
+      {
+        "ma": "1071",
+        "is_main": false,
+        "chi_tiet": "Sản xuất các loại bánh nướng, bánh quy, bánh mì tươi công nghiệp",
+        "ten": "Sản xuất các loại bánh từ bột"
+      },
+      {
+        "ma": "1073",
+        "is_main": false,
+        "chi_tiet": "Sản xuất sô cô la, cacao, kẹo cứng, kẹo dẻo hoa quả",
+        "ten": "Sản xuất ca cao, sôcôla và bánh kẹo"
+      },
+      {
+        "ma": "1074",
+        "is_main": false,
+        "chi_tiet": "Sản xuất bún khô, miến dong, phở khô, mì ăn liền",
+        "ten": "Sản xuất mì ống, mỳ sợi và sản phẩm tương tự"
+      },
+      {
+        "ma": "1075",
+        "is_main": false,
+        "chi_tiet": "Sản xuất các món ăn chế biến sẵn đông lạnh, thức ăn đóng hộp tiện lợi",
+        "ten": "Sản xuất món ăn, thức ăn chế biến sẵn"
+      },
+      {
+        "ma": "1076",
+        "is_main": false,
+        "chi_tiet": "Chế biến chè xanh, trà thảo mộc sấy khô, đóng gói túi lọc",
+        "ten": "Sản xuất chè"
+      },
+      {
+        "ma": "1077",
+        "is_main": false,
+        "chi_tiet": "Rang xay cà phê hạt, sản xuất cà phê bột và cà phê hòa tan",
+        "ten": "Sản xuất cà phê"
+      },
+      {
+        "ma": "1105",
+        "is_main": false,
+        "chi_tiet": "Sản xuất nước khoáng tinh khiết, nước giải khát không cồn, nước hoa quả",
+        "ten": "Sản xuất đồ uống không cồn, nước khoáng"
+      },
+      {
+        "ma": "4632",
+        "is_main": false,
+        "chi_tiet": "Bán buôn thực phẩm chế biến, đồ ăn đóng gói",
+        "ten": "Bán buôn thực phẩm"
+      },
+      {
+        "ma": "4633",
+        "is_main": false,
+        "chi_tiet": "Bán buôn nước giải khát, nước khoáng, đồ uống đóng chai",
+        "ten": "Bán buôn đồ uống"
+      },
+      {
+        "ma": "4722",
+        "is_main": false,
+        "chi_tiet": "Bán lẻ thực phẩm sạch, đặc sản vùng miền tại chuỗi cửa hàng",
+        "ten": "Bán lẻ thực phẩm"
+      },
+      {
+        "ma": "8292",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ đóng hộp, đóng gói chân không, dán nhãn bao bì thực phẩm",
+        "ten": "Dịch vụ đóng gói"
+      }
+    ],
+    "color": "emerald"
+  },
+  {
+    "id": "du_lich_su_kien",
+    "name": "Du lịch, Lữ hành & Sự kiện",
+    "icon": "fa-plane-departure",
+    "badge_color": "cyan",
+    "description": "Gói ngành nghề cho công ty du lịch lữ hành nội địa - quốc tế, tổ chức sự kiện, hội nghị hội thảo và lưu trú du lịch",
+    "danh_sach_nganh": [
+      {
+        "ma": "7912",
+        "is_main": true,
+        "chi_tiet": "(Ngành chính) Điều hành tour du lịch trong nước, du lịch quốc tế (Inbound/Outbound)",
+        "ten": "Điều hành tua du lịch"
+      },
+      {
+        "ma": "7911",
+        "is_main": false,
+        "chi_tiet": "Đại lý bán vé máy bay, vé tàu hỏa, vé xe khách, vé tham quan danh lam thắng cảnh",
+        "ten": "Đại lý lữ hành"
+      },
+      {
+        "ma": "7990",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ hướng dẫn viên du lịch, hỗ trợ làm visa hộ chiếu, đặt phòng khách sạn",
+        "ten": "Hoạt động liên quan đến du lịch khác"
+      },
+      {
+        "ma": "8230",
+        "is_main": false,
+        "chi_tiet": "Tổ chức sự kiện, hội thảo hội nghị (MICE), triển lãm thương mại, lễ hội khai trương",
+        "ten": "Tổ chức giới thiệu và xúc tiến thương mại"
+      },
+      {
+        "ma": "5510",
+        "is_main": false,
+        "chi_tiet": "Kinh doanh khách sạn, khu nghỉ dưỡng resort, căn hộ du lịch nghỉ dưỡng",
+        "ten": "Khách sạn và dịch vụ lưu trú tương tự"
+      },
+      {
+        "ma": "5520",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ lưu trú homestay, nhà nghỉ du lịch, villa nghỉ dưỡng ngắn ngày",
+        "ten": "Dịch vụ lưu trú ngắn ngày khác"
+      },
+      {
+        "ma": "5530",
+        "is_main": false,
+        "chi_tiet": "Dịch vụ trung gian đặt phòng lưu trú, cổng kết nối khách sạn trực tuyến (OTA)",
+        "ten": "Hoạt động dịch vụ trung gian cho dịch vụ lưu trú"
+      },
+      {
+        "ma": "4932",
+        "is_main": false,
+        "chi_tiet": "Vận tải hành khách theo hợp đồng tham quan du lịch liên tỉnh",
+        "ten": "Vận tải hành khách đường bộ khác"
+      },
+      {
+        "ma": "7710",
+        "is_main": false,
+        "chi_tiet": "Cho thuê xe du lịch 4-45 chỗ tự lái hoặc kèm tài xế chuyên nghiệp",
+        "ten": "Cho thuê xe có động cơ"
+      },
+      {
+        "ma": "7420",
+        "is_main": false,
+        "chi_tiet": "Chụp ảnh sự kiện, quay phim flycam, sản xuất media quảng bá du lịch",
+        "ten": "Hoạt động nhiếp ảnh"
+      },
+      {
+        "ma": "9020",
+        "is_main": false,
+        "chi_tiet": "Tổ chức biểu diễn nghệ thuật, cung cấp ban nhạc, nghệ sĩ cho sự kiện gala",
+        "ten": "Hoạt động biểu diễn nghệ thuật"
+      },
+      {
+        "ma": "7310",
+        "is_main": false,
+        "chi_tiet": "Quảng bá xúc tiến du lịch, marketing truyền thông sự kiện",
+        "ten": "Quảng cáo"
+      }
+    ],
+    "color": "cyan"
+  }
+]

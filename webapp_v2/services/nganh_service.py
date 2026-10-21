@@ -1,8 +1,10 @@
+from pathlib import Path
 import json
 import httpx
-from config import MA_NGANH_JSON, GEMINI_API_KEY
+from config import MA_NGANH_JSON, GEMINI_API_KEY, COMBO_NGANH_JSON
 
 _ma_nganh_data = None
+_combo_nganh_data = None
 
 def load_ma_nganh():
     global _ma_nganh_data
@@ -13,6 +15,19 @@ def load_ma_nganh():
         except Exception:
             _ma_nganh_data = []
     return _ma_nganh_data
+
+def get_all_combos():
+    global _combo_nganh_data
+    if _combo_nganh_data is None:
+        target_path = COMBO_NGANH_JSON
+        if not Path(target_path).exists():
+            target_path = Path(__file__).resolve().parent.parent / "data" / "combo_nganh.json"
+        try:
+            with open(target_path, 'r', encoding='utf-8') as f:
+                _combo_nganh_data = json.load(f)
+        except Exception:
+            _combo_nganh_data = []
+    return _combo_nganh_data
 
 def normalize_vi(text: str) -> str:
     VIET_MAP = {
