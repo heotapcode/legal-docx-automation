@@ -15,6 +15,7 @@ else:
     load_dotenv(dotenv_path=ROOT_DIR / ".env")
 
 MA_NGANH_JSON = ROOT_DIR / "ma_nganh_nghe.json"
+COMBO_NGANH_JSON = DATA_DIR / "combo_nganh.json"
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 
 HOST = "0.0.0.0"
