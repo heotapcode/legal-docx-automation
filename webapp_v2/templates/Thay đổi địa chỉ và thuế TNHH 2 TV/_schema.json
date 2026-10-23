@@ -1,0 +1,79 @@
+{
+  "name": "Thay đổi địa chỉ và thuế TNHH 2 TV",
+  "display_name": "Thay đổi địa chỉ & Cập nhật thuế TNHH 2 TV",
+  "description": "Bộ hồ sơ thay đổi địa chỉ trụ sở chính và bổ sung cập nhật thông tin đăng ký thuế cho Công ty TNHH Hai thành viên trở lên",
+  "fields": [
+    {
+      "name": "ten_cong_ty_vn",
+      "label": "Tên công ty",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ma_so_thue",
+      "label": "Mã số thuế",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "dia_chi_cu",
+      "label": "Địa chỉ trụ sở cũ",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "dia_chi_moi",
+      "label": "Địa chỉ trụ sở mới",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ktt_ho_ten",
+      "label": "Họ tên Kế toán trưởng",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ktt_so_cccd",
+      "label": "Số CCCD Kế toán trưởng",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ktt_ngay_cap",
+      "label": "Ngày cấp CCCD KTT",
+      "type": "string",
+      "default": "01/05/2021"
+    },
+    {
+      "name": "ktt_sdt",
+      "label": "Số điện thoại KTT",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_ho_ten",
+      "label": "Họ tên ĐDPL / Chủ tịch HĐTV",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_so_cccd",
+      "label": "Số CCCD ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_ngay_sinh",
+      "label": "Ngày sinh ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "thu_ky_ho_ten",
+      "label": "Họ tên Thư ký cuộc họp",
+      "type": "string",
+      "default": "[ĐÃ XÓA]"
+    }
+  ]
+}
