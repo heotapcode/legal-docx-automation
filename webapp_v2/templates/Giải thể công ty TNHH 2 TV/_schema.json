@@ -2,79 +2,115 @@
   "name": "Giải thể công ty TNHH 2 TV",
   "display_name": "Giải thể công ty TNHH 2 TV",
   "category": "Giải thể",
-  "description": "Hồ sơ thủ tục giải thể doanh nghiệp đối với công ty TNHH 2 TV",
-  "has_nganh": false,
-  "steps": [
+  "description": "Bộ hồ sơ thủ tục thông báo và giải thể doanh nghiệp đối với Công ty TNHH Hai thành viên trở lên",
+  "fields": [
     {
-      "id": "company",
-      "title": "Thông tin Doanh nghiệp",
-      "fields": [
-        {
-          "key": "ten_cong_ty_vn",
-          "label": "Tên công ty",
-          "type": "text",
-          "required": true
-        },
-        {
-          "key": "ma_so_thue",
-          "label": "Mã số thuế",
-          "type": "mst_lookup",
-          "required": true
-        },
-        {
-          "key": "dia_chi_so_nha",
-          "label": "Số nhà, tên đường",
-          "type": "text"
-        },
-        {
-          "key": "dia_chi_xa_phuong",
-          "label": "Xã/Phường",
-          "type": "text"
-        },
-        {
-          "key": "dia_chi_tinh_thanh",
-          "label": "Tỉnh/Thành phố",
-          "type": "text"
-        }
-      ]
+      "name": "ten_cong_ty_vn",
+      "label": "Tên công ty",
+      "type": "string",
+      "required": true
     },
     {
-      "id": "ddpl",
-      "title": "Người đại diện theo pháp luật",
-      "fields": [
-        {
-          "key": "ddpl",
-          "label": "Thông tin người ĐDPL",
-          "type": "person",
-          "ocr": true,
-          "required": true
-        }
-      ]
+      "name": "ma_so_thue",
+      "label": "Mã số thuế",
+      "type": "string",
+      "required": true
     },
     {
-      "id": "members",
-      "title": "Danh sách thành viên dự họp",
-      "fields": [
-        {
-          "key": "thanh_vien",
-          "label": "Thành viên công ty",
-          "type": "person_list",
-          "min": 1,
-          "ocr": true,
-          "extra_fields": [
-            {
-              "key": "von_gop",
-              "label": "Vốn góp (VNĐ)",
-              "type": "money"
-            },
-            {
-              "key": "ty_le",
-              "label": "Tỷ lệ (%)",
-              "type": "number"
-            }
-          ]
-        }
-      ]
+      "name": "dia_chi_so_nha",
+      "label": "Số nhà, tên đường",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "dia_chi_xa_phuong",
+      "label": "Xã/Phường",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "dia_chi_quan_huyen",
+      "label": "Quận/Huyện",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "dia_chi_tinh_thanh",
+      "label": "Tỉnh/Thành phố",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_ho_ten",
+      "label": "Họ và tên ĐDPL / Chủ tịch HĐTV",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_ngay_sinh",
+      "label": "Ngày sinh ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_gioi_tinh",
+      "label": "Giới tính ĐDPL",
+      "type": "string",
+      "default": "Nữ"
+    },
+    {
+      "name": "ddpl_so_cccd",
+      "label": "Số CCCD ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_dia_chi_so_nha",
+      "label": "Địa chỉ thường trú ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_dia_chi_xa_phuong",
+      "label": "Phường/Xã ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_dia_chi_tinh_thanh",
+      "label": "Tỉnh/Thành ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_von_gop",
+      "label": "Vốn góp ĐDPL",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "ddpl_ty_le",
+      "label": "Tỷ lệ vốn ĐDPL (%)",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "tv2_ho_ten",
+      "label": "Họ và tên Thành viên 2",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "tv2_von_gop",
+      "label": "Vốn góp Thành viên 2",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "tv2_ty_le",
+      "label": "Tỷ lệ vốn Thành viên 2 (%)",
+      "type": "string",
+      "required": true
     }
   ]
 }
