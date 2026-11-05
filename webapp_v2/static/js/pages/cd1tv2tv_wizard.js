@@ -77,7 +77,7 @@ function cdRenderInput(label, id, val, placeholder = '', oninput = '') {
     return `
         <div>
             <label class="text-sm text-muted mb-1 block">${label}</label>
-            <input type="text" id="${id}" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" value="${val || ''}" placeholder="${placeholder}" oninput="${oninput}">
+            <input type="text" id="${id}" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" value="${escapeHtml(val || '')}" placeholder="${placeholder}" oninput="${oninput}">
         </div>
     `;
 }
@@ -311,7 +311,7 @@ function renderCDStep1() {
             <div class="grid-2" style="gap: var(--space-4);">
                 <div>
                     <label class="text-sm text-muted mb-1 block">Mã số thuế</label>
-                    <input type="text" id="cd_mst" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" placeholder="Nhập MST (VD: 0109942993)" value="${s.oldCompany.mst || ''}" onkeydown="if(event.key==='Enter'){event.preventDefault();window.lookupCDMst(event);}">
+                    <input type="text" id="cd_mst" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" placeholder="Nhập MST (VD: 0109942993)" value="${escapeHtml(s.oldCompany.mst || '')}" onkeydown="if(event.key==='Enter'){event.preventDefault();window.lookupCDMst(event);}">
                     <div class="mt-2 flex items-center gap-2">
                         <button type="button" class="btn btn-outline" style="font-size: 11px; padding: 4px 8px; height: auto; min-height: 0;" onclick="window.lookupCDMst(event)"><i class="fa-solid fa-magnifying-glass"></i> Tra cứu</button>
                         <span id="cd_mst_status" class="text-xs"></span>
@@ -320,7 +320,7 @@ function renderCDStep1() {
                 ${cdRenderInput('Tên công ty tiếng Việt', 'cd_ten_cty', s.oldCompany.name, 'Tự động điền')}
                 <div class="col-span-2">
                     <label class="text-sm text-muted mb-1 block">Địa chỉ trụ sở chính</label>
-                    <input type="text" id="cd_dia_chi_cty" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" placeholder="Tự động điền" value="${s.oldCompany.address || ''}">
+                    <input type="text" id="cd_dia_chi_cty" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" placeholder="Tự động điền" value="${escapeHtml(s.oldCompany.address || '')}">
                 </div>
                 ${cdRenderInput('Vốn điều lệ cũ (VNĐ)', 'cd_von_cu', s.oldCompany.von, 'VD: 1.000.000.000', 'handleCDVonCuChange(this)')}
                 <div id="cd_von_cu_spellout" class="text-xs text-secondary mt-1">${s.oldCompany.von ? 'Bằng chữ: ' + (window.docSoThanhChu ? window.docSoThanhChu(s.oldCompany.von) : '') : ''}</div>
@@ -339,7 +339,7 @@ function renderCDStep1() {
                 ${cdRenderInput('Giới tính', 'csh_gioi_tinh', s.csh.GIOI_TINH)}
                 <div class="col-span-2">
                     <label class="text-sm text-muted mb-1 block">Địa chỉ thường trú</label>
-                    <input type="text" id="csh_dia_chi" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" value="${s.csh.DIA_CHI || ''}">
+                    <input type="text" id="csh_dia_chi" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" value="${escapeHtml(s.csh.DIA_CHI || '')}">
                 </div>
             </div>
         </div>
@@ -361,7 +361,7 @@ function renderCDStep1() {
                 ${cdRenderInput('Giới tính', 'ddpl_cu_gioi_tinh', s.ddplCu.GIOI_TINH)}
                 <div class="col-span-2">
                     <label class="text-sm text-muted mb-1 block">Địa chỉ thường trú</label>
-                    <input type="text" id="ddpl_cu_dia_chi" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" value="${s.ddplCu.DIA_CHI || ''}">
+                    <input type="text" id="ddpl_cu_dia_chi" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" value="${escapeHtml(s.ddplCu.DIA_CHI || '')}">
                 </div>
             </div>
         </div>
@@ -398,7 +398,7 @@ function renderCDStep2() {
             <div class="grid-2" style="gap: var(--space-4);">
                 <div class="col-span-2">
                     <label class="text-sm text-muted mb-1 block">Tên công ty tiếng Việt mới (nếu có đổi)</label>
-                    <input type="text" id="cd_ten_cty_moi" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" placeholder="VD: CÔNG TY TNHH HAI THÀNH VIÊN..." value="${s.newCompany.nameVn || ''}">
+                    <input type="text" id="cd_ten_cty_moi" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" placeholder="VD: CÔNG TY TNHH HAI THÀNH VIÊN..." value="${escapeHtml(s.newCompany.nameVn || '')}">
                 </div>
                 ${cdRenderInput('Tên tiếng Anh', 'cd_ten_en', s.newCompany.nameEn)}
                 ${cdRenderInput('Tên viết tắt', 'cd_ten_vt', s.newCompany.nameShort)}
@@ -424,7 +424,7 @@ function renderCDStep2() {
                 ${cdRenderInput('Giới tính', 'ddpl_moi_gioi_tinh', s.ddplMoi.GIOI_TINH)}
                 <div class="col-span-2">
                     <label class="text-sm text-muted mb-1 block">Địa chỉ thường trú</label>
-                    <input type="text" id="ddpl_moi_dia_chi" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" value="${s.ddplMoi.DIA_CHI || ''}">
+                    <input type="text" id="ddpl_moi_dia_chi" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" value="${escapeHtml(s.ddplMoi.DIA_CHI || '')}">
                 </div>
             </div>
         </div>
@@ -459,7 +459,7 @@ function renderCDMemberCard(idx) {
             headerTitle = `<span class="font-bold text-sm text-success">Thành viên mới #1 (Bên nhận chuyển nhượng vốn 1)</span>`;
             headerAction = `<span class="badge badge-success" style="font-size: 11px; padding: 2px 6px;">Thành viên mới</span>`;
         } else {
-            headerTitle = `<span class="font-bold text-sm text-warning">Thành viên #1: ${m.ho_ten || 'Chủ sở hữu cũ'} (Giữ lại vốn)</span>`;
+            headerTitle = `<span class="font-bold text-sm text-warning">Thành viên #1: ${escapeHtml(m.ho_ten) || 'Chủ sở hữu cũ'} (Giữ lại vốn)</span>`;
             headerAction = `
                 <span class="badge badge-warning" style="font-size: 11px; padding: 2px 6px; margin-right: 6px;">CSH giữ lại vốn</span>
                 <button type="button" class="btn btn-outline" style="font-size: 10px; padding: 2px 6px; height: auto; min-height: 0;" onclick="window.cdCopyCSHToMember1()"><i class="fa-solid fa-arrows-rotate"></i> Đồng bộ CSH</button>
@@ -487,7 +487,7 @@ function renderCDMemberCard(idx) {
                 ${cdRenderInput('Giới tính', `cd_tv_${idx}_gioi_tinh`, m.gioi_tinh)}
                 <div class="col-span-2">
                     <label class="text-sm text-muted mb-1 block">Địa chỉ thường trú</label>
-                    <input type="text" id="cd_tv_${idx}_dia_chi" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" value="${m.dia_chi || ''}">
+                    <input type="text" id="cd_tv_${idx}_dia_chi" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" value="${escapeHtml(m.dia_chi || '')}">
                 </div>
                 ${cdRenderInput('Vốn góp mới (VNĐ)', `cd_tv_${idx}_von`, m.von, 'VD: 500.000.000', 'formatCurrencyInput(this)')}
                 ${cdRenderInput('Tỷ lệ vốn (%)', `cd_tv_${idx}_ty_le`, m.ty_le, 'VD: 50')}
@@ -587,7 +587,7 @@ function renderCDStep3() {
             html += `
                 <div class="p-3 rounded mb-3 flex items-center justify-between" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
                     <div style="flex: 1;">
-                        <div class="font-bold text-warning">Thành viên #1: ${m.ho_ten || 'Chủ sở hữu cũ'} (CSH giữ lại vốn)</div>
+                        <div class="font-bold text-warning">Thành viên #1: ${escapeHtml(m.ho_ten) || 'Chủ sở hữu cũ'} (CSH giữ lại vốn)</div>
                         <div class="text-xs text-muted mt-1">CCCD: ${m.cccd || '---'} | Vốn giữ lại: ${m.von || '0'} VNĐ (${m.ty_le || '0'}%)</div>
                         <div class="text-xs text-muted mt-1"><i>Chủ sở hữu cũ là Bên Bán vốn. Phần vốn này tự giữ lại, không lập Hợp đồng chuyển nhượng.</i></div>
                     </div>
@@ -601,13 +601,13 @@ function renderCDStep3() {
             html += `
                 <div class="p-3 rounded mb-3 flex items-center justify-between" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass);">
                     <div style="flex: 1;">
-                        <div class="font-bold text-success">Thành viên mới #${idx + 1}: ${m.ho_ten || `Bên nhận CN ${numLabel}`}</div>
+                        <div class="font-bold text-success">Thành viên mới #${idx + 1}: ${escapeHtml(m.ho_ten) || `Bên nhận CN ${numLabel}`}</div>
                         <div class="text-xs text-muted mt-1">CCCD: ${m.cccd || '---'} | Vốn góp mới: ${m.von || '0'} VNĐ (${m.ty_le || '0'}%)</div>
                         <div class="text-xs text-info mt-1">Sẽ tạo: 1 Hợp đồng chuyển nhượng + 1 Biên bản thanh lý (từ ${cshName})</div>
                     </div>
                     <div class="text-right" style="min-width: 220px;">
                         <label class="text-xs text-muted block mb-1">Số vốn nhận CN từ CSH (VNĐ)</label>
-                        <input type="text" id="cd_tv_${idx}_nhan_cn" class="input input-sm" style="background: transparent; border: 1px solid var(--warning); color: white; padding: 6px 10px; border-radius: 4px; width: 180px; text-align: right;" placeholder="VD: 500.000.000" value="${m.nhan_cn || ''}" oninput="formatCurrencyInput(this); cdSaveCN(${idx}, this.value)">
+                        <input type="text" id="cd_tv_${idx}_nhan_cn" class="input input-sm" style="background: transparent; border: 1px solid var(--warning); color: white; padding: 6px 10px; border-radius: 4px; width: 180px; text-align: right;" placeholder="VD: 500.000.000" value="${escapeHtml(m.nhan_cn || '')}" oninput="formatCurrencyInput(this); cdSaveCN(${idx}, this.value)">
                     </div>
                 </div>
             `;
