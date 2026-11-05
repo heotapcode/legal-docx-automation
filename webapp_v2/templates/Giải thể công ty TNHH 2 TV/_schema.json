@@ -93,42 +93,43 @@
           "label": "Tỉnh/Thành ĐDPL",
           "type": "text",
           "required": true
-        },
-        {
-          "key": "ddpl_von_gop",
-          "label": "Vốn góp ĐDPL",
-          "type": "text",
-          "required": true
-        },
-        {
-          "key": "ddpl_ty_le",
-          "label": "Tỷ lệ vốn ĐDPL (%)",
-          "type": "text",
-          "required": true
         }
       ]
     },
     {
-      "id": "tv2",
-      "title": "Thành viên thứ hai",
+      "id": "thanh_vien",
+      "title": "Thành viên Hội đồng thành viên",
       "fields": [
         {
-          "key": "tv2_ho_ten",
-          "label": "Họ và tên Thành viên 2",
-          "type": "text",
-          "required": true
-        },
-        {
-          "key": "tv2_von_gop",
-          "label": "Vốn góp Thành viên 2",
-          "type": "text",
-          "required": true
-        },
-        {
-          "key": "tv2_ty_le",
-          "label": "Tỷ lệ vốn Thành viên 2 (%)",
-          "type": "text",
-          "required": true
+          "key": "thanh_vien",
+          "label": "Thành viên công ty (gồm cả Chủ tịch HĐTV)",
+          "type": "person_list",
+          "min": 2,
+          "ocr": true,
+          "extra_fields": [
+            {
+              "key": "von_gop",
+              "label": "Vốn góp (VNĐ)",
+              "type": "money",
+              "required": true
+            },
+            {
+              "key": "ty_le",
+              "label": "Tỷ lệ (%)",
+              "type": "number",
+              "required": true
+            },
+            {
+              "key": "so_gcn",
+              "label": "Số GCN góp vốn",
+              "type": "text"
+            },
+            {
+              "key": "ngay_gcn",
+              "label": "Ngày cấp GCN",
+              "type": "text"
+            }
+          ]
         }
       ]
     }

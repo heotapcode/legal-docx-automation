@@ -23,8 +23,8 @@ CÔNG TY TNHH THỬ NGHIỆM ABC
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
 ---------------
-Số: 01/2026/[ĐÃ XÓA]
-Hà Nội, ngày 22 tháng 10 năm 2026
+Số: 01/2026/TB
+Hà Nội, ngày 20 tháng 10 năm 2026
 
 NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
 CỦA DOANH NGHIỆP
@@ -37,8 +37,8 @@ QUYẾT ĐỊNH CỦA HỘI ĐỒNG THÀNH VIÊN
 CÔNG TY TNHH THỬ NGHIỆM ABC
 (V/v thay đổi địa chỉ trụ sở chính và cập nhật thông tin thuế của công ty)
 - Căn cứ Luật Doanh nghiệp số 59/2020/QH14 được Quốc hội thông qua ngày 17/06/2020;
-- Căn cứ Điều lệ [ĐÃ XÓA];
-- Căn cứ Biên bản họp Hội đồng thành viên số: 01/2026/BBH-HĐTV ngày 22/10/2026.
+- Căn cứ Điều lệ CÔNG TY TNHH THỬ NGHIỆM ABC;
+- Căn cứ Biên bản họp Hội đồng thành viên số: 01/2026/BBH-HĐTV ngày 20/10/2026.
 QUYẾT ĐỊNH:
 Điều 1.  Thông qua việc thay đổi địa chỉ trụ sở chính của Công ty:
 • Địa chỉ cũ: GIATRI_DIA_CHI_CU.
@@ -55,7 +55,7 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
 ---------------
 Số: 01/2026/QĐ-HĐTV
-Hà Nội, ngày 22 tháng 10 năm 2026
+Hà Nội, ngày 20 tháng 10 năm 2026
 Nơi nhận:
 - Như Điều 5;
 - Cơ quan ĐKKD TP Hà Nội;
@@ -71,17 +71,17 @@ GIATRI_DDPL_HO_TEN
 BIÊN BẢN HỌP HỘI ĐỒNG THÀNH VIÊN
 CÔNG TY TNHH THỬ NGHIỆM ABC
 (V/v thay đổi địa chỉ trụ sở chính và cập nhật thông tin thuế của công ty)
-Hôm nay, vào hồi 08 giờ 30 phút, ngày 22 tháng 10 năm 2026, tại trụ sở chính [ĐÃ XÓA], Hội đồng thành viên đã tổ chức cuộc họp với các nội dung chi tiết như sau:
+Hôm nay, vào hồi 08 giờ 30 phút, ngày 20 tháng 10 năm 2026, tại trụ sở chính CÔNG TY TNHH THỬ NGHIỆM ABC, Hội đồng thành viên đã tổ chức cuộc họp với các nội dung chi tiết như sau:
 I. THÀNH PHẦN DỰ HỌP:
-1. Ông [ĐÃ XÓA] — Sinh ngày: [ĐÃ XÓA] — CCCD số: [ĐÃ XÓA]
-2. Ông [ĐÃ XÓA] — Sinh ngày: [ĐÃ XÓA] — CCCD số: [ĐÃ XÓA]
-3. Ông [ĐÃ XÓA] — Sinh ngày: [ĐÃ XÓA] — CCCD số: [ĐÃ XÓA]
+1. Ông NGUYỄN VĂN THỬ1 — Sinh ngày: 02/01/1990 — CCCD số: 001090000001
+2. Bà NGUYỄN VĂN THỬ2 — Sinh ngày: 03/01/1990 — CCCD số: 001090000002
+3. Ông NGUYỄN VĂN THỬ3 — Sinh ngày: 04/01/1990 — CCCD số: 001090000003
 Tổng số thành viên dự họp: 03/03 thành viên, đại diện cho 100% tổng số vốn điều lệ của Công ty.
 Chủ tọa cuộc họp: Ông GIATRI_DDPL_HO_TEN — Chủ tịch HĐTV kiêm Giám đốc.
-Thư ký cuộc họp: Ông GIATRI_THU_KY_HO_TEN — Thành viên.
+Thư ký cuộc họp: Ông/Bà GIATRI_THU_KY_HO_TEN — Thành viên.
 II. NỘI DUNG CUỘC HỌP:
 1. Thay đổi địa chỉ trụ sở chính: Chuyển địa chỉ từ 'GIATRI_DIA_CHI_CU' sang địa chỉ mới: 'GIATRI_DIA_CHI_MOI'.
-2. Cập nhật thông tin đăng ký thuế: Đồng thời chuyển địa chỉ nhận thông báo thuế theo địa chỉ trụ sở chính mới; Bổ sung thông tin Kế toán trưởng là bà GIATRI_KTT_HO_TEN (CCCD số: GIATRI_KTT_SO_CCCD; SĐT: GIATRI_KTT_SDT).
+2. Cập nhật thông tin đăng ký thuế: Đồng thời chuyển địa chỉ nhận thông báo thuế theo địa chỉ trụ sở chính mới; Bổ sung thông tin Kế toán trưởng là GIATRI_KTT_HO_TEN (CCCD số: GIATRI_KTT_SO_CCCD; SĐT: GIATRI_KTT_SDT).
 3. Sửa đổi Điều 1 của Điều lệ Công ty tương ứng với địa chỉ mới.
 4. Giao Người đại diện theo pháp luật tiến hành thủ tục đăng ký thay đổi tại Phòng Đăng ký kinh doanh TP Hà Nội.
 III. BIỂU QUYẾT VÀ NGHỊ QUYẾT:
@@ -98,7 +98,7 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
 ---------------
 Số: 01/2026/BBH-HĐTV
-Hà Nội, ngày 22 tháng 10 năm 2026
+Hà Nội, ngày 20 tháng 10 năm 2026
 THƯ KÝ CUỘC HỌP
 (Ký và ghi rõ họ tên)
 
@@ -108,16 +108,16 @@ CHỦ TỌA CUỘC HỌP
 
 GIATRI_DDPL_HO_TEN
 
-GIATRI_DDPL_HO_TEN
+NGUYỄN VĂN THỬ1
 
-GIATRI_THU_KY_HO_TEN
+NGUYỄN VĂN THỬ2
 
-[ĐÃ XÓA]
+NGUYỄN VĂN THỬ3
 
 ===== 04. Giấy ủy quyền.docx =====
 GIẤY ỦY QUYỀN
 
-Giấy uỷ quyền này được lập vào ngày 22 tháng 10 năm 2026, giữa các bên dưới đây:
+Giấy uỷ quyền này được lập vào ngày 20 tháng 10 năm 2026, giữa các bên dưới đây:
 
 BÊN ỦY QUYỀN (Sau đây gọi là “Bên A”):
 • Ông: GIATRI_DDPL_HO_TEN                  Chức danh: Giám đốc
@@ -136,7 +136,7 @@ Giấy ủy quyền này có hiệu lực kể từ ngày ký và tự động c
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
 --------o0o-------
-Hà Nội, ngày 22 tháng 10 năm 2026
+Hà Nội, ngày 20 tháng 10 năm 2026
 BÊN B (BÊN NHẬN ỦY QUYỀN)
 (Ký và ghi rõ họ tên)
 

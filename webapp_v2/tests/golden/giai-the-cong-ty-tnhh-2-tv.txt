@@ -60,15 +60,18 @@ MỤC I: THỜI GIAN, ĐỊA ĐIỂM, THÀNH PHẦN DỰ HỌP
 2. Địa điểm: Trụ sở chính công ty tại GIATRI_DIA_CHI_SO_NHA, GIATRI_DIA_CHI_XA_PHUONG, GIATRI_DIA_CHI_QUAN_HUYEN, GIATRI_DIA_CHI_TINH_THANH
 3. Lý do: Hội đồng thành viên họp bàn quyết định về việc giải thể công ty.
 4.  Thành phần dự họp:
-Tham gia cuộc họp có tất cả 02/02 thành viên, sở hữu và đại diện cho 100 % vốn điều lệ công ty, cụ thể gồm:
-Họ và tên: GIATRI_DDPL_HO_TEN
-Số vốn góp: GIATRI_DDPL_VON_GOP, chiếm GIATRI_DDPL_TY_LE% tổng số vốn điều lệ.
-Giấy chứng nhận đăng ký vốn góp số: 01/2025/GCN cấp ngày 30/09/2025
-Họ và tên: GIATRI_TV2_HO_TEN
-Số vốn góp: GIATRI_TV2_VON_GOP, chiếm GIATRI_TV2_TY_LE% tổng số vốn điều lệ.
-Giấy chứng nhận đăng ký vốn góp số: 01/2025/GCN cấp ngày 30/09/2025
-Chủ tọa cuộc họp: GIATRI_DDPL_HO_TEN -  Chức vụ: Chủ tịch HĐTV
-Thư ký cuộc họp: Ông GIATRI_TV2_HO_TEN
+Tham gia cuộc họp có tất cả 03/03 thành viên, sở hữu và đại diện cho 100 % vốn điều lệ công ty, cụ thể gồm:
+Họ và tên: NGUYỄN VĂN THỬ1
+Số vốn góp: 701,676,666 đồng (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng), chiếm 33.33% tổng số vốn điều lệ.
+Giấy chứng nhận đăng ký vốn góp số: …… cấp ngày ……
+Họ và tên: NGUYỄN VĂN THỬ2
+Số vốn góp: 701,676,666 đồng (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng), chiếm 33.33% tổng số vốn điều lệ.
+Giấy chứng nhận đăng ký vốn góp số: …… cấp ngày ……
+Họ và tên: NGUYỄN VĂN THỬ3
+Số vốn góp: 701,676,666 đồng (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng), chiếm 33.33% tổng số vốn điều lệ.
+Giấy chứng nhận đăng ký vốn góp số: …… cấp ngày ……
+Chủ tọa cuộc họp: Ông/Bà GIATRI_DDPL_HO_TEN - Chức vụ: Chủ tịch HĐTV
+Thư ký cuộc họp: Ông NGUYỄN VĂN THỬ1
 
 MỤC II: NỘI DUNG CUỘC HỌP
 Hội đồng thành viên họp bàn để thông qua các vấn đề sau:
@@ -90,13 +93,17 @@ Không có hợp đồng lao động. Thời hạn thanh toán các khoản lư�
 Thanh lý tài sản sau khi thanh toán hết các khoản nợ và chi phí giải thể doanh nghiệp:
 Giao Chủ tịch Hội đồng thành viên công ty trực tiếp tổ chức thanh lý tài sản của Công ty. Sau khi thanh toán hết các khoản nợ và chi phí giải thể công ty, số tiền còn lại hoàn trả cho các thành viên công ty theo tỉ lệ vốn góp.
 MỤC III: BIỂU QUYẾT THÔNG QUA CÁC VẤN ĐỀ TẠI CUỘC HỌP
-Công ty quy ước 1.000.000 đồng tương ứng với 1 phiếu biểu quyết. Vậy GIATRI_DDPL_HO_TEN có 3.000 phiếu biểu quyết, tương ứng với 60% vốn điều lệ; Ông GIATRI_TV2_HO_TEN có 2.000 phiếu biểu quyết, tương ứng với 40% vốn điều lệ; Công ty có tổng 5000 phiếu biểu quyết, tương ứng với 100% vốn điều lệ.
+Công ty quy ước 1.000.000 đồng tương ứng với 1 phiếu biểu quyết. Vậy:
+- Ông NGUYỄN VĂN THỬ1 có 701 phiếu biểu quyết, tương ứng với 33.33% vốn điều lệ;
+- Bà NGUYỄN VĂN THỬ2 có 701 phiếu biểu quyết, tương ứng với 33.33% vốn điều lệ;
+- Ông NGUYỄN VĂN THỬ3 có 701 phiếu biểu quyết, tương ứng với 33.33% vốn điều lệ;
+Công ty có tổng 2.103 phiếu biểu quyết, tương ứng với 100% vốn điều lệ.
 Cuộc họp đã tiến hành biểu quyết lấy ý kiến trực tiếp của các thành viên công ty về các vấn đề nêu trên như sau:
-Tổng số phiếu biểu quyết: 5000 phiếu, đại diện 100% Tổng số vốn điều lệ.
-	Vấn đề 1: Tổng số phiếu biểu quyết: 5000 phiếu, đại diện 100% Tổng số vốn điều lệ biểu quyết:
--   Số phiếu biểu quyết hợp lệ: 5000 phiếu, đạt 100% Tổng số vốn điều lệ.
+Tổng số phiếu biểu quyết: 2.103 phiếu, đại diện 100% Tổng số vốn điều lệ.
+	Vấn đề 1: Tổng số phiếu biểu quyết: 2.103 phiếu, đại diện 100% Tổng số vốn điều lệ biểu quyết:
+-   Số phiếu biểu quyết hợp lệ: 2.103 phiếu, đạt 100% Tổng số vốn điều lệ.
 -   Số phiếu biểu quyết không hợp lệ: 0 phiếu
--   Số phiếu biểu quyết tán thành: 5000 phiếu, đạt 100% Tổng số vốn điều lệ.
+-   Số phiếu biểu quyết tán thành: 2.103 phiếu, đạt 100% Tổng số vốn điều lệ.
 -   Số phiếu biểu quyết không tán thành: 0 phiếu
 -   Số phiếu biểu quyết không có ý kiến: 0 phiếu
 Các quyết định được thông qua:
@@ -119,7 +126,7 @@ Chủ toạ
 GIATRI_DDPL_HO_TEN
 Thư ký
 
-GIATRI_TV2_HO_TEN
+NGUYỄN VĂN THỬ1
 
 ===== 03. Thông báo giải thể.docx =====
 THÔNG BÁO
@@ -158,11 +165,12 @@ KẾT QUẢ XỬ LÝ CÁC KHOẢN NỢ LƯƠNG, TRỢ CẤP VÀ CÁC NGHĨA VỤ
 Tại thời điểm Hội đồng thành viên của Công Ty thông qua quyết định giải thể, Công Ty không có người lao động. Vì vậy, Công Ty không nợ lượng hoặc phải trợ cấp cho Người lao động.
 KẾT QUẢ PHÂN CHIA TÀI SẢN SAU KHI GIẢI THỂ CÔNG TY.
 Toàn bộ tiền mặt, số dư trên tài khoản của Công Ty sau khi trừ đi các chi phí giải thể được phân chia lại cho các thành viên theo tỷ lệ góp vốn thực tế.
-Sau khi trừ đi chi phí giải thể công ty, tiền mặt còn lại là , công ty không còn tài sản là hiện vật. Công ty thống nhất nguyên tắc xử lý tài sản của công ty là trả lại cho các thành viên công ty theo tỉ lệ sở hữu thực tế của các thành viên. Cụ thể như sau:
-Tổng số vốn đã hoàn trả:
+Sau khi trừ đi chi phí giải thể công ty, tiền mặt còn lại là 2,105,029,998 đồng, công ty không còn tài sản là hiện vật. Công ty thống nhất nguyên tắc xử lý tài sản của công ty là trả lại cho các thành viên công ty theo tỉ lệ sở hữu thực tế của các thành viên. Cụ thể như sau:
+Tổng số vốn đã hoàn trả: 2,105,029,998 đồng
 Các thành viên đã được hoàn trả:
-     + GIATRI_DDPL_HO_TEN: GIATRI_DDPL_VON_GOP
-     + GIATRI_TV2_HO_TEN: GIATRI_TV2_VON_GOP
+     + NGUYỄN VĂN THỬ1: 701,676,666 đồng
+     + NGUYỄN VĂN THỬ2: 701,676,666 đồng
+     + NGUYỄN VĂN THỬ3: 701,676,666 đồng
 Trên đây là báo cáo kết quả về việc thanh lý tài sản; xử lý nợ, nghĩa vụ tài chính; phương án xử lý đối với người lao động và kết quả phân chia tài sản cho thành viên khi thực hiện thủ tục giải thể Công Ty.
 	Hội đồng thành viên CÔNG TY TNHH THỬ NGHIỆM ABC trân trọng báo cáo!
 

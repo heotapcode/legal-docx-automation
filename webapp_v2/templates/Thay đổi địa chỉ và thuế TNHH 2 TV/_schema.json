@@ -33,6 +33,12 @@
           "label": "Địa chỉ trụ sở mới",
           "type": "text",
           "required": true
+        },
+        {
+          "key": "ngay_lap",
+          "label": "Ngày họp / ngày lập văn bản",
+          "type": "text",
+          "placeholder": "DD/MM/YYYY — để trống: ngày hiện tại"
         }
       ]
     },
@@ -57,6 +63,20 @@
           "label": "Ngày sinh ĐDPL",
           "type": "text",
           "required": true
+        }
+      ]
+    },
+    {
+      "id": "thanh_vien",
+      "title": "Thành viên Hội đồng thành viên",
+      "fields": [
+        {
+          "key": "thanh_vien",
+          "label": "Thành viên dự họp (gồm cả Chủ tịch HĐTV)",
+          "type": "person_list",
+          "min": 2,
+          "ocr": true,
+          "extra_fields": []
         }
       ]
     },
@@ -98,7 +118,7 @@
           "key": "thu_ky_ho_ten",
           "label": "Họ tên Thư ký cuộc họp",
           "type": "text",
-          "placeholder": "VD: [ĐÃ XÓA]"
+          "placeholder": "Để trống: thành viên thứ hai trong danh sách"
         }
       ]
     }
