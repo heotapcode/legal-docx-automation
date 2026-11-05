@@ -1,0 +1,112 @@
+===== 01. Thông báo bổ sung ngành nghề kinh doanh.docx =====
+GIẤY ĐỀ NGHỊ
+ĐĂNG KÝ THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
+THÔNG BÁO THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
+Kính gửi: Phòng Đăng ký kinh doanh tỉnh Nghệ An
+Tên doanh nghiệp (ghi bằng chữ in hoa): CÔNG TY TNHH THỬ NGHIỆM ABC
+Mã số doanh nghiệp/Mã số thuế: 0101234567
+Địa chỉ trụ sở chính: GIATRI_DIA_CHI_TRU_SO
+Người đại diện theo pháp luật: GIATRI_DDPL_HO_TEN
+Chức danh: Giám đốc
+Số định danh cá nhân (CCCD): GIATRI_DDPL_SO_CCCD
+Doanh nghiệp đăng ký thông báo bổ sung ngành, nghề kinh doanh như sau:
+Bổ sung ngành, nghề kinh doanh sau:
+Doanh nghiệp cam kết chịu trách nhiệm hoàn toàn trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Thông báo này.
+CÔNG TY TNHH THỬ NGHIỆM ABC
+Số: 01/2026/TB-TA
+--------
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+----------------
+Nghệ An, ngày     tháng     năm 2026
+STT
+Tên ngành, nghề kinh doanh được bổ sung
+Mã ngành
+Ngành chính
+1
+Lập trình máy vi tính
+6201
+X
+2
+Bán buôn máy móc, thiết bị và phụ tùng máy khác
+4659
+
+NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY
+(Ký, ghi rõ họ tên)
+
+GIATRI_DDPL_HO_TEN
+
+===== 02. Quyết định của Chủ sở hữu công ty.docx =====
+QUYẾT ĐỊNH CỦA CHỦ SỞ HỮU
+CÔNG TY TNHH PHÁT TRIỂN CÔNG NGHỆ TUỆ AN
+(V/v: Bổ sung ngành, nghề kinh doanh của Công ty)
+- Căn cứ Luật Doanh nghiệp số 59/2020/QH14 ngày 17/06/2020 của Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam;
+- Căn cứ Nghị định số 168/2025/NĐ-CP ngày 30/06/2025 của Chính phủ về đăng ký doanh nghiệp;
+- Căn cứ Điều lệ tổ chức và hoạt động của CÔNG TY TNHH THỬ NGHIỆM ABC;
+- Căn cứ nhu cầu phát triển hoạt động sản xuất kinh doanh của Công ty.
+QUYẾT ĐỊNH:
+Điều 1. Thông qua việc bổ sung ngành, nghề kinh doanh của Công ty cụ thể như sau:
+Điều 2. Sửa đổi, bổ sung Điều khoản về ngành, nghề kinh doanh trong Điều lệ Công ty theo đúng các nội dung đã được bổ sung tại Điều 1.
+Điều 3. Giao cho Người đại diện theo pháp luật của Công ty - Ông GIATRI_DDPL_HO_TEN chịu trách nhiệm tiến hành toàn bộ các thủ tục pháp lý thông báo thay đổi nội dung đăng ký doanh nghiệp tại Phòng Đăng ký kinh doanh tỉnh Nghệ An theo đúng quy định hiện hành.
+Điều 4. Quyết định này có hiệu lực kể từ ngày ký. Chủ sở hữu công ty, Giám đốc và các bộ phận liên quan có trách nhiệm thi hành Quyết định này.
+CÔNG TY TNHH THỬ NGHIỆM ABC
+Số: 01/2026/QĐ-TA
+--------
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+----------------
+Nghệ An, ngày     tháng     năm 2026
+STT
+Tên ngành, nghề kinh doanh được bổ sung
+Mã ngành
+1
+Lập trình máy vi tính
+6201
+2
+Bán buôn máy móc, thiết bị và phụ tùng máy khác
+4659
+Nơi nhận:
+- Như Điều 4;
+- Lưu: VT.
+CHỦ SỞ HỮU CÔNG TY
+(Ký, ghi rõ họ tên)
+
+GIATRI_DDPL_HO_TEN
+
+===== 03. Giấy ủy quyền.docx =====
+VĂN BẢN ỦY QUYỀN
+I. BÊN ỦY QUYỀN (BÊN A):
+Họ và tên: GIATRI_DDPL_HO_TEN
+Sinh ngày: GIATRI_DDPL_NGAY_SINH           Giới tính: GIATRI_DDPL_GIOI_TINH
+Số định danh cá nhân (CCCD): GIATRI_DDPL_SO_CCCD
+Chức vụ: Giám đốc kiêm Người đại diện theo pháp luật của CÔNG TY TNHH THỬ NGHIỆM ABC
+Mã số doanh nghiệp: 0101234567
+Địa chỉ trụ sở chính: GIATRI_DIA_CHI_TRU_SO
+
+II. BÊN ĐƯỢC ỦY QUYỀN (BÊN B):
+Họ và tên: ĐỖ QUANG HIẾU
+Sinh ngày: 20/09/1989           Giới tính: Nam
+Số định danh cá nhân (CCCD): 001089021350
+Ngày cấp: 20/08/2021           Nơi cấp: Cục Cảnh sát Quản lý hành chính về trật tự xã hội
+Nơi thường trú: Thôn Mới, Dương Liễu, Hoài Đức, Hà Nội
+Số điện thoại: 0987135358
+
+III. NỘI DUNG ỦY QUYỀN:
+Bên A ủy quyền cho Bên B thay mặt và nhân danh Bên A thực hiện các công việc sau đây:
+- Nộp hồ sơ, sửa đổi, bổ sung hồ sơ thông báo thay đổi nội dung đăng ký doanh nghiệp (bổ sung ngành, nghề kinh doanh) của CÔNG TY TNHH THỬ NGHIỆM ABC tại Phòng Đăng ký kinh doanh tỉnh Nghệ An;
+- Nhận kết quả giải quyết thủ tục hành chính, nộp các khoản phí, lệ phí theo quy định của pháp luật;
+- Ký tên vào các giấy tờ, sổ giao nhận hồ sơ liên quan đến thủ tục nêu trên tại Cơ quan đăng ký kinh doanh.
+IV. THỜI HẠN VÀ CAM KẾT:
+1. Thời hạn ủy quyền: Giấy ủy quyền này có hiệu lực từ ngày ký cho đến khi Bên B hoàn thành toàn bộ các công việc được ủy quyền nêu trên.
+2. Cam kết: Hai bên cam kết thực hiện đúng các nội dung ủy quyền và hoàn toàn chịu trách nhiệm trước pháp luật về việc ủy quyền này.
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+----------------
+NGƯỜI ĐƯỢC ỦY QUYỀN
+(Ký, ghi rõ họ tên)
+
+ĐỖ QUANG HIẾU
+NGƯỜI ỦY QUYỀN
+(Ký, đóng dấu, ghi rõ họ tên)
+
+GIATRI_DDPL_HO_TEN
