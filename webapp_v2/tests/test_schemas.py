@@ -2,14 +2,20 @@
 
 Schema dạng phẳng ("fields": [...]) hay kiểu trường lạ sẽ khiến wizard không hiện ô nhập nào.
 """
+import json
 import re
+from pathlib import Path
 
 import pytest
 
 from conftest import list_template_names, load_schema
 from config import TEMPLATES_DIR
 
-# Các kiểu trường mà renderField() trong static/js/pages/wizard.js hỗ trợ
+SPEC_PATH = Path(__file__).resolve().parent.parent / "schemas" / "template-schema.json"
+
+# Các kiểu trường mà renderField() trong static/js/pages/wizard.js HIỆN hỗ trợ.
+# Đặc tả (schemas/template-schema.json) còn định nghĩa thêm kiểu [v2] cho bộ máy wizard mới;
+# chừng nào wizard chưa vẽ được thì bộ mẫu thật chưa được dùng các kiểu đó.
 SUPPORTED_TYPES = {"text", "mst_lookup", "money", "phone", "email", "number",
                    "person", "person_list", "transfer_list", "checkbox_group"}
 
@@ -56,3 +62,28 @@ def test_has_nganh_matches_templates(name):
                     has_table = True
     if has_table:
         assert load_schema(name).get("has_nganh"), "Có bảng mã ngành nhưng has_nganh=false"
+
+
+@pytest.fixture(scope="module")
+def spec_validator():
+    jsonschema = pytest.importorskip("jsonschema")
+    spec = json.loads(SPEC_PATH.read_text(encoding="utf-8"))
+    jsonschema.Draft202012Validator.check_schema(spec)
+    return jsonschema.Draft202012Validator(spec)
+
+
+@pytest.mark.parametrize("name", TEMPLATES)
+def test_schema_matches_spec(name, spec_validator):
+    errors = [f"{'/'.join(map(str, e.absolute_path)) or '(gốc)'}: {e.message}"
+              for e in spec_validator.iter_errors(load_schema(name))]
+    assert not errors, "\n".join(errors)
+
+
+def test_template_ids_unique_and_resolvable():
+    from services.render_service import template_id_index
+
+    ids = [load_schema(n)["id"] for n in TEMPLATES]
+    assert len(ids) == len(set(ids)), "Trùng id bộ mẫu"
+    index = template_id_index()
+    for name in TEMPLATES:
+        assert index[load_schema(name)["id"]].name == name

@@ -1,4 +1,6 @@
 """Test API: danh sách mẫu, chống path traversal, chống chèn template, CORS."""
+import re
+
 import pytest
 
 from conftest import read_zip
@@ -87,3 +89,36 @@ def test_cors_origins_parsing():
     from config import _parse_origins
     assert _parse_origins(" https://a.vn/ , https://b.vn ,,") == ["https://a.vn", "https://b.vn"]
     assert _parse_origins("") == []
+
+
+def test_templates_expose_ascii_id(client):
+    templates = client.get("/api/templates").json()["templates"]
+    assert all(re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", t["id"]) for t in templates)
+
+
+def test_schema_and_generate_by_id(client):
+    from conftest import build_payload, read_zip
+
+    name = "Tạm dừng công ty TNHH 1 TV"
+    tid = "tam-dung-cong-ty-tnhh-1-tv"
+    assert client.get(f"/api/templates/{tid}/schema").json()["name"] == name
+
+    payload, _, _ = build_payload(name, 1)
+    by_name = client.post("/api/documents/generate", json=payload)
+    payload["template_name"] = tid
+    by_id = client.post("/api/documents/generate", json=payload)
+    assert by_id.status_code == 200
+    assert read_zip(by_id.content) == read_zip(by_name.content)
+
+
+def test_generate_by_id_keeps_special_rules(client):
+    """Quy tắc riêng (tách hợp đồng theo giao dịch) phải chạy cả khi gọi bằng id."""
+    from conftest import build_payload, read_zip
+
+    payload, _, _ = build_payload("Chuyển nhượng Công ty TNHH 2 TV", 3)
+    payload["template_name"] = "chuyen-nhuong-cong-ty-tnhh-2-tv"
+    r = client.post("/api/documents/generate", json=payload)
+    assert r.status_code == 200
+    names = list(read_zip(r.content))
+    assert any(n.startswith("06. Hợp đồng chuyển nhượng_a") for n in names), names
+    assert not any(n == "10. Xác nhận góp vốn 2.docx" for n in names), names
