@@ -135,7 +135,7 @@ window.renderCN2TVWizard = function(container) {
         return `
             <div class="form-group">
                 <label class="form-label">${label}</label>
-                <input type="${type}" id="${id}" class="form-control" value="${value || ''}" placeholder="${placeholder}" onchange="${chg}" oninput="${inp}">
+                <input type="${type}" id="${id}" class="form-control" value="${escapeHtml(value || '')}" placeholder="${placeholder}" onchange="${chg}" oninput="${inp}">
             </div>
         `;
     }
@@ -232,7 +232,7 @@ window.renderCN2TVWizard = function(container) {
                 const curVal = isNaN(parseInt(selA.value)) ? c.ben_a : parseInt(selA.value);
                 selA.innerHTML = state.tvCu.map((m, i) => `
                     <option value="${i}" ${curVal === i ? 'selected' : ''}>
-                        Thành viên Cũ #${i + 1}: ${m.HO_TEN ? m.HO_TEN : '(Chưa nhập tên)'}
+                        Thành viên Cũ #${i + 1}: ${m.HO_TEN ? escapeHtml(m.HO_TEN) : '(Chưa nhập tên)'}
                     </option>
                 `).join('');
             }
@@ -242,7 +242,7 @@ window.renderCN2TVWizard = function(container) {
                 const curVal = isNaN(parseInt(selB.value)) ? c.ben_b : parseInt(selB.value);
                 selB.innerHTML = state.tvMoi.map((m, i) => `
                     <option value="${i}" ${curVal === i ? 'selected' : ''}>
-                        Thành viên Mới #${i + 1}: ${m.HO_TEN ? m.HO_TEN : '(Chưa nhập tên)'}
+                        Thành viên Mới #${i + 1}: ${m.HO_TEN ? escapeHtml(m.HO_TEN) : '(Chưa nhập tên)'}
                     </option>
                 `).join('');
             }
@@ -448,7 +448,7 @@ window.renderCN2TVWizard = function(container) {
                         <div class="form-group">
                             <label class="form-label">Mã số thuế doanh nghiệp *</label>
                             <div style="display: flex; gap: 8px;">
-                                <input type="text" id="COMP_MA_SO_THUE" class="form-control font-mono" value="${state.company.MA_SO_THUE}" placeholder="VD: 0101234567" onchange="updateCN2TVState()" oninput="updateCN2TVState()">
+                                <input type="text" id="COMP_MA_SO_THUE" class="form-control font-mono" value="${escapeHtml(state.company.MA_SO_THUE)}" placeholder="VD: 0101234567" onchange="updateCN2TVState()" oninput="updateCN2TVState()">
                                 <button type="button" class="btn btn-secondary" id="btn-lookup-mst-cn2tv" onclick="lookupMST_CN2TV()">
                                     <i class="fa-solid fa-magnifying-glass"></i> Tra cứu
                                 </button>
@@ -493,7 +493,7 @@ window.renderCN2TVWizard = function(container) {
                     <div class="person-card mb-4" style="background: rgba(255, 184, 108, 0.05); border: 1px solid rgba(255, 184, 108, 0.2);">
                         <div class="person-card-header">
                             <h4 class="font-bold text-sm text-warning"><i class="fa-solid fa-link"></i> Thành viên Cũ #1 (Tự động liên kết từ ĐDPL Cũ)</h4>
-                            <span id="BADGE_TV_CU_1" class="badge badge-warning text-xs">${m.HO_TEN || 'Chưa nhập họ tên'}</span>
+                            <span id="BADGE_TV_CU_1" class="badge badge-warning text-xs">${escapeHtml(m.HO_TEN) || 'Chưa nhập họ tên'}</span>
                         </div>
                         <div class="grid-form-2">
                             ${renderInput('Vốn góp cũ (VNĐ)', 'T_CU1_VON_GOP', m.VON_GOP, 'text', 'VD: 500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this); updateCN2TVState()')}
@@ -541,7 +541,7 @@ window.renderCN2TVWizard = function(container) {
                     <div class="person-card mb-4" style="background: rgba(80, 250, 123, 0.05); border: 1px solid rgba(80, 250, 123, 0.2);">
                         <div class="person-card-header">
                             <h4 class="font-bold text-sm text-success"><i class="fa-solid fa-link"></i> Thành viên Mới #1 (Tự động liên kết từ ĐDPL Mới)</h4>
-                            <span id="BADGE_TV_MOI_1" class="badge badge-green text-xs">${m.HO_TEN || 'Chưa nhập họ tên'}</span>
+                            <span id="BADGE_TV_MOI_1" class="badge badge-green text-xs">${escapeHtml(m.HO_TEN) || 'Chưa nhập họ tên'}</span>
                         </div>
                         <div class="grid-form-2">
                             ${renderInput('Vốn góp mới (VNĐ)', 'T_MOI1_VON_GOP', m.VON_GOP, 'text', 'VD: 500,000,000', 'updateCN2TVState()', 'formatMoneyInput(this); updateCN2TVState()')}
@@ -571,13 +571,13 @@ window.renderCN2TVWizard = function(container) {
         state.contracts.forEach((c, idx) => {
             const optBenA = state.tvCu.map((m, i) => `
                 <option value="${i}" ${c.ben_a === i ? 'selected' : ''}>
-                    Thành viên Cũ #${i + 1}: ${m.HO_TEN ? m.HO_TEN : '(Chưa nhập tên)'}
+                    Thành viên Cũ #${i + 1}: ${m.HO_TEN ? escapeHtml(m.HO_TEN) : '(Chưa nhập tên)'}
                 </option>
             `).join('');
 
             const optBenB = state.tvMoi.map((m, i) => `
                 <option value="${i}" ${c.ben_b === i ? 'selected' : ''}>
-                    Thành viên Mới #${i + 1}: ${m.HO_TEN ? m.HO_TEN : '(Chưa nhập tên)'}
+                    Thành viên Mới #${i + 1}: ${m.HO_TEN ? escapeHtml(m.HO_TEN) : '(Chưa nhập tên)'}
                 </option>
             `).join('');
 

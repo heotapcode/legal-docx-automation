@@ -6,17 +6,20 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from config import HOST, PORT, BASE_DIR
+from config import HOST, PORT, BASE_DIR, CORS_ORIGINS
 from routes import templates, documents, ocr, mst, nganh, services
 
 app = FastAPI(title="NAC v2 - Hệ thống Soạn thảo Hồ sơ Doanh nghiệp (Jinja2 / docxtpl)")
 
+# Không bao giờ kết hợp origin "*" với allow_credentials=True:
+# khi đó mọi website đều gọi được API thay mặt người dùng.
+_allow_all = "*" in CORS_ORIGINS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=["*"] if _allow_all else CORS_ORIGINS,
+    allow_credentials=not _allow_all,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
 )
 
 # Include API routers

@@ -130,7 +130,7 @@
                                 <div class="tv2-field col-span-2">
                                     <label class="tv2-label">Mã số thuế doanh nghiệp <span class="text-error">*</span></label>
                                     <div style="display: flex; gap: 10px; align-items: center;">
-                                        <input type="text" id="tv2_mst" name="ma_so_thue" value="${fd.ma_so_thue || ''}" class="form-control font-mono font-bold" style="max-width: 340px; font-size: 15px;" placeholder="Nhập mã số thuế (10 hoặc 13 số)..." onkeyup="tv2Sync()">
+                                        <input type="text" id="tv2_mst" name="ma_so_thue" value="${escapeHtml(fd.ma_so_thue || '')}" class="form-control font-mono font-bold" style="max-width: 340px; font-size: 15px;" placeholder="Nhập mã số thuế (10 hoặc 13 số)..." onkeyup="tv2Sync()">
                                         <button type="button" class="btn btn-secondary" onclick="tv2LookupMST()" id="btn-tv2-mst" style="white-space: nowrap; padding: 10px 20px; font-weight: 600;">
                                             <i class="fa-solid fa-magnifying-glass"></i> Tra cứu Tổng cục Thuế
                                         </button>
@@ -140,33 +140,33 @@
 
                                 <div class="tv2-field col-span-2">
                                     <label class="tv2-label">Tên công ty (tiếng Việt) <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_ten_cong_ty" name="ten_cong_ty_vn" value="${fd.ten_cong_ty_vn || ''}" class="form-control tv2-input-lg font-bold" placeholder="CÔNG TY TNHH..." onkeyup="tv2Sync()">
+                                    <input type="text" id="tv2_ten_cong_ty" name="ten_cong_ty_vn" value="${escapeHtml(fd.ten_cong_ty_vn || '')}" class="form-control tv2-input-lg font-bold" placeholder="CÔNG TY TNHH..." onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field col-span-2">
                                     <label class="tv2-label">Số nhà, tên đường (Trụ sở chính) <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_so_nha" name="dia_chi_so_nha" value="${fd.dia_chi_so_nha || ''}" class="form-control tv2-input-lg" placeholder="Số 123 đường..." onkeyup="tv2Sync()">
+                                    <input type="text" id="tv2_so_nha" name="dia_chi_so_nha" value="${escapeHtml(fd.dia_chi_so_nha || '')}" class="form-control tv2-input-lg" placeholder="Số 123 đường..." onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Xã / Phường <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_xa_phuong" name="dia_chi_xa_phuong" value="${fd.dia_chi_xa_phuong || ''}" class="form-control tv2-input-lg" placeholder="Phường..." onkeyup="tv2Sync()">
+                                    <input type="text" id="tv2_xa_phuong" name="dia_chi_xa_phuong" value="${escapeHtml(fd.dia_chi_xa_phuong || '')}" class="form-control tv2-input-lg" placeholder="Phường..." onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Tỉnh / Thành phố <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_tinh_thanh" name="dia_chi_tinh_thanh" value="${fd.dia_chi_tinh_thanh || ''}" class="form-control tv2-input-lg" placeholder="Thành phố..." onkeyup="tv2Sync()">
+                                    <input type="text" id="tv2_tinh_thanh" name="dia_chi_tinh_thanh" value="${escapeHtml(fd.dia_chi_tinh_thanh || '')}" class="form-control tv2-input-lg" placeholder="Thành phố..." onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Vốn điều lệ đang đăng ký (cũ) <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_von_cu" name="von_cu_so" value="${fd.von_cu_so ? formatMoneyStr(fd.von_cu_so) : ''}" class="form-control font-mono tv2-input-lg" placeholder="Ví dụ: 1,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-tv2-von-cu'); tv2Sync()">
+                                    <input type="text" id="tv2_von_cu" name="von_cu_so" value="${escapeHtml(fd.von_cu_so ? formatMoneyStr(fd.von_cu_so) : '')}" class="form-control font-mono tv2-input-lg" placeholder="Ví dụ: 1,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-tv2-von-cu'); tv2Sync()">
                                     <div id="spellout-tv2-von-cu" class="money-spellout tv2-spellout">${fd.von_cu_so ? 'Bằng chữ: ' + (window.docSoThanhChu ? window.docSoThanhChu(fd.von_cu_so) : numToVietnameseWords(fd.von_cu_so)) : ''}</div>
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Vốn điều lệ mới sau khi tăng <span class="text-error">*</span></label>
-                                    <input type="text" id="tv2_von_moi" name="von_dieu_le_so" value="${fd.von_dieu_le_so ? formatMoneyStr(fd.von_dieu_le_so) : ''}" class="form-control font-mono font-bold tv2-input-lg" style="border-color: var(--accent-primary);" placeholder="Ví dụ: 3,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-tv2-von-moi'); tv2UpdateCapitalDistribution(); tv2Sync()">
+                                    <input type="text" id="tv2_von_moi" name="von_dieu_le_so" value="${escapeHtml(fd.von_dieu_le_so ? formatMoneyStr(fd.von_dieu_le_so) : '')}" class="form-control font-mono font-bold tv2-input-lg" style="border-color: var(--accent-primary);" placeholder="Ví dụ: 3,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-tv2-von-moi'); tv2UpdateCapitalDistribution(); tv2Sync()">
                                     <div id="spellout-tv2-von-moi" class="money-spellout tv2-spellout" style="color: var(--accent-orange); font-weight: 600;">${fd.von_dieu_le_so ? 'Bằng chữ: ' + (window.docSoThanhChu ? window.docSoThanhChu(fd.von_dieu_le_so) : numToVietnameseWords(fd.von_dieu_le_so)) : ''}</div>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@
                             <div class="tv2-grid-2">
                                 <div class="tv2-field">
                                     <label class="tv2-label">Họ và tên <span class="text-error">*</span></label>
-                                    <input type="text" name="ddpl_ho_ten" id="input-ddpl_ho_ten" value="${fd.ddpl_ho_ten || ''}" class="form-control tv2-input-lg font-bold" placeholder="NGUYỄN VĂN A" onkeyup="tv2Sync()">
+                                    <input type="text" name="ddpl_ho_ten" id="input-ddpl_ho_ten" value="${escapeHtml(fd.ddpl_ho_ten || '')}" class="form-control tv2-input-lg font-bold" placeholder="NGUYỄN VĂN A" onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-grid-2">
@@ -214,28 +214,28 @@
                                     </div>
                                     <div class="tv2-field">
                                         <label class="tv2-label">Ngày sinh</label>
-                                        <input type="text" name="ddpl_ngay_sinh" id="input-ddpl_ngay_sinh" value="${fd.ddpl_ngay_sinh || ''}" class="form-control tv2-input-lg" placeholder="DD/MM/YYYY" onkeyup="tv2Sync()">
+                                        <input type="text" name="ddpl_ngay_sinh" id="input-ddpl_ngay_sinh" value="${escapeHtml(fd.ddpl_ngay_sinh || '')}" class="form-control tv2-input-lg" placeholder="DD/MM/YYYY" onkeyup="tv2Sync()">
                                     </div>
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Số CCCD (12 số) <span class="text-error">*</span></label>
-                                    <input type="text" name="ddpl_so_cccd" id="input-ddpl_so_cccd" value="${fd.ddpl_so_cccd || ''}" class="form-control font-mono tv2-input-lg" placeholder="001090001234" onkeyup="tv2Sync()">
+                                    <input type="text" name="ddpl_so_cccd" id="input-ddpl_so_cccd" value="${escapeHtml(fd.ddpl_so_cccd || '')}" class="form-control font-mono tv2-input-lg" placeholder="001090001234" onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Số nhà, đường (Thường trú)</label>
-                                    <input type="text" name="ddpl_dia_chi_so_nha" id="input-ddpl_dia_chi_so_nha" value="${fd.ddpl_dia_chi_so_nha || ''}" class="form-control tv2-input-lg" placeholder="Số 12, đường..." onkeyup="tv2Sync()">
+                                    <input type="text" name="ddpl_dia_chi_so_nha" id="input-ddpl_dia_chi_so_nha" value="${escapeHtml(fd.ddpl_dia_chi_so_nha || '')}" class="form-control tv2-input-lg" placeholder="Số 12, đường..." onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Xã / Phường</label>
-                                    <input type="text" name="ddpl_dia_chi_xa_phuong" id="input-ddpl_dia_chi_xa_phuong" value="${fd.ddpl_dia_chi_xa_phuong || ''}" class="form-control tv2-input-lg" placeholder="Xã/Phường" onkeyup="tv2Sync()">
+                                    <input type="text" name="ddpl_dia_chi_xa_phuong" id="input-ddpl_dia_chi_xa_phuong" value="${escapeHtml(fd.ddpl_dia_chi_xa_phuong || '')}" class="form-control tv2-input-lg" placeholder="Xã/Phường" onkeyup="tv2Sync()">
                                 </div>
 
                                 <div class="tv2-field">
                                     <label class="tv2-label">Tỉnh / Thành phố</label>
-                                    <input type="text" name="ddpl_dia_chi_tinh_thanh" id="input-ddpl_dia_chi_tinh_thanh" value="${fd.ddpl_dia_chi_tinh_thanh || ''}" class="form-control tv2-input-lg" placeholder="Tỉnh/Thành phố" onkeyup="tv2Sync()">
+                                    <input type="text" name="ddpl_dia_chi_tinh_thanh" id="input-ddpl_dia_chi_tinh_thanh" value="${escapeHtml(fd.ddpl_dia_chi_tinh_thanh || '')}" class="form-control tv2-input-lg" placeholder="Tỉnh/Thành phố" onkeyup="tv2Sync()">
                                 </div>
                             </div>
                         </div>
@@ -400,7 +400,7 @@
                 <div class="tv2-grid-2">
                     <div class="tv2-field">
                         <label class="tv2-label">Họ và tên <span class="text-error">*</span></label>
-                        <input type="text" class="form-control m-field tv2-input-lg font-bold" data-idx="${idx}" data-prop="ho_ten" value="${m.ho_ten || ''}" placeholder="NGUYỄN VĂN A" onkeyup="tv2Sync()">
+                        <input type="text" class="form-control m-field tv2-input-lg font-bold" data-idx="${idx}" data-prop="ho_ten" value="${escapeHtml(m.ho_ten || '')}" placeholder="NGUYỄN VĂN A" onkeyup="tv2Sync()">
                     </div>
 
                     <div class="tv2-grid-2">
@@ -413,38 +413,38 @@
                         </div>
                         <div class="tv2-field">
                             <label class="tv2-label">Ngày sinh</label>
-                            <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="ngay_sinh" value="${m.ngay_sinh || ''}" placeholder="DD/MM/YYYY" onkeyup="tv2Sync()">
+                            <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="ngay_sinh" value="${escapeHtml(m.ngay_sinh || '')}" placeholder="DD/MM/YYYY" onkeyup="tv2Sync()">
                         </div>
                     </div>
 
                     <div class="tv2-field">
                         <label class="tv2-label">Số CCCD (12 số) <span class="text-error">*</span></label>
-                        <input type="text" class="form-control m-field font-mono tv2-input-lg" data-idx="${idx}" data-prop="so_cccd" value="${m.so_cccd || ''}" placeholder="001090001234" onkeyup="tv2Sync()">
+                        <input type="text" class="form-control m-field font-mono tv2-input-lg" data-idx="${idx}" data-prop="so_cccd" value="${escapeHtml(m.so_cccd || '')}" placeholder="001090001234" onkeyup="tv2Sync()">
                     </div>
 
                     <div class="tv2-field">
                         <label class="tv2-label">Số nhà, tên đường</label>
-                        <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="dia_chi_so_nha" value="${m.dia_chi_so_nha || ''}" placeholder="Số nhà..." onkeyup="tv2Sync()">
+                        <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="dia_chi_so_nha" value="${escapeHtml(m.dia_chi_so_nha || '')}" placeholder="Số nhà..." onkeyup="tv2Sync()">
                     </div>
 
                     <div class="tv2-field">
                         <label class="tv2-label">Xã / Phường</label>
-                        <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="dia_chi_xa_phuong" value="${m.dia_chi_xa_phuong || ''}" placeholder="Xã/Phường" onkeyup="tv2Sync()">
+                        <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="dia_chi_xa_phuong" value="${escapeHtml(m.dia_chi_xa_phuong || '')}" placeholder="Xã/Phường" onkeyup="tv2Sync()">
                     </div>
 
                     <div class="tv2-field">
                         <label class="tv2-label">Tỉnh / Thành phố</label>
-                        <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="dia_chi_tinh_thanh" value="${m.dia_chi_tinh_thanh || ''}" placeholder="Tỉnh/Thành phố" onkeyup="tv2Sync()">
+                        <input type="text" class="form-control m-field tv2-input-lg" data-idx="${idx}" data-prop="dia_chi_tinh_thanh" value="${escapeHtml(m.dia_chi_tinh_thanh || '')}" placeholder="Tỉnh/Thành phố" onkeyup="tv2Sync()">
                     </div>
 
                     <div class="tv2-field">
                         <label class="tv2-label">Vốn góp mới (VNĐ) <span class="text-error">*</span></label>
-                        <input type="text" class="form-control m-field font-mono tv2-input-lg font-bold" data-idx="${idx}" data-prop="von_gop" value="${m.von_gop ? formatMoneyStr(m.von_gop) : ''}" placeholder="1,000,000,000" onkeyup="handleMemberMoneyChange(this); tv2RecalcRatio(${idx}); tv2Sync()">
+                        <input type="text" class="form-control m-field font-mono tv2-input-lg font-bold" data-idx="${idx}" data-prop="von_gop" value="${escapeHtml(m.von_gop ? formatMoneyStr(m.von_gop) : '')}" placeholder="1,000,000,000" onkeyup="handleMemberMoneyChange(this); tv2RecalcRatio(${idx}); tv2Sync()">
                     </div>
 
                     <div class="tv2-field">
                         <label class="tv2-label">Tỷ lệ góp vốn (%) <span class="text-error">*</span></label>
-                        <input type="number" class="form-control m-field font-mono tv2-input-lg font-bold" data-idx="${idx}" data-prop="ty_le" value="${m.ty_le || ''}" placeholder="Tỷ lệ %" onkeyup="tv2UpdateCapitalDistribution(); tv2Sync()">
+                        <input type="number" class="form-control m-field font-mono tv2-input-lg font-bold" data-idx="${idx}" data-prop="ty_le" value="${escapeHtml(m.ty_le || '')}" placeholder="Tỷ lệ %" onkeyup="tv2UpdateCapitalDistribution(); tv2Sync()">
                     </div>
                 </div>
             </div>
@@ -470,7 +470,7 @@
             const result = await res.json();
             if (result.success && result.data && result.data.name) {
                 const data = result.data;
-                statusEl.innerHTML = `<span class="text-success"><i class="fa-solid fa-check"></i> Đã tìm thấy: <b>${data.name}</b></span>`;
+                statusEl.innerHTML = `<span class="text-success"><i class="fa-solid fa-check"></i> Đã tìm thấy: <b>${escapeHtml(data.name)}</b></span>`;
 
                 const nameEl = document.getElementById('tv2_ten_cong_ty');
                 if (nameEl) {
@@ -645,7 +645,27 @@
         if (meta05) meta05.innerText = `Tự động sinh ${mCount} dòng CSHHL`;
         const meta07 = document.getElementById('tv2-meta-07');
         if (meta07) meta07.innerText = `Tách riêng ${mCount} file GCN (_a, _b...)`;
+        tv2UpdateCompleteness();
     }
+
+    // Tính % hoàn thiện thật từ các trường bắt buộc trong _schema.json
+    function tv2UpdateCompleteness() {
+        if (!window.validateRequiredFields) return;
+        const errors = window.validateRequiredFields(window.wizardState.schema);
+        const total = errors.total || 0;
+        const pct = total ? Math.round(((total - errors.length) / total) * 100) : 100;
+        const score = document.getElementById('tv2-completeness-score');
+        const fill = document.getElementById('tv2-progress-fill');
+        if (score) score.innerText = `${pct}%`;
+        if (fill) fill.style.width = `${pct}%`;
+        const ready = errors.length === 0;
+        document.querySelectorAll('.tv2-doc-badge').forEach(b => {
+            b.classList.toggle('ready', ready);
+            b.classList.toggle('pending', !ready);
+            b.innerHTML = ready ? '<i class="fa-solid fa-check"></i> Đủ' : '<i class="fa-solid fa-hourglass-half"></i> Thiếu';
+        });
+    }
+    window.tv2UpdateCompleteness = tv2UpdateCompleteness;
 
     // Xem trước thông tin tài liệu
     window.tv2PreviewDoc = function(docName) {
@@ -659,6 +679,7 @@
     // Tải trọn bộ hồ sơ ZIP trực tiếp
     window.tv2GenerateAll = async function() {
         tv2Sync();
+        if (window.ensureRequiredFields && !window.ensureRequiredFields()) return;
         const btn = document.getElementById('btn-tv2-generate');
         const oldText = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang khởi tạo hồ sơ...';
@@ -958,6 +979,10 @@
                 font-weight: 700;
                 padding: 2px 8px;
                 border-radius: var(--radius-full);
+            }
+            .tv2-doc-badge.pending {
+                background: rgba(245, 158, 11, 0.15);
+                color: var(--accent-yellow, #f59e0b);
             }
             .tv2-doc-badge.ready {
                 background: rgba(16, 185, 129, 0.15);
