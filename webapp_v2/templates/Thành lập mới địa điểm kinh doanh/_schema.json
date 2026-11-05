@@ -3,7 +3,7 @@
   "display_name": "Thành lập mới địa điểm kinh doanh",
   "category": "Địa điểm kinh doanh",
   "description": "Bộ hồ sơ đăng ký thành lập địa điểm kinh doanh mới",
-  "has_nganh": false,
+  "has_nganh": true,
   "steps": [
     {
       "id": "company",

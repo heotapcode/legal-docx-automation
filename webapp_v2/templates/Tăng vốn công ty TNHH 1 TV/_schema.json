@@ -1,85 +1,87 @@
 {
   "name": "Tăng vốn công ty TNHH 1 TV",
   "display_name": "Tăng vốn công ty TNHH 1 TV",
+  "category": "Tăng vốn",
   "description": "Hồ sơ tăng vốn điều lệ cho Công ty TNHH Một thành viên",
-  "fields": [
+  "has_nganh": false,
+  "steps": [
     {
-      "name": "ten_cong_ty_vn",
-      "label": "Tên công ty",
-      "type": "string",
-      "required": true
+      "id": "company",
+      "title": "Thông tin doanh nghiệp & hồ sơ",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "dia_chi_day_du",
+          "label": "Địa chỉ trụ sở",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "von_cu_so",
+          "label": "Vốn cũ (số)",
+          "type": "money",
+          "required": true
+        },
+        {
+          "key": "von_moi_so",
+          "label": "Vốn mới (số)",
+          "type": "money",
+          "required": true
+        }
+      ]
     },
     {
-      "name": "ma_so_thue",
-      "label": "Mã số thuế",
-      "type": "string",
-      "required": true
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl_ho_ten",
+          "label": "Họ tên ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_gioi_tinh",
+          "label": "Giới tính ĐDPL",
+          "type": "text",
+          "placeholder": "Nam hoặc Nữ"
+        },
+        {
+          "key": "ddpl_ngay_sinh",
+          "label": "Ngày sinh ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_so_cccd",
+          "label": "Số CCCD ĐDPL",
+          "type": "text",
+          "required": true
+        }
+      ]
     },
     {
-      "name": "dia_chi_day_du",
-      "label": "Địa chỉ trụ sở",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "von_cu_so",
-      "label": "Vốn cũ (số)",
-      "type": "currency",
-      "required": true
-    },
-    {
-      "name": "von_cu_chu",
-      "label": "Vốn cũ (chữ)",
-      "type": "string",
-      "computed": true
-    },
-    {
-      "name": "von_moi_so",
-      "label": "Vốn mới (số)",
-      "type": "currency",
-      "required": true
-    },
-    {
-      "name": "von_moi_chu",
-      "label": "Vốn mới (chữ)",
-      "type": "string",
-      "computed": true
-    },
-    {
-      "name": "csh_ho_ten",
-      "label": "Họ tên Chủ sở hữu",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_ho_ten",
-      "label": "Họ tên ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_danh_xung",
-      "label": "Danh xưng ĐDPL (Ông/Bà)",
-      "type": "string",
-      "default": "Bà"
-    },
-    {
-      "name": "ddpl_gioi_tinh",
-      "label": "Giới tính ĐDPL",
-      "type": "string",
-      "default": "Nữ"
-    },
-    {
-      "name": "ddpl_ngay_sinh",
-      "label": "Ngày sinh ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_so_cccd",
-      "label": "Số CCCD ĐDPL",
-      "type": "string",
-      "required": true
+      "id": "csh",
+      "title": "Chủ sở hữu / Chủ tịch Hội đồng thành viên",
+      "fields": [
+        {
+          "key": "csh_ho_ten",
+          "label": "Họ tên Chủ sở hữu",
+          "type": "text",
+          "required": true
+        }
+      ]
     }
   ]
 }
