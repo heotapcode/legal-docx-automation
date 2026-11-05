@@ -1,79 +1,105 @@
 {
   "name": "Thay đổi địa chỉ và thuế TNHH 2 TV",
   "display_name": "Thay đổi địa chỉ & Cập nhật thuế TNHH 2 TV",
+  "category": "Thay đổi",
   "description": "Bộ hồ sơ thay đổi địa chỉ trụ sở chính và bổ sung cập nhật thông tin đăng ký thuế cho Công ty TNHH Hai thành viên trở lên",
-  "fields": [
+  "has_nganh": false,
+  "steps": [
     {
-      "name": "ten_cong_ty_vn",
-      "label": "Tên công ty",
-      "type": "string",
-      "required": true
+      "id": "company",
+      "title": "Thông tin doanh nghiệp & hồ sơ",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "dia_chi_cu",
+          "label": "Địa chỉ trụ sở cũ",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_moi",
+          "label": "Địa chỉ trụ sở mới",
+          "type": "text",
+          "required": true
+        }
+      ]
     },
     {
-      "name": "ma_so_thue",
-      "label": "Mã số thuế",
-      "type": "string",
-      "required": true
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl_ho_ten",
+          "label": "Họ tên ĐDPL / Chủ tịch HĐTV",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_so_cccd",
+          "label": "Số CCCD ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_ngay_sinh",
+          "label": "Ngày sinh ĐDPL",
+          "type": "text",
+          "required": true
+        }
+      ]
     },
     {
-      "name": "dia_chi_cu",
-      "label": "Địa chỉ trụ sở cũ",
-      "type": "string",
-      "required": true
+      "id": "ktt",
+      "title": "Kế toán trưởng",
+      "fields": [
+        {
+          "key": "ktt_ho_ten",
+          "label": "Họ tên Kế toán trưởng",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ktt_so_cccd",
+          "label": "Số CCCD Kế toán trưởng",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ktt_ngay_cap",
+          "label": "Ngày cấp CCCD KTT",
+          "type": "text",
+          "placeholder": "VD: 01/05/2021"
+        },
+        {
+          "key": "ktt_sdt",
+          "label": "Số điện thoại KTT",
+          "type": "text",
+          "required": true
+        }
+      ]
     },
     {
-      "name": "dia_chi_moi",
-      "label": "Địa chỉ trụ sở mới",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ktt_ho_ten",
-      "label": "Họ tên Kế toán trưởng",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ktt_so_cccd",
-      "label": "Số CCCD Kế toán trưởng",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ktt_ngay_cap",
-      "label": "Ngày cấp CCCD KTT",
-      "type": "string",
-      "default": "01/05/2021"
-    },
-    {
-      "name": "ktt_sdt",
-      "label": "Số điện thoại KTT",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_ho_ten",
-      "label": "Họ tên ĐDPL / Chủ tịch HĐTV",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_so_cccd",
-      "label": "Số CCCD ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_ngay_sinh",
-      "label": "Ngày sinh ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "thu_ky_ho_ten",
-      "label": "Họ tên Thư ký cuộc họp",
-      "type": "string",
-      "default": "LƯU ĐỨC KIÊN"
+      "id": "thu_ky",
+      "title": "Thư ký cuộc họp",
+      "fields": [
+        {
+          "key": "thu_ky_ho_ten",
+          "label": "Họ tên Thư ký cuộc họp",
+          "type": "text",
+          "placeholder": "VD: LƯU ĐỨC KIÊN"
+        }
+      ]
     }
   ]
 }
