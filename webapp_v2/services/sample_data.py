@@ -51,6 +51,11 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
                 value = "0101234567" if typ == "mst_lookup" else f"GIATRI_{key.upper()}"
                 if "ten_cong_ty" in key:
                     value = "CÔNG TY TNHH THỬ NGHIỆM ABC"
+                if key == "ngay_lap":
+                    # Ngày lập được in dạng "ngày 20 tháng 10 năm 2026"
+                    data[key] = "20/10/2026"
+                    markers[key] = "ngày 20 tháng 10 năm 2026"
+                    continue
                 data[key] = value
                 # Giới tính được chuyển thành "Ông/Bà" trong văn bản nên không so khớp nguyên văn
                 if not key.endswith("gioi_tinh"):
