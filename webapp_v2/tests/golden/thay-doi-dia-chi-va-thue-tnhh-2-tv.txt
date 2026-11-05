@@ -1,0 +1,147 @@
+===== 01. Thông báo thay đổi ĐKKD và thông tin thuế.docx =====
+THÔNG BÁO
+VỀ VIỆC THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
+(Cập nhật địa chỉ trụ sở chính và bổ sung, cập nhật thông tin đăng ký thuế)
+Kính gửi: Phòng Đăng ký kinh doanh và Tài chính doanh nghiệp TP Hà Nội
+Tên doanh nghiệp (ghi bằng chữ in hoa): CÔNG TY TNHH THỬ NGHIỆM ABC
+Mã số doanh nghiệp/Mã số thuế: 0101234567
+1. ĐĂNG KÝ THAY ĐỔI ĐỊA CHỈ TRỤ SỞ CHÍNH:
+Địa chỉ trụ sở chính trước khi thay đổi: GIATRI_DIA_CHI_CU.
+Địa chỉ trụ sở chính sau khi thay đổi: GIATRI_DIA_CHI_MOI.
+Đồng thời thay đổi địa chỉ nhận thông báo thuế: [X] Có (Địa chỉ nhận thông báo thuế chuyển tương ứng theo địa chỉ trụ sở chính mới).
+Doanh nghiệp cam kết trụ sở doanh nghiệp thuộc quyền sử dụng hợp pháp của doanh nghiệp và được sử dụng đúng mục đích theo quy định của pháp luật.
+2. BỔ SUNG, CẬP NHẬT THÔNG TIN ĐĂNG KÝ THUẾ:
+Thông tin về Kế toán trưởng/Người phụ trách kế toán:
+• Họ và tên: GIATRI_KTT_HO_TEN                      Giới tính: Nữ
+• Số định danh cá nhân (CCCD): GIATRI_KTT_SO_CCCD
+• Ngày cấp: GIATRI_KTT_NGAY_CAP           Nơi cấp: Cục Cảnh sát QLHC về TTXH
+• Số điện thoại: GIATRI_KTT_SDT
+Đề nghị Phòng Đăng ký kinh doanh cấp Giấy xác nhận thay đổi nội dung đăng ký doanh nghiệp cho doanh nghiệp đối với các thông tin thay đổi nêu trên.
+Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Thông báo này.
+CÔNG TY TNHH THỬ NGHIỆM ABC
+-------
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+---------------
+Số: 01/2026/[ĐÃ XÓA]
+Hà Nội, ngày 22 tháng 10 năm 2026
+
+NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
+CỦA DOANH NGHIỆP
+(Ký, ghi rõ họ tên và đóng dấu)
+
+GIATRI_DDPL_HO_TEN
+
+===== 02. Quyết định của Hội đồng thành viên.docx =====
+QUYẾT ĐỊNH CỦA HỘI ĐỒNG THÀNH VIÊN
+CÔNG TY TNHH THỬ NGHIỆM ABC
+(V/v thay đổi địa chỉ trụ sở chính và cập nhật thông tin thuế của công ty)
+- Căn cứ Luật Doanh nghiệp số 59/2020/QH14 được Quốc hội thông qua ngày 17/06/2020;
+- Căn cứ Điều lệ [ĐÃ XÓA];
+- Căn cứ Biên bản họp Hội đồng thành viên số: 01/2026/BBH-HĐTV ngày 22/10/2026.
+QUYẾT ĐỊNH:
+Điều 1.  Thông qua việc thay đổi địa chỉ trụ sở chính của Công ty:
+• Địa chỉ cũ: GIATRI_DIA_CHI_CU.
+• Địa chỉ mới: GIATRI_DIA_CHI_MOI.
+Điều 2.  Cập nhật thông tin đăng ký thuế:
+• Chuyển địa chỉ nhận thông báo thuế theo địa chỉ trụ sở chính mới.
+• Bổ sung thông tin Kế toán trưởng: Bà GIATRI_KTT_HO_TEN (CCCD số: GIATRI_KTT_SO_CCCD, cấp ngày GIATRI_KTT_NGAY_CAP tại Cục Cảnh sát QLHC về TTXH; SĐT: GIATRI_KTT_SDT).
+Điều 3.  Sửa đổi Điều 1 của Điều lệ Công ty (về Địa chỉ trụ sở chính) theo nội dung thay đổi tại Điều 1 của Quyết định này.
+Điều 4.  Giao ông GIATRI_DDPL_HO_TEN – Giám đốc kiêm Người đại diện theo pháp luật của Công ty chịu trách nhiệm tiến hành toàn bộ các thủ tục đăng ký với cơ quan nhà nước có thẩm quyền theo quy định của pháp luật.
+Điều 5.  Quyết định này có hiệu lực kể từ ngày ký. Các thành viên Hội đồng thành viên, Ban Giám đốc và các cá nhân có liên quan chịu trách nhiệm thi hành Quyết định này.
+CÔNG TY TNHH THỬ NGHIỆM ABC
+-------
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+---------------
+Số: 01/2026/QĐ-HĐTV
+Hà Nội, ngày 22 tháng 10 năm 2026
+Nơi nhận:
+- Như Điều 5;
+- Cơ quan ĐKKD TP Hà Nội;
+- Cơ quan Thuế;
+- Lưu: VT, HS.
+T/M HỘI ĐỒNG THÀNH VIÊN
+CHỦ TỊCH HĐTV
+(Ký, ghi rõ họ tên và đóng dấu)
+
+GIATRI_DDPL_HO_TEN
+
+===== 03. Biên bản họp Hội đồng thành viên.docx =====
+BIÊN BẢN HỌP HỘI ĐỒNG THÀNH VIÊN
+CÔNG TY TNHH THỬ NGHIỆM ABC
+(V/v thay đổi địa chỉ trụ sở chính và cập nhật thông tin thuế của công ty)
+Hôm nay, vào hồi 08 giờ 30 phút, ngày 22 tháng 10 năm 2026, tại trụ sở chính [ĐÃ XÓA], Hội đồng thành viên đã tổ chức cuộc họp với các nội dung chi tiết như sau:
+I. THÀNH PHẦN DỰ HỌP:
+1. Ông [ĐÃ XÓA] — Sinh ngày: [ĐÃ XÓA] — CCCD số: [ĐÃ XÓA]
+2. Ông [ĐÃ XÓA] — Sinh ngày: [ĐÃ XÓA] — CCCD số: [ĐÃ XÓA]
+3. Ông [ĐÃ XÓA] — Sinh ngày: [ĐÃ XÓA] — CCCD số: [ĐÃ XÓA]
+Tổng số thành viên dự họp: 03/03 thành viên, đại diện cho 100% tổng số vốn điều lệ của Công ty.
+Chủ tọa cuộc họp: Ông GIATRI_DDPL_HO_TEN — Chủ tịch HĐTV kiêm Giám đốc.
+Thư ký cuộc họp: Ông GIATRI_THU_KY_HO_TEN — Thành viên.
+II. NỘI DUNG CUỘC HỌP:
+1. Thay đổi địa chỉ trụ sở chính: Chuyển địa chỉ từ 'GIATRI_DIA_CHI_CU' sang địa chỉ mới: 'GIATRI_DIA_CHI_MOI'.
+2. Cập nhật thông tin đăng ký thuế: Đồng thời chuyển địa chỉ nhận thông báo thuế theo địa chỉ trụ sở chính mới; Bổ sung thông tin Kế toán trưởng là bà GIATRI_KTT_HO_TEN (CCCD số: GIATRI_KTT_SO_CCCD; SĐT: GIATRI_KTT_SDT).
+3. Sửa đổi Điều 1 của Điều lệ Công ty tương ứng với địa chỉ mới.
+4. Giao Người đại diện theo pháp luật tiến hành thủ tục đăng ký thay đổi tại Phòng Đăng ký kinh doanh TP Hà Nội.
+III. BIỂU QUYẾT VÀ NGHỊ QUYẾT:
+Toàn thể các thành viên dự họp đã tiến hành thảo luận và biểu quyết thông qua toàn bộ các nội dung nêu trên:
+• Tán thành: 100% tổng số vốn điều lệ.
+• Không tán thành: 0%.     • Không có ý kiến: 0%.
+Cuộc họp kết thúc vào hồi 10 giờ 30 phút cùng ngày. Biên bản này đã được đọc lại cho tất cả các thành viên tham dự cùng nghe, nhất trí thông qua và ký tên dưới đây.
+CÁC THÀNH VIÊN DỰ HỌP KÝ TÊN
+(Ký và ghi rõ họ tên)
+
+CÔNG TY TNHH THỬ NGHIỆM ABC
+-------
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+---------------
+Số: 01/2026/BBH-HĐTV
+Hà Nội, ngày 22 tháng 10 năm 2026
+THƯ KÝ CUỘC HỌP
+(Ký và ghi rõ họ tên)
+
+GIATRI_THU_KY_HO_TEN
+CHỦ TỌA CUỘC HỌP
+(Ký và ghi rõ họ tên)
+
+GIATRI_DDPL_HO_TEN
+
+GIATRI_DDPL_HO_TEN
+
+GIATRI_THU_KY_HO_TEN
+
+[ĐÃ XÓA]
+
+===== 04. Giấy ủy quyền.docx =====
+GIẤY ỦY QUYỀN
+
+Giấy uỷ quyền này được lập vào ngày 22 tháng 10 năm 2026, giữa các bên dưới đây:
+
+BÊN ỦY QUYỀN (Sau đây gọi là “Bên A”):
+• Ông: GIATRI_DDPL_HO_TEN                  Chức danh: Giám đốc
+• Sinh ngày: GIATRI_DDPL_NGAY_SINH              Giới tính: Nam
+• Số định danh cá nhân (CCCD): GIATRI_DDPL_SO_CCCD
+• Là người đại diện theo pháp luật của: CÔNG TY TNHH THỬ NGHIỆM ABC (Mã số doanh nghiệp: 0101234567).
+BÊN NHẬN ỦY QUYỀN (Sau đây gọi là “Bên B”):
+• Ông: ĐỖ QUANG HIẾU
+• Số định danh cá nhân (CCCD): 001089021350       Giới tính: Nam
+• Sinh ngày: [ĐÃ XÓA]              Nơi ở hiện tại: TK Đường, Phú Xuyên, Hà Nội
+• Điện thoại: 0987.135.358             Email: dohieu52th@gmail.com
+NỘI DUNG ỦY QUYỀN:
+Bên A ủy quyền cho Bên B thay mặt Bên A liên hệ Phòng Đăng ký kinh doanh và Tài chính doanh nghiệp TP Hà Nội để thực hiện các thủ tục nộp hồ sơ, sửa đổi bổ sung hồ sơ, rút hồ sơ, nộp phí lệ phí và nhận kết quả hồ sơ thay đổi nội dung đăng ký doanh nghiệp (thay đổi địa chỉ trụ sở chính và cập nhật thông tin thuế) của CÔNG TY TNHH THỬ NGHIỆM ABC.
+Giấy ủy quyền này có hiệu lực kể từ ngày ký và tự động chấm dứt khi các công việc nêu trên hoàn thành.
+
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+--------o0o-------
+Hà Nội, ngày 22 tháng 10 năm 2026
+BÊN B (BÊN NHẬN ỦY QUYỀN)
+(Ký và ghi rõ họ tên)
+
+ĐỖ QUANG HIẾU
+BÊN A (BÊN ỦY QUYỀN)
+(Ký, ghi rõ họ tên và đóng dấu)
+
+GIATRI_DDPL_HO_TEN

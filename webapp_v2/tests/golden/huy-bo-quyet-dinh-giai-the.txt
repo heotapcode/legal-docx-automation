@@ -1,0 +1,86 @@
+===== 01. Thông báo hủy bỏ quyết định giải thể.docx =====
+THÔNG BÁO
+Về việc huỷ bỏ Nghị quyết/Quyết định giải thể doanh nghiệp
+Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
+
+Tên doanh nghiệp: CÔNG TY TNHH THỬ NGHIỆM ABC
+Mã số doanh nghiệp/Mã số thuế: 0101234567
+Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số doanh nghiệp/mã số thuế): …………… Ngày cấp …/…/…… Nơi cấp: ………
+Thông báo về việc huỷ bỏ Nghị quyết/Quyết định giải thể doanh nghiệp như sau:
+Ngày GIATRI_NGAY_QD_HUY, doanh nghiệp đã có Nghị quyết/Quyết định số: GIATRI_SO_QD_HUY về việc huỷ bỏ Nghị quyết/Quyết định giải thể số: GIATRI_SO_QD_GIAI_THE_CU ngày GIATRI_NGAY_QD_GIAI_THE_CU
+Đề nghị Quý Cơ quan đăng tải Nghị quyết/Quyết định huỷ bỏ quyết định giải thể của doanh nghiệp trên Cổng thông tin quốc gia về đăng ký doanh nghiệp và khôi phục tình trạng pháp lý cho doanh nghiệp trên Cổng thông tin quốc gia về đăng ký doanh nghiệp.
+Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Thông báo này.
+Người ký tại Thông báo này cam kết là người có quyền và nghĩa vụ thực hiện thủ tục đăng ký doanh nghiệp theo quy định của pháp luật và Điều lệ công ty.
+
+CÔNG TY TNHH THỬ NGHIỆM ABC
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+Số: Số: GIATRI_SO_THONG_BAO
+Hà Nội, ngày 16 tháng 10 năm 2026
+
+NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA DOANH NGHIỆP
+(Ký và ghi họ tên)
+
+GIATRI_DDPL_HO_TEN
+2
+
+===== 02. Quyết định hủy bỏ giải thể.docx =====
+QUYẾT ĐỊNH CỦA HỘI ĐỒNG THÀNH VIÊN
+CÔNG TY TNHH THỬ NGHIỆM ABC
+(V/v hủy bỏ quyết định giải thể doanh nghiệp)
+- Căn cứ Luật Doanh nghiệp số 59/2020/QH14 được Quốc hội thông qua ngày 17/06/2020;
+- Căn cứ Điều lệ Công ty TNHH Dược phẩm SJC Australia;
+- Căn cứ Biên bản họp Hội đồng thành viên số: 02/2026/BBH-HĐTV ngày 16/10/2026;
+- Căn cứ tình hình hoạt động kinh doanh thực tế của doanh nghiệp.
+QUYẾT ĐỊNH:
+Điều 1. Hủy bỏ Quyết định giải thể số: GIATRI_SO_QD_GIAI_THE_CU ngày GIATRI_NGAY_QD_GIAI_THE_CU về việc giải thể doanh nghiệp của CÔNG TY TNHH THỬ NGHIỆM ABC (Mã số DN: 0101234567; Địa chỉ trụ sở: GIATRI_DIA_CHI_DAY_DU).
+Điều 2. Lý do hủy bỏ Quyết định giải thể: GIATRI_LY_DO_HUY.
+Điều 3. Quyết định này được niêm yết công khai tại trụ sở doanh nghiệp, gửi đến Phòng Đăng ký kinh doanh TP Hà Nội, Cơ quan thuế quản lý trực tiếp, người lao động và các bên liên quan theo quy định.
+Điều 4. Quyết định này có hiệu lực kể từ ngày ký. Các thành viên công ty và các phòng ban liên quan chịu trách nhiệm thi hành. Giao bà GIATRI_DDPL_HO_TEN – Giám đốc Công ty thực hiện các thủ tục thông báo với cơ quan nhà nước có thẩm quyền theo quy định.
+
+CÔNG TY TNHH THỬ NGHIỆM ABC
+Số: GIATRI_SO_QD_HUY
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+Hà Nội, ngày 16 tháng 10 năm 2026
+Nơi nhận:
+- Phòng ĐKKD TP Hà Nội;
+- Các thành viên công ty;
+- Lưu: VT, HS.
+
+T/M HỘI ĐỒNG THÀNH VIÊN
+Chủ tịch HĐTV
+(Ký, ghi rõ họ tên và đóng dấu)
+
+GIATRI_CSH_HO_TEN
+
+===== 03. Giấy ủy quyền.docx =====
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập – Tự do – Hạnh phúc
+Hà Nội, ngày 16 tháng 10 năm 2026
+GIẤY ỦY QUYỀN
+BÊN ỦY QUYỀN (BÊN A)
+Tên tôi là: GIATRI_DDPL_HO_TEN
+Số giấy tờ pháp lý cá nhân: GIATRI_DDPL_SO_CCCD
+Giới tính: Nữ                                            Ngày sinh: GIATRI_DDPL_NGAY_SINH
+SĐT: 0971222812                                   Email: dqhaccount@gmail.com
+Địa chỉ liên hệ:
+GIATRI_DDPL_DIA_CHI_DAY_DU
+Là người đại diện theo pháp luật CÔNG TY TNHH THỬ NGHIỆM ABC
+Chức danh: GIATRI_DDPL_CHUC_DANH
+2.	BÊN ĐƯỢC ỦY QUYỀN (BÊN B)
+- Ông: ĐỖ QUANG HIẾU
+Số định danh cá nhân: 001089021350
+Ngày sinh: [ĐÃ XÓA]  	Giới tính: Nam
+Nơi ở hiện tại: TK Đường, Phú Xuyên, Hà Nội.
+Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com
+
+NỘI DUNG UỶ QUYỀN
+Bên A uỷ quyền cho Bên B tiến hành thực hiện các thủ tục hủy quyết định giải thể CÔNG TY TNHH THỬ NGHIỆM ABC
+Các công việc bao gồm: Nộp hồ sơ, sửa đổi bổ sung hồ sơ, rút hồ sơ, nộp các khoản phí, lệ phí theo quy định và nhận kết quả tại Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội.
+Thời hạn ủy quyền: Giấy uỷ quyền có giá trị từ ngày hoàn thiện hồ sơ hợp lệ đến khi công việc uỷ quyền kết thúc.
+Cam kết chung: Bên A cam kết chịu trách nhiệm trước pháp luật về mọi nội dung do Bên B nhân danh bên A thực hiện trong phạm vi ủy quyền nêu trên. Bên B cam kết thực hiện đúng và đầy đủ các công việc thuộc phạm vi uỷ quyền và cam kết chịu trách nhiệm đối với các công việc mà mình được thực hiện.
+
+BÊN ỦY QUYỀN
+
+GIATRI_DDPL_HO_TEN
