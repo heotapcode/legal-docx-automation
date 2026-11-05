@@ -5,6 +5,8 @@ Chạy một lần từ thư mục gốc repo:
     python scripts_and_tools/migrate_flat_schemas.py
 """
 import json
+import re
+import unicodedata
 from pathlib import Path
 
 TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "webapp_v2" / "templates"
@@ -27,6 +29,13 @@ DEFAULT_CATEGORY = {
     "Tăng vốn": "Tăng vốn", "Giải thể": "Giải thể", "Hủy bỏ": "Giải thể",
     "Tạm dừng": "Tạm dừng & Hoạt động lại", "Thay đổi": "Thay đổi",
 }
+
+
+def slugify(text: str) -> str:
+    """Tên tiếng Việt -> id ASCII, vd 'Tạm dừng công ty TNHH 2 TV' -> 'tam-dung-cong-ty-tnhh-2-tv'."""
+    text = text.replace("đ", "d").replace("Đ", "D")
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
 
 
 def convert_field(f: dict) -> dict:
@@ -55,6 +64,7 @@ def migrate(schema: dict) -> dict:
     order = ["company"] + [g for _, g, _ in GROUPS if g != "company"]
     name = schema["name"]
     out = {
+        "id": schema.get("id") or slugify(name),
         "name": name,
         "display_name": schema.get("display_name", name),
         "category": schema.get("category") or next((v for k, v in DEFAULT_CATEGORY.items() if name.startswith(k)), "Khác"),

@@ -21,6 +21,7 @@ def get_templates():
                         with open(schema_path, "r", encoding="utf-8") as f:
                             s = json.load(f)
                             templates.append({
+                                "id": s.get("id", ""),
                                 "name": d.name,
                                 "display_name": s.get("display_name", d.name),
                                 "category": s.get("category", "Khác"),
@@ -36,6 +37,7 @@ def get_templates():
                 # Fallback if no schema or parse error
                 cat = "Thành lập mới" if "Thành lập mới" in d.name else "Thay đổi"
                 templates.append({
+                    "id": "",
                     "name": d.name,
                     "display_name": d.name,
                     "category": cat,
