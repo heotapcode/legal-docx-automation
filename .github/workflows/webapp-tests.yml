@@ -44,5 +44,8 @@ jobs:
       - name: Cài trình duyệt Chromium cho test giao diện
         run: python -m playwright install --with-deps chromium
 
+      - name: Quét bộ mẫu (lỗi E làm CI thất bại, cảnh báo W chỉ để xem)
+        run: python -m tools.template_lint
+
       - name: Chạy pytest
         run: python -m pytest -v --durations=10
