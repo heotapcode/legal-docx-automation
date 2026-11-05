@@ -41,6 +41,8 @@ pip install -r requirements.txt
 Sao chép file `.env.example` thành `.env` bên trong thư mục `webapp_v2/` và điền khóa API Gemini (nếu sử dụng tính năng OCR CCCD):
 ```bash
 GEMINI_API_KEY=your_gemini_api_key_here
+# Tùy chọn: origin được phép gọi API từ trình duyệt (CORS), mặc định chỉ localhost
+# CORS_ORIGINS=https://hoso.example.com
 ```
 
 ### 4. Khởi chạy WebApp V2
@@ -49,6 +51,23 @@ cd webapp_v2
 python main.py
 ```
 Ứng dụng sẽ chạy tại địa chỉ: `http://localhost:8002`
+
+### 5. Chạy kiểm thử tự động
+```bash
+cd webapp_v2
+pip install -r requirements.txt -r requirements-dev.txt
+pytest
+```
+Bộ test (`webapp_v2/tests/`) gồm:
+- **Sinh hồ sơ end-to-end** cho mọi bộ mẫu (1 và 3 thành viên): không sót placeholder, không có `None`, mọi dữ liệu nhập đều xuất hiện trong file Word.
+- **Kiểm tra cấu trúc `_schema.json`** (định dạng `steps`, kiểu trường hợp lệ, `has_nganh` khớp với bảng mã ngành).
+- **Bảo mật API**: path traversal, chèn mã template, CORS.
+- **Giao diện (Playwright)**: chống XSS, kiểm tra trường bắt buộc. Tự bỏ qua nếu chưa cài trình duyệt; để chạy:
+  `pip install playwright && python -m playwright install chromium`.
+
+GitHub Actions (`.github/workflows/webapp-tests.yml`) tự chạy toàn bộ test mỗi khi `webapp_v2/` thay đổi.
+
+> Khi thêm bộ mẫu mới: dùng định dạng `"steps"` trong `_schema.json` (xem các bộ có sẵn). Định dạng `"fields"` phẳng sẽ không hiển thị trên giao diện; có thể chuyển đổi bằng `python scripts_and_tools/migrate_flat_schemas.py`.
 
 ---
 
