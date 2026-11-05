@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import copy
@@ -222,7 +223,32 @@ def resolve_template_name(template_name: str) -> str:
             return "Tạm dừng công ty TNHH 2 TV"
     return clean
 
+TEMPLATE_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+
+
+def template_id_index() -> Dict[str, Path]:
+    """Bảng tra {id ASCII trong _schema.json: thư mục bộ mẫu}."""
+    index: Dict[str, Path] = {}
+    if not TEMPLATES_DIR.exists():
+        return index
+    for schema_path in TEMPLATES_DIR.glob("*/_schema.json"):
+        try:
+            with open(schema_path, "r", encoding="utf-8") as f:
+                tid = json.load(f).get("id")
+        except (OSError, ValueError):
+            continue
+        if isinstance(tid, str) and TEMPLATE_ID_RE.match(tid):
+            index[tid] = schema_path.parent
+    return index
+
+
 def validate_template_dir(template_name: str) -> Path:
+    # Ưu tiên tra theo id ASCII cố định (vd "tang-von-cong-ty-tnhh-2-tv")
+    if TEMPLATE_ID_RE.match(template_name or ""):
+        by_id = template_id_index().get(template_name)
+        if by_id is not None:
+            return by_id
+
     clean_name = resolve_template_name(template_name)
     if ".." in clean_name or "/" in clean_name or "\\" in clean_name:
         raise ValueError(f"Tên mẫu hồ sơ không hợp lệ: {template_name}")
@@ -1606,8 +1632,10 @@ def render_documents(
     ma_nganh_list: Optional[List[Dict[str, Any]]] = None,
     special_payload: Optional[Dict[str, Any]] = None
 ) -> bytes:
-    clean_name = resolve_template_name(template_name)
     template_dir = validate_template_dir(template_name)
+    # Các quy tắc riêng bên dưới so khớp theo tên thư mục thật, nên lấy tên từ thư mục
+    # (đúng cả khi gọi bằng id ASCII hay tên viết khác).
+    clean_name = template_dir.name
 
     # Merge special_payload into raw_data if provided
     merged_data = dict(raw_data)
