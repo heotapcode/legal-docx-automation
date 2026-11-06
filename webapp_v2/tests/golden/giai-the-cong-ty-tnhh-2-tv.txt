@@ -53,7 +53,7 @@ CÔNG TY TNHH THỬ NGHIỆM ABC
 
 Tên doanh nghiệp: CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp: 0101234567
-Nơi cấp: Phòng đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
+Nơi cấp: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 
 MỤC I: THỜI GIAN, ĐỊA ĐIỂM, THÀNH PHẦN DỰ HỌP
 1. Thời gian: 8 giờ 00 phút ngày    tháng      năm 20….;

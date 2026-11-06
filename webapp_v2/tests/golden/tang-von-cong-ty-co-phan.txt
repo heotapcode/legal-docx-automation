@@ -1,10 +1,10 @@
 ===== 01. Thông báo thay đổi ĐKKD.docx =====
 THÔNG BÁO
 Thay đổi nội dung đăng ký doanh nghiệp
-Kính gửi: Phòng Đăng ký kinh doanh thành phố Hà Nội
+Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 Tên doanh nghiệp: CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp: 0101234567
-Ngày cấp: 12/07/2005               Nơi cấp: Phòng Đăng ký kinh doanh thành phố Hà Nội
+Ngày cấp: 12/07/2005               Nơi cấp: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 
 Doanh nghiệp đăng ký thay đổi nội dung đăng ký doanh nghiệp như sau:
 ĐĂNG KÝ THAY ĐỔI VỐN ĐIỀU LỆ, PHẦN VỐN GÓP, TỶ LỆ PHẦN VỐN GÓP
@@ -108,11 +108,11 @@ NGUYỄN VĂN THỬ90
 ===== 02. Thông báo bổ sung cập nhật.docx =====
 THÔNG BÁO
 Về việc bổ sung, cập nhật thông tin đăng ký doanh nghiệp
-Kính gửi: Phòng Đăng ký kinh doanh thành phố Hà Nội
+Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 
 Tên doanh nghiệp: CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp: 0101234567
-Ngày cấp: 12/07/2005               Nơi cấp: Phòng Đăng ký kinh doanh thành phố Hà Nội
+Ngày cấp: 12/07/2005               Nơi cấp: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 
 Bổ sung, cập nhật thông tin đăng ký doanh nghiệp, đơn vị trực thuộc như sau:
 

@@ -9,7 +9,7 @@ from conftest import build_payload, list_template_names, load_schema, read_zip
 from config import TEMPLATES_DIR
 from services.dia_ban import context_values, list_tinh_thanh
 
-LOCALITY_VARS = {"noi_lap", "tinh_thanh_dkkd"}
+LOCALITY_VARS = {"noi_lap", "tinh_thanh_dkkd", "phong_dkkd"}
 
 
 def template_vars(name):
@@ -36,6 +36,15 @@ def test_catalog_has_34_units():
     assert {"Hà Nội", "Hồ Chí Minh", "Bắc Ninh", "Huế"} <= {i["value"] for i in items}
     # Tỉnh cũ đã sáp nhập từ 01/07/2025 không còn trong danh mục
     assert not {"Bắc Giang", "Hà Nam", "Bình Dương"} & {i["value"] for i in items}
+
+
+@pytest.mark.parametrize("value, phong", [
+    ("Hà Nội", "Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội"),
+    ("Bắc Ninh", "Phòng Đăng ký kinh doanh tỉnh Bắc Ninh"),
+    ("Đà Nẵng", "Phòng Đăng ký kinh doanh thành phố Đà Nẵng"),
+])
+def test_phong_dkkd(value, phong):
+    assert context_values(value)["phong_dkkd"] == phong
 
 
 @pytest.mark.parametrize("value, noi_lap, dkkd", [
@@ -98,6 +107,11 @@ def test_documents_follow_selected_province(client, name):
         assert re.search(r"Bắc Ninh\s*,", text), "Dòng nơi lập văn bản không theo tỉnh đã chọn"
     if "tinh_thanh_dkkd" in used:
         assert "tỉnh Bắc Ninh" in text, "Tên cơ quan đăng ký không theo tỉnh đã chọn"
+    if "phong_dkkd" in used:
+        assert "Phòng Đăng ký kinh doanh tỉnh Bắc Ninh" in text
+        # Cụm "và tài chính doanh nghiệp" chỉ có ở Hà Nội
+        assert "tài chính doanh nghiệp tỉnh" not in text
+    assert "Sở Kế hoạch và Đầu tư" not in text
     # Không còn địa danh Hà Nội ở dòng ngày hay cơ quan đăng ký
     assert not re.search(r"Hà\s*[Nn]ội\s*,\s*ngày", text)
     assert not re.search(r"(?:[Kk]inh doanh|ĐKKD|tài chính doanh nghiệp|Đầu tư)\s+(?:[Tt]hành phố |TP\.? )?Hà Nội", text)

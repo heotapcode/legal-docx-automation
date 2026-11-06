@@ -2,7 +2,7 @@
 THÔNG BÁO
 VỀ VIỆC THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
 (Cập nhật địa chỉ trụ sở chính và bổ sung, cập nhật thông tin đăng ký thuế)
-Kính gửi: Phòng Đăng ký kinh doanh và Tài chính doanh nghiệp thành phố Hà Nội
+Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 Tên doanh nghiệp (ghi bằng chữ in hoa): CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp/Mã số thuế: 0101234567
 1. ĐĂNG KÝ THAY ĐỔI ĐỊA CHỈ TRỤ SỞ CHÍNH:
@@ -83,7 +83,7 @@ II. NỘI DUNG CUỘC HỌP:
 1. Thay đổi địa chỉ trụ sở chính: Chuyển địa chỉ từ 'GIATRI_DIA_CHI_CU' sang địa chỉ mới: 'GIATRI_DIA_CHI_MOI'.
 2. Cập nhật thông tin đăng ký thuế: Đồng thời chuyển địa chỉ nhận thông báo thuế theo địa chỉ trụ sở chính mới; Bổ sung thông tin Kế toán trưởng là GIATRI_KTT_HO_TEN (CCCD số: GIATRI_KTT_SO_CCCD; SĐT: GIATRI_KTT_SDT).
 3. Sửa đổi Điều 1 của Điều lệ Công ty tương ứng với địa chỉ mới.
-4. Giao Người đại diện theo pháp luật tiến hành thủ tục đăng ký thay đổi tại Phòng Đăng ký kinh doanh thành phố Hà Nội.
+4. Giao Người đại diện theo pháp luật tiến hành thủ tục đăng ký thay đổi tại Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội.
 III. BIỂU QUYẾT VÀ NGHỊ QUYẾT:
 Toàn thể các thành viên dự họp đã tiến hành thảo luận và biểu quyết thông qua toàn bộ các nội dung nêu trên:
 • Tán thành: 100% tổng số vốn điều lệ.
@@ -130,7 +130,7 @@ BÊN NHẬN ỦY QUYỀN (Sau đây gọi là “Bên B”):
 • Sinh ngày: [ĐÃ XÓA]              Nơi ở hiện tại: TK Đường, Phú Xuyên, Hà Nội
 • Điện thoại: 0987.135.358             Email: dohieu52th@gmail.com
 NỘI DUNG ỦY QUYỀN:
-Bên A ủy quyền cho Bên B thay mặt Bên A liên hệ Phòng Đăng ký kinh doanh và Tài chính doanh nghiệp thành phố Hà Nội để thực hiện các thủ tục nộp hồ sơ, sửa đổi bổ sung hồ sơ, rút hồ sơ, nộp phí lệ phí và nhận kết quả hồ sơ thay đổi nội dung đăng ký doanh nghiệp (thay đổi địa chỉ trụ sở chính và cập nhật thông tin thuế) của CÔNG TY TNHH THỬ NGHIỆM ABC.
+Bên A ủy quyền cho Bên B thay mặt Bên A liên hệ Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội để thực hiện các thủ tục nộp hồ sơ, sửa đổi bổ sung hồ sơ, rút hồ sơ, nộp phí lệ phí và nhận kết quả hồ sơ thay đổi nội dung đăng ký doanh nghiệp (thay đổi địa chỉ trụ sở chính và cập nhật thông tin thuế) của CÔNG TY TNHH THỬ NGHIỆM ABC.
 Giấy ủy quyền này có hiệu lực kể từ ngày ký và tự động chấm dứt khi các công việc nêu trên hoàn thành.
 
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM

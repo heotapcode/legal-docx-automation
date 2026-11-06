@@ -3,6 +3,9 @@
 Mẫu Word dùng:
     {{ noi_lap }}          nơi lập văn bản, đứng trước "ngày":  "Hà Nội", "TP. Hồ Chí Minh", "Bắc Ninh"
     {{ tinh_thanh_dkkd }}  địa danh của cơ quan đăng ký kinh doanh:  "thành phố Hà Nội", "tỉnh Bắc Ninh"
+    {{ phong_dkkd }}       tên đầy đủ của phòng đăng ký kinh doanh:
+                           "Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội",
+                           "Phòng Đăng ký kinh doanh tỉnh Bắc Ninh" (tỉnh khác: mặc định theo mẫu này)
 Giá trị chọn trên form nằm ở trường `tinh_dang_ky` (là `ten` trong danh mục, vd "Bắc Ninh").
 """
 import json
@@ -65,8 +68,10 @@ def context_values(value: Optional[str]) -> Dict[str, str]:
                 f"Tỉnh/thành phố không hợp lệ: '{value}'. Chọn một trong: "
                 + ", ".join(t["ten"] for t in _load()["tinh_thanh"])
             )
+    tinh_thanh_dkkd = f"{tinh['loai']} {tinh['ten']}"
     return {
         FIELD_KEY: tinh["ten"],
         "noi_lap": tinh["noi_lap"],
-        "tinh_thanh_dkkd": f"{tinh['loai']} {tinh['ten']}",
+        "tinh_thanh_dkkd": tinh_thanh_dkkd,
+        "phong_dkkd": tinh.get("phong_dkkd") or f"Phòng Đăng ký kinh doanh {tinh_thanh_dkkd}",
     }
