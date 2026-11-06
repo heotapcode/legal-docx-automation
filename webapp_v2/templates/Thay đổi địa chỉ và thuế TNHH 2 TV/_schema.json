@@ -39,6 +39,14 @@
           "label": "Ngày họp / ngày lập văn bản",
           "type": "text",
           "placeholder": "DD/MM/YYYY — để trống: ngày hiện tại"
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
+          "required": true
         }
       ]
     },

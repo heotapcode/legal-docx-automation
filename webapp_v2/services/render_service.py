@@ -16,6 +16,7 @@ from docxtpl import DocxTemplate
 from jinja2 import Environment
 
 from config import TEMPLATES_DIR
+from services.dia_ban import context_values as dia_ban_context
 
 # --- HELPER FUNCTIONS ---
 
@@ -945,6 +946,8 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
             ctx["thu_ky_danh_xung"] = ctx.get("ddpl_danh_xung") or "Ông/Bà"
         else:
             ctx["thu_ky_danh_xung"] = "Ông/Bà"
+    # Địa danh nơi lập văn bản / cơ quan đăng ký (ô chọn tỉnh/thành phố, mặc định Hà Nội)
+    ctx.update(dia_ban_context(raw_data.get("tinh_dang_ky")))
     # Ngày lập văn bản: lấy từ trường ngay_lap (DD/MM/YYYY) hoặc ngày hiện tại
     ctx["ngay_lap"] = format_date_vn(raw_data.get("ngay_lap") or None)
     ngay_lap_match = re.search(r"(\d{2}) tháng (\d{2}) năm (\d{4})", ctx["ngay_lap"])

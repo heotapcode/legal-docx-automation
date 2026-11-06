@@ -21,6 +21,14 @@
           "label": "Mã số thuế",
           "type": "mst_lookup",
           "required": true
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
+          "required": true
         }
       ]
     },

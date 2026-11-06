@@ -16,7 +16,7 @@ SPEC_PATH = Path(__file__).resolve().parent.parent / "schemas" / "template-schem
 # Các kiểu trường mà renderField() trong static/js/pages/wizard.js HIỆN hỗ trợ.
 # Đặc tả (schemas/template-schema.json) còn định nghĩa thêm kiểu [v2] cho bộ máy wizard mới;
 # chừng nào wizard chưa vẽ được thì bộ mẫu thật chưa được dùng các kiểu đó.
-SUPPORTED_TYPES = {"text", "mst_lookup", "money", "phone", "email", "number",
+SUPPORTED_TYPES = {"text", "mst_lookup", "money", "phone", "email", "number", "select",
                    "person", "person_list", "transfer_list", "checkbox_group"}
 
 TEMPLATES = list_template_names()

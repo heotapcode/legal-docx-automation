@@ -455,6 +455,7 @@ window.renderCN2TVWizard = function(container) {
                             </div>
                         </div>
                         ${renderInput('Tên công ty (tiếng Việt) *', 'COMP_TEN_CONG_TY_VN', state.company.TEN_CONG_TY_VN, 'text', 'CÔNG TY TNHH...', 'updateCN2TVState()', 'updateCN2TVState()')}
+                        ${renderTinhDangKySelect()}
                     </div>
                     <div class="grid-form-2 mt-2">
                         ${renderInput('Vốn điều lệ (Số)', 'COMP_VON_DIEU_LE_SO', state.company.VON_DIEU_LE_SO, 'text', 'VD: 1,000,000,000', 'handleCN2TVCompanyMoney(this)', 'handleCN2TVCompanyMoney(this)')}
