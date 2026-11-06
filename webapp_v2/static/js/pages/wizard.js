@@ -334,6 +334,91 @@ function renderCurrentStep() {
     }, 120);
 }
 
+// --- VALIDATION: kiểm tra trường bắt buộc theo _schema.json ---
+function isBlank(v) {
+    return v === null || v === undefined || String(v).trim() === '';
+}
+
+/**
+ * Trả về danh sách lỗi [{label, name}] cho các trường bắt buộc còn trống.
+ * Dùng cho wizard chung (và wizard Tăng vốn 2 TV vì dùng chung cấu trúc dữ liệu).
+ */
+function validateRequiredFields(schema) {
+    const errors = [];
+    errors.total = 0; // tổng số mục bắt buộc đã kiểm tra (dùng để tính % hoàn thiện)
+    if (!schema || !schema.steps) return errors;
+    const req = (missing, err) => { errors.total++; if (missing) errors.push(err); };
+    const fd = window.wizardState.formData || {};
+    const members = window.wizardState.thanhVienList || [];
+    const transfers = window.wizardState.transferList || [];
+
+    schema.steps.forEach(step => {
+        (step.fields || []).forEach(field => {
+            const key = field.key;
+            switch (field.type) {
+                case 'person':
+                    if (!field.required) break;
+                    req(isBlank(fd[key + '_ho_ten']), { label: `${field.label}: Họ và tên`, name: key + '_ho_ten' });
+                    req(isBlank(fd[key + '_so_cccd']), { label: `${field.label}: Số CCCD`, name: key + '_so_cccd' });
+                    break;
+                case 'person_list': {
+                    const min = field.min || (field.required ? 1 : 0);
+                    req(members.length < min, { label: `${field.label}: cần ít nhất ${min} người (hiện có ${members.length})` });
+                    members.forEach((m, i) => {
+                        req(isBlank(m.ho_ten), { label: `${field.label} #${i + 1}: Họ và tên`, member: i, prop: 'ho_ten' });
+                        (field.extra_fields || []).forEach(ef => {
+                            if (ef.required) req(isBlank(m[ef.key]), { label: `${field.label} #${i + 1}: ${ef.label}`, member: i, prop: ef.key });
+                        });
+                    });
+                    break;
+                }
+                case 'transfer_list':
+                    if (field.required) req(transfers.length === 0, { label: `${field.label}: cần ít nhất 1 giao dịch` });
+                    transfers.forEach((t, i) => {
+                        req(isBlank(t.ben_a && t.ben_a.ho_ten), { label: `Giao dịch #${i + 1}: Họ tên bên chuyển nhượng` });
+                        req(isBlank(t.ben_b && t.ben_b.ho_ten), { label: `Giao dịch #${i + 1}: Họ tên bên nhận` });
+                        req(isBlank(t.gia_tri_so), { label: `Giao dịch #${i + 1}: Giá trị chuyển nhượng` });
+                    });
+                    break;
+                case 'checkbox_group':
+                    if (field.required) req((window.wizardState.dkkdSelected || []).length === 0, { label: `${field.label}: chọn ít nhất 1 mục` });
+                    break;
+                default:
+                    if (field.required) req(isBlank(fd[key]), { label: field.label, name: key });
+            }
+        });
+    });
+    return errors;
+}
+window.validateRequiredFields = validateRequiredFields;
+
+/** Đánh dấu ô lỗi, focus ô đầu tiên và báo cho người dùng. Trả về true nếu hợp lệ. */
+function ensureRequiredFields() {
+    document.querySelectorAll('.input-invalid').forEach(el => el.classList.remove('input-invalid'));
+    const errors = validateRequiredFields(window.wizardState.schema);
+    if (errors.length === 0) return true;
+
+    let firstEl = null;
+    errors.forEach(e => {
+        let el = null;
+        if (e.name) el = document.querySelector(`[name="${e.name}"]`);
+        else if (e.member !== undefined) el = document.querySelector(`.m-field[data-idx="${e.member}"][data-prop="${e.prop}"]`);
+        if (el) {
+            el.classList.add('input-invalid');
+            if (!firstEl) firstEl = el;
+        }
+    });
+    if (firstEl) {
+        firstEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstEl.focus({ preventScroll: true });
+    }
+    const shown = errors.slice(0, 8).map(e => '• ' + e.label).join('\n');
+    const more = errors.length > 8 ? `\n... và ${errors.length - 8} trường khác` : '';
+    alert(`Vui lòng nhập đầy đủ các thông tin bắt buộc:\n${shown}${more}`);
+    return false;
+}
+window.ensureRequiredFields = ensureRequiredFields;
+
 window.nextStep = function() {
     if (window.wizardState.step === 2) {
         const tplName = window.wizardState.template ? window.wizardState.template.name : '';
@@ -362,6 +447,7 @@ window.nextStep = function() {
         }
 
         collectFormData();
+        if (!ensureRequiredFields()) return;
         // Check if template has nganh
         const hasNganh = window.wizardState.schema && window.wizardState.schema.has_nganh;
         if (!hasNganh) {
@@ -503,6 +589,9 @@ async function loadStep2Schema() {
     const tplName = window.wizardState.template.name;
     const content = document.getElementById('wizard-content');
 
+    // Các wizard riêng tự vẽ ô chọn tỉnh/thành phố (renderTinhDangKySelect) nên cần danh mục trước
+    await loadCatalog('tinh_thanh');
+
     // Check for custom specialized wizards
     if (tplName === 'Chuyển nhượng Công ty TNHH 2 TV' && window.renderCN2TVWizard) {
         window.wizardState.schema = { has_nganh: false, display_name: tplName };
@@ -519,7 +608,15 @@ async function loadStep2Schema() {
     }
 
     if (tplName === 'Tăng vốn công ty TNHH 2 TV' && window.renderTangVon2TVWizard && window.isTangVon2TVNewUI && window.isTangVon2TVNewUI()) {
-        window.wizardState.schema = { name: tplName, has_nganh: false, display_name: tplName };
+        // Nạp schema thật để có danh sách trường bắt buộc (dùng cho kiểm tra & % hoàn thiện)
+        let tvSchema = null;
+        try {
+            const res = await fetch(`/api/templates/${encodeURIComponent(tplName)}/schema`);
+            if (res.ok) tvSchema = await res.json();
+        } catch (e) {
+            console.warn('Không tải được schema Tăng vốn 2 TV:', e);
+        }
+        window.wizardState.schema = tvSchema || { name: tplName, has_nganh: false, display_name: tplName };
         window.renderTangVon2TVWizard(content);
         return;
     }
@@ -528,6 +625,7 @@ async function loadStep2Schema() {
         const res = await fetch(`/api/templates/${encodeURIComponent(tplName)}/schema`);
         if (!res.ok) throw new Error('Schema not found');
         const schema = await res.json();
+        await loadCatalogsForSchema(schema);
         window.wizardState.schema = schema;
 
         // Initialize person list if schema has person_list
@@ -578,15 +676,7 @@ async function loadStep2Schema() {
     }
 }
 
-function escapeHtml(str) {
-    if (!str) return '';
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-}
+// escapeHtml() được định nghĩa dùng chung trong /static/js/utils.js
 
 window.isGlobalModernUI = function() {
     return localStorage.getItem('global_ui_mode') !== 'legacy';
@@ -933,7 +1023,7 @@ function renderField(field) {
             <div class="form-group">
                 <label class="form-label">${fLabel} ${reqBadge}</label>
                 <div class="input-with-btn">
-                    <input type="text" id="input-${fKey}" name="${fKey}" value="${curVal}" class="form-control font-mono font-bold" placeholder="Nhập mã số thuế (10 hoặc 13 số)" onkeydown="if(event.key==='Enter'){event.preventDefault();lookupMST('${fKey}');}">
+                    <input type="text" id="input-${fKey}" name="${fKey}" value="${escapeHtml(curVal)}" class="form-control font-mono font-bold" placeholder="Nhập mã số thuế (10 hoặc 13 số)" onkeydown="if(event.key==='Enter'){event.preventDefault();lookupMST('${fKey}');}">
                     <button type="button" class="btn btn-secondary btn-sm" onclick="lookupMST('${fKey}')">
                         <i class="fa-solid fa-search"></i> Tra cứu
                     </button>
@@ -949,7 +1039,7 @@ function renderField(field) {
         return `
             <div class="form-group">
                 <label class="form-label">${fLabel} ${reqBadge}</label>
-                <input type="text" id="input-${fKey}" name="${fKey}" value="${curVal ? formatMoneyStr(curVal) : ''}" class="form-control" placeholder="Ví dụ: 1,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-${fKey}')">
+                <input type="text" id="input-${fKey}" name="${fKey}" value="${escapeHtml(curVal ? formatMoneyStr(curVal) : '')}" class="form-control" placeholder="Ví dụ: 1,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-${fKey}')">
                 <div id="spellout-${fKey}" class="money-spellout">${spellout ? 'Bằng chữ: ' + spellout : ''}</div>
             </div>
         `;
@@ -977,7 +1067,7 @@ function renderField(field) {
             const checked = window.wizardState.dkkdSelected.includes(opt.value) ? 'checked' : '';
             opts += `
                 <label style="display: flex; align-items: center; gap: 8px; font-size: var(--font-size-sm); margin-bottom: 6px; cursor: pointer;">
-                    <input type="checkbox" class="dkkd-cb" value="${opt.value}" ${checked}>
+                    <input type="checkbox" class="dkkd-cb" value="${escapeHtml(opt.value)}" ${checked}>
                     <span>${opt.label}</span>
                 </label>
             `;
@@ -992,12 +1082,28 @@ function renderField(field) {
         `;
     }
 
+    // Ô chọn (danh sách sổ xuống): lựa chọn từ field.options hoặc danh mục dùng chung (options_source)
+    if (field.type === 'select') {
+        const cat = field.options_source ? window.__catalogs[field.options_source] : null;
+        let val = curVal || field.default || (cat && cat.defaultValue) || '';
+        if (val && !window.wizardState.formData[fKey]) window.wizardState.formData[fKey] = val;
+        return `
+            <div class="form-group">
+                <label class="form-label">${fLabel} ${reqBadge}</label>
+                <select id="input-${fKey}" name="${fKey}" class="form-control">
+                    ${val ? '' : '<option value="">-- Chọn --</option>'}
+                    ${renderSelectOptions(getCatalogOptions(field), val)}
+                </select>
+            </div>
+        `;
+    }
+
     // Standard text / phone / email
     const inputType = field.type === 'phone' ? 'tel' : field.type === 'email' ? 'email' : 'text';
     return `
         <div class="form-group">
             <label class="form-label">${fLabel} ${reqBadge}</label>
-            <input type="${inputType}" id="input-${fKey}" name="${fKey}" value="${curVal}" class="form-control" placeholder="${field.placeholder || ''}">
+            <input type="${inputType}" id="input-${fKey}" name="${fKey}" value="${escapeHtml(curVal)}" class="form-control" placeholder="${escapeHtml(field.placeholder)}">
         </div>
     `;
 }
@@ -1074,7 +1180,7 @@ function renderPersonCard(key, label, hasOcr) {
             <div class="grid-form-2">
                 <div class="form-group">
                     <label class="form-label">Họ và tên <span class="text-error">*</span></label>
-                    <input type="text" name="${pfx}ho_ten" id="input-${pfx}ho_ten" value="${fd[pfx + 'ho_ten'] || ''}" class="form-control" placeholder="NGUYỄN VĂN A">
+                    <input type="text" name="${pfx}ho_ten" id="input-${pfx}ho_ten" value="${escapeHtml(fd[pfx + 'ho_ten'] || '')}" class="form-control" placeholder="NGUYỄN VĂN A">
                 </div>
                 <div class="grid-form-2">
                     <div class="form-group">
@@ -1086,7 +1192,7 @@ function renderPersonCard(key, label, hasOcr) {
                     </div>
                     <div class="form-group">
                         <label class="form-label">Ngày sinh</label>
-                        <input type="text" name="${pfx}ngay_sinh" id="input-${pfx}ngay_sinh" value="${fd[pfx + 'ngay_sinh'] || ''}" class="form-control" placeholder="DD/MM/YYYY">
+                        <input type="text" name="${pfx}ngay_sinh" id="input-${pfx}ngay_sinh" value="${escapeHtml(fd[pfx + 'ngay_sinh'] || '')}" class="form-control" placeholder="DD/MM/YYYY">
                     </div>
                 </div>
             </div>
@@ -1094,22 +1200,22 @@ function renderPersonCard(key, label, hasOcr) {
             <div class="grid-form-2">
                 <div class="form-group">
                     <label class="form-label">Số CCCD / Căn cước (12 số) <span class="text-error">*</span></label>
-                    <input type="text" name="${pfx}so_cccd" id="input-${pfx}so_cccd" value="${fd[pfx + 'so_cccd'] || ''}" class="form-control" placeholder="001090001234">
+                    <input type="text" name="${pfx}so_cccd" id="input-${pfx}so_cccd" value="${escapeHtml(fd[pfx + 'so_cccd'] || '')}" class="form-control" placeholder="001090001234">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Số nhà, đường</label>
-                    <input type="text" name="${pfx}dia_chi_so_nha" id="input-${pfx}dia_chi_so_nha" value="${fd[pfx + 'dia_chi_so_nha'] || ''}" class="form-control" placeholder="Số 12, đường...">
+                    <input type="text" name="${pfx}dia_chi_so_nha" id="input-${pfx}dia_chi_so_nha" value="${escapeHtml(fd[pfx + 'dia_chi_so_nha'] || '')}" class="form-control" placeholder="Số 12, đường...">
                 </div>
             </div>
 
             <div class="grid-form-2">
                 <div class="form-group">
                     <label class="form-label">Xã/Phường</label>
-                    <input type="text" name="${pfx}dia_chi_xa_phuong" id="input-${pfx}dia_chi_xa_phuong" value="${fd[pfx + 'dia_chi_xa_phuong'] || ''}" class="form-control" placeholder="Xã/Phường">
+                    <input type="text" name="${pfx}dia_chi_xa_phuong" id="input-${pfx}dia_chi_xa_phuong" value="${escapeHtml(fd[pfx + 'dia_chi_xa_phuong'] || '')}" class="form-control" placeholder="Xã/Phường">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Tỉnh/Thành phố</label>
-                    <input type="text" name="${pfx}dia_chi_tinh_thanh" id="input-${pfx}dia_chi_tinh_thanh" value="${fd[pfx + 'dia_chi_tinh_thanh'] || ''}" class="form-control" placeholder="Tỉnh/Thành phố">
+                    <input type="text" name="${pfx}dia_chi_tinh_thanh" id="input-${pfx}dia_chi_tinh_thanh" value="${escapeHtml(fd[pfx + 'dia_chi_tinh_thanh'] || '')}" class="form-control" placeholder="Tỉnh/Thành phố">
                 </div>
             </div>
         </div>
@@ -1160,7 +1266,7 @@ function renderMemberItem(m, idx, extraFields) {
             <div class="grid-form-2">
                 <div class="form-group">
                     <label class="form-label">Họ và tên <span class="text-error">*</span></label>
-                    <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="ho_ten" value="${m.ho_ten || ''}" placeholder="Họ và tên">
+                    <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="ho_ten" value="${escapeHtml(m.ho_ten || '')}" placeholder="Họ và tên">
                 </div>
                 <div class="grid-form-2">
                     <div class="form-group">
@@ -1172,7 +1278,7 @@ function renderMemberItem(m, idx, extraFields) {
                     </div>
                     <div class="form-group">
                         <label class="form-label">Ngày sinh</label>
-                        <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="ngay_sinh" value="${m.ngay_sinh || ''}" placeholder="DD/MM/YYYY">
+                        <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="ngay_sinh" value="${escapeHtml(m.ngay_sinh || '')}" placeholder="DD/MM/YYYY">
                     </div>
                 </div>
             </div>
@@ -1180,22 +1286,22 @@ function renderMemberItem(m, idx, extraFields) {
             <div class="grid-form-2">
                 <div class="form-group">
                     <label class="form-label">Số CCCD (12 số) <span class="text-error">*</span></label>
-                    <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="so_cccd" value="${m.so_cccd || ''}" placeholder="Số CCCD">
+                    <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="so_cccd" value="${escapeHtml(m.so_cccd || '')}" placeholder="Số CCCD">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Số nhà, đường</label>
-                    <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="dia_chi_so_nha" value="${m.dia_chi_so_nha || ''}" placeholder="Số nhà">
+                    <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="dia_chi_so_nha" value="${escapeHtml(m.dia_chi_so_nha || '')}" placeholder="Số nhà">
                 </div>
             </div>
 
             <div class="grid-form-2">
                 <div class="form-group">
                     <label class="form-label">Xã/Phường</label>
-                    <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="dia_chi_xa_phuong" value="${m.dia_chi_xa_phuong || ''}" placeholder="Xã/Phường">
+                    <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="dia_chi_xa_phuong" value="${escapeHtml(m.dia_chi_xa_phuong || '')}" placeholder="Xã/Phường">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Tỉnh/Thành phố</label>
-                    <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="dia_chi_tinh_thanh" value="${m.dia_chi_tinh_thanh || ''}" placeholder="Tỉnh/Thành">
+                    <input type="text" class="form-control m-field" data-idx="${idx}" data-prop="dia_chi_tinh_thanh" value="${escapeHtml(m.dia_chi_tinh_thanh || '')}" placeholder="Tỉnh/Thành">
                 </div>
             </div>
 
@@ -1204,7 +1310,7 @@ function renderMemberItem(m, idx, extraFields) {
                     ${extraFields.map(ef => `
                         <div class="form-group">
                             <label class="form-label">${ef.label}</label>
-                            <input type="${ef.type === 'money' ? 'text' : ef.type}" class="form-control m-field" data-idx="${idx}" data-prop="${ef.key}" value="${m[ef.key] || ''}" placeholder="${ef.label}" onkeyup="${ef.type === 'money' ? 'handleMemberMoneyChange(this)' : ''}">
+                            <input type="${ef.type === 'money' ? 'text' : ef.type}" class="form-control m-field" data-idx="${idx}" data-prop="${ef.key}" value="${escapeHtml(m[ef.key] || '')}" placeholder="${ef.label}" onkeyup="${ef.type === 'money' ? 'handleMemberMoneyChange(this)' : ''}">
                         </div>
                     `).join('')}
                 </div>
@@ -1288,21 +1394,21 @@ function renderTransferList(field) {
                         <div class="grid-form-2">
                             <div class="form-group">
                                 <label class="form-label">Bên chuyển nhượng (Bên A)</label>
-                                <input type="text" class="form-control tr-field" data-idx="${idx}" data-path="ben_a.ho_ten" value="${tr.ben_a ? tr.ben_a.ho_ten : ''}" placeholder="Họ tên Bên A">
+                                <input type="text" class="form-control tr-field" data-idx="${idx}" data-path="ben_a.ho_ten" value="${escapeHtml(tr.ben_a ? tr.ben_a.ho_ten : '')}" placeholder="Họ tên Bên A">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Bên nhận chuyển nhượng (Bên B)</label>
-                                <input type="text" class="form-control tr-field" data-idx="${idx}" data-path="ben_b.ho_ten" value="${tr.ben_b ? tr.ben_b.ho_ten : ''}" placeholder="Họ tên Bên B">
+                                <input type="text" class="form-control tr-field" data-idx="${idx}" data-path="ben_b.ho_ten" value="${escapeHtml(tr.ben_b ? tr.ben_b.ho_ten : '')}" placeholder="Họ tên Bên B">
                             </div>
                         </div>
                         <div class="grid-form-2">
                             <div class="form-group">
                                 <label class="form-label">Giá trị chuyển nhượng (VNĐ)</label>
-                                <input type="text" class="form-control tr-field" data-idx="${idx}" data-path="gia_tri_so" value="${tr.gia_tri_so || ''}" placeholder="Ví dụ: 500,000,000" onkeyup="handleMemberMoneyChange(this)">
+                                <input type="text" class="form-control tr-field" data-idx="${idx}" data-path="gia_tri_so" value="${escapeHtml(tr.gia_tri_so || '')}" placeholder="Ví dụ: 500,000,000" onkeyup="handleMemberMoneyChange(this)">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Tỷ lệ chuyển nhượng (%)</label>
-                                <input type="number" class="form-control tr-field" data-idx="${idx}" data-path="ty_le" value="${tr.ty_le || ''}" placeholder="Ví dụ: 50">
+                                <input type="number" class="form-control tr-field" data-idx="${idx}" data-path="ty_le" value="${escapeHtml(tr.ty_le || '')}" placeholder="Ví dụ: 50">
                             </div>
                         </div>
                     </div>
@@ -1555,7 +1661,7 @@ window.lookupMST = async function(fieldKey) {
 
         if (result.success && result.data && result.data.name) {
             const data = result.data;
-            if (statusEl) statusEl.innerHTML = `<span class="text-success"><i class="fa-solid fa-check"></i> Tìm thấy: <b>${data.name}</b></span>`;
+            if (statusEl) statusEl.innerHTML = `<span class="text-success"><i class="fa-solid fa-check"></i> Tìm thấy: <b>${escapeHtml(data.name)}</b></span>`;
 
             // Auto-fill company fields
             window.wizardState.formData['ma_so_thue'] = el.value.trim();
@@ -1756,7 +1862,7 @@ function showNganhToast(message, type) {
     const icon = type === 'success' 
         ? '<i class="fa-solid fa-circle-check" style="color: var(--accent-green, #22c55e);"></i>' 
         : '<i class="fa-solid fa-circle-info" style="color: var(--accent-cyan, #38bdf8);"></i>';
-    toast.innerHTML = `${icon} <span>${message}</span>`;
+    toast.innerHTML = `${icon} <span>${escapeHtml(message)}</span>`;
     toast.className = 'wizard-toast toast-in';
     clearTimeout(_nganhToastTimer);
     _nganhToastTimer = setTimeout(() => {
@@ -1810,7 +1916,7 @@ function renderComboPills(combos) {
         const count = c.danh_sach_nganh ? c.danh_sach_nganh.length : 0;
         const isAllSelected = count > 0 && c.danh_sach_nganh.every(n => selectedCodes.has(n.ma));
         const colorStyle = c.badge_color ? `style="--combo-color: ${c.badge_color};"` : '';
-        const tooltip = `${c.description || c.name} (${count} mã ngành)`;
+        const tooltip = escapeHtml(`${c.description || c.name} (${count} mã ngành)`);
 
         return `
             <button type="button" 
@@ -1821,7 +1927,7 @@ function renderComboPills(combos) {
                     title="${tooltip}"
                     ${colorStyle}>
                 <i class="${c.icon || 'fa-solid fa-briefcase'} combo-icon"></i>
-                <span class="combo-name">${c.name}</span>
+                <span class="combo-name">${escapeHtml(c.name)}</span>
                 <span class="combo-badge-count">${count} ngành</span>
                 <i class="fa-solid fa-check combo-check"></i>
             </button>
@@ -2028,11 +2134,11 @@ async function searchNganh(query) {
                     <div style="flex: 1; padding-right: 12px;">
                         <div>
                             <span class="badge" style="margin-right: 8px; font-weight: bold;">${r.ma}</span>
-                            <span class="text-sm font-bold text-white">${r.ten}</span>
+                            <span class="text-sm font-bold text-white">${escapeHtml(r.ten)}</span>
                         </div>
                         ${r.match_note ? `
                             <div style="font-size: 11px; color: var(--accent-yellow, #f59e0b); margin-top: 3px; display: flex; align-items: center; gap: 4px;">
-                                <i class="fa-solid fa-circle-info"></i> <span>${r.match_note}</span>
+                                <i class="fa-solid fa-circle-info"></i> <span>${escapeHtml(r.match_note)}</span>
                             </div>
                         ` : ''}
                     </div>
@@ -2105,7 +2211,7 @@ function renderSelectedNganhList() {
                     <i class="fa-solid fa-star"></i>
                 </button>
                 <span class="badge font-bold">${n.ma}</span>
-                <span class="text-sm ${n.is_main ? 'font-bold text-yellow' : 'text-white'}">${n.ten}</span>
+                <span class="text-sm ${n.is_main ? 'font-bold text-yellow' : 'text-white'}">${escapeHtml(n.ten)}</span>
                 ${n.is_main ? '<span class="badge badge-orange" style="font-size: 10px;">Ngành chính</span>' : ''}
             </div>
             <button type="button" class="btn btn-ghost btn-sm text-error" onclick="removeNganh('${n.ma}')">
@@ -2170,10 +2276,12 @@ window.generateDocuments = async function() {
         }
     } else if (tplName === 'Tăng vốn công ty TNHH 2 TV' && window.tv2Sync && window.isTangVon2TVNewUI && window.isTangVon2TVNewUI()) {
         window.tv2Sync();
+        if (!ensureRequiredFields()) return;
     } else {
         if (window.wizardState.step === 2) {
             collectFormData();
         }
+        if (!ensureRequiredFields()) return;
     }
 
     const loadingEl = document.getElementById('gen-loading');

@@ -1,4 +1,5 @@
 {
+  "id": "giai-the-cong-ty-tnhh-1-tv",
   "name": "Giải thể công ty TNHH 1 TV",
   "display_name": "Giải thể công ty TNHH 1 TV",
   "category": "Giải thể",
@@ -40,6 +41,14 @@
           "key": "von_dieu_le_so",
           "label": "Vốn điều lệ (VNĐ)",
           "type": "money",
+          "required": true
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
           "required": true
         }
       ]

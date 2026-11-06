@@ -41,6 +41,8 @@ pip install -r requirements.txt
 Sao chép file `.env.example` thành `.env` bên trong thư mục `webapp_v2/` và điền khóa API Gemini (nếu sử dụng tính năng OCR CCCD):
 ```bash
 GEMINI_API_KEY=your_gemini_api_key_here
+# Tùy chọn: origin được phép gọi API từ trình duyệt (CORS), mặc định chỉ localhost
+# CORS_ORIGINS=https://hoso.example.com
 ```
 
 ### 4. Khởi chạy WebApp V2
@@ -49,6 +51,33 @@ cd webapp_v2
 python main.py
 ```
 Ứng dụng sẽ chạy tại địa chỉ: `http://localhost:8002`
+
+### 5. Chạy kiểm thử tự động
+```bash
+cd webapp_v2
+pip install -r requirements.txt -r requirements-dev.txt
+pytest
+```
+Bộ test (`webapp_v2/tests/`) gồm:
+- **Sinh hồ sơ end-to-end** cho mọi bộ mẫu (1 và 3 thành viên): không sót placeholder, không có `None`, mọi dữ liệu nhập đều xuất hiện trong file Word.
+- **Kiểm tra cấu trúc `_schema.json`** (định dạng `steps`, kiểu trường hợp lệ, `has_nganh` khớp với bảng mã ngành).
+- **Bảo mật API**: path traversal, chèn mã template, CORS.
+- **Giao diện (Playwright)**: chống XSS, kiểm tra trường bắt buộc. Tự bỏ qua nếu chưa cài trình duyệt; để chạy:
+  `pip install playwright && python -m playwright install chromium`.
+
+- **Ảnh chụp chuẩn** (`tests/golden/`): toàn bộ chữ trong hồ sơ của 24 bộ mẫu với dữ liệu cố định; mọi thay đổi nội dung đều bị phát hiện. Khi cố ý thay đổi: `UPDATE_GOLDEN=1 pytest tests/test_golden_snapshots.py` rồi xem `git diff tests/golden/`.
+
+**Quét bộ mẫu** trước khi thêm/sửa file Word:
+```bash
+cd webapp_v2
+python -m tools.template_lint                 # mọi bộ mẫu
+python -m tools.template_lint tam-dung-cong-ty-tnhh-1-tv --strict
+```
+Công cụ báo lỗi cú pháp Jinja, dấu `{{ }}` không cân, biến không có nguồn dữ liệu, placeholder kiểu cũ và dữ liệu cá nhân bị viết cứng. Định dạng `_schema.json` xem [`webapp_v2/docs/schema-v2.md`](webapp_v2/docs/schema-v2.md). Mỗi bộ mẫu có `id` ASCII cố định (vd `tang-von-cong-ty-tnhh-2-tv`), dùng được thay tên thư mục khi gọi API.
+
+GitHub Actions (`.github/workflows/webapp-tests.yml`) tự quét bộ mẫu và chạy toàn bộ test mỗi khi `webapp_v2/` thay đổi.
+
+> Khi thêm bộ mẫu mới: dùng định dạng `"steps"` trong `_schema.json` (xem các bộ có sẵn). Định dạng `"fields"` phẳng sẽ không hiển thị trên giao diện; có thể chuyển đổi bằng `python scripts_and_tools/migrate_flat_schemas.py`.
 
 ---
 

@@ -18,5 +18,18 @@ MA_NGANH_JSON = ROOT_DIR / "ma_nganh_nghe.json"
 COMBO_NGANH_JSON = DATA_DIR / "combo_nganh.json"
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 
-HOST = "0.0.0.0"
-PORT = 8002
+HOST = os.environ.get("HOST", "0.0.0.0")
+PORT = int(os.environ.get("PORT", "8002"))
+
+
+def _parse_origins(raw: str) -> list:
+    return [o.strip().rstrip("/") for o in raw.split(",") if o.strip()]
+
+
+# CORS: danh sách origin được phép gọi API từ trình duyệt, phân tách bằng dấu phẩy.
+# Mặc định chỉ cho phép chính ứng dụng (localhost). Frontend được phục vụ cùng
+# origin với API nên KHÔNG cần CORS; chỉ thêm origin khi có frontend chạy ở domain khác.
+# Đặt CORS_ORIGINS=* để mở cho mọi origin (khi đó cookie/credential bị tắt).
+CORS_ORIGINS = _parse_origins(
+    os.environ.get("CORS_ORIGINS", f"http://localhost:{PORT},http://127.0.0.1:{PORT}")
+)

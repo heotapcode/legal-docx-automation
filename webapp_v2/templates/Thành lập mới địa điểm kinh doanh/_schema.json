@@ -1,9 +1,10 @@
 {
+  "id": "thanh-lap-moi-dia-diem-kinh-doanh",
   "name": "Thành lập mới địa điểm kinh doanh",
   "display_name": "Thành lập mới địa điểm kinh doanh",
   "category": "Địa điểm kinh doanh",
   "description": "Bộ hồ sơ đăng ký thành lập địa điểm kinh doanh mới",
-  "has_nganh": false,
+  "has_nganh": true,
   "steps": [
     {
       "id": "company",
@@ -37,6 +38,14 @@
           "key": "dia_chi_tinh_thanh",
           "label": "Tỉnh/Thành phố (Trụ sở chính)",
           "type": "text",
+          "required": true
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
           "required": true
         }
       ]

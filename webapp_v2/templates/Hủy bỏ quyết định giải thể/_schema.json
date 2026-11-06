@@ -1,103 +1,132 @@
 {
+  "id": "huy-bo-quyet-dinh-giai-the",
   "name": "Hủy bỏ quyết định giải thể",
   "display_name": "Hủy bỏ quyết định giải thể",
+  "category": "Giải thể",
   "description": "Hồ sơ hủy bỏ quyết định giải thể doanh nghiệp (tiếp tục hoạt động kinh doanh)",
-  "fields": [
+  "has_nganh": false,
+  "steps": [
     {
-      "name": "ten_cong_ty_vn",
-      "label": "Tên công ty",
-      "type": "string",
-      "required": true
+      "id": "company",
+      "title": "Thông tin doanh nghiệp & hồ sơ",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "dia_chi_day_du",
+          "label": "Địa chỉ trụ sở",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "so_qd_huy",
+          "label": "Số Quyết định hủy bỏ",
+          "type": "text",
+          "placeholder": "VD: 02/2026/QĐ"
+        },
+        {
+          "key": "ngay_qd_huy",
+          "label": "Ngày Quyết định hủy bỏ",
+          "type": "text",
+          "placeholder": "VD: 16/10/2026"
+        },
+        {
+          "key": "so_qd_giai_the_cu",
+          "label": "Số Quyết định giải thể cũ",
+          "type": "text",
+          "placeholder": "VD: 01/2026/QĐ"
+        },
+        {
+          "key": "ngay_qd_giai_the_cu",
+          "label": "Ngày Quyết định giải thể cũ",
+          "type": "text",
+          "placeholder": "VD: 05/10/2026"
+        },
+        {
+          "key": "so_thong_bao",
+          "label": "Số Thông báo",
+          "type": "text",
+          "placeholder": "VD: 02/2026/TB"
+        },
+        {
+          "key": "ly_do_huy",
+          "label": "Lý do hủy bỏ",
+          "type": "text",
+          "placeholder": "VD: Doanh nghiệp tiếp tục duy trì hoạt động kinh doanh và tìm kiếm cơ hội kinh doanh mới"
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
+          "required": true
+        }
+      ]
     },
     {
-      "name": "ma_so_thue",
-      "label": "Mã số thuế",
-      "type": "string",
-      "required": true
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl_ho_ten",
+          "label": "Họ tên ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_chuc_danh",
+          "label": "Chức danh ĐDPL",
+          "type": "text",
+          "placeholder": "VD: Giám đốc"
+        },
+        {
+          "key": "ddpl_gioi_tinh",
+          "label": "Giới tính ĐDPL",
+          "type": "text",
+          "placeholder": "Nam hoặc Nữ"
+        },
+        {
+          "key": "ddpl_ngay_sinh",
+          "label": "Ngày sinh ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_so_cccd",
+          "label": "Số CCCD ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_dia_chi_day_du",
+          "label": "Địa chỉ ĐDPL",
+          "type": "text",
+          "required": true
+        }
+      ]
     },
     {
-      "name": "dia_chi_day_du",
-      "label": "Địa chỉ trụ sở",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "so_qd_huy",
-      "label": "Số Quyết định hủy bỏ",
-      "type": "string",
-      "default": "02/2026/QĐ"
-    },
-    {
-      "name": "ngay_qd_huy",
-      "label": "Ngày Quyết định hủy bỏ",
-      "type": "string",
-      "default": "16/10/2026"
-    },
-    {
-      "name": "so_qd_giai_the_cu",
-      "label": "Số Quyết định giải thể cũ",
-      "type": "string",
-      "default": "01/2026/QĐ"
-    },
-    {
-      "name": "ngay_qd_giai_the_cu",
-      "label": "Ngày Quyết định giải thể cũ",
-      "type": "string",
-      "default": "05/10/2026"
-    },
-    {
-      "name": "so_thong_bao",
-      "label": "Số Thông báo",
-      "type": "string",
-      "default": "02/2026/TB"
-    },
-    {
-      "name": "ly_do_huy",
-      "label": "Lý do hủy bỏ",
-      "type": "string",
-      "default": "Doanh nghiệp tiếp tục duy trì hoạt động kinh doanh và tìm kiếm cơ hội kinh doanh mới"
-    },
-    {
-      "name": "csh_ho_ten",
-      "label": "Họ tên Chủ sở hữu/Chủ tịch HĐTV",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_ho_ten",
-      "label": "Họ tên ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_chuc_danh",
-      "label": "Chức danh ĐDPL",
-      "type": "string",
-      "default": "Giám đốc"
-    },
-    {
-      "name": "ddpl_gioi_tinh",
-      "label": "Giới tính ĐDPL",
-      "type": "string",
-      "default": "Nữ"
-    },
-    {
-      "name": "ddpl_ngay_sinh",
-      "label": "Ngày sinh ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_so_cccd",
-      "label": "Số CCCD ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_dia_chi_day_du",
-      "label": "Địa chỉ ĐDPL",
-      "type": "string",
-      "required": true
+      "id": "csh",
+      "title": "Chủ sở hữu / Chủ tịch Hội đồng thành viên",
+      "fields": [
+        {
+          "key": "csh_ho_ten",
+          "label": "Họ tên Chủ sở hữu/Chủ tịch HĐTV",
+          "type": "text",
+          "required": true
+        }
+      ]
     }
   ]
 }

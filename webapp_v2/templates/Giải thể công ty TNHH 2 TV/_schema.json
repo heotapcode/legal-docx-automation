@@ -1,116 +1,145 @@
 {
+  "id": "giai-the-cong-ty-tnhh-2-tv",
   "name": "Giải thể công ty TNHH 2 TV",
   "display_name": "Giải thể công ty TNHH 2 TV",
   "category": "Giải thể",
   "description": "Bộ hồ sơ thủ tục thông báo và giải thể doanh nghiệp đối với Công ty TNHH Hai thành viên trở lên",
-  "fields": [
+  "has_nganh": false,
+  "steps": [
     {
-      "name": "ten_cong_ty_vn",
-      "label": "Tên công ty",
-      "type": "string",
-      "required": true
+      "id": "company",
+      "title": "Thông tin doanh nghiệp & hồ sơ",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "dia_chi_so_nha",
+          "label": "Số nhà, tên đường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_xa_phuong",
+          "label": "Xã/Phường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_quan_huyen",
+          "label": "Quận/Huyện",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_tinh_thanh",
+          "label": "Tỉnh/Thành phố",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
+          "required": true
+        }
+      ]
     },
     {
-      "name": "ma_so_thue",
-      "label": "Mã số thuế",
-      "type": "string",
-      "required": true
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl_ho_ten",
+          "label": "Họ và tên ĐDPL / Chủ tịch HĐTV",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_ngay_sinh",
+          "label": "Ngày sinh ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_gioi_tinh",
+          "label": "Giới tính ĐDPL",
+          "type": "text",
+          "placeholder": "Nam hoặc Nữ"
+        },
+        {
+          "key": "ddpl_so_cccd",
+          "label": "Số CCCD ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_dia_chi_so_nha",
+          "label": "Địa chỉ thường trú ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_dia_chi_xa_phuong",
+          "label": "Phường/Xã ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_dia_chi_tinh_thanh",
+          "label": "Tỉnh/Thành ĐDPL",
+          "type": "text",
+          "required": true
+        }
+      ]
     },
     {
-      "name": "dia_chi_so_nha",
-      "label": "Số nhà, tên đường",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "dia_chi_xa_phuong",
-      "label": "Xã/Phường",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "dia_chi_quan_huyen",
-      "label": "Quận/Huyện",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "dia_chi_tinh_thanh",
-      "label": "Tỉnh/Thành phố",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_ho_ten",
-      "label": "Họ và tên ĐDPL / Chủ tịch HĐTV",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_ngay_sinh",
-      "label": "Ngày sinh ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_gioi_tinh",
-      "label": "Giới tính ĐDPL",
-      "type": "string",
-      "default": "Nữ"
-    },
-    {
-      "name": "ddpl_so_cccd",
-      "label": "Số CCCD ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_dia_chi_so_nha",
-      "label": "Địa chỉ thường trú ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_dia_chi_xa_phuong",
-      "label": "Phường/Xã ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_dia_chi_tinh_thanh",
-      "label": "Tỉnh/Thành ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_von_gop",
-      "label": "Vốn góp ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_ty_le",
-      "label": "Tỷ lệ vốn ĐDPL (%)",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "tv2_ho_ten",
-      "label": "Họ và tên Thành viên 2",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "tv2_von_gop",
-      "label": "Vốn góp Thành viên 2",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "tv2_ty_le",
-      "label": "Tỷ lệ vốn Thành viên 2 (%)",
-      "type": "string",
-      "required": true
+      "id": "thanh_vien",
+      "title": "Thành viên Hội đồng thành viên",
+      "fields": [
+        {
+          "key": "thanh_vien",
+          "label": "Thành viên công ty (gồm cả Chủ tịch HĐTV)",
+          "type": "person_list",
+          "min": 2,
+          "ocr": true,
+          "extra_fields": [
+            {
+              "key": "von_gop",
+              "label": "Vốn góp (VNĐ)",
+              "type": "money",
+              "required": true
+            },
+            {
+              "key": "ty_le",
+              "label": "Tỷ lệ (%)",
+              "type": "number",
+              "required": true
+            },
+            {
+              "key": "so_gcn",
+              "label": "Số GCN góp vốn",
+              "type": "text"
+            },
+            {
+              "key": "ngay_gcn",
+              "label": "Ngày cấp GCN",
+              "type": "text"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

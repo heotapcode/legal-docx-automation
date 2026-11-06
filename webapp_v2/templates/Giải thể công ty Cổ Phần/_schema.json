@@ -1,4 +1,5 @@
 {
+  "id": "giai-the-cong-ty-co-phan",
   "name": "Giải thể công ty Cổ Phần",
   "display_name": "Giải thể công ty Cổ Phần",
   "category": "Giải thể",
@@ -35,6 +36,14 @@
           "key": "dia_chi_tinh_thanh",
           "label": "Tỉnh/Thành phố",
           "type": "text"
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
+          "required": true
         }
       ]
     },

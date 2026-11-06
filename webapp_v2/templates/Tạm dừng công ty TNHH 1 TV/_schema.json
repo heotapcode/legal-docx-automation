@@ -1,4 +1,5 @@
 {
+  "id": "tam-dung-cong-ty-tnhh-1-tv",
   "name": "Tạm dừng công ty TNHH 1 TV",
   "display_name": "Tạm dừng công ty TNHH 1 TV",
   "category": "Tạm dừng & Hoạt động lại",
@@ -19,6 +20,14 @@
           "key": "ma_so_thue",
           "label": "Mã số thuế",
           "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
           "required": true
         }
       ]

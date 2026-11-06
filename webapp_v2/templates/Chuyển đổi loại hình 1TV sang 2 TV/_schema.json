@@ -1,4 +1,5 @@
 {
+  "id": "chuyen-doi-loai-hinh-1tv-sang-2-tv",
   "name": "Chuyển đổi loại hình 1TV sang 2 TV",
   "display_name": "Chuyển đổi loại hình 1TV sang 2 TV",
   "category": "Chuyển nhượng & Chuyển đổi",
@@ -64,6 +65,14 @@
           "key": "email_cong_ty",
           "label": "Email",
           "type": "email"
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
+          "required": true
         }
       ]
     },

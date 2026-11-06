@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import copy
@@ -15,8 +16,11 @@ from docxtpl import DocxTemplate
 from jinja2 import Environment
 
 from config import TEMPLATES_DIR
+from services.dia_ban import context_values as dia_ban_context
 
 # --- HELPER FUNCTIONS ---
+
+VND_PER_VOTE = 1_000_000  # quy ước số tiền tương ứng 1 phiếu biểu quyết
 
 def fmt_money(s: Any) -> str:
     if s is None:
@@ -222,7 +226,32 @@ def resolve_template_name(template_name: str) -> str:
             return "Tạm dừng công ty TNHH 2 TV"
     return clean
 
+TEMPLATE_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+
+
+def template_id_index() -> Dict[str, Path]:
+    """Bảng tra {id ASCII trong _schema.json: thư mục bộ mẫu}."""
+    index: Dict[str, Path] = {}
+    if not TEMPLATES_DIR.exists():
+        return index
+    for schema_path in TEMPLATES_DIR.glob("*/_schema.json"):
+        try:
+            with open(schema_path, "r", encoding="utf-8") as f:
+                tid = json.load(f).get("id")
+        except (OSError, ValueError):
+            continue
+        if isinstance(tid, str) and TEMPLATE_ID_RE.match(tid):
+            index[tid] = schema_path.parent
+    return index
+
+
 def validate_template_dir(template_name: str) -> Path:
+    # Ưu tiên tra theo id ASCII cố định (vd "tang-von-cong-ty-tnhh-2-tv")
+    if TEMPLATE_ID_RE.match(template_name or ""):
+        by_id = template_id_index().get(template_name)
+        if by_id is not None:
+            return by_id
+
     clean_name = resolve_template_name(template_name)
     if ".." in clean_name or "/" in clean_name or "\\" in clean_name:
         raise ValueError(f"Tên mẫu hồ sơ không hợp lệ: {template_name}")
@@ -778,6 +807,8 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
     thanh_vien = ctx.get("thanh_vien") or []
     if isinstance(thanh_vien, list):
         norm_tv = []
+        tong_von_num = 0
+        tong_phieu_num = 0  # cộng phiếu từng người để tổng khớp với các dòng chi tiết
         for idx, tv in enumerate(thanh_vien):
             t_gt = tv.get("gioi_tinh") or "Nam"
             t_dx = danh_xung(t_gt)
@@ -797,7 +828,9 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
             t_von_chu = so_thanh_chu(t_von_num) if t_von_num else ""
             t_tyle = tv.get("ty_le") or ""
 
-            item = SafeDict({
+            # Giữ các trường thêm (vd so_gcn, ngay_gcn) rồi ghi đè bằng giá trị đã chuẩn hóa
+            item = SafeDict({k: v for k, v in tv.items() if isinstance(k, str)})
+            item.update({
                 "stt": idx + 1,
                 "ho_ten": t_ht,
                 "gioi_tinh": t_gt,
@@ -814,8 +847,13 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
                 "von_so": t_von_fmt,
                 "von_chu": t_von_chu,
                 "ty_le": t_tyle,
+                # Quy ước 1.000.000 đồng = 1 phiếu biểu quyết (Biên bản họp HĐTV)
+                "so_phieu": f"{int(t_von_num) // VND_PER_VOTE:,}".replace(",", ".") if t_von_num else "",
             })
             norm_tv.append(item)
+            if t_von_num:
+                tong_von_num += int(t_von_num)
+                tong_phieu_num += int(t_von_num) // VND_PER_VOTE
 
             # Export tv1_*, tv2_*, tv_moi_1_*, tv_moi_2_*
             pfx = f"tv{idx+1}_"
@@ -827,6 +865,10 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
                 ctx[f"{pfx_moi.upper()}{k_sub.upper()}"] = v_sub
 
         ctx["thanh_vien"] = norm_tv
+        if tong_von_num:
+            if not ctx.get("tong_von_gop"):
+                ctx["tong_von_gop"] = fmt_money(tong_von_num)
+            ctx["tong_so_phieu"] = f"{tong_phieu_num:,}".replace(",", ".")
 
         # DDPL tỷ lệ / tỷ lệ biểu quyết & vốn mới nếu template cần
         ddpl_match = None
@@ -847,6 +889,14 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
             if not ctx.get("ddpl_ty_le") and not ctx.get("DDPL_TY_LE"):
                 ctx["ddpl_ty_le"] = ddpl_match.get("ty_le", "")
                 ctx["DDPL_TY_LE"] = ddpl_match.get("ty_le", "")
+            if not ctx.get("ddpl_von_gop"):
+                ctx["ddpl_von_gop"] = ddpl_match.get("von_gop", "")
+            # Chưa nhập giới tính ĐDPL: lấy danh xưng của thành viên tương ứng
+            ddpl_gt_input = ddpl_raw.get("gioi_tinh") or raw_data.get("ddpl_gioi_tinh") or raw_data.get("DDPL_GIOI_TINH")
+            if not ddpl_gt_input and ddpl_match.get("gioi_tinh"):
+                if ddpl_match.get("danh_xung"):
+                    ctx["ddpl_danh_xung"] = ddpl_match["danh_xung"]
+                    ctx["DDPL_DANH_XUNG"] = ddpl_match["danh_xung"]
             if not ctx.get("ddpl_von_moi_so"):
                 ctx["ddpl_von_moi_so"] = ddpl_match.get("von_gop", "")
                 ctx["DDPL_VON_MOI_SO"] = ddpl_match.get("von_gop", "")
@@ -887,6 +937,21 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
     if not ctx.get("thu_ky_ho_ten"):
         other_sh = [tv.get("ho_ten") for tv in norm_tv if (tv.get("ho_ten") or "").upper() != ddpl_ho_ten] if isinstance(thanh_vien, list) else []
         ctx["thu_ky_ho_ten"] = other_sh[0] if other_sh else ddpl_ho_ten
+    if not ctx.get("thu_ky_danh_xung"):
+        tk = (ctx.get("thu_ky_ho_ten") or "").upper()
+        tk_match = next((tv for tv in norm_tv if tv.get("ho_ten") == tk), None) if isinstance(thanh_vien, list) else None
+        if tk_match:
+            ctx["thu_ky_danh_xung"] = tk_match.get("danh_xung", "Ông/Bà")
+        elif tk and tk == (ddpl_ho_ten or "").upper():
+            ctx["thu_ky_danh_xung"] = ctx.get("ddpl_danh_xung") or "Ông/Bà"
+        else:
+            ctx["thu_ky_danh_xung"] = "Ông/Bà"
+    # Địa danh nơi lập văn bản / cơ quan đăng ký (ô chọn tỉnh/thành phố, mặc định Hà Nội)
+    ctx.update(dia_ban_context(raw_data.get("tinh_dang_ky")))
+    # Ngày lập văn bản: lấy từ trường ngay_lap (DD/MM/YYYY) hoặc ngày hiện tại
+    ctx["ngay_lap"] = format_date_vn(raw_data.get("ngay_lap") or None)
+    ngay_lap_match = re.search(r"(\d{2}) tháng (\d{2}) năm (\d{4})", ctx["ngay_lap"])
+    ctx["ngay_lap_ngan"] = "/".join(ngay_lap_match.groups()) if ngay_lap_match else ""
     ctx["so_luong_co_dong"] = f"{len(norm_tv)}/{len(norm_tv)}" if isinstance(thanh_vien, list) and norm_tv else "3/3"
 
     # Signer defaults
@@ -1496,42 +1561,6 @@ def populate_bbh_tang_von_2tv(doc: docx.Document, members_list: List[Dict[str, A
     except Exception as e:
         print(f"Warning: error in populate_bbh_tang_von_2tv: {e}")
 
-def populate_bbh_giai_the_2tv(doc: docx.Document, members_list: List[Dict[str, Any]]):
-    try:
-        lines = []
-        n = len(members_list)
-        lines.append(f"Tham gia cuộc họp có tất cả {n:02d}/{n:02d} thành viên, sở hữu và đại diện cho 100 % vốn điều lệ công ty, cụ thể gồm:")
-        for i, m in enumerate(members_list):
-            ht = str(m.get("HO_TEN") or m.get("ho_ten", "")).upper()
-            v_raw = str(m.get("VON_GOP") or m.get("von_gop") or m.get("von_so", "0"))
-            v_num = re.sub(r'[^\\d]', '', v_raw)
-            v_fmt = fmt_money(v_num) if v_num else "0"
-            v_chu = so_thanh_chu(v_num) if v_num else ""
-            ty_le = str(m.get("TY_LE") or m.get("ty_le", ""))
-            lines.append(f"Họ và tên: {ht}")
-            lines.append(f"Số vốn góp: {v_fmt} VNĐ ({v_chu}), chiếm {ty_le}% tổng số vốn điều lệ.")
-            lines.append(f"Giấy chứng nhận đăng ký vốn góp số: {i+1:02d}/2025/GCN cấp ngày 30/09/2025")
-
-        m1 = members_list[0]
-        m2 = members_list[1] if len(members_list) > 1 else m1
-        m1_ht = str(m1.get("HO_TEN") or m1.get("ho_ten", "")).upper()
-        m2_ht = str(m2.get("HO_TEN") or m2.get("ho_ten", "")).upper()
-        m1_dx = danh_xung(m1.get("GIOI_TINH") or m1.get("gioi_tinh", "Nam"))
-        m2_dx = danh_xung(m2.get("GIOI_TINH") or m2.get("gioi_tinh", "Nam"))
-
-        lines.append(f"Chủ tọa cuộc họp: {m1_dx} {m1_ht} - Chức vụ: Chủ tịch HĐTV")
-        lines.append(f"Thư ký cuộc họp: {m2_dx} {m2_ht}")
-
-        replace_section_between(doc, "4.  Thành phần dự họp:", "MỤC II: NỘI DUNG CUỘC HỌP", lines)
-
-        if len(doc.tables) >= 2:
-            t2 = doc.tables[1]
-            if len(t2.rows) > 0 and len(t2.columns) >= 2:
-                t2.rows[0].cells[0].text = f"Chủ toạ\n\n\n\n{m1_ht}"
-                t2.rows[0].cells[1].text = f"Thư ký\n\n\n\n{m2_ht}"
-    except Exception as e:
-        print(f"Warning: error in populate_bbh_giai_the_2tv: {e}")
-
 def populate_bbh_giai_the_cp(doc: docx.Document, shareholders: List[Dict[str, Any]], von_dieu_le_so: str = ""):
     try:
         if len(doc.tables) < 2:
@@ -1606,8 +1635,10 @@ def render_documents(
     ma_nganh_list: Optional[List[Dict[str, Any]]] = None,
     special_payload: Optional[Dict[str, Any]] = None
 ) -> bytes:
-    clean_name = resolve_template_name(template_name)
     template_dir = validate_template_dir(template_name)
+    # Các quy tắc riêng bên dưới so khớp theo tên thư mục thật, nên lấy tên từ thư mục
+    # (đúng cả khi gọi bằng id ASCII hay tên viết khác).
+    clean_name = template_dir.name
 
     # Merge special_payload into raw_data if provided
     merged_data = dict(raw_data)
@@ -1881,12 +1912,6 @@ def render_documents(
                 if "02. Biên bản họp" in fname and "Tăng vốn" in clean_name and "2 TV" in clean_name and tv_moi_list:
                     doc = docx.Document(str(out_path))
                     populate_bbh_tang_von_2tv(doc, tv_moi_list)
-                    doc.save(str(out_path))
-
-                # Biên bản họp in Giải thể 2TV
-                if "02. Biên bản họp" in fname and "Giải thể" in clean_name and "2 TV" in clean_name and tv_moi_list:
-                    doc = docx.Document(str(out_path))
-                    populate_bbh_giai_the_2tv(doc, tv_moi_list)
                     doc.save(str(out_path))
 
                 # Biên bản họp in Giải thể Cổ Phần

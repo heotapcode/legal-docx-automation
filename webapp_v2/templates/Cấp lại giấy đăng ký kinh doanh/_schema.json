@@ -1,4 +1,5 @@
 {
+  "id": "cap-lai-giay-dang-ky-kinh-doanh",
   "name": "Cấp lại giấy đăng ký kinh doanh",
   "display_name": "Cấp lại giấy đăng ký kinh doanh",
   "category": "Cấp lại & Thay đổi",
@@ -19,6 +20,14 @@
           "key": "ma_so_thue",
           "label": "Mã số thuế / Mã số DN",
           "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
           "required": true
         }
       ]

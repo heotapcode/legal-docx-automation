@@ -1,4 +1,5 @@
 {
+  "id": "giam-von-cong-ty-co-phan",
   "name": "Giảm vốn công ty Cổ Phần",
   "display_name": "Giảm vốn công ty Cổ Phần",
   "category": "Giảm vốn",
@@ -46,6 +47,14 @@
           "key": "von_dieu_le_so",
           "label": "Vốn điều lệ mới sau khi giảm (VNĐ)",
           "type": "money",
+          "required": true
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
           "required": true
         }
       ]

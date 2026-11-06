@@ -1,0 +1,508 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legal-docx-automation/schemas/template-schema.json",
+  "title": "Đặc tả _schema.json của một bộ mẫu hồ sơ (v2)",
+  "description": "Xem docs/schema-v2.md. Các phần đánh dấu [v2] đã được định nghĩa nhưng bộ máy wizard/render hiện tại CHƯA dùng tới (sẽ triển khai ở Mục 9).",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "display_name",
+    "steps"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "description": "Mã ASCII cố định, dùng thay tên thư mục tiếng Việt trong API và đường dẫn.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 80
+    },
+    "name": {
+      "description": "Phải trùng tên thư mục bộ mẫu.",
+      "type": "string",
+      "minLength": 1
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "has_nganh": {
+      "description": "Có bước chọn mã ngành nghề.",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "description": "[v2] Phiên bản đặc tả mà file này tuân theo.",
+      "type": "integer",
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "version": {
+      "description": "[v2] Phiên bản nội dung bộ mẫu, tăng mỗi lần xuất bản.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "legal_basis": {
+      "description": "[v2] Căn cứ pháp lý của mẫu (nghị định/thông tư, số hiệu biểu mẫu).",
+      "type": "string"
+    },
+    "effective_from": {
+      "description": "[v2] Ngày mẫu bắt đầu áp dụng (YYYY-MM-DD).",
+      "type": "string",
+      "format": "date"
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/step"
+      }
+    },
+    "documents": {
+      "description": "[v2] Quy tắc sinh file. Bộ mẫu không khai báo thì sinh mọi file .docx trong thư mục.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/document"
+      }
+    }
+  },
+  "$defs": {
+    "key": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "step": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "fields"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/key"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "show_if": {
+          "$ref": "#/$defs/condition"
+        },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        }
+      }
+    },
+    "field": {
+      "type": "object",
+      "required": [
+        "key",
+        "label",
+        "type"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/key"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "text",
+            "mst_lookup",
+            "money",
+            "phone",
+            "email",
+            "number",
+            "person",
+            "person_list",
+            "transfer_list",
+            "checkbox_group",
+            "date",
+            "cccd",
+            "percent",
+            "select",
+            "address",
+            "list",
+            "group"
+          ],
+          "description": "Dòng 1–2: kiểu wizard hiện tại hỗ trợ (kể cả select). Dòng 3: [v2]."
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "help": {
+          "description": "[v2] Ghi chú hiển thị dưới ô nhập.",
+          "type": "string"
+        },
+        "default": {
+          "description": "[v2] Giá trị điền sẵn. KHÔNG dùng dữ liệu người thật.",
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "array"
+          ]
+        },
+        "ocr": {
+          "description": "Cho phép quét ảnh CCCD/VNeID để điền.",
+          "type": "boolean"
+        },
+        "min": {
+          "description": "Số phần tử tối thiểu (person_list, list).",
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "description": "[v2] Số phần tử tối đa (person_list, list).",
+          "type": "integer",
+          "minimum": 1
+        },
+        "extra_fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        },
+        "item": {
+          "description": "[v2] Các trường của mỗi phần tử (list) hoặc của nhóm (group).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "value",
+              "label"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "options_from": {
+          "description": "[v2] Lấy lựa chọn từ một list khác, vd chọn bên chuyển nhượng từ danh sách thành viên.",
+          "$ref": "#/$defs/key"
+        },
+        "show_if": {
+          "$ref": "#/$defs/condition"
+        },
+        "validate": {
+          "$ref": "#/$defs/validate"
+        },
+        "rules": {
+          "description": "[v2] Quy tắc trên cả danh sách.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/list_rule"
+          }
+        },
+        "options_source": {
+          "description": "Lấy lựa chọn từ danh mục dùng chung do API cung cấp (vd 'tinh_thanh' -> GET /api/dia-ban/tinh-thanh).",
+          "enum": [
+            "tinh_thanh"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "checkbox_group"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "options"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "select"
+              }
+            }
+          },
+          "then": {
+            "anyOf": [
+              {
+                "required": [
+                  "options"
+                ]
+              },
+              {
+                "required": [
+                  "options_from"
+                ]
+              },
+              {
+                "required": [
+                  "options_source"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "list",
+                  "group"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "item"
+            ]
+          }
+        }
+      ]
+    },
+    "validate": {
+      "description": "[v2] Ràng buộc giá trị của một trường.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "format": "regex"
+        },
+        "message": {
+          "type": "string"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "min_age": {
+          "description": "Cho trường ngày sinh.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "greater_than": {
+          "description": "Lớn hơn giá trị trường khác, vd von_moi > von_cu.",
+          "$ref": "#/$defs/key"
+        },
+        "less_than": {
+          "$ref": "#/$defs/key"
+        }
+      }
+    },
+    "list_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sum": {
+          "description": "Tên trường trong mỗi phần tử cần cộng tổng.",
+          "$ref": "#/$defs/key"
+        },
+        "equals": {
+          "description": "Tổng phải bằng số này, hoặc bằng giá trị của trường có tên này.",
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "unique": {
+          "description": "Trường không được trùng giữa các phần tử, vd so_cccd.",
+          "$ref": "#/$defs/key"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "sum",
+            "equals"
+          ]
+        },
+        {
+          "required": [
+            "unique"
+          ]
+        }
+      ]
+    },
+    "condition": {
+      "description": "[v2] Điều kiện hiển thị trường/bước hoặc sinh file. 'all'/'any' để kết hợp nhiều điều kiện.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "$ref": "#/$defs/key"
+        },
+        "equals": {},
+        "not_equals": {},
+        "contains": {
+          "description": "Danh sách (vd checkbox_group) có chứa giá trị này.",
+          "type": "string"
+        },
+        "in": {
+          "type": "array"
+        },
+        "not_empty": {
+          "type": "boolean"
+        },
+        "all": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          },
+          "minItems": 1
+        },
+        "any": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          },
+          "minItems": 1
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "field"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "all"
+                ]
+              },
+              {
+                "required": [
+                  "any"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "required": [
+            "all"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "field"
+                ]
+              },
+              {
+                "required": [
+                  "any"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "required": [
+            "any"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "field"
+                ]
+              },
+              {
+                "required": [
+                  "all"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "document": {
+      "description": "[v2] Một file Word trong bộ mẫu và cách sinh nó.",
+      "type": "object",
+      "required": [
+        "file"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "description": "Tên file .docx trong thư mục bộ mẫu.",
+          "type": "string",
+          "pattern": "\\.docx$"
+        },
+        "when": {
+          "description": "Chỉ sinh khi điều kiện đúng.",
+          "$ref": "#/$defs/condition"
+        },
+        "repeat_for": {
+          "description": "Sinh một file cho mỗi phần tử của list này.",
+          "$ref": "#/$defs/key"
+        },
+        "item_alias": {
+          "description": "Tên biến chứa phần tử hiện tại khi repeat_for (mặc định: item).",
+          "$ref": "#/$defs/key"
+        },
+        "output": {
+          "description": "Tên file đầu ra, có thể dùng {{letter}}, {{index}} và trường của phần tử.",
+          "type": "string"
+        },
+        "post": {
+          "description": "Các bước xử lý sau khi render (tên hàm đăng ký trong services/hooks.py).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/key"
+          }
+        }
+      }
+    }
+  }
+}

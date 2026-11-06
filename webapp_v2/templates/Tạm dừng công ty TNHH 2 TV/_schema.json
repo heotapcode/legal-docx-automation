@@ -1,62 +1,84 @@
 {
+  "id": "tam-dung-cong-ty-tnhh-2-tv",
   "name": "Tạm dừng công ty TNHH 2 TV",
   "display_name": "Tạm dừng công ty TNHH 2 TV",
   "category": "Tạm dừng & Hoạt động lại",
   "description": "Hồ sơ tạm dừng kinh doanh đối với công ty TNHH 2 TV theo Nghị định 168/2025/NĐ-CP",
-  "fields": [
+  "has_nganh": false,
+  "steps": [
     {
-      "name": "ten_cong_ty_vn",
-      "label": "Tên công ty",
-      "type": "string",
-      "required": true
+      "id": "company",
+      "title": "Thông tin doanh nghiệp & hồ sơ",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ma_so_thue",
+          "label": "Mã số thuế",
+          "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
+          "required": true
+        }
+      ]
     },
     {
-      "name": "ma_so_thue",
-      "label": "Mã số thuế",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_ho_ten",
-      "label": "Họ và tên ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_ngay_sinh",
-      "label": "Ngày sinh ĐDPL",
-      "type": "string",
-      "default": "1979"
-    },
-    {
-      "name": "ddpl_gioi_tinh",
-      "label": "Giới tính ĐDPL",
-      "type": "string",
-      "default": "Nam"
-    },
-    {
-      "name": "ddpl_so_cccd",
-      "label": "Số CCCD ĐDPL",
-      "type": "string",
-      "required": true
-    },
-    {
-      "name": "ddpl_dia_chi_so_nha",
-      "label": "Địa chỉ liên lạc (Số nhà)",
-      "type": "string",
-      "default": "337 Đê La Thành"
-    },
-    {
-      "name": "ddpl_dia_chi_xa_phuong",
-      "label": "Phường/Xã",
-      "type": "string",
-      "default": "Phường Ô Chợ Dừa"
-    },
-    {
-      "name": "ddpl_dia_chi_tinh_thanh",
-      "label": "Quận/Huyện, Tỉnh/Thành",
-      "type": "string",
-      "default": "Quận Đống Đa, Thành phố Hà Nội"
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật",
+      "fields": [
+        {
+          "key": "ddpl_ho_ten",
+          "label": "Họ và tên ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_ngay_sinh",
+          "label": "Ngày sinh ĐDPL",
+          "type": "text",
+          "placeholder": "VD: 1979"
+        },
+        {
+          "key": "ddpl_gioi_tinh",
+          "label": "Giới tính ĐDPL",
+          "type": "text",
+          "placeholder": "Nam hoặc Nữ"
+        },
+        {
+          "key": "ddpl_so_cccd",
+          "label": "Số CCCD ĐDPL",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ddpl_dia_chi_so_nha",
+          "label": "Địa chỉ liên lạc (Số nhà)",
+          "type": "text",
+          "placeholder": "VD: 337 Đê La Thành"
+        },
+        {
+          "key": "ddpl_dia_chi_xa_phuong",
+          "label": "Phường/Xã",
+          "type": "text",
+          "placeholder": "VD: Phường Ô Chợ Dừa"
+        },
+        {
+          "key": "ddpl_dia_chi_tinh_thanh",
+          "label": "Quận/Huyện, Tỉnh/Thành",
+          "type": "text",
+          "placeholder": "VD: Quận Đống Đa, Thành phố Hà Nội"
+        }
+      ]
     }
   ]
 }
