@@ -22,12 +22,16 @@ from services.dia_ban import context_values as dia_ban_context
 
 VND_PER_VOTE = 1_000_000  # quy ước số tiền tương ứng 1 phiếu biểu quyết
 
+def _is_negative(s: Any) -> bool:
+    return str(s).strip().startswith("-")
+
+
 def fmt_money(s: Any) -> str:
     if s is None:
         return ""
     digits = re.sub(r"[^\d]", "", str(s))
     if digits:
-        return "{:,}".format(int(digits))
+        return ("-" if _is_negative(s) and int(digits) else "") + "{:,}".format(int(digits))
     return str(s)
 
 def so_thanh_chu(s: Any) -> str:
@@ -94,8 +98,10 @@ def so_thanh_chu(s: Any) -> str:
         temp_n = temp_n // 1000
         i += 1
 
-    chuoi_kq = chuoi_kq.strip().capitalize()
-    return chuoi_kq + " đồng"
+    chuoi_kq = chuoi_kq.strip()
+    if _is_negative(s):
+        chuoi_kq = "âm " + chuoi_kq
+    return chuoi_kq.capitalize() + " đồng"
 
 def danh_xung(gioi_tinh: Any) -> str:
     if not gioi_tinh:
@@ -126,18 +132,35 @@ def format_date_vn(d: Any = None) -> str:
         dt = datetime.now()
     return f"ngày {dt.day:02d} tháng {dt.month:02d} năm {dt.year}"
 
+WARD_PREFIXES = ("phường", "xã", "thị trấn", "tt.", "tt ", "đặc khu")
+DISTRICT_PREFIXES = ("quận", "huyện", "thị xã", "thành phố", "tp.", "tp ", "q.", "h.")
+
+
 def parse_address_str(addr: str):
+    """Tách địa chỉ thành (số nhà/thôn, xã/phường, tỉnh/thành phố).
+
+    Địa chỉ cũ còn cấp huyện (in trên CCCD cấp trước 01/07/2025), vd
+    "Tiên Hội, Xã Đông Anh, Huyện Đông Anh, Hà Nội": cấp huyện đã bỏ nên không có ô riêng,
+    được giữ kèm xã/phường -> ("Tiên Hội", "Xã Đông Anh, Huyện Đông Anh", "Hà Nội").
+    """
     if not addr:
         return "", "", ""
     parts = [p.strip() for p in addr.split(',') if p.strip()]
     tinh_thanh = parts.pop() if len(parts) > 0 else ""
+
+    huyen = ""
+    if len(parts) > 1 and parts[-1].lower().startswith(DISTRICT_PREFIXES):
+        huyen = parts.pop()
+
     xa_phuong = ""
     if len(parts) > 0:
         lower = parts[-1].lower()
-        if lower.startswith(('phường', 'xã', 'thị trấn', 'tt')):
+        if lower.startswith(WARD_PREFIXES):
             xa_phuong = parts.pop()
         elif len(parts) > 1:
             xa_phuong = parts.pop()
+    if huyen:
+        xa_phuong = f"{xa_phuong}, {huyen}" if xa_phuong else huyen
     so_nha = ", ".join(parts)
     return so_nha, xa_phuong, tinh_thanh
 
