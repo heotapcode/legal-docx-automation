@@ -318,6 +318,7 @@ function renderCDStep1() {
                     </div>
                 </div>
                 ${cdRenderInput('Tên công ty tiếng Việt', 'cd_ten_cty', s.oldCompany.name, 'Tự động điền')}
+                <div>${renderTinhDangKySelect()}</div>
                 <div class="col-span-2">
                     <label class="text-sm text-muted mb-1 block">Địa chỉ trụ sở chính</label>
                     <input type="text" id="cd_dia_chi_cty" class="input" style="width: 100%; background: transparent; border: 1px solid var(--border-glass); color: white; padding: 8px 12px; border-radius: 4px;" placeholder="Tự động điền" value="${escapeHtml(s.oldCompany.address || '')}">

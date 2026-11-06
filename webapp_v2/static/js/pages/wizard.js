@@ -589,6 +589,9 @@ async function loadStep2Schema() {
     const tplName = window.wizardState.template.name;
     const content = document.getElementById('wizard-content');
 
+    // Các wizard riêng tự vẽ ô chọn tỉnh/thành phố (renderTinhDangKySelect) nên cần danh mục trước
+    await loadCatalog('tinh_thanh');
+
     // Check for custom specialized wizards
     if (tplName === 'Chuyển nhượng Công ty TNHH 2 TV' && window.renderCN2TVWizard) {
         window.wizardState.schema = { has_nganh: false, display_name: tplName };
@@ -622,6 +625,7 @@ async function loadStep2Schema() {
         const res = await fetch(`/api/templates/${encodeURIComponent(tplName)}/schema`);
         if (!res.ok) throw new Error('Schema not found');
         const schema = await res.json();
+        await loadCatalogsForSchema(schema);
         window.wizardState.schema = schema;
 
         // Initialize person list if schema has person_list
@@ -1074,6 +1078,22 @@ function renderField(field) {
                 <div style="background: rgba(0,0,0,0.2); padding: var(--space-3); border-radius: var(--radius-sm); border: 1px solid var(--border-glass);">
                     ${opts}
                 </div>
+            </div>
+        `;
+    }
+
+    // Ô chọn (danh sách sổ xuống): lựa chọn từ field.options hoặc danh mục dùng chung (options_source)
+    if (field.type === 'select') {
+        const cat = field.options_source ? window.__catalogs[field.options_source] : null;
+        let val = curVal || field.default || (cat && cat.defaultValue) || '';
+        if (val && !window.wizardState.formData[fKey]) window.wizardState.formData[fKey] = val;
+        return `
+            <div class="form-group">
+                <label class="form-label">${fLabel} ${reqBadge}</label>
+                <select id="input-${fKey}" name="${fKey}" class="form-control">
+                    ${val ? '' : '<option value="">-- Chọn --</option>'}
+                    ${renderSelectOptions(getCatalogOptions(field), val)}
+                </select>
             </div>
         `;
     }

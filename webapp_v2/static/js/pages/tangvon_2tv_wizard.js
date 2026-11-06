@@ -159,6 +159,10 @@
                                 </div>
 
                                 <div class="tv2-field">
+                                    ${renderTinhDangKySelect('tv2-input-lg')}
+                                </div>
+
+                                <div class="tv2-field">
                                     <label class="tv2-label">Vốn điều lệ đang đăng ký (cũ) <span class="text-error">*</span></label>
                                     <input type="text" id="tv2_von_cu" name="von_cu_so" value="${escapeHtml(fd.von_cu_so ? formatMoneyStr(fd.von_cu_so) : '')}" class="form-control font-mono tv2-input-lg" placeholder="Ví dụ: 1,000,000,000" onkeyup="handleMoneyChange(this, 'spellout-tv2-von-cu'); tv2Sync()">
                                     <div id="spellout-tv2-von-cu" class="money-spellout tv2-spellout">${fd.von_cu_so ? 'Bằng chữ: ' + (window.docSoThanhChu ? window.docSoThanhChu(fd.von_cu_so) : numToVietnameseWords(fd.von_cu_so)) : ''}</div>

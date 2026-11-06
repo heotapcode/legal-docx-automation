@@ -58,8 +58,9 @@ Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false
 | `min` / `max` | Số phần tử tối thiểu / tối đa ([v2] `max`) của danh sách. |
 | `extra_fields` | Trường thêm cho mỗi người trong `person_list` (vd vốn góp, tỷ lệ). |
 | `options` | Danh sách `{value, label}` cho `checkbox_group`, `select`. |
+| `options_source` | `select` lấy lựa chọn từ danh mục dùng chung do API cung cấp. Hiện có `tinh_thanh` (34 tỉnh/thành phố, `GET /api/dia-ban/tinh-thanh`). |
 | `help` | [v2] Ghi chú dưới ô nhập. |
-| `default` | [v2] Giá trị điền sẵn. **Không dùng dữ liệu người thật.** |
+| `default` | Giá trị chọn sẵn (wizard hiện dùng cho `select`; các kiểu khác: [v2]). **Không dùng dữ liệu người thật.** |
 | `item` | [v2] Các trường con của `list` / `group`. |
 | `options_from` | [v2] `select` lấy lựa chọn từ một `list` khác. |
 | `show_if` | [v2] Chỉ hiện trường khi điều kiện đúng. |
@@ -77,7 +78,8 @@ Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false
 | `person_list` | ✔ | Danh sách người, dữ liệu gửi lên ở `thanh_vien`. |
 | `transfer_list` | ✔ | Danh sách giao dịch chuyển nhượng (`chuyen_nhuong`). |
 | `checkbox_group` | ✔ | Bắt buộc có `options`. |
-| `date`, `cccd`, `percent`, `select`, `address` | [v2] | `select` cần `options` hoặc `options_from`. |
+| `select` | ✔ | Danh sách sổ xuống. Cần `options`, `options_source` hoặc [v2] `options_from`. |
+| `date`, `cccd`, `percent`, `address` | [v2] | |
 | `list`, `group` | [v2] | Bắt buộc có `item`. Thay dần `person`, `person_list`, `transfer_list` bằng định nghĩa tường minh. |
 
 ### 3.2. `validate` [v2]
@@ -133,6 +135,24 @@ Thay cho các điều kiện viết cứng theo tên trong `render_service.py` (
 | `item_alias` | Tên biến chứa phần tử hiện tại trong mẫu (mặc định `item`). |
 | `output` | Tên file đầu ra; dùng được `{{letter}}` (a, b, c…), `{{index}}` (1, 2, 3…) và trường của phần tử. |
 | `post` | Các bước xử lý sau khi điền, là tên hàm đăng ký trong `services/hooks.py` (vd `fill_member_table`, `fill_nganh_table`). |
+
+### 3.4. Tỉnh/thành phố nơi đăng ký
+
+Mọi bộ mẫu có địa danh nơi lập văn bản hoặc cơ quan đăng ký đều khai báo ô chọn:
+
+```json
+{ "key": "tinh_dang_ky", "label": "Tỉnh/Thành phố nơi đăng ký", "type": "select",
+  "options_source": "tinh_thanh", "default": "Hà Nội", "required": true }
+```
+
+Backend (`services/dia_ban.py`) suy ra hai biến cho mẫu Word:
+
+| Biến | Hà Nội | Bắc Ninh | Hồ Chí Minh |
+|---|---|---|---|
+| `{{ noi_lap }}` (trước chữ "ngày") | Hà Nội | Bắc Ninh | TP. Hồ Chí Minh |
+| `{{ tinh_thanh_dkkd }}` (sau tên cơ quan đăng ký) | thành phố Hà Nội | tỉnh Bắc Ninh | thành phố Hồ Chí Minh |
+
+Danh mục nằm ở `data/tinh_thanh.json`. Tên không có trong danh mục (vd tỉnh cũ trước sáp nhập 01/07/2025) bị API từ chối (lỗi 400) chứ không tự đổi thành Hà Nội. Không ghép tên cơ quan đăng ký với địa chỉ cá nhân (`{{ ddpl_dia_chi_tinh_thanh }}`).
 
 ## 6. Quy ước cho file Word
 

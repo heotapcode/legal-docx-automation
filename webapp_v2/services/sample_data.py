@@ -75,6 +75,12 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
                     p = sample_person(i)
                     p.update(stt=i, von_gop=str(int(SAMPLE_VON_MOI) // n_members), ty_le=str(round(100 / n_members, 2)))
                     members.append(p)
+            elif typ == "select":
+                # Giữ giá trị mặc định (vd tỉnh/thành phố = Hà Nội) để hồ sơ mẫu ổn định
+                if f.get("default"):
+                    data[key] = f["default"]
+                elif f.get("options"):
+                    data[key] = f["options"][0]["value"]
             elif typ == "checkbox_group":
                 data[key] = [o["value"] for o in f["options"]]
     data["thanh_vien"] = members

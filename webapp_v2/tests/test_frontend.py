@@ -132,7 +132,7 @@ def test_required_fields_block_next_step(page, base_url):
         s.schema.steps.forEach(st => st.fields.forEach(f => {
             const set = (n, v) => { const el = document.querySelector(`[name="${n}"]`); if (el) el.value = v; };
             if (f.type === 'person') { set(f.key + '_ho_ten', 'NGUYỄN VĂN A'); set(f.key + '_so_cccd', '001090001234'); }
-            else if (f.required) set(f.key, f.type === 'money' ? '1,000,000' : 'Giá trị');
+            else if (f.required && f.type !== 'select') set(f.key, f.type === 'money' ? '1,000,000' : 'Giá trị');  // ô chọn đã có mặc định
         }));
     }""")
     page.evaluate("nextStep()")
@@ -184,3 +184,48 @@ def test_every_wizard_renders_without_js_errors(browser, base_url, template):
         assert not errors, errors
     finally:
         pg.close()
+
+
+# ---------- Ô chọn tỉnh/thành phố nơi đăng ký ----------
+
+def open_wizard_until(page, base_url, template, selector):
+    page.goto(f"{base_url}/#/wizard")
+    page.wait_for_function("window.wizardState && (window.wizardState.templatesList || []).length > 0")
+    page.wait_for_load_state("networkidle")
+    page.evaluate("n => selectTemplate(n)", template)
+    page.wait_for_selector(selector, state="attached", timeout=5000)
+
+
+@pytest.mark.parametrize("template", [
+    "Tạm dừng công ty TNHH 1 TV",          # wizard chung
+    "Tăng vốn công ty TNHH 2 TV",          # wizard riêng
+    "Chuyển nhượng Công ty TNHH 2 TV",     # wizard riêng
+    "Chuyển đổi loại hình 1TV sang 2 TV",  # wizard riêng
+])
+def test_province_select_present(page, base_url, template):
+    open_wizard_until(page, base_url, template, "select#input-tinh_dang_ky")
+    sel = page.query_selector("select#input-tinh_dang_ky")
+    options = sel.eval_on_selector_all("option", "els => els.map(e => [e.value, e.textContent])")
+    assert len(options) == 34
+    assert sel.input_value() == "Hà Nội"
+    assert ["Bắc Ninh", "Tỉnh Bắc Ninh"] in options
+    sel.select_option("Bắc Ninh")
+    if template == "Tạm dừng công ty TNHH 1 TV":
+        page.evaluate("collectFormData()")
+    assert page.evaluate("window.wizardState.formData.tinh_dang_ky") == "Bắc Ninh"
+
+
+def test_selected_province_is_sent_when_generating(page, base_url):
+    open_wizard_until(page, base_url, "Tạm dừng công ty TNHH 1 TV", "select#input-tinh_dang_ky")
+    page.select_option("select#input-tinh_dang_ky", "Hồ Chí Minh")
+    page.evaluate("""() => {
+        const set = (n, v) => { const el = document.querySelector(`[name="${n}"]`); if (el) el.value = v; };
+        set('ten_cong_ty_vn', 'CÔNG TY TNHH A'); set('ma_so_thue', '0101234567');
+        set('ddpl_ho_ten', 'NGUYỄN VĂN A'); set('ddpl_so_cccd', '001090001234');
+    }""")
+    page.evaluate("nextStep()")
+    assert page.evaluate("window.wizardState.step") == 4
+    with page.expect_request(lambda r: "/api/documents/generate" in r.url) as req_info:
+        page.evaluate("generateDocuments()")
+    body = req_info.value.post_data_json
+    assert body["data"]["tinh_dang_ky"] == "Hồ Chí Minh"

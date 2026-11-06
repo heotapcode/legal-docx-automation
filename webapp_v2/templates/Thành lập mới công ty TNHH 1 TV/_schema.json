@@ -60,6 +60,14 @@
           "key": "email_cong_ty",
           "label": "Email công ty",
           "type": "email"
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Tỉnh/Thành phố nơi đăng ký",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
+          "required": true
         }
       ]
     },

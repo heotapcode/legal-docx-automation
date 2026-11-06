@@ -1,0 +1,176 @@
+{
+  "_ghi_chu": "34 đơn vị hành chính cấp tỉnh theo Nghị quyết 202/2025/QH15 (hiệu lực 01/07/2025). ten: tên gọi; loai: 'thành phố' hoặc 'tỉnh'; noi_lap: cách ghi nơi lập văn bản trước chữ 'ngày'.",
+  "mac_dinh": "Hà Nội",
+  "tinh_thanh": [
+    {
+      "ten": "Hà Nội",
+      "loai": "thành phố",
+      "noi_lap": "Hà Nội"
+    },
+    {
+      "ten": "Hồ Chí Minh",
+      "loai": "thành phố",
+      "noi_lap": "TP. Hồ Chí Minh"
+    },
+    {
+      "ten": "Hải Phòng",
+      "loai": "thành phố",
+      "noi_lap": "Hải Phòng"
+    },
+    {
+      "ten": "Đà Nẵng",
+      "loai": "thành phố",
+      "noi_lap": "Đà Nẵng"
+    },
+    {
+      "ten": "Cần Thơ",
+      "loai": "thành phố",
+      "noi_lap": "Cần Thơ"
+    },
+    {
+      "ten": "Huế",
+      "loai": "thành phố",
+      "noi_lap": "Huế"
+    },
+    {
+      "ten": "An Giang",
+      "loai": "tỉnh",
+      "noi_lap": "An Giang"
+    },
+    {
+      "ten": "Bắc Ninh",
+      "loai": "tỉnh",
+      "noi_lap": "Bắc Ninh"
+    },
+    {
+      "ten": "Cà Mau",
+      "loai": "tỉnh",
+      "noi_lap": "Cà Mau"
+    },
+    {
+      "ten": "Cao Bằng",
+      "loai": "tỉnh",
+      "noi_lap": "Cao Bằng"
+    },
+    {
+      "ten": "Đắk Lắk",
+      "loai": "tỉnh",
+      "noi_lap": "Đắk Lắk"
+    },
+    {
+      "ten": "Điện Biên",
+      "loai": "tỉnh",
+      "noi_lap": "Điện Biên"
+    },
+    {
+      "ten": "Đồng Nai",
+      "loai": "tỉnh",
+      "noi_lap": "Đồng Nai"
+    },
+    {
+      "ten": "Đồng Tháp",
+      "loai": "tỉnh",
+      "noi_lap": "Đồng Tháp"
+    },
+    {
+      "ten": "Gia Lai",
+      "loai": "tỉnh",
+      "noi_lap": "Gia Lai"
+    },
+    {
+      "ten": "Hà Tĩnh",
+      "loai": "tỉnh",
+      "noi_lap": "Hà Tĩnh"
+    },
+    {
+      "ten": "Hưng Yên",
+      "loai": "tỉnh",
+      "noi_lap": "Hưng Yên"
+    },
+    {
+      "ten": "Khánh Hòa",
+      "loai": "tỉnh",
+      "noi_lap": "Khánh Hòa"
+    },
+    {
+      "ten": "Lai Châu",
+      "loai": "tỉnh",
+      "noi_lap": "Lai Châu"
+    },
+    {
+      "ten": "Lâm Đồng",
+      "loai": "tỉnh",
+      "noi_lap": "Lâm Đồng"
+    },
+    {
+      "ten": "Lạng Sơn",
+      "loai": "tỉnh",
+      "noi_lap": "Lạng Sơn"
+    },
+    {
+      "ten": "Lào Cai",
+      "loai": "tỉnh",
+      "noi_lap": "Lào Cai"
+    },
+    {
+      "ten": "Nghệ An",
+      "loai": "tỉnh",
+      "noi_lap": "Nghệ An"
+    },
+    {
+      "ten": "Ninh Bình",
+      "loai": "tỉnh",
+      "noi_lap": "Ninh Bình"
+    },
+    {
+      "ten": "Phú Thọ",
+      "loai": "tỉnh",
+      "noi_lap": "Phú Thọ"
+    },
+    {
+      "ten": "Quảng Ngãi",
+      "loai": "tỉnh",
+      "noi_lap": "Quảng Ngãi"
+    },
+    {
+      "ten": "Quảng Ninh",
+      "loai": "tỉnh",
+      "noi_lap": "Quảng Ninh"
+    },
+    {
+      "ten": "Quảng Trị",
+      "loai": "tỉnh",
+      "noi_lap": "Quảng Trị"
+    },
+    {
+      "ten": "Sơn La",
+      "loai": "tỉnh",
+      "noi_lap": "Sơn La"
+    },
+    {
+      "ten": "Tây Ninh",
+      "loai": "tỉnh",
+      "noi_lap": "Tây Ninh"
+    },
+    {
+      "ten": "Thái Nguyên",
+      "loai": "tỉnh",
+      "noi_lap": "Thái Nguyên"
+    },
+    {
+      "ten": "Thanh Hóa",
+      "loai": "tỉnh",
+      "noi_lap": "Thanh Hóa"
+    },
+    {
+      "ten": "Tuyên Quang",
+      "loai": "tỉnh",
+      "noi_lap": "Tuyên Quang"
+    },
+    {
+      "ten": "Vĩnh Long",
+      "loai": "tỉnh",
+      "noi_lap": "Vĩnh Long"
+    }
+  ]
+}
