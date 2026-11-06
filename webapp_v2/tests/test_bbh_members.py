@@ -1,5 +1,7 @@
 """Hồi quy: Biên bản họp HĐTV phải lấy thành viên, vốn góp và số phiếu từ dữ liệu nhập,
 không được còn dữ liệu viết cứng của khách hàng cũ."""
+import hashlib
+
 import pytest
 
 from conftest import read_zip
@@ -14,10 +16,26 @@ MEMBERS = [
 ]
 DDPL = {"ddpl_ho_ten": "Trần Văn An", "ddpl_so_cccd": "001080000111", "ddpl_ngay_sinh": "01/02/1980"}
 
-# Dữ liệu của khách hàng cũ từng bị viết cứng trong mẫu
-LEAKED = ["[ĐÃ XÓA]", "[ĐÃ XÓA]", "[ĐÃ XÓA]", "[ĐÃ XÓA]", "[ĐÃ XÓA]",
-          "[ĐÃ XÓA]", "[ĐÃ XÓA]", "22 tháng 10 năm 2026", "3.000 phiếu", "2.000 phiếu",
-          "5000 phiếu", "01/2025/GCN cấp ngày 30/09/2025"]
+# Dữ liệu của khách hàng cũ từng bị viết cứng trong mẫu. Phần nhận diện người/khách hàng chỉ lưu
+# dạng (độ dài, SHA-256) để không đưa lại dữ liệu cá nhân vào repo; test so khớp mọi đoạn cùng độ dài.
+LEAKED_HASHED = [
+    (12, "01f9e8fb31ad89d13d9c316fd7d5ef7184926e8f460e6cb9d4eb1843d85e0bf1"),
+    (12, "892eac13cd362eeadc484be1d75429a896d61918240491fa6e8949d7600ae8e4"),
+    (12, "985fe641f71ef6def3e29e61c2a3b0339238439c18903757151f9a9e5f04fd7b"),
+    (12, "ca83224c68dca648129de6fe06ac101c9eaf3940ca1af5fe11978052a7076b0d"),
+    (13, "362a9029dbc0fddacf74c5ada1032d787fbd4127268dc82f254bbf186d7b0449"),
+    (13, "d7f2014f25185a7961d02c520f486aa33630c8baaa1fab1377688e8c99497e4a"),
+    (15, "83bfb4606887bc5f3078acf7f2d4bf3132a9a2523e86a973f7c67522162b294e"),
+]
+LEAKED_PLAIN = ["22 tháng 10 năm 2026", "3.000 phiếu", "2.000 phiếu", "5000 phiếu", "01/2025/GCN cấp ngày 30/09/2025"]
+
+
+def find_leaks(text: str):
+    leaks = [v for v in LEAKED_PLAIN if v in text]
+    for n, digest in LEAKED_HASHED:
+        if any(hashlib.sha256(text[i:i + n].encode()).hexdigest() == digest for i in range(len(text) - n + 1)):
+            leaks.append(f"<dữ liệu đã băm, dài {n} ký tự>")
+    return leaks
 
 
 def generate(client, name, extra):
@@ -42,7 +60,7 @@ def bbh(files):
 ])
 def test_no_leaked_hardcoded_data(client, name, extra):
     all_text = "\n".join(generate(client, name, extra).values())
-    leaks = [s for s in LEAKED if s in all_text]
+    leaks = find_leaks(all_text)
     assert not leaks, f"Còn dữ liệu viết cứng: {leaks}"
 
 
