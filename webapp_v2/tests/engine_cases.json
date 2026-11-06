@@ -1,0 +1,1150 @@
+{
+ "_ghi_chu": "Ca kiểm thử dùng chung cho services/schema_engine.py và static/js/engine/schema_engine.js. errors so khớp theo [key, code, index] (index = -1 khi không có).",
+ "to_number": [
+  [
+   "1,000,000",
+   1000000
+  ],
+  [
+   "1.000.000",
+   1000000
+  ],
+  [
+   "33.33",
+   33.33
+  ],
+  [
+   "33,33",
+   33.33
+  ],
+  [
+   "-5",
+   -5
+  ],
+  [
+   "  2 000 ",
+   2000
+  ],
+  [
+   7,
+   7
+  ],
+  [
+   "abc",
+   null
+  ],
+  [
+   "",
+   null
+  ],
+  [
+   null,
+   null
+  ],
+  [
+   "1_000",
+   null
+  ],
+  [
+   true,
+   null
+  ],
+  [
+   "1e3",
+   1000
+  ]
+ ],
+ "parse_date": [
+  [
+   "31/12/1990",
+   "1990-12-31"
+  ],
+  [
+   "1/2/1990",
+   "1990-02-01"
+  ],
+  [
+   "2026-01-05",
+   "2026-01-05"
+  ],
+  [
+   "31/02/2020",
+   null
+  ],
+  [
+   "01/02/90",
+   null
+  ],
+  [
+   "",
+   null
+  ],
+  [
+   null,
+   null
+  ]
+ ],
+ "conditions": [
+  [
+   null,
+   {},
+   true
+  ],
+  [
+   {},
+   {
+    "a": 1
+   },
+   true
+  ],
+  [
+   {
+    "field": "a",
+    "equals": "x"
+   },
+   {
+    "a": "x"
+   },
+   true
+  ],
+  [
+   {
+    "field": "a",
+    "equals": "x"
+   },
+   {
+    "a": "y"
+   },
+   false
+  ],
+  [
+   {
+    "field": "a",
+    "equals": "x"
+   },
+   {},
+   false
+  ],
+  [
+   {
+    "field": "a",
+    "not_equals": "x"
+   },
+   {},
+   true
+  ],
+  [
+   {
+    "field": "a",
+    "contains": "A2"
+   },
+   {
+    "a": [
+     "A1",
+     "A2"
+    ]
+   },
+   true
+  ],
+  [
+   {
+    "field": "a",
+    "contains": "A2"
+   },
+   {
+    "a": "A2"
+   },
+   false
+  ],
+  [
+   {
+    "field": "a",
+    "in": [
+     "tnhh_2tv",
+     "cp"
+    ]
+   },
+   {
+    "a": "cp"
+   },
+   true
+  ],
+  [
+   {
+    "field": "a",
+    "in": [
+     "cp"
+    ]
+   },
+   {
+    "a": null
+   },
+   false
+  ],
+  [
+   {
+    "field": "a",
+    "not_empty": true
+   },
+   {
+    "a": "  "
+   },
+   false
+  ],
+  [
+   {
+    "field": "a",
+    "not_empty": false
+   },
+   {
+    "a": []
+   },
+   true
+  ],
+  [
+   {
+    "all": [
+     {
+      "field": "a",
+      "equals": 1
+     },
+     {
+      "field": "b",
+      "contains": "x"
+     }
+    ]
+   },
+   {
+    "a": 1,
+    "b": [
+     "x"
+    ]
+   },
+   true
+  ],
+  [
+   {
+    "all": [
+     {
+      "field": "a",
+      "equals": 1
+     },
+     {
+      "field": "b",
+      "contains": "x"
+     }
+    ]
+   },
+   {
+    "a": 1,
+    "b": []
+   },
+   false
+  ],
+  [
+   {
+    "any": [
+     {
+      "field": "a",
+      "equals": 1
+     },
+     {
+      "field": "b",
+      "equals": 2
+     }
+    ]
+   },
+   {
+    "b": 2
+   },
+   true
+  ],
+  [
+   {
+    "any": [
+     {
+      "field": "a",
+      "equals": 1
+     },
+     {
+      "field": "b",
+      "equals": 2
+     }
+    ]
+   },
+   {},
+   false
+  ]
+ ],
+ "validate": [
+  {
+   "name": "danh sách hợp lệ",
+   "schema": {
+    "steps": [
+     {
+      "id": "tv",
+      "title": "TV",
+      "fields": [
+       {
+        "key": "thanh_vien",
+        "label": "Thành viên",
+        "type": "list",
+        "min": 2,
+        "max": 3,
+        "item": [
+         {
+          "key": "ho_ten",
+          "label": "Họ tên",
+          "type": "text",
+          "required": true
+         },
+         {
+          "key": "so_cccd",
+          "label": "CCCD",
+          "type": "cccd",
+          "required": true
+         },
+         {
+          "key": "ngay_sinh",
+          "label": "Ngày sinh",
+          "type": "date",
+          "validate": {
+           "min_age": 18
+          }
+         },
+         {
+          "key": "ty_le",
+          "label": "Tỷ lệ",
+          "type": "percent",
+          "required": true,
+          "validate": {
+           "min": 0,
+           "max": 100
+          }
+         }
+        ],
+        "rules": [
+         {
+          "sum": "ty_le",
+          "equals": 100
+         },
+         {
+          "unique": "so_cccd"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-06",
+   "data": {
+    "thanh_vien": [
+     {
+      "ho_ten": "A",
+      "so_cccd": "001090000001",
+      "ngay_sinh": "01/01/1990",
+      "ty_le": "60"
+     },
+     {
+      "ho_ten": "B",
+      "so_cccd": "001090000002",
+      "ty_le": "40"
+     }
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "thiếu người, thiếu trường, tổng tỷ lệ sai",
+   "schema": {
+    "steps": [
+     {
+      "id": "tv",
+      "title": "TV",
+      "fields": [
+       {
+        "key": "thanh_vien",
+        "label": "Thành viên",
+        "type": "list",
+        "min": 2,
+        "max": 3,
+        "item": [
+         {
+          "key": "ho_ten",
+          "label": "Họ tên",
+          "type": "text",
+          "required": true
+         },
+         {
+          "key": "so_cccd",
+          "label": "CCCD",
+          "type": "cccd",
+          "required": true
+         },
+         {
+          "key": "ngay_sinh",
+          "label": "Ngày sinh",
+          "type": "date",
+          "validate": {
+           "min_age": 18
+          }
+         },
+         {
+          "key": "ty_le",
+          "label": "Tỷ lệ",
+          "type": "percent",
+          "required": true,
+          "validate": {
+           "min": 0,
+           "max": 100
+          }
+         }
+        ],
+        "rules": [
+         {
+          "sum": "ty_le",
+          "equals": 100
+         },
+         {
+          "unique": "so_cccd"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-06",
+   "data": {
+    "thanh_vien": [
+     {
+      "ho_ten": "",
+      "so_cccd": "123",
+      "ty_le": "60"
+     }
+    ]
+   },
+   "errors": [
+    [
+     "thanh_vien",
+     "min_items",
+     -1
+    ],
+    [
+     "ho_ten",
+     "required",
+     0
+    ],
+    [
+     "so_cccd",
+     "pattern",
+     0
+    ],
+    [
+     "thanh_vien",
+     "sum",
+     -1
+    ]
+   ]
+  },
+  {
+   "name": "quá số người, trùng CCCD, chưa đủ tuổi, tỷ lệ ngoài khoảng",
+   "schema": {
+    "steps": [
+     {
+      "id": "tv",
+      "title": "TV",
+      "fields": [
+       {
+        "key": "thanh_vien",
+        "label": "Thành viên",
+        "type": "list",
+        "min": 2,
+        "max": 3,
+        "item": [
+         {
+          "key": "ho_ten",
+          "label": "Họ tên",
+          "type": "text",
+          "required": true
+         },
+         {
+          "key": "so_cccd",
+          "label": "CCCD",
+          "type": "cccd",
+          "required": true
+         },
+         {
+          "key": "ngay_sinh",
+          "label": "Ngày sinh",
+          "type": "date",
+          "validate": {
+           "min_age": 18
+          }
+         },
+         {
+          "key": "ty_le",
+          "label": "Tỷ lệ",
+          "type": "percent",
+          "required": true,
+          "validate": {
+           "min": 0,
+           "max": 100
+          }
+         }
+        ],
+        "rules": [
+         {
+          "sum": "ty_le",
+          "equals": 100
+         },
+         {
+          "unique": "so_cccd"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-06",
+   "data": {
+    "thanh_vien": [
+     {
+      "ho_ten": "A",
+      "so_cccd": "001090000001",
+      "ngay_sinh": "07/11/2008",
+      "ty_le": "120"
+     },
+     {
+      "ho_ten": "B",
+      "so_cccd": "001090000001",
+      "ty_le": "-10"
+     },
+     {
+      "ho_ten": "C",
+      "so_cccd": "001090000003",
+      "ty_le": "-10"
+     },
+     {
+      "ho_ten": "D",
+      "so_cccd": "001090000004",
+      "ty_le": "0"
+     }
+    ]
+   },
+   "errors": [
+    [
+     "thanh_vien",
+     "max_items",
+     -1
+    ],
+    [
+     "ngay_sinh",
+     "min_age",
+     0
+    ],
+    [
+     "ty_le",
+     "max",
+     0
+    ],
+    [
+     "ty_le",
+     "min",
+     1
+    ],
+    [
+     "ty_le",
+     "min",
+     2
+    ],
+    [
+     "thanh_vien",
+     "unique",
+     1
+    ]
+   ]
+  },
+  {
+   "name": "đủ 18 tuổi đúng ngày sinh nhật",
+   "schema": {
+    "steps": [
+     {
+      "id": "tv",
+      "title": "TV",
+      "fields": [
+       {
+        "key": "thanh_vien",
+        "label": "Thành viên",
+        "type": "list",
+        "min": 2,
+        "max": 3,
+        "item": [
+         {
+          "key": "ho_ten",
+          "label": "Họ tên",
+          "type": "text",
+          "required": true
+         },
+         {
+          "key": "so_cccd",
+          "label": "CCCD",
+          "type": "cccd",
+          "required": true
+         },
+         {
+          "key": "ngay_sinh",
+          "label": "Ngày sinh",
+          "type": "date",
+          "validate": {
+           "min_age": 18
+          }
+         },
+         {
+          "key": "ty_le",
+          "label": "Tỷ lệ",
+          "type": "percent",
+          "required": true,
+          "validate": {
+           "min": 0,
+           "max": 100
+          }
+         }
+        ],
+        "rules": [
+         {
+          "sum": "ty_le",
+          "equals": 100
+         },
+         {
+          "unique": "so_cccd"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-06",
+   "data": {
+    "thanh_vien": [
+     {
+      "ho_ten": "A",
+      "so_cccd": "001090000001",
+      "ngay_sinh": "06/11/2008",
+      "ty_le": "50"
+     },
+     {
+      "ho_ten": "B",
+      "so_cccd": "001090000002",
+      "ty_le": "50"
+     }
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "vốn mới không lớn hơn vốn cũ, tổng góp khác vốn mới",
+   "schema": {
+    "steps": [
+     {
+      "id": "v",
+      "title": "Vốn",
+      "fields": [
+       {
+        "key": "von_cu_so",
+        "label": "Vốn cũ",
+        "type": "money",
+        "required": true
+       },
+       {
+        "key": "von_moi_so",
+        "label": "Vốn mới",
+        "type": "money",
+        "required": true,
+        "validate": {
+         "greater_than": "von_cu_so"
+        }
+       },
+       {
+        "key": "thanh_vien",
+        "label": "TV",
+        "type": "list",
+        "item": [
+         {
+          "key": "von_gop",
+          "label": "Vốn góp",
+          "type": "money"
+         }
+        ],
+        "rules": [
+         {
+          "sum": "von_gop",
+          "equals": "von_moi_so",
+          "message": "Tổng vốn góp phải bằng vốn mới"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-06",
+   "data": {
+    "von_cu_so": "1,000,000,000",
+    "von_moi_so": "1.000.000.000",
+    "thanh_vien": [
+     {
+      "von_gop": "600,000,000"
+     },
+     {
+      "von_gop": "300,000,000"
+     }
+    ]
+   },
+   "errors": [
+    [
+     "von_moi_so",
+     "greater_than",
+     -1
+    ],
+    [
+     "thanh_vien",
+     "sum",
+     -1
+    ]
+   ]
+  },
+  {
+   "name": "vốn hợp lệ",
+   "schema": {
+    "steps": [
+     {
+      "id": "v",
+      "title": "Vốn",
+      "fields": [
+       {
+        "key": "von_cu_so",
+        "label": "Vốn cũ",
+        "type": "money",
+        "required": true
+       },
+       {
+        "key": "von_moi_so",
+        "label": "Vốn mới",
+        "type": "money",
+        "required": true,
+        "validate": {
+         "greater_than": "von_cu_so"
+        }
+       },
+       {
+        "key": "thanh_vien",
+        "label": "TV",
+        "type": "list",
+        "item": [
+         {
+          "key": "von_gop",
+          "label": "Vốn góp",
+          "type": "money"
+         }
+        ],
+        "rules": [
+         {
+          "sum": "von_gop",
+          "equals": "von_moi_so",
+          "message": "Tổng vốn góp phải bằng vốn mới"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-06",
+   "data": {
+    "von_cu_so": "1,000,000,000",
+    "von_moi_so": "2,000,000,000",
+    "thanh_vien": [
+     {
+      "von_gop": "1,500,000,000"
+     },
+     {
+      "von_gop": "500.000.000"
+     }
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "bước ẩn không kiểm tra",
+   "schema": {
+    "steps": [
+     {
+      "id": "chon",
+      "title": "Chọn",
+      "fields": [
+       {
+        "key": "thay_doi",
+        "label": "Thay đổi",
+        "type": "checkbox_group",
+        "options": [
+         {
+          "value": "A2",
+          "label": "Địa chỉ"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "dia_chi",
+      "title": "Địa chỉ mới",
+      "show_if": {
+       "field": "thay_doi",
+       "contains": "A2"
+      },
+      "fields": [
+       {
+        "key": "dia_chi_moi",
+        "label": "Địa chỉ mới",
+        "type": "text",
+        "required": true
+       }
+      ]
+     },
+     {
+      "id": "ddpl",
+      "title": "ĐDPL",
+      "fields": [
+       {
+        "key": "ddpl_changed",
+        "label": "Đổi ĐDPL",
+        "type": "select",
+        "options": [
+         {
+          "value": "co",
+          "label": "Có"
+         }
+        ]
+       },
+       {
+        "key": "ddpl_moi",
+        "label": "ĐDPL mới",
+        "type": "text",
+        "required": true,
+        "show_if": {
+         "field": "ddpl_changed",
+         "equals": "co"
+        }
+       },
+       {
+        "key": "ma_so_thue",
+        "label": "MST",
+        "type": "text",
+        "validate": {
+         "pattern": "\\d{10}(\\d{3})?",
+         "message": "MST 10 hoặc 13 số"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-06",
+   "data": {
+    "thay_doi": [
+     "A1"
+    ],
+    "ma_so_thue": "0101234567"
+   },
+   "errors": []
+  },
+  {
+   "name": "bước hiện theo checkbox, trường hiện theo select, pattern MST",
+   "schema": {
+    "steps": [
+     {
+      "id": "chon",
+      "title": "Chọn",
+      "fields": [
+       {
+        "key": "thay_doi",
+        "label": "Thay đổi",
+        "type": "checkbox_group",
+        "options": [
+         {
+          "value": "A2",
+          "label": "Địa chỉ"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "dia_chi",
+      "title": "Địa chỉ mới",
+      "show_if": {
+       "field": "thay_doi",
+       "contains": "A2"
+      },
+      "fields": [
+       {
+        "key": "dia_chi_moi",
+        "label": "Địa chỉ mới",
+        "type": "text",
+        "required": true
+       }
+      ]
+     },
+     {
+      "id": "ddpl",
+      "title": "ĐDPL",
+      "fields": [
+       {
+        "key": "ddpl_changed",
+        "label": "Đổi ĐDPL",
+        "type": "select",
+        "options": [
+         {
+          "value": "co",
+          "label": "Có"
+         }
+        ]
+       },
+       {
+        "key": "ddpl_moi",
+        "label": "ĐDPL mới",
+        "type": "text",
+        "required": true,
+        "show_if": {
+         "field": "ddpl_changed",
+         "equals": "co"
+        }
+       },
+       {
+        "key": "ma_so_thue",
+        "label": "MST",
+        "type": "text",
+        "validate": {
+         "pattern": "\\d{10}(\\d{3})?",
+         "message": "MST 10 hoặc 13 số"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-06",
+   "data": {
+    "thay_doi": [
+     "A2"
+    ],
+    "ddpl_changed": "co",
+    "ma_so_thue": "12345"
+   },
+   "errors": [
+    [
+     "dia_chi_moi",
+     "required",
+     -1
+    ],
+    [
+     "ddpl_moi",
+     "required",
+     -1
+    ],
+    [
+     "ma_so_thue",
+     "pattern",
+     -1
+    ]
+   ]
+  },
+  {
+   "name": "kiểu cũ: person, person_list, transfer_list, checkbox_group thiếu dữ liệu",
+   "schema": {
+    "steps": [
+     {
+      "id": "a",
+      "title": "A",
+      "fields": [
+       {
+        "key": "ddpl",
+        "label": "ĐDPL",
+        "type": "person",
+        "required": true
+       },
+       {
+        "key": "thanh_vien",
+        "label": "Thành viên",
+        "type": "person_list",
+        "min": 2,
+        "extra_fields": [
+         {
+          "key": "von_gop",
+          "label": "Vốn góp",
+          "type": "money",
+          "required": true
+         }
+        ]
+       },
+       {
+        "key": "chuyen_nhuong",
+        "label": "Giao dịch",
+        "type": "transfer_list",
+        "required": true
+       },
+       {
+        "key": "dkkd_selected",
+        "label": "Nội dung",
+        "type": "checkbox_group",
+        "required": true,
+        "options": [
+         {
+          "value": "A1",
+          "label": "A1"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-06",
+   "data": {
+    "ddpl_ho_ten": "A",
+    "thanh_vien": [
+     {
+      "ho_ten": "",
+      "von_gop": "1"
+     }
+    ],
+    "chuyen_nhuong": [
+     {
+      "ben_a": {
+       "ho_ten": "X"
+      },
+      "ben_b": "sai kiểu"
+     }
+    ],
+    "dkkd_selected": []
+   },
+   "errors": [
+    [
+     "ddpl_so_cccd",
+     "required",
+     -1
+    ],
+    [
+     "thanh_vien",
+     "min_items",
+     -1
+    ],
+    [
+     "ho_ten",
+     "required",
+     0
+    ],
+    [
+     "ben_b.ho_ten",
+     "required",
+     0
+    ],
+    [
+     "gia_tri_so",
+     "required",
+     0
+    ],
+    [
+     "dkkd_selected",
+     "required",
+     -1
+    ]
+   ]
+  },
+  {
+   "name": "kiểu cũ: đầy đủ",
+   "schema": {
+    "steps": [
+     {
+      "id": "a",
+      "title": "A",
+      "fields": [
+       {
+        "key": "ddpl",
+        "label": "ĐDPL",
+        "type": "person",
+        "required": true
+       },
+       {
+        "key": "thanh_vien",
+        "label": "Thành viên",
+        "type": "person_list",
+        "min": 2,
+        "extra_fields": [
+         {
+          "key": "von_gop",
+          "label": "Vốn góp",
+          "type": "money",
+          "required": true
+         }
+        ]
+       },
+       {
+        "key": "chuyen_nhuong",
+        "label": "Giao dịch",
+        "type": "transfer_list",
+        "required": true
+       },
+       {
+        "key": "dkkd_selected",
+        "label": "Nội dung",
+        "type": "checkbox_group",
+        "required": true,
+        "options": [
+         {
+          "value": "A1",
+          "label": "A1"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-06",
+   "data": {
+    "ddpl_ho_ten": "A",
+    "ddpl_so_cccd": "001090000001",
+    "thanh_vien": [
+     {
+      "ho_ten": "A",
+      "von_gop": "1"
+     },
+     {
+      "ho_ten": "B",
+      "von_gop": "2"
+     }
+    ],
+    "chuyen_nhuong": [
+     {
+      "ben_a": {
+       "ho_ten": "X"
+      },
+      "ben_b": {
+       "ho_ten": "Y"
+      },
+      "gia_tri_so": "5"
+     }
+    ],
+    "dkkd_selected": [
+     "A1"
+    ]
+   },
+   "errors": []
+  }
+ ]
+}
