@@ -99,5 +99,39 @@
         }
       ]
     }
+  ],
+  "documents": [
+    {
+      "file": "01. Thông báo thay đổi ĐKKD.docx"
+    },
+    {
+      "file": "02. Biên bản họp.docx",
+      "post": [
+        "fill_bbh_tang_von_2tv"
+      ]
+    },
+    {
+      "file": "03. Quyết định.docx"
+    },
+    {
+      "file": "04. Giấy ủy quyền.docx"
+    },
+    {
+      "file": "05. Danh sách chủ sở hữu hưởng lợi.docx",
+      "post": [
+        "fill_cshhl_table"
+      ]
+    },
+    {
+      "file": "06. Danh sách thành viên.docx",
+      "post": [
+        "fill_member_table_tang_von"
+      ]
+    },
+    {
+      "file": "07. Giấy chứng nhận góp vốn.docx",
+      "repeat_for": "tv_moi",
+      "repeat_with": "giay_chung_nhan_gop_von"
+    }
   ]
 }

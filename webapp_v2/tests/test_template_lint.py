@@ -120,3 +120,15 @@ def test_no_unexpected_personal_id_in_templates():
                 if value not in ALLOWED_HARDCODED_CCCD:
                     leaked.append(f"{name} / {f.file}: {value}")
     assert not leaked, "\n".join(leaked)
+
+
+
+def test_documents_block_mismatch_is_error(tmp_path):
+    schema = {
+        "id": "bo-thu-nghiem", "name": "Bộ thử nghiệm", "display_name": "Bộ thử nghiệm",
+        "steps": [{"id": "c", "title": "C", "fields": [{"key": "ten_cong_ty_vn", "label": "Tên", "type": "text"}]}],
+        "documents": [{"file": "02. Không tồn tại.docx"}],
+    }
+    d = make_template(tmp_path, ["{{ ten_cong_ty_vn }}"], schema=schema)
+    msgs = [f.file for f in template_lint.lint_template(d) if f.code == "E003"]
+    assert "01. Thử.docx" in msgs and "02. Không tồn tại.docx" in msgs

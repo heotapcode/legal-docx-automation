@@ -36,9 +36,9 @@
         },
         {
           "key": "dia_chi_quan_huyen",
-          "label": "Quận/Huyện",
+          "label": "Quận/Huyện (nếu có)",
           "type": "text",
-          "required": true
+          "placeholder": "Bỏ trống nếu địa chỉ theo đơn vị hành chính mới (không còn cấp huyện)"
         },
         {
           "key": "dia_chi_tinh_thanh",
@@ -140,6 +140,29 @@
           ]
         }
       ]
+    }
+  ],
+  "documents": [
+    {
+      "file": "01. Quyết định giải thể.docx"
+    },
+    {
+      "file": "02. Biên bản họp.docx"
+    },
+    {
+      "file": "03. Thông báo giải thể.docx"
+    },
+    {
+      "file": "04. Báo cáo thanh lý tài sản.docx"
+    },
+    {
+      "file": "05. Danh sách chủ nợ.docx"
+    },
+    {
+      "file": "06. Danh sách người lao động.docx"
+    },
+    {
+      "file": "07. Văn bản ủy quyền.docx"
     }
   ]
 }

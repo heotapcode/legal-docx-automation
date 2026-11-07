@@ -5,6 +5,8 @@ Tự động bỏ qua nếu chưa cài Playwright / Chromium. Cài đặt:
 Có thể chỉ định trình duyệt có sẵn qua biến PLAYWRIGHT_CHROMIUM_EXECUTABLE.
 """
 import os
+import urllib.error
+import urllib.parse
 import socket
 import threading
 import time
@@ -229,3 +231,27 @@ def test_selected_province_is_sent_when_generating(page, base_url):
         page.evaluate("generateDocuments()")
     body = req_info.value.post_data_json
     assert body["data"]["tinh_dang_ky"] == "Hồ Chí Minh"
+
+
+def test_browser_and_api_report_same_errors(page, base_url):
+    """Lõi kiểm tra trong trình duyệt và API trả cùng danh sách lỗi cho cùng dữ liệu."""
+    import json as _json
+    import urllib.request
+
+    data = {"ten_cong_ty_vn": "CÔNG TY A", "thanh_vien": [{"ho_ten": "A", "von_gop": "1", "ty_le": ""}]}
+    name = "Thành lập mới công ty TNHH 2 TV"
+    page.goto(base_url)
+    page.wait_for_function("window.SchemaEngine && typeof SchemaEngine.validate === 'function'")
+    schema = _json.loads(urllib.request.urlopen(f"{base_url}/api/templates/{urllib.parse.quote(name)}/schema").read())
+    in_browser = page.evaluate("([s, d]) => SchemaEngine.validate(s, d).map(e => [e.key, e.code, e.index ?? -1])",
+                               [schema, data])
+    req = urllib.request.Request(f"{base_url}/api/documents/generate", method="POST",
+                                 data=_json.dumps({"template_name": name, "data": data}).encode(),
+                                 headers={"Content-Type": "application/json"})
+    try:
+        urllib.request.urlopen(req)
+        raise AssertionError("API phải trả 422")
+    except urllib.error.HTTPError as e:
+        assert e.code == 422
+        api = [[x["key"], x["code"], x.get("index", -1)] for x in _json.loads(e.read())["errors"]]
+    assert in_browser == api and len(api) >= 3

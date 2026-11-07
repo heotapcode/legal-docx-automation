@@ -130,5 +130,19 @@
         }
       ]
     }
+  ],
+  "documents": [
+    {
+      "file": "01. Thông báo thay đổi ĐKKD và thông tin thuế.docx"
+    },
+    {
+      "file": "02. Quyết định của Hội đồng thành viên.docx"
+    },
+    {
+      "file": "03. Biên bản họp Hội đồng thành viên.docx"
+    },
+    {
+      "file": "04. Giấy ủy quyền.docx"
+    }
   ]
 }

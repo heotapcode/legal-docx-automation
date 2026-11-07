@@ -9,6 +9,7 @@ Chạy từ thư mục webapp_v2:
 Mã kiểm tra:
     E001  Thiếu hoặc hỏng _schema.json
     E002  _schema.json sai đặc tả (schemas/template-schema.json)
+    E003  Khối "documents" không khớp các file .docx thật (thiếu, thừa hoặc trùng)
     E010  Cú pháp Jinja trong file Word bị lỗi (docxtpl không render được)
     E011  Dấu {{ }} / {% %} không cân trong một đoạn văn (thường do gõ sai hoặc tag bị tách đoạn)
     W020  Còn placeholder kiểu cũ [TEN_BIEN] chưa chuyển sang {{ ten_bien }}
@@ -39,7 +40,8 @@ from docxtpl import DocxTemplate  # noqa: E402
 from config import TEMPLATES_DIR  # noqa: E402
 
 SCHEMA_SPEC_PATH = APP_DIR / "schemas" / "template-schema.json"
-RENDER_SERVICE_PATH = APP_DIR / "services" / "render_service.py"
+# Các file gán biến cho mẫu lúc chạy (ngoài dữ liệu nhập): quét để biết biến nào "có nguồn"
+RUNTIME_SOURCE_PATHS = [APP_DIR / "services" / "render_service.py", APP_DIR / "services" / "document_rules.py"]
 
 # Biến được tạo động trong vòng lặp của render_service (f-string), không quét được bằng tên cố định
 DYNAMIC_VAR_PATTERNS = [
@@ -85,12 +87,20 @@ def _iter_paragraphs(document) -> Iterator:
 
 
 def _runtime_keys() -> Set[str]:
-    """Tên biến mà render_service gán trực tiếp (raw_data['x'] = ..., sub_ctx["x"] = ...)."""
-    try:
-        src = RENDER_SERVICE_PATH.read_text(encoding="utf-8")
-    except OSError:
-        return set()
-    return set(re.findall(r"(?:raw_data|sub_ctx|ctx|context)\[['\"]([A-Za-z0-9_]+)['\"]\]\s*=", src))
+    """Tên biến được gán trực tiếp lúc chạy (raw_data['x'] = ..., sub_ctx["x"] = ..., sub[f"{pfx}x"] = ...)."""
+    keys: Set[str] = set()
+    for path in RUNTIME_SOURCE_PATHS:
+        try:
+            src = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        keys |= set(re.findall(r"(?:raw_data|sub_ctx|sub|ctx|context)\[['\"]([A-Za-z0-9_]+)['\"]\]\s*=", src))
+        # sub[f"{pfx}ho_ten"] trong vòng "for pfx in ("tv2_", "tv_"):" -> tv2_ho_ten, tv_ho_ten
+        for block in re.findall(r"for pfx in \(([^)]*)\):(.*?)(?:\n\S|\n    [a-z_]+ = )", src, re.S):
+            prefixes = re.findall(r"['\"]([a-z0-9_]+)['\"]", block[0])
+            for suffix in re.findall(r"\{pfx\}([a-z0-9_]+)", block[1]):
+                keys |= {p + suffix for p in prefixes}
+    return keys
 
 
 def _load_spec() -> Optional[dict]:
@@ -196,6 +206,16 @@ def lint_template(tpl_dir: Path, spec: Optional[dict] = None, runtime: Optional[
     if not docx_files:
         findings.append(Finding("warning", "W032", tpl_dir.name, "", "Không có file .docx nào"))
         return findings
+
+    if schema is not None and schema.get("documents"):
+        listed = [d.get("file") for d in schema["documents"]]
+        actual = {f.name for f in docx_files}
+        for f in sorted(actual - set(listed)):
+            findings.append(Finding("error", "E003", tpl_dir.name, f, "File .docx chưa khai báo trong documents (sẽ không được sinh)"))
+        for f in sorted(set(listed) - actual):
+            findings.append(Finding("error", "E003", tpl_dir.name, str(f), "documents khai báo file không tồn tại"))
+        for f in sorted({x for x in listed if listed.count(x) > 1}):
+            findings.append(Finding("error", "E003", tpl_dir.name, str(f), "File được khai báo nhiều lần trong documents"))
 
     known: Set[str] = set(jinja_env.globals)
     if schema is not None and schema.get("steps"):

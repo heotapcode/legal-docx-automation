@@ -7,6 +7,8 @@ Mỗi bộ mẫu hồ sơ là một thư mục trong `webapp_v2/templates/`, g�
 
 Đặc tả máy đọc được nằm ở [`schemas/template-schema.json`](../schemas/template-schema.json) (JSON Schema 2020-12). Bộ test (`tests/test_schemas.py`) và công cụ quét mẫu (`tools/template_lint.py`, mã `E002`) kiểm tra mọi schema theo file này.
 
+> **Lõi kiểm tra dữ liệu (Mục 9, bước 1).** `show_if`, `validate`, `rules` và các kiểu cũ (`person`, `person_list`, `transfer_list`) đã được cài đặt ở `services/schema_engine.py` (backend) và `static/js/engine/schema_engine.js` (trình duyệt), hai bản chạy chung ca kiểm thử `tests/engine_cases.json`. Đã nối (bước 2): API `/api/documents/generate` trả 422 kèm danh sách lỗi khi dữ liệu không hợp lệ, và wizard dùng chung lõi để chặn bước tiếp/tải hồ sơ. Hai bộ dùng wizard riêng (Chuyển nhượng 2 TV, Chuyển đổi 1TV→2TV) tạm chưa kiểm tra ở API cho tới khi chuyển sang bộ máy chung.
+>
 > **Trạng thái triển khai.** Các phần đánh dấu **[v2]** đã có trong đặc tả để thống nhất định dạng, nhưng wizard (`static/js/pages/wizard.js`) và `render_service.py` **chưa dùng tới**. Chúng sẽ được triển khai ở Mục 9 (bộ máy wizard chung). Hiện tại bộ mẫu thật chỉ nên dùng các kiểu trường wizard đang hỗ trợ (`tests/test_schemas.py::SUPPORTED_TYPES`).
 
 ---
@@ -26,7 +28,7 @@ Mỗi bộ mẫu hồ sơ là một thư mục trong `webapp_v2/templates/`, g�
 | `version` | | [v2] Phiên bản nội dung bộ mẫu, tăng mỗi lần xuất bản (Mục 10). |
 | `legal_basis` | | [v2] Căn cứ pháp lý, vd số hiệu biểu mẫu theo thông tư hiện hành. |
 | `effective_from` | | [v2] Ngày bắt đầu áp dụng, `YYYY-MM-DD`. |
-| `documents` | | [v2] Quy tắc sinh file (mục 5). Không khai báo thì sinh mọi file `.docx` trong thư mục. |
+| `documents` | | Quy tắc sinh file (mục 5). Không khai báo thì sinh mọi file `.docx` trong thư mục. |
 
 Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false`), để bắt lỗi gõ sai như `requried`.
 
@@ -113,47 +115,31 @@ Khóa hỗ trợ: `pattern`, `message`, `min`, `max`, `min_age`, `greater_than`,
 ```
 Toán tử: `equals`, `not_equals`, `contains` (danh sách chứa giá trị), `in`, `not_empty`; kết hợp bằng `all` / `any`. Mỗi điều kiện dùng **đúng một** trong `field`, `all`, `any`.
 
-## 5. Quy tắc sinh file (`documents[]`) [v2]
+## 5. Quy tắc sinh file (`documents[]`)
 
-Thay cho các điều kiện viết cứng theo tên trong `render_service.py` (vd `if "Chuyển nhượng" in clean_name and "09." in fname`).
+Đã dùng thật (Mục 9, bước 3): `render_documents` đọc khối này thay cho các điều kiện viết cứng theo tên thư mục.
+Cả 24 bộ mẫu đều khai báo; khi đã khai báo thì phải liệt kê **đủ** mọi file `.docx` (test và công cụ quét báo `E003` nếu thiếu/thừa).
 
 ```json
 "documents": [
   { "file": "01. Thông báo.docx" },
-  { "file": "02. Thay đổi ĐDPL.docx", "when": { "field": "ddpl_changed", "equals": true } },
-  { "file": "09. Xác nhận góp vốn.docx", "repeat_for": "tv_moi", "item_alias": "tv",
-    "output": "09{{letter}}. Xác nhận góp vốn ({{ho_ten}}).docx" },
-  { "file": "06. Danh sách thành viên.docx", "post": ["fill_member_table"] }
+  { "file": "02. Thông báo thay đổi người đại diện.docx", "when": { "field": "ddpl_changed", "equals": true } },
+  { "file": "09. Xác nhận góp vốn 1.docx", "repeat_for": "tv_moi", "repeat_with": "xac_nhan_gop_von" },
+  { "file": "10. Xác nhận góp vốn 2.docx", "when": { "field": "tv_moi", "not_empty": false } },
+  { "file": "03. Danh sách thành viên.docx", "post": ["fill_member_table"] }
 ]
 ```
 
 | Khóa | Mô tả |
 |---|---|
 | `file` ✔ | Tên file `.docx` trong thư mục bộ mẫu. |
-| `when` | Chỉ sinh khi điều kiện đúng. |
-| `repeat_for` | Sinh một file cho mỗi phần tử của danh sách. |
-| `item_alias` | Tên biến chứa phần tử hiện tại trong mẫu (mặc định `item`). |
-| `output` | Tên file đầu ra; dùng được `{{letter}}` (a, b, c…), `{{index}}` (1, 2, 3…) và trường của phần tử. |
-| `post` | Các bước xử lý sau khi điền, là tên hàm đăng ký trong `services/hooks.py` (vd `fill_member_table`, `fill_nganh_table`). |
+| `when` | Chỉ sinh khi điều kiện (mục 4) đúng trên **dữ liệu quy tắc**: ngữ cảnh đã chuẩn hóa cộng `tv_moi` (danh sách thành viên), `chuyen_nhuong` (danh sách giao dịch), `ddpl_changed` (có đổi người đại diện, mặc định `true`). |
+| `repeat_for` + `repeat_with` | Sinh một file cho mỗi phần tử của `tv_moi` hoặc `chuyen_nhuong`; `repeat_with` là hàm dựng ngữ cảnh và tên file: `xac_nhan_gop_von`, `giao_dich_chuyen_nhuong`, `giao_dich_chuyen_doi`, `giay_chung_nhan_gop_von`. Danh sách rỗng -> điền một lần như bình thường. |
+| `post` | Xử lý sau khi điền, theo thứ tự, chỉ chạy khi có thành viên: `fill_member_table`, `fill_member_table_tang_von`, `fill_founders_table`, `fill_cshhl_table`, `fill_qd_chuyen_doi`, `fill_dieu_le_chuyen_doi`, `fill_dieu_le_tlm_2tv`, `fill_dieu_le_tlm_cp`, `fill_bbh_tang_von_cp`, `fill_bbh_giam_von_cp`, `fill_bbh_tang_von_2tv`, `fill_bbh_giai_the_cp`. |
+| `output`, `item_alias` | [v2] Dự phòng cho sinh lặp tổng quát (chưa dùng). |
 
-### 3.4. Tỉnh/thành phố nơi đăng ký
-
-Mọi bộ mẫu có địa danh nơi lập văn bản hoặc cơ quan đăng ký đều khai báo ô chọn:
-
-```json
-{ "key": "tinh_dang_ky", "label": "Tỉnh/Thành phố nơi đăng ký", "type": "select",
-  "options_source": "tinh_thanh", "default": "Hà Nội", "required": true }
-```
-
-Backend (`services/dia_ban.py`) suy ra hai biến cho mẫu Word:
-
-| Biến | Hà Nội | Bắc Ninh | Hồ Chí Minh |
-|---|---|---|---|
-| `{{ noi_lap }}` (trước chữ "ngày") | Hà Nội | Bắc Ninh | TP. Hồ Chí Minh |
-| `{{ tinh_thanh_dkkd }}` (dạng viết tắt: "Phòng ĐKKD …") | thành phố Hà Nội | tỉnh Bắc Ninh | thành phố Hồ Chí Minh |
-| `{{ phong_dkkd }}` (tên đầy đủ của phòng) | Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội | Phòng Đăng ký kinh doanh tỉnh Bắc Ninh | Phòng Đăng ký kinh doanh thành phố Hồ Chí Minh |
-
-Danh mục nằm ở `data/tinh_thanh.json`; tỉnh nào có tên phòng khác mẫu chung thì khai báo `phong_dkkd` riêng (hiện chỉ Hà Nội). Tên không có trong danh mục (vd tỉnh cũ trước sáp nhập 01/07/2025) bị API từ chối (lỗi 400) chứ không tự đổi thành Hà Nội. Không ghép tên cơ quan đăng ký với địa chỉ cá nhân (`{{ ddpl_dia_chi_tinh_thanh }}`).
+Bảng mã ngành luôn được điền vào mọi file khi có danh sách ngành, không cần khai báo.
+Thêm hàm lặp / hàm xử lý mới: viết trong `services/document_rules.py` (`REPEATERS`, `HOOKS`) và thêm tên vào `schemas/template-schema.json` (test kiểm tra hai nơi khớp nhau).
 
 ## 6. Quy ước cho file Word
 

@@ -87,3 +87,29 @@ def test_template_ids_unique_and_resolvable():
     index = template_id_index()
     for name in TEMPLATES:
         assert index[load_schema(name)["id"]].name == name
+
+
+@pytest.mark.parametrize("name", TEMPLATES)
+def test_documents_block_matches_files(name):
+    """Khối documents liệt kê đủ và đúng các file .docx; tên quy tắc phải có trong document_rules."""
+    from services.document_rules import HOOKS, REPEATERS
+
+    docs = load_schema(name).get("documents")
+    assert docs, "Thiếu khối documents"
+    listed = [d["file"] for d in docs]
+    actual = sorted(f.name for f in (TEMPLATES_DIR / name).glob("*.docx") if not f.name.startswith(("~$", "_")))
+    assert len(listed) == len(set(listed)), "Một file được khai báo nhiều lần"
+    assert sorted(listed) == actual, f"Thiếu: {sorted(set(actual) - set(listed))}; thừa: {sorted(set(listed) - set(actual))}"
+    for d in docs:
+        if "repeat_with" in d:
+            assert d["repeat_with"] in REPEATERS
+        for hook in d.get("post", []):
+            assert hook in HOOKS
+
+
+def test_spec_rule_names_match_code():
+    from services.document_rules import HOOKS, REPEATERS
+
+    spec = json.loads(SPEC_PATH.read_text(encoding="utf-8"))["$defs"]["document"]["properties"]
+    assert sorted(spec["repeat_with"]["enum"]) == sorted(REPEATERS)
+    assert sorted(spec["post"]["items"]["enum"]) == sorted(HOOKS)

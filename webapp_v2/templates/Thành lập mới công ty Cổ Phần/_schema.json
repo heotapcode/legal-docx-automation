@@ -40,8 +40,9 @@
         },
         {
           "key": "dia_chi_quan_huyen",
-          "label": "Quận/Huyện",
-          "type": "text"
+          "label": "Quận/Huyện (nếu có)",
+          "type": "text",
+          "placeholder": "Bỏ trống nếu địa chỉ theo đơn vị hành chính mới (không còn cấp huyện)"
         },
         {
           "key": "dia_chi_tinh_thanh",
@@ -114,6 +115,32 @@
             }
           ]
         }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "file": "01. Giấy đề nghị.docx"
+    },
+    {
+      "file": "02. Điều lệ.docx",
+      "post": [
+        "fill_dieu_le_tlm_cp"
+      ]
+    },
+    {
+      "file": "03. Danh sách cổ đông sáng lập.docx",
+      "post": [
+        "fill_founders_table"
+      ]
+    },
+    {
+      "file": "04. Giấy ủy quyền.docx"
+    },
+    {
+      "file": "05. Danh sách chủ sở hữu hưởng lợi.docx",
+      "post": [
+        "fill_cshhl_table"
       ]
     }
   ]

@@ -64,5 +64,46 @@
         }
       ]
     }
+  ],
+  "documents": [
+    {
+      "file": "01. Thông báo thay đổi chủ sở hữu.docx"
+    },
+    {
+      "file": "02. Quyết định.docx",
+      "when": {
+        "field": "ddpl_changed",
+        "equals": true
+      }
+    },
+    {
+      "file": "03. Thông báo thay đổi người đại diện theo pháp luật.docx"
+    },
+    {
+      "file": "04. Danh sách chủ sở hữu hưởng lợi.docx",
+      "post": [
+        "fill_cshhl_table"
+      ]
+    },
+    {
+      "file": "05. Hợp đồng chuyển nhượng.docx",
+      "repeat_for": "chuyen_nhuong",
+      "repeat_with": "giao_dich_chuyen_nhuong"
+    },
+    {
+      "file": "06. Biên bản thanh lý.docx",
+      "repeat_for": "chuyen_nhuong",
+      "repeat_with": "giao_dich_chuyen_nhuong"
+    },
+    {
+      "file": "07. Giấy ủy quyền.docx"
+    },
+    {
+      "file": "08. Giấy ủy quyền 02.docx",
+      "when": {
+        "field": "ddpl_changed",
+        "equals": true
+      }
+    }
   ]
 }

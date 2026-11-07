@@ -85,5 +85,28 @@
         }
       ]
     }
+  ],
+  "documents": [
+    {
+      "file": "01. Biên bản họp + Quyết định.docx",
+      "post": [
+        "fill_bbh_giai_the_cp"
+      ]
+    },
+    {
+      "file": "03. Thông báo giải thể.docx"
+    },
+    {
+      "file": "04. Báo cáo thanh lý tài sản.docx"
+    },
+    {
+      "file": "05. Danh sách chủ nợ.docx"
+    },
+    {
+      "file": "06. Danh sách người lao động.docx"
+    },
+    {
+      "file": "07. Văn bản ủy quyền.docx"
+    }
   ]
 }

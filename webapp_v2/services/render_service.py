@@ -1659,9 +1659,6 @@ def render_documents(
     special_payload: Optional[Dict[str, Any]] = None
 ) -> bytes:
     template_dir = validate_template_dir(template_name)
-    # Các quy tắc riêng bên dưới so khớp theo tên thư mục thật, nên lấy tên từ thư mục
-    # (đúng cả khi gọi bằng id ASCII hay tên viết khác).
-    clean_name = template_dir.name
 
     # Merge special_payload into raw_data if provided
     merged_data = dict(raw_data)
@@ -1677,270 +1674,57 @@ def render_documents(
     jinja_env = create_jinja_env()
 
     chuyen_nhuong_list = context.get("chuyen_nhuong") or []
-    ddpl_changed = context.get("ddpl_changed", True)
     tv_moi_list = context.get("thanh_vien") or []
     if special_payload and "cn2tv_data" in special_payload and special_payload["cn2tv_data"]:
         tv_moi_list = special_payload["cn2tv_data"].get("tv_moi") or tv_moi_list
+
+    # Quy tắc sinh file nằm trong khối "documents" của _schema.json (services/document_rules.py)
+    from services import document_rules
+    from services.schema_engine import eval_condition
+
+    rule_data = dict(context)
+    rule_data.update(
+        tv_moi=tv_moi_list,
+        chuyen_nhuong=chuyen_nhuong_list,
+        ddpl_changed=bool(context.get("ddpl_changed", True)),
+    )
+    schema_path = template_dir / "_schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8")) if schema_path.exists() else {}
 
     with tempfile.TemporaryDirectory() as tmp_out:
         out_dir = Path(tmp_out)
         render_errors = []
 
-        for tpl_file in sorted(template_dir.glob("*.docx")):
-            fname = tpl_file.name
-            if fname.startswith("~$") or fname.startswith("_"):
+        for entry in document_rules.plan_documents(schema, template_dir):
+            fname = entry["file"]
+            tpl_file = template_dir / fname
+            if not eval_condition(entry.get("when"), rule_data):
                 continue
-
-            # Skip 02 and 08 if DDPL didn't change in Chuyển nhượng 2TV
-            if "Chuyển nhượng" in clean_name and not ddpl_changed and ("02." in fname or "08." in fname):
-                continue
-
-            # Skip 10 if we generate 09 per new member
-            if "Chuyển nhượng" in clean_name and "10. Xác nhận góp vốn 2" in fname and tv_moi_list:
-                continue
-
-            # Per-member capital contribution certificate
-            if "Chuyển nhượng" in clean_name and "09. Xác nhận góp vốn 1" in fname and tv_moi_list:
-                for i, m in enumerate(tv_moi_list):
-                    suffix = chr(ord("a") + i)
-                    m_name = m.get("HO_TEN") or m.get("ho_ten") or f"TV_{i+1}"
-                    out_name = f"09{suffix}. Xác nhận góp vốn ({m_name}).docx"
-                    out_name = re.sub(r'[<>:"/\\|?*]', '_', out_name)
-
-                    sub_ctx = SafeDict(context)
-                    sub_ctx["tv_moi_1_ho_ten"] = m_name
-                    sub_ctx["tv_moi_1_ngay_sinh"] = m.get("NGAY_SINH") or m.get("ngay_sinh", "")
-                    sub_ctx["tv_moi_1_so_cccd"] = m.get("SO_CCCD") or m.get("so_cccd", "")
-                    sub_ctx["tv_moi_1_gioi_tinh"] = m.get("GIOI_TINH") or m.get("gioi_tinh", "")
-                    sub_ctx["tv_moi_1_dia_chi_day_du"] = m.get("DIA_CHI") or m.get("dia_chi_day_du", "")
-                    v_raw = m.get("VON_GOP") or m.get("von_so", "")
-                    sub_ctx["tv_moi_1_von_so"] = fmt_money(v_raw)
-                    sub_ctx["tv_moi_1_von_chu"] = so_thanh_chu(v_raw)
-                    sub_ctx["tv_moi_1_ty_le"] = m.get("TY_LE") or m.get("ty_le", "")
-
-                    tpl = DocxTemplate(str(tpl_file))
-                    tpl.render(sub_ctx, jinja_env)
-                    tpl.save(str(out_dir / out_name))
-                continue
-
-            # Special multi-file handling for transfer contracts & liquidations
-            if "Chuyển nhượng" in clean_name and chuyen_nhuong_list:
-                if "Hợp đồng chuyển nhượng" in fname:
-                    for i, cn in enumerate(chuyen_nhuong_list):
-                        suffix = chr(ord("a") + i)
-                        ben_a = cn.get("ben_a", {})
-                        ben_b = cn.get("ben_b", {})
-                        ben_a_name = ben_a.get("ho_ten") or f"BenA_{i+1}"
-                        ben_b_name = ben_b.get("ho_ten") or f"BenB_{i+1}"
-                        out_name = f"{fname.replace('.docx', '')}_{suffix} ({ben_a_name} - {ben_b_name}).docx"
-                        out_name = re.sub(r'[<>:"/\\|?*]', '_', out_name)
-
-                        sub_ctx = SafeDict(context)
-                        sub_ctx["ben_a"] = SafeDict(ben_a)
-                        sub_ctx["ben_b"] = SafeDict(ben_b)
-                        for k_a, v_a in ben_a.items(): sub_ctx[f"ben_a_{k_a}"] = v_a
-                        for k_b, v_b in ben_b.items(): sub_ctx[f"ben_b_{k_b}"] = v_b
-                        sub_ctx["gia_tri_cn_so"] = fmt_money(cn.get("gia_tri_so", ""))
-                        sub_ctx["gia_tri_cn_chu"] = so_thanh_chu(cn.get("gia_tri_so", ""))
-                        sub_ctx["gia_tri_cn_ty_le"] = cn.get("ty_le", "")
-
-                        tpl = DocxTemplate(str(tpl_file))
-                        tpl.render(sub_ctx, jinja_env)
-                        tpl.save(str(out_dir / out_name))
-                    continue
-
-                if "Biên bản thanh lý" in fname:
-                    for i, cn in enumerate(chuyen_nhuong_list):
-                        suffix = chr(ord("a") + i)
-                        ben_a = cn.get("ben_a", {})
-                        ben_b = cn.get("ben_b", {})
-                        ben_a_name = ben_a.get("ho_ten") or f"BenA_{i+1}"
-                        ben_b_name = ben_b.get("ho_ten") or f"BenB_{i+1}"
-                        out_name = f"{fname.replace('.docx', '')}_{suffix} ({ben_a_name} - {ben_b_name}).docx"
-                        out_name = re.sub(r'[<>:"/\\|?*]', '_', out_name)
-
-                        sub_ctx = SafeDict(context)
-                        sub_ctx["ben_a"] = SafeDict(ben_a)
-                        sub_ctx["ben_b"] = SafeDict(ben_b)
-                        for k_a, v_a in ben_a.items(): sub_ctx[f"ben_a_{k_a}"] = v_a
-                        for k_b, v_b in ben_b.items(): sub_ctx[f"ben_b_{k_b}"] = v_b
-                        sub_ctx["gia_tri_cn_so"] = fmt_money(cn.get("gia_tri_so", ""))
-                        sub_ctx["gia_tri_cn_chu"] = so_thanh_chu(cn.get("gia_tri_so", ""))
-                        sub_ctx["gia_tri_cn_ty_le"] = cn.get("ty_le", "")
-
-                        tpl = DocxTemplate(str(tpl_file))
-                        tpl.render(sub_ctx, jinja_env)
-                        tpl.save(str(out_dir / out_name))
-                    continue
-
-            # Special multi-file handling for Chuyển đổi 1TV sang 2TV: Hợp đồng chuyển nhượng + Biên bản thanh lý
-            if "Chuyển đổi" in clean_name and "Hợp đồng chuyển nhượng" in fname and chuyen_nhuong_list:
-                for i, cn in enumerate(chuyen_nhuong_list):
-                    suffix = chr(ord("a") + i)
-                    ben_a = cn.get("ben_a", {})
-                    ben_b = cn.get("ben_b", {})
-                    ben_a_name = ben_a.get("ho_ten") or f"BenA_{i+1}"
-                    ben_b_name = ben_b.get("ho_ten") or f"BenB_{i+1}"
-                    if len(chuyen_nhuong_list) == 1:
-                        out_name = f"{fname.replace('.docx', '')} ({ben_a_name} - {ben_b_name}).docx"
-                    else:
-                        out_name = f"{fname.replace('.docx', '')}_{suffix} ({ben_a_name} - {ben_b_name}).docx"
-                    out_name = re.sub(r'[<>:"/\\|?*]', '_', out_name)
-
-                    sub_ctx = SafeDict(context)
-                    # Ben A
-                    sub_ctx["ddpl_ho_ten"] = ben_a.get("ho_ten", "")
-                    sub_ctx["ddpl_so_cccd"] = ben_a.get("so_cccd") or ben_a.get("cccd", "")
-                    sub_ctx["ddpl_ngay_sinh"] = ben_a.get("ngay_sinh", "")
-                    sub_ctx["ddpl_gioi_tinh"] = ben_a.get("gioi_tinh", "Nam")
-                    sub_ctx["ddpl_dia_chi_day_du"] = ben_a.get("dia_chi_day_du") or ben_a.get("dia_chi", "")
-                    sn_a, xp_a, tt_a = parse_address_str(sub_ctx["ddpl_dia_chi_day_du"])
-                    sub_ctx["ddpl_dia_chi_so_nha"] = sn_a
-                    sub_ctx["ddpl_dia_chi_xa_phuong"] = xp_a
-                    sub_ctx["ddpl_dia_chi_tinh_thanh"] = tt_a
-
-                    # Ben B
-                    sub_ctx["tv2_ho_ten"] = ben_b.get("ho_ten", "")
-                    sub_ctx["tv2_so_cccd"] = ben_b.get("so_cccd") or ben_b.get("cccd", "")
-                    sub_ctx["tv2_ngay_sinh"] = ben_b.get("ngay_sinh", "")
-                    sub_ctx["tv2_gioi_tinh"] = ben_b.get("gioi_tinh", "Nam")
-                    sub_ctx["tv2_dia_chi_day_du"] = ben_b.get("dia_chi_day_du") or ben_b.get("dia_chi", "")
-                    sn_b, xp_b, tt_b = parse_address_str(sub_ctx["tv2_dia_chi_day_du"])
-                    sub_ctx["tv2_dia_chi_so_nha"] = sn_b
-                    sub_ctx["tv2_dia_chi_xa_phuong"] = xp_b
-                    sub_ctx["tv2_dia_chi_tinh_thanh"] = tt_b
-
-                    v_raw = cn.get("von_cn_so") or cn.get("von", "")
-                    sub_ctx["tv2_von_cu_so"] = fmt_money(v_raw)
-                    sub_ctx["tv2_von_cu_chu"] = so_thanh_chu(v_raw)
-                    sub_ctx["tv2_von_cu_moi"] = so_thanh_chu(v_raw)
-                    sub_ctx["tv2_ty_le"] = cn.get("ty_le_cn") or cn.get("ty_le", "")
-
-                    tpl = DocxTemplate(str(tpl_file))
-                    tpl.render(sub_ctx, jinja_env)
-                    tpl.save(str(out_dir / out_name))
-                continue
-
-            # Special multi-file handling for Chuyển đổi 1TV sang 2TV and Tăng vốn 2TV Giấy chứng nhận góp vốn
-            if ("Chuyển đổi" in clean_name or "Tăng vốn" in clean_name) and "Giấy chứng nhận góp vốn" in fname and tv_moi_list:
-                for i, m in enumerate(tv_moi_list):
-                    suffix = chr(ord("a") + i)
-                    m_name = m.get("HO_TEN") or m.get("ho_ten") or f"TV_{i+1}"
-                    out_name = f"07. Giấy chứng nhận góp vốn_{suffix} ({m_name}).docx" if "07." in fname else f"Giấy chứng nhận góp vốn_{suffix} ({m_name}).docx"
-                    out_name = re.sub(r'[<>:"/\\|?*]', '_', out_name)
-
-                    sub_ctx = SafeDict(context)
-                    sub_ctx["tv2_ho_ten"] = m_name
-                    sub_ctx["tv_ho_ten"] = m_name
-                    sub_ctx["tv2_ngay_sinh"] = m.get("NGAY_SINH") or m.get("ngay_sinh", "")
-                    sub_ctx["tv_ngay_sinh"] = m.get("NGAY_SINH") or m.get("ngay_sinh", "")
-                    sub_ctx["tv2_so_cccd"] = m.get("SO_CCCD") or m.get("so_cccd", "")
-                    sub_ctx["tv_so_cccd"] = m.get("SO_CCCD") or m.get("so_cccd", "")
-                    sub_ctx["tv2_gioi_tinh"] = m.get("GIOI_TINH") or m.get("gioi_tinh", "Nam")
-                    sub_ctx["tv_gioi_tinh"] = m.get("GIOI_TINH") or m.get("gioi_tinh", "Nam")
-                    sub_ctx["tv2_dia_chi_day_du"] = m.get("DIA_CHI") or m.get("dia_chi_day_du", "")
-                    sub_ctx["tv_dia_chi_day_du"] = m.get("DIA_CHI") or m.get("dia_chi_day_du", "")
-                    sn_m, xp_m, tt_m = parse_address_str(sub_ctx["tv_dia_chi_day_du"])
-                    sub_ctx["tv2_dia_chi_so_nha"] = sn_m
-                    sub_ctx["tv_dia_chi_so_nha"] = sn_m
-                    sub_ctx["tv2_dia_chi_xa_phuong"] = xp_m
-                    sub_ctx["tv_dia_chi_xa_phuong"] = xp_m
-                    sub_ctx["tv2_dia_chi_tinh_thanh"] = tt_m
-                    sub_ctx["tv_dia_chi_tinh_thanh"] = tt_m
-                    v_raw = str(m.get("VON_GOP") or m.get("von_gop") or m.get("von_so", ""))
-                    v_fmt = fmt_money(v_raw) if v_raw else ""
-                    v_chu = so_thanh_chu(v_raw) if v_raw else ""
-                    sub_ctx["tv2_von_cu_so"] = v_fmt
-                    sub_ctx["tv_von_so"] = v_fmt
-                    sub_ctx["tv2_von_cu_chu"] = v_chu
-                    sub_ctx["tv_von_chu"] = v_chu
-                    sub_ctx["tv2_ty_le"] = str(m.get("TY_LE") or m.get("ty_le", ""))
-                    sub_ctx["tv_ty_le"] = str(m.get("TY_LE") or m.get("ty_le", ""))
-
-                    tpl = DocxTemplate(str(tpl_file))
-                    tpl.render(sub_ctx, jinja_env)
-                    tpl.save(str(out_dir / out_name))
-                continue
-
-            # Standard rendering
             try:
+                # Sinh lặp: một file cho mỗi phần tử (danh sách rỗng -> điền một lần như bình thường)
+                items = (rule_data.get(entry["repeat_for"]) or []) if entry.get("repeat_for") else []
+                if items:
+                    build = document_rules.REPEATERS[entry["repeat_with"]]
+                    for i, item in enumerate(items):
+                        out_name, sub_ctx = build(context, item, i, items, fname)
+                        tpl = DocxTemplate(str(tpl_file))
+                        tpl.render(sub_ctx, jinja_env)
+                        tpl.save(str(out_dir / out_name))
+                    continue
+
                 tpl = DocxTemplate(str(tpl_file))
                 tpl.render(context, jinja_env)
                 out_path = out_dir / fname
                 tpl.save(str(out_path))
 
-                if ma_nganh_list:
+                hooks = entry.get("post") or []
+                if ma_nganh_list or (hooks and tv_moi_list):
                     doc = docx.Document(str(out_path))
-                    populate_ma_nganh_table(doc, ma_nganh_list)
-                    doc.save(str(out_path))
-
-                # Danh sách thành viên
-                if "Danh sách thành viên" in fname and tv_moi_list:
-                    doc = docx.Document(str(out_path))
-                    populate_dstv(doc, tv_moi_list, is_tang_von=("Tăng vốn" in clean_name))
-                    doc.save(str(out_path))
-
-                # Danh sách cổ đông sáng lập
-                if "Danh sách cổ đông sáng lập" in fname and tv_moi_list:
-                    doc = docx.Document(str(out_path))
-                    populate_cdsl(doc, tv_moi_list)
-                    doc.save(str(out_path))
-
-                # Danh sách CSHHL
-                if "Danh sách chủ sở hữu hưởng lợi" in fname and tv_moi_list:
-                    doc = docx.Document(str(out_path))
-                    populate_cshhl(doc, tv_moi_list)
-                    doc.save(str(out_path))
-
-                # Dynamic members and CSH for Quyết định in Chuyển đổi
-                if "01. Quyết định" in fname and "Chuyển đổi" in clean_name and tv_moi_list:
-                    doc = docx.Document(str(out_path))
-                    csh_info = {
-                        'ho_ten': context.get('csh_ho_ten') or context.get('csh', {}).get('HO_TEN', ''),
-                        'so_cccd': context.get('csh_so_cccd') or context.get('csh', {}).get('CCCD', ''),
-                        'gioi_tinh': context.get('csh_gioi_tinh') or context.get('csh', {}).get('GIOI_TINH', 'Nam'),
-                        'dia_chi_day_du': context.get('csh_dia_chi_day_du') or context.get('csh', {}).get('DIA_CHI', ''),
-                        'von_cu_so': context.get('von_cu_so') or context.get('von_dieu_le_so', '')
-                    }
-                    hinh_thuc_cn = context.get('hinh_thuc_cn', 'mot_phan')
-                    populate_qd_tables(doc, tv_moi_list, csh_info, hinh_thuc_cn)
-                    doc.save(str(out_path))
-
-                # Dynamic members for Điều lệ
-                if "02. Điều lệ" in fname and tv_moi_list:
-                    doc = docx.Document(str(out_path))
-                    if "Chuyển đổi" in clean_name:
-                        populate_dieu_le(doc, tv_moi_list)
-                    elif "Thành lập mới công ty TNHH 2 TV" in clean_name:
-                        populate_dieu_le_tlm_2tv(doc, tv_moi_list)
-                    elif "Thành lập mới công ty Cổ Phần" in clean_name:
-                        v_so = context.get('von_dieu_le_so', '')
-                        v_chu = context.get('von_dieu_le_chu', '')
-                        populate_dieu_le_tlm_cp(doc, tv_moi_list, v_so, v_chu)
-                    doc.save(str(out_path))
-
-                # Biên bản họp in Tăng vốn Cổ Phần
-                if "04. Biên bản họp" in fname and "Tăng vốn" in clean_name and "Cổ Phần" in clean_name and tv_moi_list:
-                    doc = docx.Document(str(out_path))
-                    populate_bbh_tang_von_cp(doc, tv_moi_list, von_cu_so=context.get("von_cu_so", ""), von_moi_so=context.get("von_dieu_le_so", ""))
-                    doc.save(str(out_path))
-
-                # Biên bản họp in Giảm vốn Cổ Phần
-                if "04. Biên bản họp" in fname and "Giảm vốn" in clean_name and "Cổ Phần" in clean_name and tv_moi_list:
-                    doc = docx.Document(str(out_path))
-                    populate_bbh_giam_von_cp(doc, tv_moi_list, von_cu_so=context.get("von_cu_so", ""), von_moi_so=context.get("von_dieu_le_so", ""))
-                    doc.save(str(out_path))
-
-                # Biên bản họp in Tăng vốn 2TV
-                if "02. Biên bản họp" in fname and "Tăng vốn" in clean_name and "2 TV" in clean_name and tv_moi_list:
-                    doc = docx.Document(str(out_path))
-                    populate_bbh_tang_von_2tv(doc, tv_moi_list)
-                    doc.save(str(out_path))
-
-                # Biên bản họp in Giải thể Cổ Phần
-                if "01. Biên bản họp" in fname and "Giải thể" in clean_name and "Cổ Phần" in clean_name and tv_moi_list:
-                    doc = docx.Document(str(out_path))
-                    populate_bbh_giai_the_cp(doc, tv_moi_list)
+                    if ma_nganh_list:
+                        populate_ma_nganh_table(doc, ma_nganh_list)
+                    if tv_moi_list:
+                        for hook in hooks:
+                            document_rules.HOOKS[hook](doc, context, tv_moi_list)
                     doc.save(str(out_path))
 
             except Exception as e:
