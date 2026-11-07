@@ -104,3 +104,19 @@ def test_real_templates_have_no_errors(name):
     """Mọi bộ mẫu thật không được có lỗi (E). Cảnh báo (W) được phép nhưng nên giảm dần."""
     errors = [f for f in template_lint.lint_template(TEMPLATES_DIR / name) if f.level == "error"]
     assert not errors, "\n".join(f"{f.code} [{f.file}] {f.message}" for f in errors)
+
+
+# CCCD được phép xuất hiện trong mẫu: người nhận ủy quyền trong Giấy ủy quyền (giữ nguyên theo yêu cầu)
+ALLOWED_HARDCODED_CCCD = {"001089021350"}
+
+
+def test_no_unexpected_personal_id_in_templates():
+    """Không được để số CCCD của người thật (ngoài danh sách cho phép) trong file mẫu."""
+    leaked = []
+    for name in list_template_names():
+        for f in template_lint.lint_template(TEMPLATES_DIR / name):
+            if f.code == "W030" and f.message.startswith("Số cccd"):
+                value = f.message.rsplit(": ", 1)[-1]
+                if value not in ALLOWED_HARDCODED_CCCD:
+                    leaked.append(f"{name} / {f.file}: {value}")
+    assert not leaked, "\n".join(leaked)

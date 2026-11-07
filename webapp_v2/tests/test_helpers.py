@@ -51,9 +51,15 @@ def test_so_thanh_chu(value, expected):
     assert so_thanh_chu(value) == expected
 
 
-@pytest.mark.xfail(strict=True, reason="Lỗi đã biết: dấu âm bị bỏ qua (-500 -> 'Năm trăm đồng')")
-def test_so_thanh_chu_negative_is_rejected_or_signed():
-    assert so_thanh_chu(-500) != "Năm trăm đồng"
+@pytest.mark.parametrize("value, money, words", [
+    (-500, "-500", "Âm năm trăm đồng"),
+    ("-1.500.000", "-1,500,000", "Âm một triệu năm trăm nghìn đồng"),
+    (" -2000", "-2,000", "Âm hai nghìn đồng"),
+    ("-0", "0", "Không đồng"),
+])
+def test_negative_amounts_keep_sign(value, money, words):
+    assert fmt_money(value) == money
+    assert so_thanh_chu(value) == words
 
 
 @pytest.mark.parametrize("addr, expected", [
@@ -65,10 +71,19 @@ def test_parse_address_str(addr, expected):
     assert parse_address_str(addr) == expected
 
 
-@pytest.mark.xfail(strict=True, reason="Lỗi đã biết: địa chỉ 4 cấp (có Huyện) bị đặt Huyện vào ô Xã/Phường")
-def test_parse_address_with_district():
-    so_nha, xa, tinh = parse_address_str("Tiên Hội, Xã Đông Anh, Huyện Đông Anh, Hà Nội")
-    assert xa.startswith("Xã")
+@pytest.mark.parametrize("addr, expected", [
+    ("Tiên Hội, Xã Đông Anh, Huyện Đông Anh, Hà Nội",
+     ("Tiên Hội", "Xã Đông Anh, Huyện Đông Anh", "Hà Nội")),
+    ("Tổ 6 Nhân Đạo, Phường Yên Nghĩa, Quận Hà Đông, Thành phố Hà Nội",
+     ("Tổ 6 Nhân Đạo", "Phường Yên Nghĩa, Quận Hà Đông", "Thành phố Hà Nội")),
+    ("Số 5, Ngõ 10, Phường 3, Thành phố Vũng Tàu, Tỉnh Bà Rịa - Vũng Tàu",
+     ("Số 5, Ngõ 10", "Phường 3, Thành phố Vũng Tàu", "Tỉnh Bà Rịa - Vũng Tàu")),
+    ("Thôn Mới, Thị trấn Phú Minh, Huyện Phú Xuyên, Hà Nội",
+     ("Thôn Mới", "Thị trấn Phú Minh, Huyện Phú Xuyên", "Hà Nội")),
+])
+def test_parse_address_with_district(addr, expected):
+    """Địa chỉ cũ còn cấp huyện: huyện đi kèm xã/phường, không đẩy xã vào ô số nhà."""
+    assert parse_address_str(addr) == expected
 
 
 def test_format_date_vn():

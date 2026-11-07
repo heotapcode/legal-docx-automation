@@ -150,9 +150,10 @@ Backend (`services/dia_ban.py`) suy ra hai biến cho mẫu Word:
 | Biến | Hà Nội | Bắc Ninh | Hồ Chí Minh |
 |---|---|---|---|
 | `{{ noi_lap }}` (trước chữ "ngày") | Hà Nội | Bắc Ninh | TP. Hồ Chí Minh |
-| `{{ tinh_thanh_dkkd }}` (sau tên cơ quan đăng ký) | thành phố Hà Nội | tỉnh Bắc Ninh | thành phố Hồ Chí Minh |
+| `{{ tinh_thanh_dkkd }}` (dạng viết tắt: "Phòng ĐKKD …") | thành phố Hà Nội | tỉnh Bắc Ninh | thành phố Hồ Chí Minh |
+| `{{ phong_dkkd }}` (tên đầy đủ của phòng) | Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội | Phòng Đăng ký kinh doanh tỉnh Bắc Ninh | Phòng Đăng ký kinh doanh thành phố Hồ Chí Minh |
 
-Danh mục nằm ở `data/tinh_thanh.json`. Tên không có trong danh mục (vd tỉnh cũ trước sáp nhập 01/07/2025) bị API từ chối (lỗi 400) chứ không tự đổi thành Hà Nội. Không ghép tên cơ quan đăng ký với địa chỉ cá nhân (`{{ ddpl_dia_chi_tinh_thanh }}`).
+Danh mục nằm ở `data/tinh_thanh.json`; tỉnh nào có tên phòng khác mẫu chung thì khai báo `phong_dkkd` riêng (hiện chỉ Hà Nội). Tên không có trong danh mục (vd tỉnh cũ trước sáp nhập 01/07/2025) bị API từ chối (lỗi 400) chứ không tự đổi thành Hà Nội. Không ghép tên cơ quan đăng ký với địa chỉ cá nhân (`{{ ddpl_dia_chi_tinh_thanh }}`).
 
 ## 6. Quy ước cho file Word
 

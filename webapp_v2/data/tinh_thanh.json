@@ -1,11 +1,12 @@
 {
-  "_ghi_chu": "34 đơn vị hành chính cấp tỉnh theo Nghị quyết 202/2025/QH15 (hiệu lực 01/07/2025). ten: tên gọi; loai: 'thành phố' hoặc 'tỉnh'; noi_lap: cách ghi nơi lập văn bản trước chữ 'ngày'.",
+  "_ghi_chu": "34 đơn vị hành chính cấp tỉnh theo Nghị quyết 202/2025/QH15 (hiệu lực 01/07/2025). ten: tên gọi; loai: 'thành phố' hoặc 'tỉnh'; noi_lap: cách ghi nơi lập văn bản trước chữ 'ngày'. phong_dkkd (tùy chọn): tên đầy đủ của Phòng Đăng ký kinh doanh nếu khác mặc định 'Phòng Đăng ký kinh doanh <loai> <ten>'.",
   "mac_dinh": "Hà Nội",
   "tinh_thanh": [
     {
       "ten": "Hà Nội",
       "loai": "thành phố",
-      "noi_lap": "Hà Nội"
+      "noi_lap": "Hà Nội",
+      "phong_dkkd": "Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội"
     },
     {
       "ten": "Hồ Chí Minh",
