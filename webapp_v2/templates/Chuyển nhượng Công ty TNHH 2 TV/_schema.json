@@ -46,6 +46,66 @@
       ]
     },
     {
+      "id": "tv_cu",
+      "title": "Thành viên CŨ (bên chuyển nhượng)",
+      "fields": [
+        {
+          "key": "tv_cu",
+          "label": "Thành viên cũ",
+          "type": "list",
+          "min": 2,
+          "help": "Danh sách thành viên trước khi chuyển nhượng. Bên chuyển nhượng ở các giao dịch được chọn từ danh sách này.",
+          "item": [
+            {
+              "key": "ho_ten",
+              "label": "Họ và tên",
+              "type": "text",
+              "required": true
+            },
+            {
+              "key": "gioi_tinh",
+              "label": "Giới tính",
+              "type": "select",
+              "default": "Nam",
+              "options": [
+                {
+                  "value": "Nam",
+                  "label": "Nam"
+                },
+                {
+                  "value": "Nữ",
+                  "label": "Nữ"
+                }
+              ]
+            },
+            {
+              "key": "ngay_sinh",
+              "label": "Ngày sinh",
+              "type": "date"
+            },
+            {
+              "key": "so_cccd",
+              "label": "Số CCCD",
+              "type": "cccd",
+              "required": true
+            },
+            {
+              "key": "dia_chi_day_du",
+              "label": "Địa chỉ thường trú đầy đủ",
+              "type": "text",
+              "placeholder": "Số nhà, Phường/Xã, Tỉnh/Thành phố",
+              "required": true
+            }
+          ],
+          "rules": [
+            {
+              "unique": "so_cccd"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "ddpl_moi",
       "title": "Người đại diện theo pháp luật MỚI",
       "fields": [
@@ -91,9 +151,40 @@
       "fields": [
         {
           "key": "chuyen_nhuong",
-          "label": "Các giao dịch chuyển nhượng vốn",
-          "type": "transfer_list",
-          "required": true
+          "label": "Giao dịch chuyển nhượng",
+          "type": "list",
+          "min": 1,
+          "item": [
+            {
+              "key": "ben_a",
+              "label": "Bên chuyển nhượng (Bên A)",
+              "type": "select",
+              "options_from": "tv_cu",
+              "required": true
+            },
+            {
+              "key": "ben_b",
+              "label": "Bên nhận chuyển nhượng (Bên B)",
+              "type": "select",
+              "options_from": "thanh_vien",
+              "required": true
+            },
+            {
+              "key": "gia_tri_so",
+              "label": "Giá trị phần vốn chuyển nhượng (VNĐ)",
+              "type": "money",
+              "required": true
+            },
+            {
+              "key": "ty_le",
+              "label": "Tỷ lệ phần vốn chuyển nhượng (%)",
+              "type": "percent",
+              "validate": {
+                "min": 0,
+                "max": 100
+              }
+            }
+          ]
         }
       ]
     }

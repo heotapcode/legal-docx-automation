@@ -1185,6 +1185,247 @@
      -1
     ]
    ]
+  },
+  {
+   "name": "options_from: chỉ số hợp lệ",
+   "schema": {
+    "steps": [
+     {
+      "id": "s",
+      "title": "S",
+      "fields": [
+       {
+        "key": "tv_cu",
+        "label": "TV cũ",
+        "type": "list",
+        "item": [
+         {
+          "key": "ho_ten",
+          "label": "Họ tên",
+          "type": "text",
+          "required": true
+         }
+        ]
+       },
+       {
+        "key": "chuyen_nhuong",
+        "label": "Giao dịch",
+        "type": "list",
+        "min": 1,
+        "item": [
+         {
+          "key": "ben_a",
+          "label": "Bên A",
+          "type": "select",
+          "options_from": "tv_cu",
+          "required": true
+         },
+         {
+          "key": "ben_b",
+          "label": "Bên B",
+          "type": "select",
+          "options_from": "thanh_vien"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-07",
+   "data": {
+    "tv_cu": [
+     {
+      "ho_ten": "A"
+     },
+     {
+      "ho_ten": "B"
+     }
+    ],
+    "thanh_vien": [
+     {
+      "ho_ten": "C"
+     }
+    ],
+    "chuyen_nhuong": [
+     {
+      "ben_a": "1",
+      "ben_b": 0
+     }
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "options_from: vượt phạm vi, không phải số, list nguồn thiếu",
+   "schema": {
+    "steps": [
+     {
+      "id": "s",
+      "title": "S",
+      "fields": [
+       {
+        "key": "tv_cu",
+        "label": "TV cũ",
+        "type": "list",
+        "item": [
+         {
+          "key": "ho_ten",
+          "label": "Họ tên",
+          "type": "text",
+          "required": true
+         }
+        ]
+       },
+       {
+        "key": "chuyen_nhuong",
+        "label": "Giao dịch",
+        "type": "list",
+        "min": 1,
+        "item": [
+         {
+          "key": "ben_a",
+          "label": "Bên A",
+          "type": "select",
+          "options_from": "tv_cu",
+          "required": true
+         },
+         {
+          "key": "ben_b",
+          "label": "Bên B",
+          "type": "select",
+          "options_from": "thanh_vien"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-07",
+   "data": {
+    "tv_cu": [
+     {
+      "ho_ten": "A"
+     },
+     {
+      "ho_ten": "B"
+     }
+    ],
+    "chuyen_nhuong": [
+     {
+      "ben_a": "2",
+      "ben_b": "0"
+     },
+     {
+      "ben_a": "x"
+     },
+     {
+      "ben_a": "-1"
+     },
+     {
+      "ben_a": "1.0"
+     }
+    ]
+   },
+   "errors": [
+    [
+     "ben_a",
+     "options_from",
+     0
+    ],
+    [
+     "ben_b",
+     "options_from",
+     0
+    ],
+    [
+     "ben_a",
+     "options_from",
+     1
+    ],
+    [
+     "ben_a",
+     "options_from",
+     2
+    ],
+    [
+     "ben_a",
+     "options_from",
+     3
+    ]
+   ]
+  },
+  {
+   "name": "options_from: bỏ trống bắt buộc",
+   "schema": {
+    "steps": [
+     {
+      "id": "s",
+      "title": "S",
+      "fields": [
+       {
+        "key": "tv_cu",
+        "label": "TV cũ",
+        "type": "list",
+        "item": [
+         {
+          "key": "ho_ten",
+          "label": "Họ tên",
+          "type": "text",
+          "required": true
+         }
+        ]
+       },
+       {
+        "key": "chuyen_nhuong",
+        "label": "Giao dịch",
+        "type": "list",
+        "min": 1,
+        "item": [
+         {
+          "key": "ben_a",
+          "label": "Bên A",
+          "type": "select",
+          "options_from": "tv_cu",
+          "required": true
+         },
+         {
+          "key": "ben_b",
+          "label": "Bên B",
+          "type": "select",
+          "options_from": "thanh_vien"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-07",
+   "data": {
+    "tv_cu": [
+     {
+      "ho_ten": "A"
+     },
+     {
+      "ho_ten": "B"
+     }
+    ],
+    "chuyen_nhuong": [
+     {
+      "ben_a": "",
+      "ben_b": ""
+     }
+    ]
+   },
+   "errors": [
+    [
+     "ben_a",
+     "required",
+     0
+    ]
+   ]
   }
  ]
 }

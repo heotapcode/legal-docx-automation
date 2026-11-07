@@ -4,6 +4,8 @@
  * - Vẽ các bước/ô theo schema; mỗi bước và mỗi ô có show_if được bọc trong phần tử có
  *   data-show-if, ẩn/hiện ngay khi dữ liệu thay đổi (không vẽ lại cả form nên không mất focus).
  * - Kiểu ô mới: date, cccd, percent, number, address, list (danh sách lặp tổng quát).
+ *   Trong list: select có options_from = chọn một phần tử của list khác (giá trị là số thứ tự 0, 1...),
+ *   money tự định dạng khi gõ.
  *   Kiểu cũ (text, money, mst_lookup, phone, email, select, person, person_list, transfer_list,
  *   checkbox_group) dùng lại renderField() của wizard.js để giữ OCR, tra MST, định dạng tiền.
  * - Báo lỗi ngay dưới ô khi người dùng rời khỏi ô (dùng SchemaEngine, cùng kết quả với backend).
@@ -34,6 +36,7 @@
             case 'cccd': return { type: 'text', placeholder: '12 chữ số', extra: 'inputmode="numeric" maxlength="12"' };
             case 'percent': return { type: 'number', placeholder: '%', extra: 'step="0.01" min="0" max="100"' };
             case 'number': return { type: 'number', placeholder: '', extra: 'step="any"' };
+            case 'money': return { type: 'text', placeholder: 'VD: 500.000.000', extra: '' };
             default: return { type: 'text', placeholder: '', extra: '' };
         }
     }
@@ -57,6 +60,36 @@
             </div>`;
     }
 
+    /** Lựa chọn của select có options_from: các phần tử hiện có của list nguồn, giá trị là số thứ tự. */
+    function refOptions(sub) {
+        const source = currentData()[sub.options_from];
+        return (Array.isArray(source) ? source : []).map((it, i) => ({
+            value: String(i),
+            label: `#${i + 1}: ${(it && (it.ho_ten || it.HO_TEN)) || '(chưa nhập tên)'}`,
+        }));
+    }
+
+    function refSelect(sub, attrs, value) {
+        const cur = value === undefined || value === null ? '' : String(value);
+        return `<select ${attrs} data-options-from="${escapeHtml(sub.options_from)}">` +
+            `<option value="">-- Chọn --</option>${renderSelectOptions(refOptions(sub), cur)}</select>`;
+    }
+
+    /** Cập nhật lại nhãn các lựa chọn options_from khi list nguồn đổi (vd vừa sửa họ tên thành viên). */
+    function refreshRefOptions(container) {
+        (container || document).querySelectorAll('select[data-options-from]').forEach(sel => {
+            const opts = refOptions({ options_from: sel.getAttribute('data-options-from') });
+            const cur = sel.value;
+            const html = `<option value="">-- Chọn --</option>${renderSelectOptions(opts, cur)}`;
+            if (sel.__lastOptions !== html) { sel.innerHTML = html; sel.__lastOptions = html; }
+        });
+    }
+
+    function formatMoney(el) {
+        const raw = String(el.value || '').replace(/\D/g, '');
+        el.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
+    }
+
     function renderListField(field) {
         const key = field.key;
         const items = Array.isArray(fd()[key]) ? fd()[key] : (fd()[key] = []);
@@ -66,12 +99,15 @@
             const subs = (field.item || []).map(sub => {
                 const attrs = `data-list="${escapeHtml(key)}" data-idx="${i}" data-key="${escapeHtml(sub.key)}" class="form-control lf-field"`;
                 let input;
-                if (sub.type === 'select') {
+                if (sub.type === 'select' && sub.options_from) {
+                    input = refSelect(sub, attrs, item[sub.key]);
+                } else if (sub.type === 'select') {
                     const opts = (window.getCatalogOptions ? getCatalogOptions(sub) : (sub.options || []));
                     input = `<select ${attrs}>${renderSelectOptions(opts, item[sub.key] || sub.default || '')}</select>`;
                 } else {
                     const a = inputAttrs(sub.type);
-                    input = `<input type="${a.type}" ${attrs} value="${escapeHtml(item[sub.key])}" ` +
+                    const money = sub.type === 'money' ? ' data-money="1" inputmode="numeric"' : '';
+                    input = `<input type="${a.type}" ${attrs}${money} value="${escapeHtml(item[sub.key])}" ` +
                         `placeholder="${escapeHtml(sub.placeholder || a.placeholder)}" ${a.extra}>`;
                 }
                 return `<div${showIfAttr(sub.show_if)} data-scope-list="${escapeHtml(key)}" data-scope-idx="${i}">` +
@@ -156,18 +192,19 @@
 
     // ---------- Báo lỗi ngay ----------
 
-    function errorKey(e) {
-        if (e.index === undefined) return e.key;
-        const field = findListField(e);
-        return field ? `${field}.${e.index}.${e.key}` : e.key;
-    }
-
-    function findListField(e) {
+    /** Lỗi thuộc một phần tử của `list` (kiểu mới) -> khóa danh sách; ngược lại null. */
+    function listOfError(e) {
+        if (e.index === undefined || !e.list) return null;
         const steps = (state().schema && state().schema.steps) || [];
         for (const st of steps) for (const f of (st.fields || [])) {
-            if (f.type === 'list' && (f.item || []).some(sub => sub.key === e.key)) return f.key;
+            if (f.key === e.list && f.type === 'list') return f.key;
         }
         return null;
+    }
+
+    function errorKey(e) {
+        const list = listOfError(e);
+        return list ? `${list}.${e.index}.${e.key}` : e.key;
     }
 
     /** Hiện lỗi dưới các ô người dùng đã rời khỏi (touched); `all` = hiện mọi lỗi (khi bấm Tiếp/Tải). */
@@ -198,12 +235,15 @@
         const refresh = () => {
             if (window.collectFormData) collectFormData();
             applyVisibility(container);
+            refreshRefOptions(container);
             showInlineErrors(container, false);
         };
         container.addEventListener('change', refresh);
-        container.addEventListener('input', () => {
+        container.addEventListener('input', ev => {
+            if (ev.target && ev.target.getAttribute && ev.target.getAttribute('data-money')) formatMoney(ev.target);
             if (window.collectFormData) collectFormData();
             applyVisibility(container);
+            refreshRefOptions(container);
         });
         container.addEventListener('focusout', ev => {
             const k = ev.target && keyOfInput(ev.target);
@@ -211,6 +251,7 @@
             refresh();
         });
         applyVisibility(container);
+        refreshRefOptions(container);
     }
 
     function resetTouched() { touched.clear(); }
@@ -235,6 +276,6 @@
 
     root.FormRenderer = {
         NEW_TYPES, renderSteps, renderOne, collectLists, applyVisibility, showInlineErrors,
-        attach, resetTouched, addListItem, removeListItem,
+        attach, resetTouched, addListItem, removeListItem, listOfError, refreshRefOptions,
     };
 })(typeof self !== 'undefined' ? self : this);

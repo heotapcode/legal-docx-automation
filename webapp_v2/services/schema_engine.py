@@ -109,7 +109,17 @@ def _err(errors, key, label, code, message, index=None):
     errors.append(e)
 
 
-def _check_value(field: dict, value: Any, scope: Dict[str, Any], errors: list, today: date, index=None, prefix=""):
+def _ref_index(value: Any, items: Any) -> Optional[int]:
+    """Giá trị của select có options_from là số thứ tự (0, 1, ...) của phần tử trong list nguồn."""
+    s = str(value).strip()
+    if not re.fullmatch(r"\d+", s):
+        return None
+    i = int(s)
+    return i if isinstance(items, list) and i < len(items) else None
+
+
+def _check_value(field: dict, value: Any, scope: Dict[str, Any], errors: list, today: date, index=None, prefix="",
+                 root: Optional[Dict[str, Any]] = None):
     key, label = field["key"], prefix + field.get("label", field["key"])
     if is_blank(value) and "default" in field:
         value = field["default"]  # bỏ trống -> dùng giá trị mặc định (vd tỉnh/thành phố = Hà Nội)
@@ -121,6 +131,10 @@ def _check_value(field: dict, value: Any, scope: Dict[str, Any], errors: list, t
         return
     rules = field.get("validate") or {}
     msg = rules.get("message")
+    if field.get("options_from"):
+        source = (root if root is not None else scope).get(field["options_from"])
+        if _ref_index(value, source) is None:
+            _err(errors, key, label, "options_from", msg or f"{label}: chọn một mục trong danh sách", index)
     if field.get("type") == "cccd" and "pattern" not in rules and not re.fullmatch(r"\d{12}", str(value).strip()):
         _err(errors, key, label, "pattern", msg or f"{label}: số CCCD phải gồm 12 chữ số", index)
     if "pattern" in rules and not re.fullmatch(rules["pattern"], str(value).strip()):
@@ -146,6 +160,7 @@ def _check_value(field: dict, value: Any, scope: Dict[str, Any], errors: list, t
 def _check_list(field: dict, items: Any, root: Dict[str, Any], errors: list, today: date):
     key, label = field["key"], field.get("label", field["key"])
     items = items if isinstance(items, list) else []
+    start = len(errors)
     lo = field.get("min", 1 if field.get("required") else 0)
     subs = field.get("item", []) + field.get("extra_fields", [])
     if field.get("type") == "person_list" and not any(sub["key"] == "ho_ten" for sub in subs):
@@ -168,7 +183,8 @@ def _check_list(field: dict, items: Any, root: Dict[str, Any], errors: list, tod
                              index=i, prefix=f"Giao dịch #{i + 1}: ")
         for sub in subs:
             if eval_condition(sub.get("show_if"), item):
-                _check_value(sub, item.get(sub["key"]), item, errors, today, index=i, prefix=f"{label} #{i + 1}: ")
+                _check_value(sub, item.get(sub["key"]), item, errors, today, index=i, prefix=f"{label} #{i + 1}: ",
+                             root=root)
     def sub_label(k):
         return next((s.get("label", k) for s in subs if s["key"] == k), k)
 
@@ -193,6 +209,9 @@ def _check_list(field: dict, items: Any, root: Dict[str, Any], errors: list, tod
                          rule.get("message") or f"{label}: {sub_label(rule['unique'])} bị trùng (#{seen[v] + 1} và #{i + 1})", index=i)
                 else:
                     seen[v] = i
+    for e in errors[start:]:
+        if "index" in e:
+            e["list"] = key  # lỗi của một phần tử: ghi kèm danh sách chứa nó
 
 
 def validate(schema: dict, data: Dict[str, Any], today: Optional[date] = None) -> List[dict]:
@@ -211,3 +230,31 @@ def validate(schema: dict, data: Dict[str, Any], today: Optional[date] = None) -
         else:
             _check_value(f, data.get(f["key"]), data, errors, today)
     return errors
+
+
+# ---------- Phân giải tham chiếu ----------
+
+def resolve_refs(schema: dict, data: Dict[str, Any]) -> Dict[str, Any]:
+    """Bản sao của data, trong đó mỗi select có options_from (trong phần tử của list) được thay bằng
+    bản sao phần tử được chọn của list nguồn. Chỉ số không hợp lệ -> {}.
+
+    Vd chuyen_nhuong[0].ben_a = "1" -> chuyen_nhuong[0].ben_a = dict(tv_cu[1]).
+    """
+    out = dict(data)
+    for step in schema.get("steps", []):
+        for f in step.get("fields", []):
+            if f.get("type") != "list" or not isinstance(data.get(f["key"]), list):
+                continue
+            refs = [sub for sub in f.get("item", []) if sub.get("options_from")]
+            if not refs:
+                continue
+            items = []
+            for item in data[f["key"]]:
+                item = dict(item) if isinstance(item, dict) else {}
+                for sub in refs:
+                    source = data.get(sub["options_from"])
+                    i = _ref_index(item.get(sub["key"]), source)
+                    item[sub["key"]] = dict(source[i]) if i is not None and isinstance(source[i], dict) else {}
+                items.append(item)
+            out[f["key"]] = items
+    return out

@@ -316,132 +316,6 @@ class SafeDict(dict):
     def __missing__(self, key):
         return ""
 
-def merge_cn2tv_data(raw_data: dict, cn2tv_data: dict):
-    company = cn2tv_data.get('company', {})
-    ddpl_cu = cn2tv_data.get('ddpl_cu', {})
-    ddpl_moi = cn2tv_data.get('ddpl_moi', {})
-    tv_cu = cn2tv_data.get('tv_cu', [])
-    tv_moi = cn2tv_data.get('tv_moi', [])
-    cn_list = cn2tv_data.get('chuyen_nhuong', [])
-
-    raw_data['ten_cong_ty_vn'] = company.get('TEN_CONG_TY_VN', '')
-    raw_data['ma_so_thue'] = company.get('MA_SO_THUE', '')
-    raw_data['von_dieu_le_so'] = fmt_money(company.get('VON_DIEU_LE_SO', ''))
-    raw_data['von_dieu_le_chu'] = company.get('VON_DIEU_LE_CHU', '') or so_thanh_chu(company.get('VON_DIEU_LE_SO', ''))
-
-    # DDPL CU
-    raw_data['ddpl_cu_ho_ten'] = ddpl_cu.get('HO_TEN', '')
-    raw_data['ddpl_cu_ngay_sinh'] = ddpl_cu.get('NGAY_SINH', '')
-    raw_data['ddpl_cu_so_cccd'] = ddpl_cu.get('SO_CCCD', '')
-    raw_data['ddpl_cu_gioi_tinh'] = ddpl_cu.get('GIOI_TINH', '')
-    raw_data['ddpl_cu_dia_chi_day_du'] = ddpl_cu.get('DIA_CHI', '')
-    sn_cu, xp_cu, tt_cu = parse_address_str(ddpl_cu.get('DIA_CHI', ''))
-    raw_data['ddpl_cu_dia_chi_so_nha'] = ddpl_cu.get('DIA_CHI_SO_NHA') or sn_cu
-    raw_data['ddpl_cu_dia_chi_xa_phuong'] = ddpl_cu.get('DIA_CHI_XA_PHUONG') or xp_cu
-    raw_data['ddpl_cu_dia_chi_tinh_thanh'] = ddpl_cu.get('DIA_CHI_TINH_THANH') or tt_cu
-
-    # DDPL MOI
-    raw_data['ddpl_moi_ho_ten'] = ddpl_moi.get('HO_TEN', '')
-    raw_data['ddpl_moi_ngay_sinh'] = ddpl_moi.get('NGAY_SINH', '')
-    raw_data['ddpl_moi_so_cccd'] = ddpl_moi.get('SO_CCCD', '')
-    raw_data['ddpl_moi_gioi_tinh'] = ddpl_moi.get('GIOI_TINH', '')
-    raw_data['ddpl_moi_dia_chi_day_du'] = ddpl_moi.get('DIA_CHI', '')
-    sn_moi, xp_moi, tt_moi = parse_address_str(ddpl_moi.get('DIA_CHI', ''))
-    raw_data['ddpl_moi_dia_chi_so_nha'] = ddpl_moi.get('DIA_CHI_SO_NHA') or sn_moi
-    raw_data['ddpl_moi_dia_chi_xa_phuong'] = ddpl_moi.get('DIA_CHI_XA_PHUONG') or xp_moi
-    raw_data['ddpl_moi_dia_chi_tinh_thanh'] = ddpl_moi.get('DIA_CHI_TINH_THANH') or tt_moi
-
-    raw_data['ddpl_ho_ten'] = raw_data['ddpl_moi_ho_ten']
-    raw_data['ddpl_so_cccd'] = raw_data['ddpl_moi_so_cccd']
-    raw_data['ddpl_ngay_sinh'] = raw_data['ddpl_moi_ngay_sinh']
-    raw_data['ddpl_gioi_tinh'] = raw_data['ddpl_moi_gioi_tinh']
-    raw_data['ddpl_dia_chi_day_du'] = raw_data['ddpl_moi_dia_chi_day_du']
-    raw_data['ddpl_dia_chi_so_nha'] = raw_data['ddpl_moi_dia_chi_so_nha']
-    raw_data['ddpl_dia_chi_xa_phuong'] = raw_data['ddpl_moi_dia_chi_xa_phuong']
-    raw_data['ddpl_dia_chi_tinh_thanh'] = raw_data['ddpl_moi_dia_chi_tinh_thanh']
-
-    # Members MOI (tv_moi)
-    if len(tv_moi) > 0:
-        m1 = tv_moi[0]
-        raw_data['tv_moi_1_ho_ten'] = m1.get('HO_TEN', '')
-        raw_data['tv_moi_1_ngay_sinh'] = m1.get('NGAY_SINH', '')
-        raw_data['tv_moi_1_so_cccd'] = m1.get('SO_CCCD', '')
-        raw_data['tv_moi_1_gioi_tinh'] = m1.get('GIOI_TINH', '')
-        raw_data['tv_moi_1_dia_chi_day_du'] = m1.get('DIA_CHI', '')
-        raw_data['tv_moi_1_von_so'] = fmt_money(m1.get('VON_GOP', ''))
-        raw_data['tv_moi_1_ty_le'] = m1.get('TY_LE', '')
-        # CSHHL 1
-        raw_data['cshhl_1_ho_ten'] = m1.get('HO_TEN', '')
-        raw_data['cshhl_1_ngay_sinh'] = m1.get('NGAY_SINH', '')
-        raw_data['cshhl_1_so_cccd'] = m1.get('SO_CCCD', '')
-        raw_data['cshhl_1_gioi_tinh'] = m1.get('GIOI_TINH', '')
-        raw_data['cshhl_1_dia_chi_day_du'] = m1.get('DIA_CHI', '')
-        raw_data['cshhl_1_ty_le'] = m1.get('TY_LE', '')
-
-    if len(tv_moi) > 1:
-        m2 = tv_moi[1]
-        raw_data['tv_moi_2_ho_ten'] = m2.get('HO_TEN', '')
-        raw_data['tv_moi_2_ngay_sinh'] = m2.get('NGAY_SINH', '')
-        raw_data['tv_moi_2_so_cccd'] = m2.get('SO_CCCD', '')
-        raw_data['tv_moi_2_gioi_tinh'] = m2.get('GIOI_TINH', '')
-        raw_data['tv_moi_2_dia_chi_day_du'] = m2.get('DIA_CHI', '')
-        raw_data['tv_moi_2_von_so'] = fmt_money(m2.get('VON_GOP', ''))
-        raw_data['tv_moi_2_ty_le'] = m2.get('TY_LE', '')
-
-    # Resolved transfers
-    resolved_transfers = []
-    for cn in cn_list:
-        try:
-            a_idx = int(cn.get('ben_a', 0))
-            b_idx = int(cn.get('ben_b', 0))
-            ben_a_raw = tv_cu[a_idx] if a_idx < len(tv_cu) else {}
-            ben_b_raw = tv_moi[b_idx] if b_idx < len(tv_moi) else {}
-        except Exception:
-            ben_a_raw = {}
-            ben_b_raw = {}
-
-        sn_a, xp_a, tt_a = parse_address_str(ben_a_raw.get('DIA_CHI', ''))
-        sn_b, xp_b, tt_b = parse_address_str(ben_b_raw.get('DIA_CHI', ''))
-
-        resolved_transfers.append({
-            'ben_a': {
-                'ho_ten': ben_a_raw.get('HO_TEN', ''),
-                'ngay_sinh': ben_a_raw.get('NGAY_SINH', ''),
-                'so_cccd': ben_a_raw.get('SO_CCCD', ''),
-                'gioi_tinh': ben_a_raw.get('GIOI_TINH', ''),
-                'dia_chi_day_du': ben_a_raw.get('DIA_CHI', ''),
-                'dia_chi_so_nha': sn_a,
-                'dia_chi_xa_phuong': xp_a,
-                'dia_chi_tinh_thanh': tt_a
-            },
-            'ben_b': {
-                'ho_ten': ben_b_raw.get('HO_TEN', ''),
-                'ngay_sinh': ben_b_raw.get('NGAY_SINH', ''),
-                'so_cccd': ben_b_raw.get('SO_CCCD', ''),
-                'gioi_tinh': ben_b_raw.get('GIOI_TINH', ''),
-                'dia_chi_day_du': ben_b_raw.get('DIA_CHI', ''),
-                'dia_chi_so_nha': sn_b,
-                'dia_chi_xa_phuong': xp_b,
-                'dia_chi_tinh_thanh': tt_b
-            },
-            'gia_tri_so': cn.get('von', cn.get('gia_tri', '')),
-            'ty_le': cn.get('ty_le', '')
-        })
-    raw_data['chuyen_nhuong'] = resolved_transfers
-
-    # First transfer as default ben_a, ben_b in common context
-    if resolved_transfers:
-        first_cn = resolved_transfers[0]
-        for k_a, v_a in first_cn['ben_a'].items():
-            raw_data[f'ben_a_{k_a}'] = v_a
-        for k_b, v_b in first_cn['ben_b'].items():
-            raw_data[f'ben_b_{k_b}'] = v_b
-        raw_data['gia_tri_cn_so'] = fmt_money(first_cn['gia_tri_so'])
-        raw_data['gia_tri_cn_chu'] = so_thanh_chu(first_cn['gia_tri_so'])
-        raw_data['gia_tri_cn_ty_le'] = first_cn['ty_le']
-
-    raw_data['ddpl_changed'] = ddpl_cu.get('SO_CCCD') != ddpl_moi.get('SO_CCCD')
-
 def merge_cd1tv2tv_data(raw_data: dict, cd1tv_data: dict):
     csh = cd1tv_data.get('csh', {})
     ddpl_cu = cd1tv_data.get('ddplCu', {})
@@ -630,10 +504,7 @@ def merge_cd1tv2tv_data(raw_data: dict, cd1tv_data: dict):
     raw_data['chuyen_nhuong'] = cn_raw
 
 def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
-    # Unpack cn2tv_data or cd1tv2tv_data if present
-    if "cn2tv_data" in raw_data and isinstance(raw_data["cn2tv_data"], dict):
-        merge_cn2tv_data(raw_data, raw_data["cn2tv_data"])
-
+    # Dữ liệu của wizard riêng Chuyển đổi 1TV -> 2TV
     if "cd1tv2tv_data" in raw_data and isinstance(raw_data["cd1tv2tv_data"], dict):
         merge_cd1tv2tv_data(raw_data, raw_data["cd1tv2tv_data"])
 
@@ -789,6 +660,10 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
     ctx["DDPL_MOI_DIA_CHI_XA_PHUONG"] = moi_xp
     ctx["ddpl_moi_dia_chi_tinh_thanh"] = moi_tt
     ctx["DDPL_MOI_DIA_CHI_TINH_THANH"] = moi_tt
+
+    # Có thay đổi người đại diện không: so CCCD của ĐDPL cũ và ĐDPL mới (thiếu một trong hai -> giữ mặc định "có")
+    if "ddpl_changed" not in ctx and cu_cccd and moi_cccd:
+        ctx["ddpl_changed"] = str(cu_cccd).strip() != str(moi_cccd).strip()
 
     # Capital / Money fields
     von_raw = ctx.get("von_dieu_le_so") or ctx.get("VON_DIEU_LE_SO") or ctx.get("von_dieu_le") or ctx.get("von_moi_so") or ctx.get("VON_MOI_SO") or ""
@@ -1650,6 +1525,39 @@ def populate_bbh_giai_the_cp(doc: docx.Document, shareholders: List[Dict[str, An
     except Exception as e:
         print(f"Warning: error in populate_bbh_giai_the_cp: {e}")
 
+def complete_person_address(p: Dict[str, Any]) -> Dict[str, Any]:
+    """Bổ sung địa chỉ cho một người: có địa chỉ đầy đủ thì tách ra số nhà/xã/tỉnh, và ngược lại."""
+    p = dict(p)
+    full = p.get("dia_chi_day_du") or p.get("dia_chi") or ""
+    parts = [p.get(k, "") for k in ("dia_chi_so_nha", "dia_chi_xa_phuong", "dia_chi_tinh_thanh")]
+    if full and not any(parts):
+        p["dia_chi_so_nha"], p["dia_chi_xa_phuong"], p["dia_chi_tinh_thanh"] = parse_address_str(full)
+    elif not full:
+        full = ", ".join(x for x in parts if x)
+    p["dia_chi_day_du"] = full
+    return p
+
+
+def resolve_list_refs(schema: Dict[str, Any], context: Dict[str, Any]) -> None:
+    """Thay các ô select có options_from trong list (vd chuyen_nhuong[i].ben_a = "1") bằng người được chọn,
+    lấy từ danh sách đã chuẩn hóa trong context (thanh_vien đã có dia_chi_day_du...)."""
+    from services.schema_engine import resolve_refs
+
+    resolved = resolve_refs(schema, context)
+    for step in schema.get("steps", []):
+        for f in step.get("fields", []):
+            refs = [sub["key"] for sub in f.get("item", []) if sub.get("options_from")]
+            if f.get("type") != "list" or not refs or f["key"] not in resolved:
+                continue
+            items = []
+            for item in resolved[f["key"]]:
+                for k in refs:
+                    item[k] = complete_person_address(item[k])
+                items.append(item)
+            context[f["key"]] = items
+            context[f["key"].upper()] = items
+
+
 # --- CORE RENDER FUNCTION ---
 
 def render_documents(
@@ -1663,20 +1571,20 @@ def render_documents(
     # Merge special_payload into raw_data if provided
     merged_data = dict(raw_data)
     if special_payload:
-        if "cn2tv_data" in special_payload and special_payload["cn2tv_data"]:
-            merged_data["cn2tv_data"] = special_payload["cn2tv_data"]
         if "cd1tv2tv_data" in special_payload and special_payload["cd1tv2tv_data"]:
             merged_data["cd1tv2tv_data"] = special_payload["cd1tv2tv_data"]
         if "chuyen_nhuong" in special_payload and special_payload["chuyen_nhuong"]:
             merged_data["chuyen_nhuong"] = special_payload["chuyen_nhuong"]
 
+    schema_path = template_dir / "_schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8")) if schema_path.exists() else {}
+
     context = normalize_context(merged_data, ma_nganh_list)
+    resolve_list_refs(schema, context)
     jinja_env = create_jinja_env()
 
     chuyen_nhuong_list = context.get("chuyen_nhuong") or []
     tv_moi_list = context.get("thanh_vien") or []
-    if special_payload and "cn2tv_data" in special_payload and special_payload["cn2tv_data"]:
-        tv_moi_list = special_payload["cn2tv_data"].get("tv_moi") or tv_moi_list
 
     # Quy tắc sinh file nằm trong khối "documents" của _schema.json (services/document_rules.py)
     from services import document_rules
@@ -1688,9 +1596,6 @@ def render_documents(
         chuyen_nhuong=chuyen_nhuong_list,
         ddpl_changed=bool(context.get("ddpl_changed", True)),
     )
-    schema_path = template_dir / "_schema.json"
-    schema = json.loads(schema_path.read_text(encoding="utf-8")) if schema_path.exists() else {}
-
     with tempfile.TemporaryDirectory() as tmp_out:
         out_dir = Path(tmp_out)
         render_errors = []
