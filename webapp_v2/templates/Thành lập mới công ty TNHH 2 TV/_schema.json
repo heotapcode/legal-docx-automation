@@ -111,5 +111,31 @@
         }
       ]
     }
+  ],
+  "documents": [
+    {
+      "file": "01. Giấy đề nghị.docx"
+    },
+    {
+      "file": "02. Điều lệ.docx",
+      "post": [
+        "fill_dieu_le_tlm_2tv"
+      ]
+    },
+    {
+      "file": "03. Danh sách thành viên.docx",
+      "post": [
+        "fill_member_table"
+      ]
+    },
+    {
+      "file": "04. Giấy ủy quyền.docx"
+    },
+    {
+      "file": "05. Danh sách chủ sở hữu hưởng lợi.docx",
+      "post": [
+        "fill_cshhl_table"
+      ]
+    }
   ]
 }

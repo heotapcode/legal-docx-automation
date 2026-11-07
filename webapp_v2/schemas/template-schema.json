@@ -70,7 +70,7 @@
       }
     },
     "documents": {
-      "description": "[v2] Quy tắc sinh file. Bộ mẫu không khai báo thì sinh mọi file .docx trong thư mục.",
+      "description": "Quy tắc sinh file. Đã khai báo thì phải liệt kê ĐỦ mọi file .docx của bộ mẫu; không khai báo thì sinh mọi file .docx.",
       "type": "array",
       "items": {
         "$ref": "#/$defs/document"
@@ -484,7 +484,7 @@
           "$ref": "#/$defs/condition"
         },
         "repeat_for": {
-          "description": "Sinh một file cho mỗi phần tử của list này.",
+          "description": "Sinh một file cho mỗi phần tử của danh sách: tv_moi (thành viên) hoặc chuyen_nhuong (giao dịch). Danh sách rỗng -> điền một lần.",
           "$ref": "#/$defs/key"
         },
         "item_alias": {
@@ -496,12 +496,42 @@
           "type": "string"
         },
         "post": {
-          "description": "Các bước xử lý sau khi render (tên hàm đăng ký trong services/hooks.py).",
+          "description": "Các bước xử lý sau khi điền, theo thứ tự (services/document_rules.py: HOOKS).",
           "type": "array",
           "items": {
-            "$ref": "#/$defs/key"
+            "enum": [
+              "fill_bbh_giai_the_cp",
+              "fill_bbh_giam_von_cp",
+              "fill_bbh_tang_von_2tv",
+              "fill_bbh_tang_von_cp",
+              "fill_cshhl_table",
+              "fill_dieu_le_chuyen_doi",
+              "fill_dieu_le_tlm_2tv",
+              "fill_dieu_le_tlm_cp",
+              "fill_founders_table",
+              "fill_member_table",
+              "fill_member_table_tang_von",
+              "fill_qd_chuyen_doi"
+            ]
           }
+        },
+        "repeat_with": {
+          "description": "Hàm dựng ngữ cảnh và tên file cho từng phần tử khi repeat_for (services/document_rules.py: REPEATERS).",
+          "enum": [
+            "giao_dich_chuyen_doi",
+            "giao_dich_chuyen_nhuong",
+            "giay_chung_nhan_gop_von",
+            "xac_nhan_gop_von"
+          ]
         }
+      },
+      "dependentRequired": {
+        "repeat_for": [
+          "repeat_with"
+        ],
+        "repeat_with": [
+          "repeat_for"
+        ]
       }
     }
   }

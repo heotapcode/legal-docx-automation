@@ -99,5 +99,25 @@
         }
       ]
     }
+  ],
+  "documents": [
+    {
+      "file": "01. Thông báo thay đổi ĐKKD.docx"
+    },
+    {
+      "file": "02. Thông báo bổ sung cập nhật.docx"
+    },
+    {
+      "file": "03. Quyết định.docx"
+    },
+    {
+      "file": "04. Biên bản họp.docx",
+      "post": [
+        "fill_bbh_tang_von_cp"
+      ]
+    },
+    {
+      "file": "05. Giấy ủy quyền.docx"
+    }
   ]
 }

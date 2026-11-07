@@ -84,5 +84,22 @@
         }
       ]
     }
+  ],
+  "documents": [
+    {
+      "file": "01. Giấy đề nghị.docx"
+    },
+    {
+      "file": "02. Điều lệ.docx"
+    },
+    {
+      "file": "03. Giấy ủy quyền.docx"
+    },
+    {
+      "file": "04. Danh sách chủ sở hữu hưởng lợi.docx",
+      "post": [
+        "fill_cshhl_table"
+      ]
+    }
   ]
 }

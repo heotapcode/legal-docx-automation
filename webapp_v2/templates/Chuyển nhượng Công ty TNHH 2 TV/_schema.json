@@ -97,5 +97,61 @@
         }
       ]
     }
+  ],
+  "documents": [
+    {
+      "file": "01. Thông báo bổ sung cập nhật.docx"
+    },
+    {
+      "file": "02. Thông báo thay đổi người đại diện theo pháp luật.docx",
+      "when": {
+        "field": "ddpl_changed",
+        "equals": true
+      }
+    },
+    {
+      "file": "03. Danh sách thành viên.docx",
+      "post": [
+        "fill_member_table"
+      ]
+    },
+    {
+      "file": "04. Danh sách chủ sở hữu hưởng lợi.docx",
+      "post": [
+        "fill_cshhl_table"
+      ]
+    },
+    {
+      "file": "05. Giấy ủy quyền.docx"
+    },
+    {
+      "file": "06. Hợp đồng chuyển nhượng.docx",
+      "repeat_for": "chuyen_nhuong",
+      "repeat_with": "giao_dich_chuyen_nhuong"
+    },
+    {
+      "file": "07. Biên bản thanh lý.docx",
+      "repeat_for": "chuyen_nhuong",
+      "repeat_with": "giao_dich_chuyen_nhuong"
+    },
+    {
+      "file": "08. Quyết định.docx",
+      "when": {
+        "field": "ddpl_changed",
+        "equals": true
+      }
+    },
+    {
+      "file": "09. Xác nhận góp vốn 1.docx",
+      "repeat_for": "tv_moi",
+      "repeat_with": "xac_nhan_gop_von"
+    },
+    {
+      "file": "10. Xác nhận góp vốn 2.docx",
+      "when": {
+        "field": "tv_moi",
+        "not_empty": false
+      }
+    }
   ]
 }

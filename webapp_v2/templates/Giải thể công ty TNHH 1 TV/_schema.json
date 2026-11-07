@@ -66,5 +66,25 @@
         }
       ]
     }
+  ],
+  "documents": [
+    {
+      "file": "01. Thông báo giải thể.docx"
+    },
+    {
+      "file": "02. Quyết định giải thể.docx"
+    },
+    {
+      "file": "03. Báo cáo thanh lý tài sản.docx"
+    },
+    {
+      "file": "05. Danh sách chủ nợ.docx"
+    },
+    {
+      "file": "06. Danh sách người lao động.docx"
+    },
+    {
+      "file": "07. Văn bản ủy quyền.docx"
+    }
   ]
 }

@@ -116,5 +116,47 @@
         }
       ]
     }
+  ],
+  "documents": [
+    {
+      "file": "01. Quyết định.docx",
+      "post": [
+        "fill_qd_chuyen_doi"
+      ]
+    },
+    {
+      "file": "02. Điều lệ.docx",
+      "post": [
+        "fill_dieu_le_chuyen_doi"
+      ]
+    },
+    {
+      "file": "03. Giấy đề nghị.docx"
+    },
+    {
+      "file": "04. Danh sách thành viên.docx",
+      "post": [
+        "fill_member_table"
+      ]
+    },
+    {
+      "file": "04. Giấy ủy quyền.docx"
+    },
+    {
+      "file": "05. Danh sách chủ sở hữu hưởng lợi.docx",
+      "post": [
+        "fill_cshhl_table"
+      ]
+    },
+    {
+      "file": "07. Hợp đồng chuyển nhượng + Biên bản thanh lý.docx",
+      "repeat_for": "chuyen_nhuong",
+      "repeat_with": "giao_dich_chuyen_doi"
+    },
+    {
+      "file": "Giấy chứng nhận góp vốn.docx",
+      "repeat_for": "tv_moi",
+      "repeat_with": "giay_chung_nhan_gop_von"
+    }
   ]
 }
