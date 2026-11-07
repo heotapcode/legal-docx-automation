@@ -410,24 +410,6 @@ window.ensureRequiredFields = ensureRequiredFields;
 
 window.nextStep = function() {
     if (window.wizardState.step === 2) {
-        const tplName = window.wizardState.template ? window.wizardState.template.name : '';
-        if (tplName === 'Chuyển đổi loại hình 1TV sang 2 TV' && window.collectCD1TV2TVData) {
-            const cdStep = window.cd1tv2tvState ? window.cd1tv2tvState.step : 1;
-            if (cdStep === 1) {
-                window.cd1tv2tvGotoStep(2);
-                return;
-            } else if (cdStep === 2) {
-                window.cd1tv2tvGotoStep(3);
-                return;
-            } else {
-                const ok = window.collectCD1TV2TVData();
-                if (!ok) return;
-                window.wizardState.step = 3;
-                renderCurrentStep();
-                return;
-            }
-        }
-
         collectFormData();
         if (!ensureRequiredFields()) return;
         // Check if template has nganh
@@ -447,32 +429,13 @@ window.nextStep = function() {
 };
 
 window.prevStep = function() {
-    const tplName = window.wizardState.template ? window.wizardState.template.name : '';
-    if (window.wizardState.step === 2 && tplName === 'Chuyển đổi loại hình 1TV sang 2 TV' && window.cd1tv2tvState) {
-        if (window.cd1tv2tvState.step > 1) {
-            window.cd1tv2tvGotoStep(window.cd1tv2tvState.step - 1);
-            return;
-        }
-    }
-
     if (window.wizardState.step === 4) {
-        if (tplName === 'Chuyển nhượng Công ty TNHH 2 TV') {
-            window.wizardState.step = 2;
-            renderCurrentStep();
-            return;
-        }
         const hasNganh = window.wizardState.schema && window.wizardState.schema.has_nganh;
         if (!hasNganh) {
             window.wizardState.step = 2;
             renderCurrentStep();
             return;
         }
-    }
-
-    if (window.wizardState.step === 3 && tplName === 'Chuyển nhượng Công ty TNHH 2 TV') {
-        window.wizardState.step = 2;
-        renderCurrentStep();
-        return;
     }
 
     if (window.wizardState.step > 1) {
@@ -482,9 +445,6 @@ window.prevStep = function() {
 };
 
 window.selectTemplate = function(name) {
-    if (window.wizardState.template && window.wizardState.template.name !== name) {
-        window.cd1tv2tvState = null;
-    }
     window.wizardState.template = window.wizardState.templatesList.find(t => t.name === name);
     window.wizardState.step = 2;
     renderCurrentStep();
@@ -570,16 +530,8 @@ async function loadStep2Schema() {
     const tplName = window.wizardState.template.name;
     const content = document.getElementById('wizard-content');
 
-    // Các wizard riêng tự vẽ ô chọn tỉnh/thành phố (renderTinhDangKySelect) nên cần danh mục trước
+    // Wizard riêng Tăng vốn 2 TV tự vẽ ô chọn tỉnh/thành phố (renderTinhDangKySelect) nên cần danh mục trước
     await loadCatalog('tinh_thanh');
-
-    // Check for custom specialized wizards
-    if (tplName === 'Chuyển đổi loại hình 1TV sang 2 TV' && window.renderCD1TV2TVWizard) {
-        window.wizardState.schema = { has_nganh: true, display_name: tplName };
-        content.innerHTML = '<div id="cd1tv-custom-wrapper" style="padding: 10px;"></div>';
-        window.renderCD1TV2TVWizard(document.getElementById('cd1tv-custom-wrapper'));
-        return;
-    }
 
     if (tplName === 'Tăng vốn công ty TNHH 2 TV' && window.renderTangVon2TVWizard && window.isTangVon2TVNewUI && window.isTangVon2TVNewUI()) {
         // Nạp schema thật để có danh sách trường bắt buộc (dùng cho kiểm tra & % hoàn thiện)
@@ -2226,11 +2178,7 @@ function renderStep4Download() {
 
 window.generateDocuments = async function() {
     const tplName = window.wizardState.template ? window.wizardState.template.name : '';
-    if (tplName === 'Chuyển đổi loại hình 1TV sang 2 TV' && window.collectCD1TV2TVData) {
-        if (document.getElementById('cd_ten_cty')) {
-            window.collectCD1TV2TVData();
-        }
-    } else if (tplName === 'Tăng vốn công ty TNHH 2 TV' && window.tv2Sync && window.isTangVon2TVNewUI && window.isTangVon2TVNewUI()) {
+    if (tplName === 'Tăng vốn công ty TNHH 2 TV' && window.tv2Sync && window.isTangVon2TVNewUI && window.isTangVon2TVNewUI()) {
         window.tv2Sync();
         if (!ensureRequiredFields()) return;
     } else {
@@ -2265,7 +2213,6 @@ window.generateDocuments = async function() {
             is_main: !!n.is_main
         })),
         special_payload: {
-            cd1tv2tv_data: window.wizardState.cd1tv2tvData,
             chuyen_nhuong: window.wizardState.transferList,
             thanh_vien: window.wizardState.thanhVienList
         }

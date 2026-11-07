@@ -14,7 +14,15 @@ QUYẾT ĐỊNH:
 THAY ĐỔI ĐĂNG KÝ KINH DOANH:
 1. Thay đổi thành viên do chuyển nhượng phần vốn góp:
 1.1 Thành viên thêm phần vốn góp:
-a) Thành viên nhận chuyển nhượng: NGUYỄN VĂN THỬ2
+a) Thành viên nhận chuyển nhượng: NGUYỄN VĂN THỬ1
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ1
+Giới tính: Nam
+Ngày sinh: 02/01/1990
+Số định danh cá nhân: 001090000001
+Địa chỉ liên lạc: Số 1 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+Ông NGUYỄN VĂN THỬ1 cam kết không vi phạm tại điều 18 Luật doanh nghiệp.
+
+b) Thành viên nhận chuyển nhượng: NGUYỄN VĂN THỬ2
 Họ chữ đệm và tên: NGUYỄN VĂN THỬ2
 Giới tính: Nữ
 Ngày sinh: 03/01/1990
@@ -22,7 +30,7 @@ Số định danh cá nhân: 001090000002
 Địa chỉ liên lạc: Số 2 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 Bà NGUYỄN VĂN THỬ2 cam kết không vi phạm tại điều 18 Luật doanh nghiệp.
 
-b) Thành viên nhận chuyển nhượng: NGUYỄN VĂN THỬ3
+c) Thành viên nhận chuyển nhượng: NGUYỄN VĂN THỬ3
 Họ chữ đệm và tên: NGUYỄN VĂN THỬ3
 Giới tính: Nam
 Ngày sinh: 04/01/1990
@@ -30,8 +38,9 @@ Số định danh cá nhân: 001090000003
 Địa chỉ liên lạc: Số 3 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 Ông NGUYỄN VĂN THỬ3 cam kết không vi phạm tại điều 18 Luật doanh nghiệp.
 1.2. Nội dung thay đổi phần vốn góp, tỷ lệ góp vốn:
-- Bà NGUYỄN VĂN THỬ2 nhận chuyển nhượng phần vốn góp từ ông  là 701,676,666 đồng (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng).
-- Ông NGUYỄN VĂN THỬ3 nhận chuyển nhượng phần vốn góp từ ông  là 701,676,666 đồng (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng).
+- Ông NGUYỄN VĂN THỬ1 nhận chuyển nhượng phần vốn góp từ bà NGUYỄN VĂN THỬ90 là 701,676,666 đồng (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng).
+- Bà NGUYỄN VĂN THỬ2 nhận chuyển nhượng phần vốn góp từ bà NGUYỄN VĂN THỬ90 là 701,676,666 đồng (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng).
+- Ông NGUYỄN VĂN THỬ3 nhận chuyển nhượng phần vốn góp từ bà NGUYỄN VĂN THỬ90 là 701,676,666 đồng (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng).
 1.3. Thời điểm góp vốn: ngày     tháng     năm
 2. Thay đổi cơ cấu góp vốn sau khi thay đổi phần vốn góp, tỷ lệ góp vốn:
 - Cơ cấu góp vốn cũ:
@@ -49,7 +58,7 @@ Cơ cấu góp vốn trong công ty trong điều 6 điều lệ công ty
 Vậy đến thời điểm này là ngày    tháng    năm      Công ty có 2 thành viên góp vốn nên công ty tiến hành chuyển đổi loại hình doanh nghiệp từ công ty TNHH Một thành viên sang công ty TNHH Hai thành viên trở lên.
 
 II CHUYỂN ĐỔI LOẠI HÌNH DOANH NGHIỆP:
-1. Tên công ty chuyển đổi:
+1. Tên công ty chuyển đổi: CÔNG TY TNHH THỬ NGHIỆM ABC
 2. Tên công ty được chuyển đổi: CÔNG TY TNHH THỬ NGHIỆM ABC
 
 3. Địa chỉ trụ sở chính: GIATRI_DIA_CHI_SO_NHA, GIATRI_DIA_CHI_XA_PHUONG, GIATRI_DIA_CHI_TINH_THANH
@@ -59,6 +68,12 @@ Email (nếu có): test@example.com				Website (nếu có):
 4.Ngành nghề kinh doanh:
 
 5. Thành viên công ty:
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ90
+Giới tính: Nam
+Ngày sinh: 07/01/1990
+Số định danh cá nhân: 001090000090
+Địa chỉ liên lạc: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+Và:
 Họ chữ đệm và tên: NGUYỄN VĂN THỬ1
 Giới tính: Nam
 Ngày sinh: 02/01/1990
@@ -79,11 +94,11 @@ Số định danh cá nhân: 001090000003
 6. Cơ cấu góp vốn:
 
 7. Người đại diện theo pháp luật công ty:
-Họ chữ đệm và tên: NGUYỄN VĂN THỬ90
-Giới tính: Nữ
-Ngày sinh: 07/01/1990
-Số định danh cá nhân: 001090000090
-Địa chỉ liên lạc: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ91
+Giới tính: Nam
+Ngày sinh: 08/01/1990
+Số định danh cá nhân: 001090000091
+Địa chỉ liên lạc: Số 91 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 Chức danh: Giám đốc
 
 8. Phương án sử dụng tài sản công ty:
@@ -98,7 +113,7 @@ Thời hạn thực hiện việc chuyển đổi:      ngày    tháng    năm
 11. Sửa đổi Điều lệ Công ty:
 Doanh nghiệp đã sửa đổi toàn bộ điều lệ sang điều lệ công ty TNHH Hai thành viên trở lên theo quy định pháp luật
 
-Điều 2: Giao cho Ông/Bà NGUYỄN VĂN THỬ90 – Giám đốc Công ty  đôn đốc, kiểm tra, thực hiện Quyết định này
+Điều 2: Giao cho Ông/Bà NGUYỄN VĂN THỬ91 – Giám đốc Công ty  đôn đốc, kiểm tra, thực hiện Quyết định này
 
 Điều 3: Quyết định có hiệu lực kể từ ngày ký. Các phòng ban liên quan có trách nhiệm thực hiện quyết định này./.
 
@@ -116,10 +131,11 @@ Giá trị vốn góp (VNĐ)
 Phần trăm góp vốn
 Số Giấy CMND/CCCD
 1
-
+NGUYỄN VĂN THỬ90
+Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 2,105,030,000
 100
-
+001090000090
 TT
 Tên thành viên
 Nơi đăng ký HKTT
@@ -127,18 +143,24 @@ Giá trị vốn góp (VNĐ)
 Tỷ lệ góp vốn (%)
 Số Giấy CMND/CCCD
 1
+NGUYỄN VĂN THỬ90
+Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+2,105,030,000
+40
+001090000090
+2
 NGUYỄN VĂN THỬ1
 Số 1 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 701,676,666
 33.33
 001090000001
-2
+3
 NGUYỄN VĂN THỬ2
 Số 2 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 701,676,666
 33.33
 001090000002
-3
+4
 NGUYỄN VĂN THỬ3
 Số 3 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 701,676,666
@@ -182,18 +204,24 @@ Giá trị vốn góp (VNĐ)
 Tỷ lệ góp vốn (%)
 Số Giấy CMND/CCCD
 1
+NGUYỄN VĂN THỬ90
+Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+2,105,030,000
+40
+001090000090
+2
 NGUYỄN VĂN THỬ1
 Số 1 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 701,676,666
 33.33
 001090000001
-2
+3
 NGUYỄN VĂN THỬ2
 Số 2 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 701,676,666
 33.33
 001090000002
-3
+4
 NGUYỄN VĂN THỬ3
 Số 3 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 701,676,666
@@ -204,6 +232,8 @@ Số 3 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 - Lưu.
 - Gửi đến tất cả các chủ nợ và thông báo cho người lao đông trong công ty;
 CHỦ SỞ HỮU CÔNG TY
+
+NGUYỄN VĂN THỬ90
 
 ===== 02. Điều lệ.docx =====
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
@@ -226,11 +256,11 @@ GIATRI_DIA_CHI_SO_NHA, GIATRI_DIA_CHI_XA_PHUONG, GIATRI_DIA_CHI_TINH_THANH
 	1. Người đại diện theo pháp luật của doanh nghiệp là cá nhân đại diện cho doanh nghiệp thực hiện các quyền và nghĩa vụ phát sinh từ giao dịch của doanh nghiệp, đại diện cho doanh nghiệp với tư cách người yêu cầu giải quyết việc dân sự, nguyên đơn, bị đơn, người có quyền lợi, nghĩa vụ liên quan trước Trọng tài, Tòa án và các quyền, nghĩa vụ khác theo quy định của pháp luật
 Số lượng người đại diện theo pháp luật: Công ty có 01 người là người đại diện theo pháp luật, chức danh Giám đốc
 2. Thông tin của người đại diện theo pháp luật:
-Họ chữ đệm và tên: NGUYỄN VĂN THỬ90
-Giới tính: Nữ
-Ngày sinh: 07/01/1990
-Số định danh cá nhân: 001090000090
-Địa chỉ liên lạc: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ91
+Giới tính: Nam
+Ngày sinh: 08/01/1990
+Số định danh cá nhân: 001090000091
+Địa chỉ liên lạc: Số 91 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 Chức danh: Giám đốc
 Chương II: THÀNH VIÊN, VỐN ĐIỀU LỆ, QUYỀN VÀ NGHĨA VỤ CỦA THÀNH VIÊN
 Điều 6. Vốn điều lệ, phần vốn góp của thành viên công ty
@@ -240,6 +270,14 @@ Ghi bằng chữ: Hai tỷ một trăm linh năm triệu không trăm ba mươi 
 Vốn điều lệ có thể tăng hoặc giảm do yêu cầu tình hình hoạt động của Công ty và do quyết định của Hội đồng thành viên.
 2.  Phần vốn góp, giá trị phần vốn góp của các thành viên, thời điểm góp vốn
 a)  Thành viên thứ nhất:
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ90
+Giới tính: Nam
+Ngày sinh: 07/01/1990
+Số định danh cá nhân: 001090000090
+Địa chỉ liên lạc: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+Sở hữu phần vốn góp có giá trị là 2,105,030,000 đồng, chiếm 40% vốn điều lệ;
+
+b)  Thành viên thứ hai:
 Họ chữ đệm và tên: NGUYỄN VĂN THỬ1
 Giới tính: Nam
 Ngày sinh: 02/01/1990
@@ -247,7 +285,7 @@ Số định danh cá nhân: 001090000001
 Địa chỉ liên lạc: Số 1 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 Sở hữu phần vốn góp có giá trị là 701,676,666 đồng, chiếm 33.33% vốn điều lệ;
 
-b)  Thành viên thứ hai:
+c)  Thành viên thứ ba:
 Họ chữ đệm và tên: NGUYỄN VĂN THỬ2
 Giới tính: Nữ
 Ngày sinh: 03/01/1990
@@ -255,7 +293,7 @@ Số định danh cá nhân: 001090000002
 Địa chỉ liên lạc: Số 2 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 Sở hữu phần vốn góp có giá trị là 701,676,666 đồng, chiếm 33.33% vốn điều lệ;
 
-c)  Thành viên thứ ba:
+d)  Thành viên thứ tư:
 Họ chữ đệm và tên: NGUYỄN VĂN THỬ3
 Giới tính: Nam
 Ngày sinh: 04/01/1990
@@ -475,6 +513,8 @@ X
 Bán buôn máy móc, thiết bị và phụ tùng máy khác
 4659
 
+NGUYỄN VĂN THỬ90
+
 NGUYỄN VĂN THỬ1
 
 NGUYỄN VĂN THỬ2
@@ -493,12 +533,12 @@ GIẤY ĐỀ NGHỊ ĐĂNG KÝ DOANH NGHIỆP
 CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN
 
 Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
-Họ chữ đệm và tên: NGUYỄN VĂN THỬ90
-Giới tính: Nữ
-Ngày sinh: 07/01/1990
-Số định danh cá nhân: 001090000090
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ91
+Giới tính: Nam
+Ngày sinh: 08/01/1990
+Số định danh cá nhân: 001090000091
 Địa chỉ liên lạc:
-Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: Số 90 Ngõ Thử Nghiệm
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: Số 91 Ngõ Thử Nghiệm
 Xã/Phường/Đặc khu: Phường Cầu Giấy
 Tỉnh/Thành phố trực thuộc trung ương: GIATRI_DIA_CHI_TINH_THANH
 Quốc gia: Việt Nam
@@ -509,7 +549,7 @@ là người đại diện theo pháp luật với nội dung sau:
 1. Tình trạng thành lập (đánh dấu X vào ô thích hợp):
 - Lý do chuyển đổi loại hình doanh nghiệp: Tiếp nhận thành viên mới
 - Thông tin về các doanh nghiệp được chuyển đổi:
-Tên doanh nghiệp (ghi bằng chữ in hoa):  Mã số doanh nghiệp/Mã số thuế: 0101234567
+Tên doanh nghiệp (ghi bằng chữ in hoa): CÔNG TY TNHH THỬ NGHIỆM ABC Mã số doanh nghiệp/Mã số thuế: 0101234567
 - Doanh nghiệp thực hiện dự án đầu tư được đăng ký đầu tư theo thủ tục đầu tư đặc biệt
 Doanh nghiệp xã hội (Đánh dấu X vào ô vuông nếu là doanh nghiệp xã hội)
  Công ty chứng khoán/Công ty quản lý quỹ đầu tư chứng khoán/Công ty đầu tư chứng khoán: (Đánh dấu X nếu là Công ty chứng khoán/Công ty quản lý quỹ đầu tư chứng khoán/Công ty đầu tư chứng khoán và kê khai thêm các thông tin sau đây)
@@ -535,11 +575,11 @@ Có hiển thị thông tin về giá trị tương đương theo đơn vị ti�
 6. Nguồn vốn điều lệ:
 7. Thành viên công ty: (kê khai theo mẫu danh sách kèm theo).
 8. Người đại diện theo pháp luật:
-Họ chữ đệm và tên: NGUYỄN VĂN THỬ90
-Giới tính: Nữ
-Ngày sinh: 07/01/1990
-Số định danh cá nhân: 001090000090
-Địa chỉ liên lạc: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ91
+Giới tính: Nam
+Ngày sinh: 08/01/1990
+Số định danh cá nhân: 001090000091
+Địa chỉ liên lạc: Số 91 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 Chức danh: Giám đốc
 9. Thông tin đăng ký thuế:
 10. Thông tin về việc đóng bảo hiểm xã hội:
@@ -615,14 +655,14 @@ Các chỉ tiêu thông tin đăng ký thuế
 Các chỉ tiêu thông tin đăng ký thuế
 9.1
 Thông tin về Giám đốc/Tổng giám đốc (nếu có):
-Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: NGUYỄN VĂN THỬ90
-Ngày, tháng, năm sinh: 07/01/1990      Giới tính: Nữ
-Số định danh cá nhân: 001090000090
+Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: NGUYỄN VĂN THỬ91
+Ngày, tháng, năm sinh: 08/01/1990      Giới tính: Nam
+Số định danh cá nhân: 001090000091
 Điện thoại: 0912345678
 Thông tin về Giám đốc/Tổng giám đốc (nếu có):
-Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: NGUYỄN VĂN THỬ90
-Ngày, tháng, năm sinh: 07/01/1990      Giới tính: Nữ
-Số định danh cá nhân: 001090000090
+Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: NGUYỄN VĂN THỬ91
+Ngày, tháng, năm sinh: 08/01/1990      Giới tính: Nam
+Số định danh cá nhân: 001090000091
 Điện thoại: 0912345678
 9.2
 Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):
@@ -696,7 +736,7 @@ NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
 CỦA DOANH NGHIỆP
          Giám đốc
 
-         NGUYỄN VĂN THỬ90
+         NGUYỄN VĂN THỬ91
 
 ===== 04. Danh sách thành viên.docx =====
 DANH SÁCH THÀNH VIÊN CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN
@@ -744,6 +784,20 @@ Ghi chú
 13
 14
 1
+NGUYỄN VĂN THỬ90
+07/01/1990
+Nam
+Số định danh cá nhân: 001090000090
+Việt Nam
+Kinh
+Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+2,105,030,000
+40
+Đồng Việt Nam
+2,105,030,000 đồng Việt Nam
+Trong thời hạn 90 ngày, kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp
+
+2
 NGUYỄN VĂN THỬ1
 02/01/1990
 Nam
@@ -757,7 +811,7 @@ Số 1 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 701,676,666 đồng Việt Nam
 Trong thời hạn 90 ngày, kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp
 
-2
+3
 NGUYỄN VĂN THỬ2
 03/01/1990
 Nữ
@@ -771,7 +825,7 @@ Số 2 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 701,676,666 đồng Việt Nam
 Trong thời hạn 90 ngày, kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp
 
-3
+4
 NGUYỄN VĂN THỬ3
 04/01/1990
 Nam
@@ -788,7 +842,7 @@ Trong thời hạn 90 ngày, kể từ ngày được cấp Giấy chứng nhậ
 Hà Nội, ngày       tháng      năm
 NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY                                                  (Ký, ghi họ tên)
 
-NGUYỄN VĂN THỬ90
+NGUYỄN VĂN THỬ91
 
 ===== 04. Giấy ủy quyền.docx =====
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
@@ -799,9 +853,9 @@ GIẤY ỦY QUYỀN
 Giấy ủy quyền này được lập và ký vào ngày     tháng     năm      , giữa các bên dưới đây:
 
 BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
-Ông/Bà: NGUYỄN VĂN THỬ90              Chức danh: Giám đốc
-Số định danh cá nhân: 001090000090
-Ngày sinh: 07/01/1990		Giới tính: Nữ
+Ông/Bà: NGUYỄN VĂN THỬ91              Chức danh: Giám đốc
+Số định danh cá nhân: 001090000091
+Ngày sinh: 08/01/1990		Giới tính: Nam
 Là người đại diện theo pháp luật:
 CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp: 0101234567
@@ -819,7 +873,7 @@ Giấy ủy quyền này có giá trị kể từ ngày ký và sẽ t
 
 BÊN A
 
-NGUYỄN VĂN THỬ90
+NGUYỄN VĂN THỬ91
 
 ===== 05. Danh sách chủ sở hữu hưởng lợi.docx =====
 DANH SÁCH CHỦ SỞ HỮU HƯỞNG LỢI CỦA DOANH NGHIỆP
@@ -862,6 +916,17 @@ Ghi chú
 11
 14
 1
+NGUYỄN VĂN THỬ90
+07/01/1990
+Nam
+Số định danh cá nhân: 001090000090
+Việt Nam
+Kinh
+Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+40
+40
+
+2
 NGUYỄN VĂN THỬ1
 02/01/1990
 Nam
@@ -872,7 +937,7 @@ Số 1 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 33.33
 33.33
 
-2
+3
 NGUYỄN VĂN THỬ2
 03/01/1990
 Nữ
@@ -883,7 +948,7 @@ Số 2 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 33.33
 33.33
 
-3
+4
 NGUYỄN VĂN THỬ3
 04/01/1990
 Nam
@@ -896,9 +961,116 @@ Số 3 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 
 Hà Nội, ngày       tháng      năm                                                                                  NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY                                                  (Ký, ghi họ tên)
 
+NGUYỄN VĂN THỬ91
+
+===== 07. Hợp đồng chuyển nhượng + Biên bản thanh lý_a (NGUYỄN VĂN THỬ90 - NGUYỄN VĂN THỬ1).docx =====
+CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+-----***-----
+HỢP ĐỒNG CHUYỂN NHƯỢNG PHẦN VỐN GÓP
+Số: .../2026/CN
+Căn cứ Luật doanh nghiệp số 59/2020/QH14 năm 2020;
+Căn cứ vào Điều lệ của CÔNG TY TNHH THỬ NGHIỆM ABC;
+Căn cứ vào việc góp vốn của thành viên Công ty;
+Căn cứ nhu cầu và năng lực của các bên tham gia hợp đồng
+Hôm nay, ngày 15 tháng 01 năm 2026, tại Trụ sở CÔNG TY TNHH THỬ NGHIỆM ABC, Chúng tôi gồm:
+1. BÊN A
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ90
+Giới tính: Nữ
+Ngày sinh: 07/01/1990
+Số định danh cá nhân: 001090000090
+Địa chỉ liên lạc: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+2. BÊN B
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ1
+Giới tính: Nam
+Ngày sinh: 02/01/1990
+Số định danh cá nhân: 001090000001
+Địa chỉ liên lạc: Số 1 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+Sau khi trao đổi, thoả thuận, hai Bên nhất trí ký kết hợp đồng chuyển nhượng phần vốn góp với các điều khoản sau:
+Điều 1. Nội dung hợp đồng
+Ông/Bà NGUYỄN VĂN THỬ90 chuyển nhượng cho Ông/bà NGUYỄN VĂN THỬ1 số vốn góp trong CÔNG TY TNHH THỬ NGHIỆM ABC là 701,676,666 VND (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng), chiếm 33.33% tổng vốn điều lệ của công ty.
+Giá trị chuyển nhượng là 701,676,666 VND (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng).
+Thời điểm chuyển nhượng: ngày 15 tháng 01 năm 2026
+Điều 2. Phương thức và thời hạn thanh toán
+1. Thời hạn thanh toán: Bên B thanh toán cho Bên A trong ngày hai bên cùng ký kết vào Hợp đồng này.
+2. Phương thức thanh toán: Thanh toán qua tài khoản ngân hàng của Bên A
+Điều 3. Quyền lợi và trách nhiệm của các bên tham gia hợp đồng
+Quyền lợi và trách nhiệm của Bên A
+Cung cấp đầy đủ, chính xác và kịp thời các giấy tờ, tài liệu chứng minh quyền sở hữu hợp pháp phần vốn góp trong Công ty cho Bên B;
+Được nhận thanh toán đầy đủ và đúng hạn giá trị phần vốn góp chuyển nhượng từ Bên B theo đúng các điều khoản trong Hợp đồng này;
+Cam kết không có bất cứ thắc mắc gì trước các cơ quan chức năng;
+Hợp tác thường xuyên với Bên B trong quá trình thực hiện Hợp đồng;
+Quyền lợi và trách nhiệm của Bên B
+Được Bên A cung cấp đầy đủ, chính xác và kịp thời các giấy tờ, tài liệu chứng minh quyền sở hữu hợp pháp phần vốn góp trong Công ty;
+Thanh toán đầy đủ và đúng hạn giá trị phần vốn góp nhận chuyển nhượng cho Bên A theo đúng các điều khoản trong Hợp đồng này;
+Cam kết không có bất cứ thắc mắc gì trước các cơ quan chức năng;
+Hợp tác thường xuyên với Bên A trong quá trình thực hiện Hợp đồng.
+Chịu trách nhiệm về mọi hoạt động của doanh nghiệp.
+Điều 4. Hiệu lực và thời hạn của hợp đồng
+Hợp đồng này có hiệu lực từ kể từ ngày ký.
+Hai bên phải thực hiện đúng những nội dung đã thoả thuận và cam kết như trên, nếu bên nào vi phạm thì Bên đó phải bồi thường cho bên còn lại theo quy định của pháp luật.
+Điều 5. Điều khoản thi hành
+Hợp đồng này được lập thành 04 bản, có giá trị pháp lý như nhau, mỗi Bên giữ 01 bản làm cơ sở để thực hiện, 01 bản lưu tại công ty, 01 bản gửi Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội.
+
+CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+-----***-----
+BIÊN BẢN THANH LÝ HỢP ĐỒNG CHUYỂN NHƯỢNG
+Hôm nay, ngày 15 tháng 01 năm 2026, tại Trụ sở CÔNG TY TNHH THỬ NGHIỆM ABC, Chúng tôi gồm:
+1. BÊN A
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ90
+Giới tính: Nữ
+Ngày sinh: 07/01/1990
+Số định danh cá nhân: 001090000090
+Địa chỉ liên lạc: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+2. BÊN B
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ1
+Giới tính: Nam
+Ngày sinh: 02/01/1990
+Số định danh cá nhân: 001090000001
+Địa chỉ liên lạc: Số 1 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+
+Sau khi trao đổi, thoả thuận, hai Bên nhất trí ký kết biên bản thanh lý hợp đồng chuyển nhượng phần vốn góp với các điều khoản sau:
+ĐIỀU 1. Thanh lý hợp đồng chuyển nhượng phần vốn góp được ký ngày 15 tháng 01 năm 2026     giữa Ông/bà NGUYỄN VĂN THỬ90 và Ông/Bà NGUYỄN VĂN THỬ1
+ĐIỀU 2. Mọi nghĩa vụ về tài chính giữa Bên A và Bên B phát sinh từ Hợp đồng chuyển nhượng vốn góp được ký ngày 15 tháng 01 năm 2026       đã được hai Bên hoàn tất trước khi lập và ký vào Biên bản thanh lý này.
+Các Bên đồng ý thông qua vấn đề chuyển nhượng và nhận chuyển nhượng phần vồn góp.
+ĐIỀU 3. Các Bên cam đoan: việc thanh lý Hợp đồng chuyển nhượng phần vốn góp nêu trên là hoàn toàn tự nguyện, dứt khoát, không còn bất kỳ vướng mắc gì và không kèm theo bất cứ điều kiện nào, không nhằm trốn tránh bất kỳ một nghĩa vụ nào. Nếu có điều gì sai trái, Bên có lỗi phải chịu hoàn toàn trách nhiệm trước pháp luật.
+Biên bản thanh lý này được lập thành 04 bản có giá trị pháp lý như nhau.
+
+BÊN A
+
+NGUYỄN VĂN THỬ90
+BÊN B
+
+NGUYỄN VĂN THỬ1
+
+Xác nhận của
+CÔNG TY TNHH THỬ NGHIỆM ABC
+
 NGUYỄN VĂN THỬ90
 
-===== 07. Hợp đồng chuyển nhượng + Biên bản thanh lý.docx =====
+Xác nhận của
+CÔNG TY TNHH THỬ NGHIỆM ABC
+
+NGUYỄN VĂN THỬ90
+BÊN A
+
+NGUYỄN VĂN THỬ90
+BÊN B
+
+NGUYỄN VĂN THỬ1
+
+Xác nhận của
+CÔNG TY TNHH THỬ NGHIỆM ABC
+
+NGUYỄN VĂN THỬ90
+
+Xác nhận của
+CÔNG TY TNHH THỬ NGHIỆM ABC
+
+NGUYỄN VĂN THỬ90
+
+===== 07. Hợp đồng chuyển nhượng + Biên bản thanh lý_b (NGUYỄN VĂN THỬ90 - NGUYỄN VĂN THỬ2).docx =====
 CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
 -----***-----
@@ -923,8 +1095,8 @@ Số định danh cá nhân: 001090000002
 Địa chỉ liên lạc: Số 2 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 Sau khi trao đổi, thoả thuận, hai Bên nhất trí ký kết hợp đồng chuyển nhượng phần vốn góp với các điều khoản sau:
 Điều 1. Nội dung hợp đồng
-Ông/Bà NGUYỄN VĂN THỬ90 chuyển nhượng cho Ông/bà NGUYỄN VĂN THỬ2 số vốn góp trong CÔNG TY TNHH THỬ NGHIỆM ABC là  VND (), chiếm 33.33% tổng vốn điều lệ của công ty.
-Giá trị chuyển nhượng là  VND ().
+Ông/Bà NGUYỄN VĂN THỬ90 chuyển nhượng cho Ông/bà NGUYỄN VĂN THỬ2 số vốn góp trong CÔNG TY TNHH THỬ NGHIỆM ABC là 701,676,666 VND (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng), chiếm 33.33% tổng vốn điều lệ của công ty.
+Giá trị chuyển nhượng là 701,676,666 VND (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng).
 Thời điểm chuyển nhượng: ngày 15 tháng 01 năm 2026
 Điều 2. Phương thức và thời hạn thanh toán
 1. Thời hạn thanh toán: Bên B thanh toán cho Bên A trong ngày hai bên cùng ký kết vào Hợp đồng này.
@@ -1005,7 +1177,142 @@ CÔNG TY TNHH THỬ NGHIỆM ABC
 
 NGUYỄN VĂN THỬ90
 
-===== Giấy chứng nhận góp vốn_a (NGUYỄN VĂN THỬ1).docx =====
+===== 07. Hợp đồng chuyển nhượng + Biên bản thanh lý_c (NGUYỄN VĂN THỬ90 - NGUYỄN VĂN THỬ3).docx =====
+CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+-----***-----
+HỢP ĐỒNG CHUYỂN NHƯỢNG PHẦN VỐN GÓP
+Số: .../2026/CN
+Căn cứ Luật doanh nghiệp số 59/2020/QH14 năm 2020;
+Căn cứ vào Điều lệ của CÔNG TY TNHH THỬ NGHIỆM ABC;
+Căn cứ vào việc góp vốn của thành viên Công ty;
+Căn cứ nhu cầu và năng lực của các bên tham gia hợp đồng
+Hôm nay, ngày 15 tháng 01 năm 2026, tại Trụ sở CÔNG TY TNHH THỬ NGHIỆM ABC, Chúng tôi gồm:
+1. BÊN A
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ90
+Giới tính: Nữ
+Ngày sinh: 07/01/1990
+Số định danh cá nhân: 001090000090
+Địa chỉ liên lạc: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+2. BÊN B
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ3
+Giới tính: Nam
+Ngày sinh: 04/01/1990
+Số định danh cá nhân: 001090000003
+Địa chỉ liên lạc: Số 3 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+Sau khi trao đổi, thoả thuận, hai Bên nhất trí ký kết hợp đồng chuyển nhượng phần vốn góp với các điều khoản sau:
+Điều 1. Nội dung hợp đồng
+Ông/Bà NGUYỄN VĂN THỬ90 chuyển nhượng cho Ông/bà NGUYỄN VĂN THỬ3 số vốn góp trong CÔNG TY TNHH THỬ NGHIỆM ABC là 701,676,666 VND (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng), chiếm 33.33% tổng vốn điều lệ của công ty.
+Giá trị chuyển nhượng là 701,676,666 VND (Bảy trăm linh một triệu sáu trăm bảy mươi sáu nghìn sáu trăm sáu mươi sáu đồng).
+Thời điểm chuyển nhượng: ngày 15 tháng 01 năm 2026
+Điều 2. Phương thức và thời hạn thanh toán
+1. Thời hạn thanh toán: Bên B thanh toán cho Bên A trong ngày hai bên cùng ký kết vào Hợp đồng này.
+2. Phương thức thanh toán: Thanh toán qua tài khoản ngân hàng của Bên A
+Điều 3. Quyền lợi và trách nhiệm của các bên tham gia hợp đồng
+Quyền lợi và trách nhiệm của Bên A
+Cung cấp đầy đủ, chính xác và kịp thời các giấy tờ, tài liệu chứng minh quyền sở hữu hợp pháp phần vốn góp trong Công ty cho Bên B;
+Được nhận thanh toán đầy đủ và đúng hạn giá trị phần vốn góp chuyển nhượng từ Bên B theo đúng các điều khoản trong Hợp đồng này;
+Cam kết không có bất cứ thắc mắc gì trước các cơ quan chức năng;
+Hợp tác thường xuyên với Bên B trong quá trình thực hiện Hợp đồng;
+Quyền lợi và trách nhiệm của Bên B
+Được Bên A cung cấp đầy đủ, chính xác và kịp thời các giấy tờ, tài liệu chứng minh quyền sở hữu hợp pháp phần vốn góp trong Công ty;
+Thanh toán đầy đủ và đúng hạn giá trị phần vốn góp nhận chuyển nhượng cho Bên A theo đúng các điều khoản trong Hợp đồng này;
+Cam kết không có bất cứ thắc mắc gì trước các cơ quan chức năng;
+Hợp tác thường xuyên với Bên A trong quá trình thực hiện Hợp đồng.
+Chịu trách nhiệm về mọi hoạt động của doanh nghiệp.
+Điều 4. Hiệu lực và thời hạn của hợp đồng
+Hợp đồng này có hiệu lực từ kể từ ngày ký.
+Hai bên phải thực hiện đúng những nội dung đã thoả thuận và cam kết như trên, nếu bên nào vi phạm thì Bên đó phải bồi thường cho bên còn lại theo quy định của pháp luật.
+Điều 5. Điều khoản thi hành
+Hợp đồng này được lập thành 04 bản, có giá trị pháp lý như nhau, mỗi Bên giữ 01 bản làm cơ sở để thực hiện, 01 bản lưu tại công ty, 01 bản gửi Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội.
+
+CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+-----***-----
+BIÊN BẢN THANH LÝ HỢP ĐỒNG CHUYỂN NHƯỢNG
+Hôm nay, ngày 15 tháng 01 năm 2026, tại Trụ sở CÔNG TY TNHH THỬ NGHIỆM ABC, Chúng tôi gồm:
+1. BÊN A
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ90
+Giới tính: Nữ
+Ngày sinh: 07/01/1990
+Số định danh cá nhân: 001090000090
+Địa chỉ liên lạc: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+2. BÊN B
+Họ chữ đệm và tên: NGUYỄN VĂN THỬ3
+Giới tính: Nam
+Ngày sinh: 04/01/1990
+Số định danh cá nhân: 001090000003
+Địa chỉ liên lạc: Số 3 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+
+Sau khi trao đổi, thoả thuận, hai Bên nhất trí ký kết biên bản thanh lý hợp đồng chuyển nhượng phần vốn góp với các điều khoản sau:
+ĐIỀU 1. Thanh lý hợp đồng chuyển nhượng phần vốn góp được ký ngày 15 tháng 01 năm 2026     giữa Ông/bà NGUYỄN VĂN THỬ90 và Ông/Bà NGUYỄN VĂN THỬ3
+ĐIỀU 2. Mọi nghĩa vụ về tài chính giữa Bên A và Bên B phát sinh từ Hợp đồng chuyển nhượng vốn góp được ký ngày 15 tháng 01 năm 2026       đã được hai Bên hoàn tất trước khi lập và ký vào Biên bản thanh lý này.
+Các Bên đồng ý thông qua vấn đề chuyển nhượng và nhận chuyển nhượng phần vồn góp.
+ĐIỀU 3. Các Bên cam đoan: việc thanh lý Hợp đồng chuyển nhượng phần vốn góp nêu trên là hoàn toàn tự nguyện, dứt khoát, không còn bất kỳ vướng mắc gì và không kèm theo bất cứ điều kiện nào, không nhằm trốn tránh bất kỳ một nghĩa vụ nào. Nếu có điều gì sai trái, Bên có lỗi phải chịu hoàn toàn trách nhiệm trước pháp luật.
+Biên bản thanh lý này được lập thành 04 bản có giá trị pháp lý như nhau.
+
+BÊN A
+
+NGUYỄN VĂN THỬ90
+BÊN B
+
+NGUYỄN VĂN THỬ3
+
+Xác nhận của
+CÔNG TY TNHH THỬ NGHIỆM ABC
+
+NGUYỄN VĂN THỬ90
+
+Xác nhận của
+CÔNG TY TNHH THỬ NGHIỆM ABC
+
+NGUYỄN VĂN THỬ90
+BÊN A
+
+NGUYỄN VĂN THỬ90
+BÊN B
+
+NGUYỄN VĂN THỬ3
+
+Xác nhận của
+CÔNG TY TNHH THỬ NGHIỆM ABC
+
+NGUYỄN VĂN THỬ90
+
+Xác nhận của
+CÔNG TY TNHH THỬ NGHIỆM ABC
+
+NGUYỄN VĂN THỬ90
+
+===== Giấy chứng nhận góp vốn_a (NGUYỄN VĂN THỬ90).docx =====
+GIẤY CHỨNG NHẬN PHẦN VỐN GÓP
+- Căn cứ Luật doanh nghiệp 2020 số 59/2020/QH14 của Quốc hội Nước Cộng hoà xã hội chủ nghĩa Việt Nam.
+- Căn cứ tình hình góp vốn thực tế của thành viên.
+CHỨNG NHẬN
+Thành viên: NGUYỄN VĂN THỬ90
+Ngày sinh: 07/01/1990                            Giới tính: Nam
+Số định danh cá nhân: 001090000090
+Địa chỉ liên hệ: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+Đã góp đủ giá trị phần vốn góp của mình là:	2,105,030,000 VNĐ (Hai tỷ một trăm linh năm triệu không trăm ba mươi nghìn đồng), (Tỷ lệ vốn góp 40%).
+Hình thức góp vốn:
++ Tiền mặt: 2,105,030,000 VNĐ (Hai tỷ một trăm linh năm triệu không trăm ba mươi nghìn đồng)
+Thời điểm góp vốn: …./…../……
+Giấy chứng nhận này được lập thành hai bản gốc, một bản cấp cho thành viên góp vốn, một bản lưu ở hồ sơ công ty.
+
+CÔNG TY TNHH THỬ NGHIỆM ABC
+Số: 01/2026/CNGV
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập – Tự do – Hạnh phúc
+----------------------------
+
+Hà Nội, ngày     tháng     năm
+NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
+CỦA DOANH NGHIỆP
+Giám đốc
+
+ NGUYỄN VĂN THỬ91
+
+===== Giấy chứng nhận góp vốn_b (NGUYỄN VĂN THỬ1).docx =====
 GIẤY CHỨNG NHẬN PHẦN VỐN GÓP
 - Căn cứ Luật doanh nghiệp 2020 số 59/2020/QH14 của Quốc hội Nước Cộng hoà xã hội chủ nghĩa Việt Nam.
 - Căn cứ tình hình góp vốn thực tế của thành viên.
@@ -1031,9 +1338,9 @@ NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
 CỦA DOANH NGHIỆP
 Giám đốc
 
- NGUYỄN VĂN THỬ90
+ NGUYỄN VĂN THỬ91
 
-===== Giấy chứng nhận góp vốn_b (NGUYỄN VĂN THỬ2).docx =====
+===== Giấy chứng nhận góp vốn_c (NGUYỄN VĂN THỬ2).docx =====
 GIẤY CHỨNG NHẬN PHẦN VỐN GÓP
 - Căn cứ Luật doanh nghiệp 2020 số 59/2020/QH14 của Quốc hội Nước Cộng hoà xã hội chủ nghĩa Việt Nam.
 - Căn cứ tình hình góp vốn thực tế của thành viên.
@@ -1059,9 +1366,9 @@ NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
 CỦA DOANH NGHIỆP
 Giám đốc
 
- NGUYỄN VĂN THỬ90
+ NGUYỄN VĂN THỬ91
 
-===== Giấy chứng nhận góp vốn_c (NGUYỄN VĂN THỬ3).docx =====
+===== Giấy chứng nhận góp vốn_d (NGUYỄN VĂN THỬ3).docx =====
 GIẤY CHỨNG NHẬN PHẦN VỐN GÓP
 - Căn cứ Luật doanh nghiệp 2020 số 59/2020/QH14 của Quốc hội Nước Cộng hoà xã hội chủ nghĩa Việt Nam.
 - Căn cứ tình hình góp vốn thực tế của thành viên.
@@ -1087,4 +1394,4 @@ NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
 CỦA DOANH NGHIỆP
 Giám đốc
 
- NGUYỄN VĂN THỬ90
+ NGUYỄN VĂN THỬ91

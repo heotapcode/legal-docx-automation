@@ -24,19 +24,12 @@ class DocGenRequest(BaseModel):
     ma_nganh: Optional[List[NganhInfo]] = []
     special_payload: Optional[Dict[str, Any]] = None
 
-# Wizard riêng gửi dữ liệu theo cấu trúc khác _schema.json (special_payload); chưa kiểm tra bằng lõi
-# schema cho tới khi chuyển sang bộ máy wizard chung (Mục 9, bước chuyển đổi).
-ENGINE_SKIP_IDS = {"chuyen-doi-loai-hinh-1tv-sang-2-tv"}
-
-
 def validate_request_data(template_name: str, data: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """Lỗi dữ liệu theo _schema.json của bộ mẫu (trống nếu hợp lệ hoặc bộ mẫu được bỏ qua)."""
+    """Lỗi dữ liệu theo _schema.json của bộ mẫu (trống nếu hợp lệ)."""
     schema_path = validate_template_dir(template_name) / "_schema.json"
     if not schema_path.exists():
         return []
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
-    if schema.get("id") in ENGINE_SKIP_IDS:
-        return []
     return schema_engine.validate(schema, data)
 
 

@@ -1,10 +1,9 @@
 """API /api/documents/generate kiểm tra dữ liệu theo _schema.json (services/schema_engine.py)."""
 import pytest
 
-from conftest import build_payload, list_template_names, load_schema
-from routes.documents import ENGINE_SKIP_IDS
+from conftest import build_payload, list_template_names
 
-CHECKED = [n for n in list_template_names() if load_schema(n)["id"] not in ENGINE_SKIP_IDS]
+CHECKED = list_template_names()  # mọi bộ mẫu đều được kiểm tra (không còn wizard riêng nào bỏ qua)
 
 
 def post(client, name, data):
@@ -42,13 +41,3 @@ def test_province_default_satisfies_required(client):
     payload, _, _ = build_payload("Tạm dừng công ty TNHH 1 TV", 1)
     payload["data"].pop("tinh_dang_ky", None)
     assert post(client, payload["template_name"], payload["data"]).status_code == 200
-
-
-@pytest.mark.parametrize("tid", sorted(ENGINE_SKIP_IDS))
-def test_custom_wizards_not_blocked_yet(client, tid):
-    """Wizard riêng (dữ liệu nằm ở special_payload) chưa bị chặn cho tới khi chuyển sang bộ máy chung."""
-    name = next(n for n in list_template_names() if load_schema(n)["id"] == tid)
-    payload, _, _ = build_payload(name, 2)
-    r = client.post("/api/documents/generate", json={"template_name": name, "data": {},
-                                                     "special_payload": payload["special_payload"]})
-    assert r.status_code == 200

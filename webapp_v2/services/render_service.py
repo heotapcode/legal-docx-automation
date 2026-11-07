@@ -317,6 +317,8 @@ class SafeDict(dict):
         return ""
 
 def merge_cd1tv2tv_data(raw_data: dict, cd1tv_data: dict):
+    """Chuyển đổi 1TV -> 2TV: dựng các biến của bộ mẫu từ dữ liệu đã gom (gọi từ
+    document_rules._prepare_chuyen_doi_1tv_2tv; cấu trúc cd1tv_data giữ theo wizard riêng cũ)."""
     csh = cd1tv_data.get('csh', {})
     ddpl_cu = cd1tv_data.get('ddplCu', {})
     ddpl_moi = cd1tv_data.get('ddplMoi', {})
@@ -504,10 +506,6 @@ def merge_cd1tv2tv_data(raw_data: dict, cd1tv_data: dict):
     raw_data['chuyen_nhuong'] = cn_raw
 
 def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
-    # Dữ liệu của wizard riêng Chuyển đổi 1TV -> 2TV
-    if "cd1tv2tv_data" in raw_data and isinstance(raw_data["cd1tv2tv_data"], dict):
-        merge_cd1tv2tv_data(raw_data, raw_data["cd1tv2tv_data"])
-
     ctx = SafeDict()
 
     # Copy raw data with both original case and lowercase
@@ -1571,13 +1569,15 @@ def render_documents(
     # Merge special_payload into raw_data if provided
     merged_data = dict(raw_data)
     if special_payload:
-        if "cd1tv2tv_data" in special_payload and special_payload["cd1tv2tv_data"]:
-            merged_data["cd1tv2tv_data"] = special_payload["cd1tv2tv_data"]
         if "chuyen_nhuong" in special_payload and special_payload["chuyen_nhuong"]:
             merged_data["chuyen_nhuong"] = special_payload["chuyen_nhuong"]
 
     schema_path = template_dir / "_schema.json"
     schema = json.loads(schema_path.read_text(encoding="utf-8")) if schema_path.exists() else {}
+
+    if schema.get("prepare"):
+        from services import document_rules
+        document_rules.PREPARERS[schema["prepare"]](merged_data)
 
     context = normalize_context(merged_data, ma_nganh_list)
     resolve_list_refs(schema, context)

@@ -202,7 +202,7 @@ def open_wizard_until(page, base_url, template, selector):
     "Tạm dừng công ty TNHH 1 TV",          # wizard chung
     "Tăng vốn công ty TNHH 2 TV",          # wizard riêng
     "Chuyển nhượng Công ty TNHH 2 TV",     # wizard chung (list + options_from)
-    "Chuyển đổi loại hình 1TV sang 2 TV",  # wizard riêng
+    "Chuyển đổi loại hình 1TV sang 2 TV",  # wizard chung (show_if theo hình thức chuyển nhượng)
 ])
 def test_province_select_present(page, base_url, template):
     open_wizard_until(page, base_url, template, "select#input-tinh_dang_ky")
@@ -424,3 +424,34 @@ def test_list_errors_point_to_their_own_list(page, base_url):
     assert page.eval_on_selector(f".lf-field{lf}", "el => el.classList.contains('input-invalid')")
     assert "bắt buộc" in page.inner_text('.fr-error[data-error-for="tv_cu.0.ho_ten"]')
     assert "bắt buộc" in page.inner_text('.fr-error[data-error-for="chuyen_nhuong.0.ben_a"]')
+
+
+def test_chuyen_doi_on_generic_form(page, base_url):
+    """Chuyển đổi 1TV -> 2TV chạy trên bộ máy chung: ô vốn giữ lại chỉ hiện khi chuyển nhượng một phần."""
+    open_template(page, base_url, "Chuyển đổi loại hình 1TV sang 2 TV")
+    giu_lai = '.fr-field[data-field-key="csh_von_giu_lai"]'
+    assert visible(page, giu_lai)
+    page.select_option('select[name="hinh_thuc_cn"]', "toan_bo")
+    assert not visible(page, giu_lai)
+    page.select_option('select[name="hinh_thuc_cn"]', "mot_phan")
+    page.evaluate("""() => {
+        const set = (n, v) => { const el = document.querySelector(`[name="${n}"]`); el.value = v; };
+        set('ma_so_thue', '0101234567'); set('ten_cong_ty_vn_cu', 'CÔNG TY TNHH MỘT THÀNH VIÊN A');
+        set('dia_chi_so_nha', 'Số 1 Phố Huế'); set('dia_chi_xa_phuong', 'Phường Hai Bà Trưng');
+        set('dia_chi_tinh_thanh', 'Thành phố Hà Nội'); set('von_dieu_le_so', '1.000.000.000');
+        set('csh_ho_ten', 'CHỦ CŨ'); set('csh_so_cccd', '001080000011');
+        set('csh_von_giu_lai', '600.000.000'); set('csh_ty_le', '60');
+        set('ddpl_ho_ten', 'CHỦ CŨ'); set('ddpl_so_cccd', '001080000011');
+    }""")
+    page.fill('.m-field[data-idx="0"][data-prop="ho_ten"]', "THÀNH VIÊN MỚI")
+    page.fill('.m-field[data-idx="0"][data-prop="so_cccd"]', "001190000022")
+    page.fill('.m-field[data-idx="0"][data-prop="von_gop"]', "400000000")
+    page.fill('.m-field[data-idx="0"][data-prop="ty_le"]', "40")
+    page.evaluate("collectFormData()")
+    assert page.evaluate("validateRequiredFields(window.wizardState.schema).map(e => e.label)") == []
+    page.evaluate("window.wizardState.step = 4")
+    with page.expect_response(lambda r: "/api/documents/generate" in r.url) as resp:
+        page.evaluate("generateDocuments()")
+    assert resp.value.status == 200, resp.value.text()
+    body = resp.value.request.post_data_json
+    assert body["data"]["hinh_thuc_cn"] == "mot_phan" and "cd1tv2tv_data" not in body["special_payload"]

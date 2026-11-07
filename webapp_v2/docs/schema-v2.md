@@ -7,7 +7,7 @@ Mỗi bộ mẫu hồ sơ là một thư mục trong `webapp_v2/templates/`, g�
 
 Đặc tả máy đọc được nằm ở [`schemas/template-schema.json`](../schemas/template-schema.json) (JSON Schema 2020-12). Bộ test (`tests/test_schemas.py`) và công cụ quét mẫu (`tools/template_lint.py`, mã `E002`) kiểm tra mọi schema theo file này.
 
-> **Lõi kiểm tra dữ liệu (Mục 9, bước 1).** `show_if`, `validate`, `rules` và các kiểu cũ (`person`, `person_list`, `transfer_list`) đã được cài đặt ở `services/schema_engine.py` (backend) và `static/js/engine/schema_engine.js` (trình duyệt), hai bản chạy chung ca kiểm thử `tests/engine_cases.json`. Đã nối (bước 2): API `/api/documents/generate` trả 422 kèm danh sách lỗi khi dữ liệu không hợp lệ, và wizard dùng chung lõi để chặn bước tiếp/tải hồ sơ. Hai bộ dùng wizard riêng (Chuyển nhượng 2 TV, Chuyển đổi 1TV→2TV) tạm chưa kiểm tra ở API cho tới khi chuyển sang bộ máy chung.
+> **Lõi kiểm tra dữ liệu (Mục 9, bước 1).** `show_if`, `validate`, `rules` và các kiểu cũ (`person`, `person_list`, `transfer_list`) đã được cài đặt ở `services/schema_engine.py` (backend) và `static/js/engine/schema_engine.js` (trình duyệt), hai bản chạy chung ca kiểm thử `tests/engine_cases.json`. Đã nối (bước 2): API `/api/documents/generate` trả 422 kèm danh sách lỗi khi dữ liệu không hợp lệ, và wizard dùng chung lõi để chặn bước tiếp/tải hồ sơ. Từ bước 5, Chuyển nhượng 2 TV và Chuyển đổi 1TV→2TV đã bỏ wizard riêng, chạy trên bộ máy chung nên mọi bộ mẫu đều được kiểm tra ở API.
 >
 > **Trạng thái triển khai.** Các phần đánh dấu **[v2]** đã có trong đặc tả để thống nhất định dạng, nhưng wizard (`static/js/pages/wizard.js`) và `render_service.py` **chưa dùng tới**. Chúng sẽ được triển khai ở Mục 9 (bộ máy wizard chung). Hiện tại bộ mẫu thật chỉ nên dùng các kiểu trường wizard đang hỗ trợ (`tests/test_schemas.py::SUPPORTED_TYPES`).
 
@@ -23,6 +23,7 @@ Mỗi bộ mẫu hồ sơ là một thư mục trong `webapp_v2/templates/`, g�
 | `category` | | Nhóm thủ tục: Thành lập mới, Thay đổi, Tăng vốn, Giải thể… |
 | `description` | | Mô tả ngắn. |
 | `has_nganh` | | `true` nếu wizard có bước chọn mã ngành (bộ mẫu có bảng *Mã ngành / Tên ngành*). |
+| `prepare` | | Hàm dựng dữ liệu riêng của nghiệp vụ, chạy trước khi chuẩn hóa ngữ cảnh (`services/document_rules.py`, `PREPARERS`). Hiện có `chuyen_doi_1tv_2tv`: từ chủ sở hữu cũ `csh`, `hinh_thuc_cn` (`mot_phan` kèm `csh_von_giu_lai`, `csh_ty_le` / `toan_bo`) và các thành viên mới `thanh_vien`, dựng danh sách thành viên đầy đủ (chủ sở hữu cũ là Thành viên 1 khi giữ lại vốn) và mỗi thành viên mới một giao dịch nhận chuyển nhượng từ chủ sở hữu cũ. Chỉ dùng khi nghiệp vụ không diễn tả được bằng các khóa khác. |
 | `steps` | ✔ | Danh sách bước của wizard (mục 2). |
 | `schema_version` | | [v2] `1` hoặc `2`. |
 | `version` | | [v2] Phiên bản nội dung bộ mẫu, tăng mỗi lần xuất bản (Mục 10). |

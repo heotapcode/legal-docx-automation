@@ -109,8 +109,10 @@ def test_documents_block_matches_files(name):
 
 
 def test_spec_rule_names_match_code():
-    from services.document_rules import HOOKS, REPEATERS
+    from services.document_rules import HOOKS, PREPARERS, REPEATERS
 
-    spec = json.loads(SPEC_PATH.read_text(encoding="utf-8"))["$defs"]["document"]["properties"]
+    full = json.loads(SPEC_PATH.read_text(encoding="utf-8"))
+    spec = full["$defs"]["document"]["properties"]
     assert sorted(spec["repeat_with"]["enum"]) == sorted(REPEATERS)
     assert sorted(spec["post"]["items"]["enum"]) == sorted(HOOKS)
+    assert sorted(full["properties"]["prepare"]["enum"]) == sorted(PREPARERS)
