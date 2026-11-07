@@ -530,23 +530,6 @@ async function loadStep2Schema() {
     const tplName = window.wizardState.template.name;
     const content = document.getElementById('wizard-content');
 
-    // Wizard riêng Tăng vốn 2 TV tự vẽ ô chọn tỉnh/thành phố (renderTinhDangKySelect) nên cần danh mục trước
-    await loadCatalog('tinh_thanh');
-
-    if (tplName === 'Tăng vốn công ty TNHH 2 TV' && window.renderTangVon2TVWizard && window.isTangVon2TVNewUI && window.isTangVon2TVNewUI()) {
-        // Nạp schema thật để có danh sách trường bắt buộc (dùng cho kiểm tra & % hoàn thiện)
-        let tvSchema = null;
-        try {
-            const res = await fetch(`/api/templates/${encodeURIComponent(tplName)}/schema`);
-            if (res.ok) tvSchema = await res.json();
-        } catch (e) {
-            console.warn('Không tải được schema Tăng vốn 2 TV:', e);
-        }
-        window.wizardState.schema = tvSchema || { name: tplName, has_nganh: false, display_name: tplName };
-        window.renderTangVon2TVWizard(content);
-        return;
-    }
-
     try {
         const res = await fetch(`/api/templates/${encodeURIComponent(tplName)}/schema`);
         if (!res.ok) throw new Error('Schema not found');
@@ -624,18 +607,12 @@ window.previewDocInfo = function(docName) {
     }
 };
 
+/** % hoàn thiện thật: số mục hợp lệ / số mục cần kiểm tra theo _schema.json (cùng lõi kiểm tra với backend). */
 window.updateUniversalCompleteness = function() {
-    const inputs = document.querySelectorAll('#dynamic-form-container input:not([type="hidden"]):not([type="file"]), #dynamic-form-container select');
-    if (!inputs.length) return;
-
-    let filled = 0;
-    inputs.forEach(inp => {
-        if (inp.value && inp.value.trim().length > 0) {
-            filled++;
-        }
-    });
-
-    const pct = Math.max(25, Math.min(100, Math.round((filled / inputs.length) * 100)));
+    if (!window.wizardState || !window.wizardState.schema) return;
+    const errors = validateRequiredFields(window.wizardState.schema);
+    const total = errors.total || 0;
+    const pct = total ? Math.round(((total - errors.length) / total) * 100) : 100;
     const scoreEl = document.getElementById('universal-completeness-score');
     const fillEl = document.getElementById('universal-progress-fill');
     if (scoreEl) scoreEl.innerText = `${pct}%`;
@@ -839,12 +816,14 @@ function renderStep2Form(schema) {
                 </div>
 
                 <div class="harvey-kpi-card">
-                    <div>
-                        <div class="kpi-label">THỜI GIAN XỬ LÝ</div>
-                        <div class="harvey-kpi-num">0.85s</div>
-                        <div style="font-size: 11px; color: var(--harvey-text-muted); margin-top: 3px;"><i class="fa-solid fa-bolt"></i> Siêu tốc native</div>
+                    <div style="flex: 1;">
+                        <div class="kpi-label">MỨC HOÀN THIỆN</div>
+                        <div class="harvey-kpi-num" id="universal-completeness-score">0%</div>
+                        <div style="height: 4px; margin-top: 6px; border-radius: 2px; background: rgba(255,255,255,0.08); overflow: hidden;">
+                            <div id="universal-progress-fill" style="height: 100%; width: 0%; background: var(--gold-primary); transition: width 0.3s;"></div>
+                        </div>
                     </div>
-                    <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-gauge-high"></i></div>
+                    <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-list-check"></i></div>
                 </div>
             </div>
 
@@ -909,8 +888,11 @@ function renderStep2Form(schema) {
     const formContainer = document.getElementById('dynamic-form-container');
     FormRenderer.attach(formContainer);
     if (formContainer) {
-        formContainer.removeEventListener('input', updateUniversalCompleteness);
-        formContainer.addEventListener('input', updateUniversalCompleteness);
+        // Sau listener của FormRenderer.attach (đã thu dữ liệu vào wizardState)
+        ['input', 'change'].forEach(ev => {
+            formContainer.removeEventListener(ev, updateUniversalCompleteness);
+            formContainer.addEventListener(ev, updateUniversalCompleteness);
+        });
         updateUniversalCompleteness();
     }
     setTimeout(() => {
@@ -2177,16 +2159,10 @@ function renderStep4Download() {
 }
 
 window.generateDocuments = async function() {
-    const tplName = window.wizardState.template ? window.wizardState.template.name : '';
-    if (tplName === 'Tăng vốn công ty TNHH 2 TV' && window.tv2Sync && window.isTangVon2TVNewUI && window.isTangVon2TVNewUI()) {
-        window.tv2Sync();
-        if (!ensureRequiredFields()) return;
-    } else {
-        if (window.wizardState.step === 2) {
-            collectFormData();
-        }
-        if (!ensureRequiredFields()) return;
+    if (window.wizardState.step === 2) {
+        collectFormData();
     }
+    if (!ensureRequiredFields()) return;
 
     const loadingEl = document.getElementById('gen-loading');
     const successEl = document.getElementById('gen-success');
