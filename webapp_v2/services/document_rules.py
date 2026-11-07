@@ -184,6 +184,66 @@ HOOKS: Dict[str, Callable[[Any, Dict[str, Any], List[dict]], None]] = {
 }
 
 
+# ---------- Dựng dữ liệu trước khi chuẩn hóa (khóa "prepare" ở cấp gốc _schema.json) ----------
+
+def _person(raw: Dict[str, Any], prefix: str) -> Dict[str, str]:
+    """Người nhập theo kiểu `person` (<prefix>_ho_ten...) -> dạng dùng trong merge_cd1tv2tv_data."""
+    parts = [raw.get(f"{prefix}_dia_chi_{k}") or "" for k in ("so_nha", "xa_phuong", "tinh_thanh")]
+    return {
+        "HO_TEN": raw.get(f"{prefix}_ho_ten") or "",
+        "CCCD": raw.get(f"{prefix}_so_cccd") or "",
+        "NGAY_SINH": raw.get(f"{prefix}_ngay_sinh") or "",
+        "GIOI_TINH": raw.get(f"{prefix}_gioi_tinh") or "Nam",
+        "DIA_CHI": raw.get(f"{prefix}_dia_chi_day_du") or ", ".join(p for p in parts if p),
+    }
+
+
+def _member_address(m: Dict[str, Any]) -> str:
+    parts = [m.get(f"dia_chi_{k}") or "" for k in ("so_nha", "xa_phuong", "tinh_thanh")]
+    return m.get("dia_chi_day_du") or m.get("dia_chi") or ", ".join(p for p in parts if p)
+
+
+def _prepare_chuyen_doi_1tv_2tv(raw: Dict[str, Any]) -> None:
+    """Chuyển đổi Công ty TNHH 1 TV -> 2 TV trở lên.
+
+    Form nhập: chủ sở hữu cũ `csh`, hình thức `hinh_thuc_cn` (mot_phan: giữ lại `csh_von_giu_lai`;
+    toan_bo: rút hết vốn), các thành viên MỚI ở `thanh_vien`, ĐDPL mới `ddpl`.
+    Dựng: danh sách thành viên đầy đủ (chủ sở hữu cũ là Thành viên 1 nếu giữ lại vốn) và mỗi thành viên mới
+    một giao dịch nhận chuyển nhượng từ chủ sở hữu cũ, rồi dùng merge_cd1tv2tv_data như wizard riêng cũ.
+    """
+    hinh_thuc = raw.get("hinh_thuc_cn") or "mot_phan"
+    members = []
+    if hinh_thuc == "mot_phan":
+        # Để trống thông tin cá nhân: merge_cd1tv2tv_data điền từ chủ sở hữu cũ
+        members.append({"ho_ten": "", "von": raw.get("csh_von_giu_lai") or "", "ty_le": raw.get("csh_ty_le") or ""})
+    for m in raw.get("thanh_vien") or []:
+        if not isinstance(m, dict):
+            continue
+        members.append({
+            "ho_ten": m.get("ho_ten") or "", "cccd": m.get("so_cccd") or m.get("cccd") or "",
+            "ngay_sinh": m.get("ngay_sinh") or "", "gioi_tinh": m.get("gioi_tinh") or "Nam",
+            "dia_chi": _member_address(m), "von": m.get("von_gop") or m.get("von") or "",
+            "ty_le": m.get("ty_le") or "", "nhan_cn": "",
+        })
+    raw.pop("chuyen_nhuong", None)  # hợp đồng được dựng từ danh sách thành viên
+    rs.merge_cd1tv2tv_data(raw, {
+        "hinh_thuc_cn": hinh_thuc,
+        "oldCompany": {"name": raw.get("ten_cong_ty_vn_cu") or "", "mst": raw.get("ma_so_thue") or "",
+                       "von": raw.get("von_dieu_le_so") or ""},
+        "csh": _person(raw, "csh"),
+        "newCompany": {"nameVn": raw.get("ten_cong_ty_vn") or "", "nameEn": raw.get("ten_cong_ty_nn") or "",
+                       "nameShort": raw.get("ten_cong_ty_viet_tat") or "", "phone": raw.get("sdt_cong_ty") or "",
+                       "email": raw.get("email_cong_ty") or ""},
+        "ddplMoi": _person(raw, "ddpl"),
+        "members": members,
+    })
+
+
+PREPARERS: Dict[str, Callable[[Dict[str, Any]], None]] = {
+    "chuyen_doi_1tv_2tv": _prepare_chuyen_doi_1tv_2tv,
+}
+
+
 def plan_documents(schema: dict, template_dir) -> List[dict]:
     """Danh sách file cần sinh. Không khai báo `documents` -> mọi file .docx, điền bình thường."""
     if schema.get("documents"):

@@ -97,3 +97,26 @@ def test_huy_bo_giai_the_uses_ly_do(client, ly_do, expected):
     assert r.status_code == 200
     qd = next(v for k, v in read_zip(r.content).items() if k.startswith("02."))
     assert f"Lý do hủy bỏ Quyết định giải thể: {expected}" in qd
+
+
+@pytest.mark.parametrize("hinh_thuc, n_new, contracts_expected, csh_is_member", [
+    ("mot_phan", 1, 1, True),   # chủ sở hữu cũ giữ lại vốn: là Thành viên 1, không có hợp đồng với chính mình
+    ("toan_bo", 2, 2, False),   # rút hết vốn: mỗi thành viên mới một hợp đồng, chủ sở hữu cũ không còn là thành viên
+])
+def test_chuyen_doi_builds_members_and_contracts(client, hinh_thuc, n_new, contracts_expected, csh_is_member):
+    name = "Chuyển đổi loại hình 1TV sang 2 TV"
+    payload, _, members = build_payload(name, n_new)
+    data = payload["data"]
+    data["hinh_thuc_cn"] = hinh_thuc
+    data["thanh_vien"] = data["thanh_vien"][:n_new]
+    r = client.post("/api/documents/generate", json=payload)
+    assert r.status_code == 200, r.text[:300]
+    files = read_zip(r.content)
+    contracts = [n for n in files if n.startswith("07.")]
+    assert len(contracts) == contracts_expected, contracts
+    csh = data["csh_ho_ten"]
+    assert all(f"({csh} - " in n for n in contracts), "Bên A của mọi hợp đồng là chủ sở hữu cũ"
+    dstv = next(v for k, v in files.items() if k.startswith("04. Danh sách thành viên"))
+    assert (csh in dstv) is csh_is_member
+    certificates = [n for n in files if n.startswith("Giấy chứng nhận góp vốn")]
+    assert len(certificates) == n_new + (1 if csh_is_member else 0)

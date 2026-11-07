@@ -40,6 +40,12 @@
       "description": "Có bước chọn mã ngành nghề.",
       "type": "boolean"
     },
+    "prepare": {
+      "description": "Hàm dựng dữ liệu riêng của nghiệp vụ, chạy trước khi chuẩn hóa ngữ cảnh (services/document_rules.py, PREPARERS). Vd chuyển đổi 1TV -> 2TV dựng danh sách thành viên và hợp đồng chuyển nhượng từ chủ sở hữu cũ.",
+      "enum": [
+        "chuyen_doi_1tv_2tv"
+      ]
+    },
     "schema_version": {
       "description": "[v2] Phiên bản đặc tả mà file này tuân theo.",
       "type": "integer",

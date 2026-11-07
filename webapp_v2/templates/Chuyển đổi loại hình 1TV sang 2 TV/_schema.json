@@ -5,31 +5,22 @@
   "category": "Chuyển nhượng & Chuyển đổi",
   "description": "Bộ hồ sơ chuyển đổi loại hình doanh nghiệp từ Công ty TNHH 1 TV sang Công ty TNHH 2 TV trở lên",
   "has_nganh": true,
+  "prepare": "chuyen_doi_1tv_2tv",
   "steps": [
     {
-      "id": "company",
-      "title": "Thông tin Công ty Sau khi chuyển đổi",
+      "id": "company_cu",
+      "title": "Công ty TNHH 1 TV hiện tại",
       "fields": [
-        {
-          "key": "ten_cong_ty_vn",
-          "label": "Tên công ty mới (tiếng Việt)",
-          "type": "text",
-          "required": true
-        },
-        {
-          "key": "ten_cong_ty_nn",
-          "label": "Tên tiếng nước ngoài",
-          "type": "text"
-        },
-        {
-          "key": "ten_cong_ty_viet_tat",
-          "label": "Tên viết tắt",
-          "type": "text"
-        },
         {
           "key": "ma_so_thue",
           "label": "Mã số thuế hiện tại",
           "type": "mst_lookup",
+          "required": true
+        },
+        {
+          "key": "ten_cong_ty_vn_cu",
+          "label": "Tên công ty hiện tại (tiếng Việt)",
+          "type": "text",
           "required": true
         },
         {
@@ -54,17 +45,8 @@
           "key": "von_dieu_le_so",
           "label": "Vốn điều lệ (VNĐ)",
           "type": "money",
-          "required": true
-        },
-        {
-          "key": "sdt_cong_ty",
-          "label": "Số điện thoại",
-          "type": "phone"
-        },
-        {
-          "key": "email_cong_ty",
-          "label": "Email",
-          "type": "email"
+          "required": true,
+          "help": "Chuyển đổi loại hình không thay đổi vốn điều lệ."
         },
         {
           "key": "tinh_dang_ky",
@@ -77,12 +59,12 @@
       ]
     },
     {
-      "id": "tv1",
-      "title": "Thành viên 1 (Chủ sở hữu cũ kiêm ĐDPL)",
+      "id": "csh",
+      "title": "Chủ sở hữu cũ (bên chuyển nhượng vốn)",
       "fields": [
         {
-          "key": "ddpl",
-          "label": "Thành viên 1",
+          "key": "csh",
+          "label": "Chủ sở hữu cũ",
           "type": "person",
           "ocr": true,
           "required": true
@@ -90,19 +72,100 @@
       ]
     },
     {
-      "id": "tv2",
-      "title": "Thành viên 2 (Thành viên mới tiếp nhận)",
+      "id": "hinh_thuc",
+      "title": "Hình thức chuyển nhượng của chủ sở hữu cũ",
+      "fields": [
+        {
+          "key": "hinh_thuc_cn",
+          "label": "Hình thức chuyển nhượng",
+          "type": "select",
+          "required": true,
+          "default": "mot_phan",
+          "options": [
+            {
+              "value": "mot_phan",
+              "label": "Chuyển nhượng MỘT PHẦN vốn (chủ sở hữu cũ giữ lại vốn, là Thành viên 1)"
+            },
+            {
+              "value": "toan_bo",
+              "label": "Chuyển nhượng TOÀN BỘ vốn (chủ sở hữu cũ rút khỏi công ty)"
+            }
+          ]
+        },
+        {
+          "key": "csh_von_giu_lai",
+          "label": "Số vốn chủ sở hữu cũ giữ lại (VNĐ)",
+          "type": "money",
+          "required": true,
+          "show_if": {
+            "field": "hinh_thuc_cn",
+            "equals": "mot_phan"
+          }
+        },
+        {
+          "key": "csh_ty_le",
+          "label": "Tỷ lệ vốn chủ sở hữu cũ giữ lại (%)",
+          "type": "percent",
+          "required": true,
+          "validate": {
+            "min": 0,
+            "max": 100
+          },
+          "show_if": {
+            "field": "hinh_thuc_cn",
+            "equals": "mot_phan"
+          }
+        }
+      ]
+    },
+    {
+      "id": "company_moi",
+      "title": "Công ty TNHH 2 TV sau chuyển đổi",
+      "fields": [
+        {
+          "key": "ten_cong_ty_vn",
+          "label": "Tên công ty sau chuyển đổi (tiếng Việt)",
+          "type": "text",
+          "required": false,
+          "help": "Để trống nếu giữ nguyên tên hiện tại."
+        },
+        {
+          "key": "ten_cong_ty_nn",
+          "label": "Tên tiếng nước ngoài",
+          "type": "text"
+        },
+        {
+          "key": "ten_cong_ty_viet_tat",
+          "label": "Tên viết tắt",
+          "type": "text"
+        },
+        {
+          "key": "sdt_cong_ty",
+          "label": "Số điện thoại",
+          "type": "phone"
+        },
+        {
+          "key": "email_cong_ty",
+          "label": "Email",
+          "type": "email"
+        }
+      ]
+    },
+    {
+      "id": "tv_moi",
+      "title": "Thành viên mới (nhận chuyển nhượng từ chủ sở hữu cũ)",
       "fields": [
         {
           "key": "thanh_vien",
-          "label": "Thành viên góp vốn mới",
+          "label": "Thành viên mới",
           "type": "person_list",
           "min": 1,
           "ocr": true,
+          "help": "Mỗi thành viên mới có một Hợp đồng chuyển nhượng + Biên bản thanh lý với chủ sở hữu cũ.",
           "extra_fields": [
             {
               "key": "von_gop",
-              "label": "Vốn góp (VNĐ)",
+              "label": "Số vốn nhận chuyển nhượng (VNĐ)",
               "type": "money",
               "required": true
             },
@@ -113,6 +176,19 @@
               "required": true
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "ddpl",
+      "title": "Người đại diện theo pháp luật của công ty sau chuyển đổi",
+      "fields": [
+        {
+          "key": "ddpl",
+          "label": "Người đại diện theo pháp luật",
+          "type": "person",
+          "ocr": true,
+          "required": true
         }
       ]
     }

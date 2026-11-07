@@ -85,6 +85,7 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
     data: Dict[str, Any] = {}
     markers: Dict[str, str] = {}
     members: List[dict] = []
+    n_person = 0
     for step in schema.get("steps", []):
         for f in step["fields"]:
             key, typ = f["key"], f["type"]
@@ -104,13 +105,25 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
             elif typ == "money":
                 # Số có nhóm 0 ở giữa để đi qua nhánh "không trăm", "linh" khi đọc số thành chữ
                 data[key] = SAMPLE_VON_CU if "cu" in key else SAMPLE_VON_MOI
+            elif typ == "percent":
+                data[key] = "40"
+            elif typ == "number":
+                data[key] = "1"
+            elif typ == "date":
+                data[key] = "01/01/1990"
+            elif typ == "cccd":
+                data[key] = "001090009999"
+            elif typ == "address":
+                data[key] = "Số 9 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội"
             elif typ == "phone":
                 data[key] = "0912345678"
             elif typ == "email":
                 data[key] = "test@example.com"
             elif typ == "person":
-                # Người "cũ" (vd ĐDPL cũ) khác người mới, để hồ sơ có thay đổi người đại diện
-                idx = 89 if key.endswith("_cu") else 90
+                # Mỗi người một tên riêng (THỬ90, THỬ91...); người "cũ" (vd ĐDPL cũ) là THỬ89,
+                # khác người mới để hồ sơ có thay đổi người đại diện
+                idx = 89 if key.endswith("_cu") else 90 + n_person
+                n_person += idx != 89
                 data.update(sample_person(idx, key + "_"))
                 markers[key] = f"NGUYỄN VĂN THỬ{idx}"
             elif typ == "list":
