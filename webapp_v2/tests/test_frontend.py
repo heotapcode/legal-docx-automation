@@ -255,3 +255,125 @@ def test_browser_and_api_report_same_errors(page, base_url):
         assert e.code == 422
         api = [[x["key"], x["code"], x.get("index", -1)] for x in _json.loads(e.read())["errors"]]
     assert in_browser == api and len(api) >= 3
+
+
+# ---------- Bộ vẽ form chung (static/js/engine/form_renderer.js) ----------
+
+DEMO_SCHEMA = {
+    "id": "demo-form-renderer", "name": "Demo", "display_name": "Demo bộ vẽ form", "has_nganh": False,
+    "steps": [
+        {"id": "chon", "title": "Chọn nội dung", "fields": [
+            {"key": "thay_doi", "label": "Nội dung thay đổi", "type": "checkbox_group", "required": True,
+             "options": [{"value": "A1", "label": "Đổi tên"}, {"value": "A2", "label": "Đổi địa chỉ"}]},
+            {"key": "ten_moi", "label": "Tên mới", "type": "text", "required": True,
+             "show_if": {"field": "thay_doi", "contains": "A1"}}]},
+        {"id": "dia_chi", "title": "Địa chỉ mới", "show_if": {"field": "thay_doi", "contains": "A2"}, "fields": [
+            {"key": "dia_chi_moi", "label": "Địa chỉ mới", "type": "address", "required": True}]},
+        {"id": "nguoi", "title": "Người liên hệ", "fields": [
+            {"key": "lh_cccd", "label": "CCCD", "type": "cccd", "required": True},
+            {"key": "lh_ngay_sinh", "label": "Ngày sinh", "type": "date", "validate": {"min_age": 18}},
+            {"key": "co_dong", "label": "Cổ đông", "type": "list", "min": 1, "max": 2,
+             "item": [{"key": "ho_ten", "label": "Họ tên", "type": "text", "required": True},
+                      {"key": "ty_le", "label": "Tỷ lệ", "type": "percent", "required": True}],
+             "rules": [{"sum": "ty_le", "equals": 100}]}]},
+    ],
+}
+
+
+def open_demo(page, base_url, mode):
+    page.goto(f"{base_url}/#/wizard")
+    page.wait_for_function("window.wizardState && (window.wizardState.templatesList || []).length > 0")
+    page.wait_for_load_state("networkidle")
+    page.evaluate("""([schema, mode]) => {
+        localStorage.setItem('global_ui_mode', mode);
+        const s = window.wizardState;
+        s.template = { name: schema.name, display_name: schema.display_name };
+        s.schema = schema; s.step = 2; s.formData = {}; s.thanhVienList = []; s.transferList = []; s.dkkdSelected = [];
+        FormRenderer.resetTouched();
+        renderStep2Form(schema);
+    }""", [DEMO_SCHEMA, mode])
+    page.wait_for_selector("#dynamic-form-container .fr-step")
+
+
+def visible(page, selector):
+    return page.eval_on_selector(selector, "el => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length)")
+
+
+@pytest.mark.parametrize("mode", ["modern", "legacy"])
+def test_renderer_show_if_steps_and_fields(page, base_url, mode):
+    open_demo(page, base_url, mode)
+    assert not visible(page, '.fr-step[data-step-id="dia_chi"]')
+    assert not visible(page, '.fr-field[data-field-key="ten_moi"]')
+    page.check('.dkkd-cb[value="A2"]')
+    assert visible(page, '.fr-step[data-step-id="dia_chi"]')
+    assert not visible(page, '.fr-field[data-field-key="ten_moi"]')
+    page.check('.dkkd-cb[value="A1"]')
+    assert visible(page, '.fr-field[data-field-key="ten_moi"]')
+    page.uncheck('.dkkd-cb[value="A2"]')
+    assert not visible(page, '.fr-step[data-step-id="dia_chi"]')
+    # Bước bị ẩn không bị bắt buộc nhập
+    keys = page.evaluate("validateRequiredFields(window.wizardState.schema).map(e => e.name || e.prop)")
+    assert "dia_chi_moi" not in keys and "ten_moi" in keys
+
+
+@pytest.mark.parametrize("mode", ["modern", "legacy"])
+def test_renderer_list_add_remove_and_collect(page, base_url, mode):
+    open_demo(page, base_url, mode)
+    assert page.locator('.fr-list-item[data-list-item="co_dong"]').count() == 1
+    page.fill('.lf-field[data-list="co_dong"][data-idx="0"][data-key="ho_ten"]', "Nguyễn A")
+    page.fill('.lf-field[data-list="co_dong"][data-idx="0"][data-key="ty_le"]', "60")
+    page.click('button:has-text("+ Thêm")')
+    assert page.locator('.fr-list-item[data-list-item="co_dong"]').count() == 2
+    # Giữ dữ liệu đã nhập sau khi vẽ lại; tối đa 2 dòng -> hết nút Thêm
+    assert page.input_value('.lf-field[data-list="co_dong"][data-idx="0"][data-key="ho_ten"]') == "Nguyễn A"
+    assert page.locator('button:has-text("+ Thêm")').count() == 0
+    page.fill('.lf-field[data-list="co_dong"][data-idx="1"][data-key="ho_ten"]', "Trần B")
+    page.fill('.lf-field[data-list="co_dong"][data-idx="1"][data-key="ty_le"]', "40")
+    page.evaluate("collectFormData()")
+    data = page.evaluate("wizardDataForSchema(window.wizardState.schema, false).co_dong")
+    assert data == [{"ho_ten": "Nguyễn A", "ty_le": "60"}, {"ho_ten": "Trần B", "ty_le": "40"}]
+    assert not any("co_dong" in (e.get("name") or "") for e in page.evaluate("validateRequiredFields(window.wizardState.schema)"))
+    page.click('.fr-list-item[data-idx="0"] button:has-text("Xóa")')
+    assert page.evaluate("window.wizardState.formData.co_dong.map(x => x.ho_ten)") == ["Trần B"]
+
+
+def test_renderer_inline_errors_on_blur(page, base_url):
+    open_demo(page, base_url, "modern")
+    page.fill('input[name="lh_cccd"]', "123")
+    page.fill('input[name="lh_ngay_sinh"]', "01/01/2015")
+    page.focus('.lf-field[data-key="ho_ten"]')  # rời khỏi ô ngày sinh
+    assert "12 chữ số" in page.inner_text('.fr-error[data-error-for="lh_cccd"]')
+    assert "18 tuổi" in page.inner_text('.fr-error[data-error-for="lh_ngay_sinh"]')
+    # Ô chưa chạm vào thì chưa báo lỗi; bấm Tiếp thì báo hết
+    assert page.inner_text('.fr-error[data-error-for="co_dong.0.ty_le"]') == ""
+    page.evaluate("ensureRequiredFields()")
+    assert "bắt buộc" in page.inner_text('.fr-error[data-error-for="co_dong.0.ty_le"]')
+    page.fill('input[name="lh_cccd"]', "001090001234")
+    page.focus('input[name="lh_ngay_sinh"]')
+    assert page.inner_text('.fr-error[data-error-for="lh_cccd"]') == ""
+
+
+def test_renderer_escapes_list_values(page, base_url):
+    open_demo(page, base_url, "modern")
+    page.evaluate("""xss => { window.wizardState.formData.co_dong = [{ho_ten: xss, ty_le: xss}];
+                              window.wizardState.formData.lh_cccd = xss; renderStep2Form(window.wizardState.schema); }""", XSS)
+    page.wait_for_timeout(200)
+    assert page.evaluate("window.__xss || 0") == 0
+    assert page.input_value('.lf-field[data-key="ho_ten"]') == XSS
+
+
+def test_renderer_payload_uses_schema_keys(page, base_url):
+    """Dữ liệu gửi lên dùng đúng key của schema: checkbox_group 'thay_doi' và list 'co_dong'."""
+    open_demo(page, base_url, "modern")
+    page.check('.dkkd-cb[value="A2"]')
+    page.fill('input[name="dia_chi_moi"]', "Số 2 Phố B")
+    page.fill('input[name="lh_cccd"]', "001090001234")
+    page.fill('.lf-field[data-key="ho_ten"]', "Nguyễn A")
+    page.fill('.lf-field[data-key="ty_le"]', "100")
+    page.evaluate("collectFormData(); window.wizardState.step = 4;")
+    assert page.evaluate("validateRequiredFields(window.wizardState.schema).length") == 0
+    with page.expect_request(lambda r: "/api/documents/generate" in r.url) as req:
+        page.evaluate("generateDocuments()")
+    data = req.value.post_data_json["data"]
+    assert data["thay_doi"] == ["A2"]
+    assert data["co_dong"][0]["ho_ten"] == "Nguyễn A"

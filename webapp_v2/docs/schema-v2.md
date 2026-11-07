@@ -45,7 +45,7 @@ Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false
 | `title` | ✔ | Tiêu đề bước. |
 | `fields` | ✔ | Ít nhất 1 trường. |
 | `description` | | Ghi chú dưới tiêu đề. |
-| `show_if` | | [v2] Chỉ hiện bước khi điều kiện đúng (mục 4). |
+| `show_if` | | Chỉ hiện bước khi điều kiện đúng (mục 4). |
 
 ## 3. Trường (`fields[]`)
 
@@ -65,7 +65,7 @@ Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false
 | `default` | Giá trị chọn sẵn (wizard hiện dùng cho `select`; các kiểu khác: [v2]). **Không dùng dữ liệu người thật.** |
 | `item` | [v2] Các trường con của `list` / `group`. |
 | `options_from` | [v2] `select` lấy lựa chọn từ một `list` khác. |
-| `show_if` | [v2] Chỉ hiện trường khi điều kiện đúng. |
+| `show_if` | Chỉ hiện trường khi điều kiện đúng (ẩn/hiện ngay khi nhập; trường ẩn không bị kiểm tra). |
 | `validate` | [v2] Ràng buộc giá trị (mục 3.2). |
 | `rules` | [v2] Ràng buộc trên cả danh sách (mục 3.3). |
 
@@ -81,8 +81,9 @@ Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false
 | `transfer_list` | ✔ | Danh sách giao dịch chuyển nhượng (`chuyen_nhuong`). |
 | `checkbox_group` | ✔ | Bắt buộc có `options`. |
 | `select` | ✔ | Danh sách sổ xuống. Cần `options`, `options_source` hoặc [v2] `options_from`. |
-| `date`, `cccd`, `percent`, `address` | [v2] | |
-| `list`, `group` | [v2] | Bắt buộc có `item`. Thay dần `person`, `person_list`, `transfer_list` bằng định nghĩa tường minh. |
+| `date`, `cccd`, `percent`, `address` | ✔ | Bộ vẽ form chung (`static/js/engine/form_renderer.js`). `date` nhập DD/MM/YYYY; `cccd` 12 chữ số. |
+| `list` | ✔ | Danh sách lặp tổng quát, bắt buộc có `item`; có nút Thêm/Xóa, giới hạn `min`/`max`; dữ liệu gửi lên là mảng ở `data[key]`. |
+| `group` | [v2] | Bắt buộc có `item`. Thay dần `person` bằng định nghĩa tường minh. |
 
 ### 3.2. `validate` [v2]
 

@@ -556,8 +556,8 @@
             const color = colors[idx % colors.length];
 
             if (val > 0) {
-                segmentsHtml += `<div style="width: ${val}%; height: 100%; background: ${color}; transition: width 0.3s;" title="${name}: ${val}%"></div>`;
-                ratioStrings.push(`<span style="color: ${color};">${val}% ${name}</span>`);
+                segmentsHtml += `<div style="width: ${val}%; height: 100%; background: ${color}; transition: width 0.3s;" title="${escapeHtml(name)}: ${val}%"></div>`;
+                ratioStrings.push(`<span style="color: ${color};">${val}% ${escapeHtml(name)}</span>`);
             }
         });
 

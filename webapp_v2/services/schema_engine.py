@@ -169,6 +169,9 @@ def _check_list(field: dict, items: Any, root: Dict[str, Any], errors: list, tod
         for sub in subs:
             if eval_condition(sub.get("show_if"), item):
                 _check_value(sub, item.get(sub["key"]), item, errors, today, index=i, prefix=f"{label} #{i + 1}: ")
+    def sub_label(k):
+        return next((s.get("label", k) for s in subs if s["key"] == k), k)
+
     for rule in field.get("rules", []):
         if "sum" in rule:
             total = sum(to_number(it.get(rule["sum"])) or 0 for it in items if isinstance(it, dict))
@@ -177,7 +180,7 @@ def _check_list(field: dict, items: Any, root: Dict[str, Any], errors: list, tod
             target_n = to_number(root.get(target)) if isinstance(target, str) and target in root else to_number(target)
             if target_n is not None and abs(total - target_n) > 1e-6:
                 _err(errors, key, label, "sum",
-                     rule.get("message") or f"{label}: tổng {rule['sum']} phải bằng {target_n:g} (hiện {total:g})")
+                     rule.get("message") or f"{label}: tổng {sub_label(rule['sum'])} phải bằng {target_n:g} (hiện {total:g})")
         if "unique" in rule:
             seen = {}
             for i, it in enumerate(items):
@@ -187,7 +190,7 @@ def _check_list(field: dict, items: Any, root: Dict[str, Any], errors: list, tod
                 v = str(v).strip()
                 if v in seen:
                     _err(errors, key, label, "unique",
-                         rule.get("message") or f"{label}: {rule['unique']} bị trùng (#{seen[v] + 1} và #{i + 1})", index=i)
+                         rule.get("message") or f"{label}: {sub_label(rule['unique'])} bị trùng (#{seen[v] + 1} và #{i + 1})", index=i)
                 else:
                     seen[v] = i
 
