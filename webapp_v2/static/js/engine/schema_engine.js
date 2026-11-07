@@ -99,6 +99,7 @@
 
     function checkValue(field, value, scope, errors, today, index, prefix) {
         const key = field.key, label = (prefix || '') + (field.label || field.key);
+        if (isBlank(value) && 'default' in field) value = field.default;  // bỏ trống -> dùng giá trị mặc định
         if (isBlank(value)) {
             if (field.required) {
                 err(errors, key, label, 'required',

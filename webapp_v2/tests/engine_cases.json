@@ -1145,6 +1145,46 @@
     ]
    },
    "errors": []
+  },
+  {
+   "name": "bỏ trống thì dùng giá trị mặc định (và vẫn kiểm tra giá trị đó)",
+   "schema": {
+    "steps": [
+     {
+      "id": "a",
+      "title": "A",
+      "fields": [
+       {
+        "key": "tinh_dang_ky",
+        "label": "Tỉnh",
+        "type": "select",
+        "default": "Hà Nội",
+        "required": true
+       },
+       {
+        "key": "so_von",
+        "label": "Vốn",
+        "type": "money",
+        "default": "abc",
+        "validate": {
+         "min": 1
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "today": "2026-11-07",
+   "data": {
+    "tinh_dang_ky": ""
+   },
+   "errors": [
+    [
+     "so_von",
+     "min",
+     -1
+    ]
+   ]
   }
  ]
 }

@@ -53,10 +53,10 @@ def test_schema_rejects_path_traversal(client, bad_name):
 
 def test_user_data_is_not_executed_as_template(client):
     """Dữ liệu người dùng chứa cú pháp Jinja phải được in nguyên văn, không được thực thi."""
-    payload = {
-        "template_name": "Tạm dừng công ty TNHH 1 TV",
-        "data": {"ten_cong_ty_vn": "CÔNG TY A&B <X> {{ 7*7 }} {% if 1 %}LỘ{% endif %}", "ma_so_thue": "0101"},
-    }
+    from conftest import build_payload
+
+    payload, _, _ = build_payload("Tạm dừng công ty TNHH 1 TV", 1)
+    payload["data"]["ten_cong_ty_vn"] = "CÔNG TY A&B <X> {{ 7*7 }} {% if 1 %}LỘ{% endif %}"
     r = client.post("/api/documents/generate", json=payload)
     assert r.status_code == 200
     texts = [t for n, t in read_zip(r.content).items() if n.endswith(".docx")]

@@ -71,6 +71,7 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
                 data.update(sample_person(90, key + "_"))
                 markers[key] = "NGUYỄN VĂN THỬ90"
             elif typ == "person_list":
+                n_members = max(n_members, f.get("min", 1))  # không ít hơn số tối thiểu của schema
                 for i in range(1, n_members + 1):
                     p = sample_person(i)
                     p.update(stt=i, von_gop=str(int(SAMPLE_VON_MOI) // n_members), ty_le=str(round(100 / n_members, 2)))

@@ -334,61 +334,41 @@ function renderCurrentStep() {
     }, 120);
 }
 
-// --- VALIDATION: kiểm tra trường bắt buộc theo _schema.json ---
-function isBlank(v) {
-    return v === null || v === undefined || String(v).trim() === '';
+// --- VALIDATION: dùng lõi chung static/js/engine/schema_engine.js (cùng hành vi với backend) ---
+const TRANSFER_KEYS = new Set(['ben_a.ho_ten', 'ben_b.ho_ten', 'gia_tri_so']);
+
+/** Dữ liệu wizard theo đúng key của schema (danh sách lưu riêng trong wizardState). */
+function wizardDataForSchema(schema, blankLists) {
+    const s = window.wizardState;
+    const data = blankLists ? {} : Object.assign({}, s.formData || {});
+    ((schema && schema.steps) || []).forEach(st => (st.fields || []).forEach(f => {
+        let list = null;
+        if (f.type === 'person_list') list = s.thanhVienList || [];
+        else if (f.type === 'transfer_list') list = s.transferList || [];
+        else if (f.type === 'checkbox_group') { if (!blankLists) data[f.key] = s.dkkdSelected || []; return; }
+        if (list) data[f.key] = blankLists ? list.map(() => ({})) : list;
+    }));
+    return data;
 }
 
 /**
- * Trả về danh sách lỗi [{label, name}] cho các trường bắt buộc còn trống.
- * Dùng cho wizard chung (và wizard Tăng vốn 2 TV vì dùng chung cấu trúc dữ liệu).
+ * Lỗi dữ liệu [{label, name | member+prop | tr+path}] theo _schema.json, kèm errors.total
+ * (số mục cần kiểm tra, dùng để tính % hoàn thiện).
  */
 function validateRequiredFields(schema) {
-    const errors = [];
-    errors.total = 0; // tổng số mục bắt buộc đã kiểm tra (dùng để tính % hoàn thiện)
-    if (!schema || !schema.steps) return errors;
-    const req = (missing, err) => { errors.total++; if (missing) errors.push(err); };
-    const fd = window.wizardState.formData || {};
-    const members = window.wizardState.thanhVienList || [];
-    const transfers = window.wizardState.transferList || [];
-
-    schema.steps.forEach(step => {
-        (step.fields || []).forEach(field => {
-            const key = field.key;
-            switch (field.type) {
-                case 'person':
-                    if (!field.required) break;
-                    req(isBlank(fd[key + '_ho_ten']), { label: `${field.label}: Họ và tên`, name: key + '_ho_ten' });
-                    req(isBlank(fd[key + '_so_cccd']), { label: `${field.label}: Số CCCD`, name: key + '_so_cccd' });
-                    break;
-                case 'person_list': {
-                    const min = field.min || (field.required ? 1 : 0);
-                    req(members.length < min, { label: `${field.label}: cần ít nhất ${min} người (hiện có ${members.length})` });
-                    members.forEach((m, i) => {
-                        req(isBlank(m.ho_ten), { label: `${field.label} #${i + 1}: Họ và tên`, member: i, prop: 'ho_ten' });
-                        (field.extra_fields || []).forEach(ef => {
-                            if (ef.required) req(isBlank(m[ef.key]), { label: `${field.label} #${i + 1}: ${ef.label}`, member: i, prop: ef.key });
-                        });
-                    });
-                    break;
-                }
-                case 'transfer_list':
-                    if (field.required) req(transfers.length === 0, { label: `${field.label}: cần ít nhất 1 giao dịch` });
-                    transfers.forEach((t, i) => {
-                        req(isBlank(t.ben_a && t.ben_a.ho_ten), { label: `Giao dịch #${i + 1}: Họ tên bên chuyển nhượng` });
-                        req(isBlank(t.ben_b && t.ben_b.ho_ten), { label: `Giao dịch #${i + 1}: Họ tên bên nhận` });
-                        req(isBlank(t.gia_tri_so), { label: `Giao dịch #${i + 1}: Giá trị chuyển nhượng` });
-                    });
-                    break;
-                case 'checkbox_group':
-                    if (field.required) req((window.wizardState.dkkdSelected || []).length === 0, { label: `${field.label}: chọn ít nhất 1 mục` });
-                    break;
-                default:
-                    if (field.required) req(isBlank(fd[key]), { label: field.label, name: key });
-            }
-        });
+    const out = [];
+    out.total = 0;
+    if (!schema || !schema.steps || !window.SchemaEngine) return out;
+    SchemaEngine.validate(schema, wizardDataForSchema(schema, false)).forEach(e => {
+        const item = { label: e.message };
+        if (e.index === undefined) item.name = e.key;
+        else if (TRANSFER_KEYS.has(e.key)) { item.tr = e.index; item.path = e.key; }
+        else { item.member = e.index; item.prop = e.key; }
+        out.push(item);
     });
-    return errors;
+    // Số mục cần kiểm tra = số lỗi khi form còn trống (giữ nguyên số dòng danh sách hiện có)
+    out.total = Math.max(SchemaEngine.validate(schema, wizardDataForSchema(schema, true)).length, out.length);
+    return out;
 }
 window.validateRequiredFields = validateRequiredFields;
 
@@ -403,6 +383,7 @@ function ensureRequiredFields() {
         let el = null;
         if (e.name) el = document.querySelector(`[name="${e.name}"]`);
         else if (e.member !== undefined) el = document.querySelector(`.m-field[data-idx="${e.member}"][data-prop="${e.prop}"]`);
+        else if (e.tr !== undefined) el = document.querySelector(`.tr-field[data-idx="${e.tr}"][data-path="${e.path}"]`);
         if (el) {
             el.classList.add('input-invalid');
             if (!firstEl) firstEl = el;
@@ -414,7 +395,7 @@ function ensureRequiredFields() {
     }
     const shown = errors.slice(0, 8).map(e => '• ' + e.label).join('\n');
     const more = errors.length > 8 ? `\n... và ${errors.length - 8} trường khác` : '';
-    alert(`Vui lòng nhập đầy đủ các thông tin bắt buộc:\n${shown}${more}`);
+    alert(`Vui lòng kiểm tra lại các thông tin sau:\n${shown}${more}`);
     return false;
 }
 window.ensureRequiredFields = ensureRequiredFields;

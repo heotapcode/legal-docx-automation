@@ -14,7 +14,10 @@ MEMBERS = [
     {"ho_ten": "Phạm Văn Cường", "gioi_tinh": "Nam", "ngay_sinh": "09/09/1990", "so_cccd": "001090000333",
      "von_gop": "100000000", "ty_le": "10", "so_gcn": "03/2024/GCN", "ngay_gcn": "12/04/2024"},
 ]
-DDPL = {"ddpl_ho_ten": "Trần Văn An", "ddpl_so_cccd": "001080000111", "ddpl_ngay_sinh": "01/02/1980"}
+DDPL = {"ddpl_ho_ten": "Trần Văn An", "ddpl_so_cccd": "001080000111", "ddpl_ngay_sinh": "01/02/1980",
+        "ddpl_dia_chi_so_nha": "Số 1 Phố Thử", "ddpl_dia_chi_xa_phuong": "Phường Láng",
+        "ddpl_dia_chi_tinh_thanh": "Thành phố Hà Nội"}
+KTT = {"ktt_so_cccd": "001185000999", "ktt_sdt": "0912000111"}
 
 # Dữ liệu của khách hàng cũ từng bị viết cứng trong mẫu. Phần nhận diện người/khách hàng chỉ lưu
 # dạng (độ dài, SHA-256) để không đưa lại dữ liệu cá nhân vào repo; test so khớp mọi đoạn cùng độ dài.
@@ -40,7 +43,7 @@ def find_leaks(text: str):
 
 def generate(client, name, extra):
     data = {"ten_cong_ty_vn": "CÔNG TY TNHH KIỂM THỬ XYZ", "ma_so_thue": "0109999999",
-            **DDPL, **extra, "thanh_vien": [dict(m) for m in MEMBERS]}
+            **DDPL, **KTT, **extra, "thanh_vien": [dict(m) for m in MEMBERS]}
     r = client.post("/api/documents/generate", json={"template_name": name, "data": data})
     assert r.status_code == 200, r.text
     files = read_zip(r.content)

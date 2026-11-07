@@ -111,6 +111,8 @@ def _err(errors, key, label, code, message, index=None):
 
 def _check_value(field: dict, value: Any, scope: Dict[str, Any], errors: list, today: date, index=None, prefix=""):
     key, label = field["key"], prefix + field.get("label", field["key"])
+    if is_blank(value) and "default" in field:
+        value = field["default"]  # bỏ trống -> dùng giá trị mặc định (vd tỉnh/thành phố = Hà Nội)
     if is_blank(value):
         if field.get("required") and field.get("type") != "checkbox_group":
             _err(errors, key, label, "required", f"{label}: bắt buộc nhập", index)

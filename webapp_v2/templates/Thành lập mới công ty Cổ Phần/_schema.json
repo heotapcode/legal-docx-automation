@@ -40,8 +40,9 @@
         },
         {
           "key": "dia_chi_quan_huyen",
-          "label": "Quận/Huyện",
-          "type": "text"
+          "label": "Quận/Huyện (nếu có)",
+          "type": "text",
+          "placeholder": "Bỏ trống nếu địa chỉ theo đơn vị hành chính mới (không còn cấp huyện)"
         },
         {
           "key": "dia_chi_tinh_thanh",

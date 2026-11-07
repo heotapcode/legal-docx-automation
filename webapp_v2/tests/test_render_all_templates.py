@@ -45,7 +45,7 @@ def test_render_template(client, name, n_members):
     # Không được mất file mẫu nào (có thể nhiều hơn khi tách theo thành viên/giao dịch)
     n_templates = len([f for f in (TEMPLATES_DIR / name).glob("*.docx") if not f.name.startswith(("~$", "_"))])
     if name in EXPECTED_FILE_COUNT:
-        expected = EXPECTED_FILE_COUNT[name](n_templates, n_members)
+        expected = EXPECTED_FILE_COUNT[name](n_templates, len(members))
         assert len(docx_files) == expected, f"Sinh {len(docx_files)} file, kỳ vọng {expected}: {sorted(docx_files)}"
     else:
         assert len(docx_files) >= n_templates, f"Chỉ sinh {len(docx_files)}/{n_templates} file"
