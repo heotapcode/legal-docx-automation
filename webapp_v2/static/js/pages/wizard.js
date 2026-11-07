@@ -376,13 +376,17 @@ window.validateRequiredFields = validateRequiredFields;
 function ensureRequiredFields() {
     document.querySelectorAll('.input-invalid').forEach(el => el.classList.remove('input-invalid'));
     const errors = validateRequiredFields(window.wizardState.schema);
+    if (window.FormRenderer) FormRenderer.showInlineErrors(document.getElementById('dynamic-form-container'), true);
     if (errors.length === 0) return true;
 
     let firstEl = null;
     errors.forEach(e => {
         let el = null;
         if (e.name) el = document.querySelector(`[name="${e.name}"]`);
-        else if (e.member !== undefined) el = document.querySelector(`.m-field[data-idx="${e.member}"][data-prop="${e.prop}"]`);
+        else if (e.member !== undefined) {
+            el = document.querySelector(`.m-field[data-idx="${e.member}"][data-prop="${e.prop}"]`)
+                || document.querySelector(`.lf-field[data-idx="${e.member}"][data-key="${e.prop}"]`);
+        }
         else if (e.tr !== undefined) el = document.querySelector(`.tr-field[data-idx="${e.tr}"][data-path="${e.path}"]`);
         if (el) {
             el.classList.add('input-invalid');
@@ -731,12 +735,12 @@ window.updateUniversalCapitalDistribution = function() {
         const name = (nameInput && nameInput.value) ? nameInput.value : (m.ho_ten || `Thành viên ${idx + 1}`);
 
         if (mVal > 0) {
-            segmentsHtml += `<div style="width: ${pct}%; background: ${color}; height: 100%; transition: width 0.3s;" title="${name}: ${pct}% (${formatMoneyStr(String(mVal))} đ)"></div>`;
+            segmentsHtml += `<div style="width: ${pct}%; background: ${color}; height: 100%; transition: width 0.3s;" title="${escapeHtml(name)}: ${pct}% (${formatMoneyStr(String(mVal))} đ)"></div>`;
         }
         badgesHtml += `
             <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">
                 <span style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: ${color};"></span>
-                <span style="color: var(--text-secondary); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${name}:</span>
+                <span style="color: var(--text-secondary); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(name)}:</span>
                 <b style="color: ${color}; font-family: var(--font-mono);">${pct}%</b>
             </div>
         `;
@@ -798,25 +802,18 @@ function renderStep2Form(schema) {
             <div id="dynamic-form-container" style="display: flex; flex-direction: column; gap: var(--space-6);">
         `;
 
-        (schema.steps || []).forEach((step, sIdx) => {
-            html += `
+        html += FormRenderer.renderSteps(schema, (step, sIdx, total, inner) => `
                 <div class="card-sub" style="border-left: 4px solid var(--accent-primary);">
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: var(--space-4);">
                         <i class="fa-solid fa-clipboard-list text-cyan"></i>
-                        <h3 class="font-bold text-lg">${step.title}</h3>
+                        <h3 class="font-bold text-lg">${escapeHtml(step.title)}</h3>
                     </div>
-                    <div>
-            `;
-
-            (step.fields || []).forEach(f => {
-                html += renderField(f);
-            });
-
-            html += `</div></div>`;
-        });
+                    <div>${inner}</div>
+                </div>`);
 
         html += `</div>`;
         content.innerHTML = html;
+        FormRenderer.attach(document.getElementById('dynamic-form-container'));
         return;
     }
 
@@ -847,28 +844,17 @@ function renderStep2Form(schema) {
         `;
     }
 
-    let formStepsHtml = '';
-    (schema.steps || []).forEach((step, sIdx) => {
-        let stepFieldsHtml = '';
-        (step.fields || []).forEach(f => {
-            stepFieldsHtml += renderField(f);
-        });
-
-        formStepsHtml += `
+    const formStepsHtml = FormRenderer.renderSteps(schema, (step, sIdx, total, inner) => `
             <div class="harvey-card">
                 <div class="card-header-bar">
                     <div class="card-title">
                         <i class="fa-solid fa-landmark"></i>
-                        <span>${step.title}</span>
+                        <span>${escapeHtml(step.title)}</span>
                     </div>
-                    <span class="legal-seal-badge">MỤC ${sIdx + 1}/${schema.steps.length}</span>
+                    <span class="legal-seal-badge">MỤC ${sIdx + 1}/${total}</span>
                 </div>
-                <div>
-                    ${stepFieldsHtml}
-                </div>
-            </div>
-        `;
-    });
+                <div>${inner}</div>
+            </div>`);
 
     const ctaBtnHtml = schema.has_nganh ? `
         <button type="button" class="btn harvey-btn-gold" style="width: 100%; padding: 13px;" onclick="nextStep()">
@@ -980,6 +966,7 @@ function renderStep2Form(schema) {
 
     // Attach listener & initial calculations
     const formContainer = document.getElementById('dynamic-form-container');
+    FormRenderer.attach(formContainer);
     if (formContainer) {
         formContainer.removeEventListener('input', updateUniversalCompleteness);
         formContainer.addEventListener('input', updateUniversalCompleteness);
@@ -1461,6 +1448,9 @@ function collectFormData() {
     // Collect DKKD checkboxes
     const cbs = document.querySelectorAll('.dkkd-cb:checked');
     window.wizardState.dkkdSelected = Array.from(cbs).map(c => c.value);
+
+    // Danh sách lặp kiểu mới (type "list") của bộ vẽ form chung
+    if (window.FormRenderer) FormRenderer.collectLists(document.getElementById('dynamic-form-container'));
 }
 
 // --- OCR HANDLERS ---
@@ -2280,7 +2270,9 @@ window.generateDocuments = async function() {
             ...window.wizardState.formData,
             thanh_vien: window.wizardState.thanhVienList,
             chuyen_nhuong: window.wizardState.transferList,
-            dkkd_selected: window.wizardState.dkkdSelected
+            dkkd_selected: window.wizardState.dkkdSelected,
+            // Dữ liệu theo đúng key của schema (vd checkbox_group/list có key riêng), cùng cách backend kiểm tra
+            ...wizardDataForSchema(window.wizardState.schema, false)
         },
         ma_nganh: window.wizardState.maNganh.map(n => ({
             ma: n.ma,

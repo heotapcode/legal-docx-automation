@@ -1234,3 +1234,13 @@ input.input-invalid {
     border-color: #ef4444 !important;
     box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25) !important;
 }
+
+/* Lỗi hiện ngay dưới ô (bộ vẽ form chung, engine/form_renderer.js) */
+.fr-error {
+    color: #ef4444;
+    font-size: 12px;
+    min-height: 0;
+}
+.fr-error:empty {
+    display: none;
+}

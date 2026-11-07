@@ -161,6 +161,7 @@
                 if (evalCondition(sub.show_if, item)) checkValue(sub, item[sub.key], item, errors, today, i, `${label} #${i + 1}: `);
             });
         });
+        const subLabel = k => { const s = subs.find(x => x.key === k); return s ? (s.label || k) : k; };
         (field.rules || []).forEach(rule => {
             if ('sum' in rule) {
                 const total = items.reduce((acc, it) => acc + ((it && typeof it === 'object' && toNumber(it[rule.sum])) || 0), 0);
@@ -169,7 +170,7 @@
                 const targetN = (typeof target === 'string' && Object.prototype.hasOwnProperty.call(root, target))
                     ? toNumber(root[target]) : toNumber(target);
                 if (targetN !== null && Math.abs(total - targetN) > 1e-6) {
-                    err(errors, key, label, 'sum', rule.message || `${label}: tổng ${rule.sum} phải bằng ${fmt(targetN)} (hiện ${fmt(total)})`);
+                    err(errors, key, label, 'sum', rule.message || `${label}: tổng ${subLabel(rule.sum)} phải bằng ${fmt(targetN)} (hiện ${fmt(total)})`);
                 }
             }
             if ('unique' in rule) {
@@ -178,7 +179,7 @@
                     const v = it && typeof it === 'object' ? it[rule.unique] : null;
                     if (isBlank(v)) return;
                     const k = String(v).trim();
-                    if (k in seen) err(errors, key, label, 'unique', rule.message || `${label}: ${rule.unique} bị trùng (#${seen[k] + 1} và #${i + 1})`, i);
+                    if (k in seen) err(errors, key, label, 'unique', rule.message || `${label}: ${subLabel(rule.unique)} bị trùng (#${seen[k] + 1} và #${i + 1})`, i);
                     else seen[k] = i;
                 });
             }
