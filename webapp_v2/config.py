@@ -33,3 +33,11 @@ def _parse_origins(raw: str) -> list:
 CORS_ORIGINS = _parse_origins(
     os.environ.get("CORS_ORIGINS", f"http://localhost:{PORT},http://127.0.0.1:{PORT}")
 )
+
+# ---------- Quản trị (Mục 10) ----------
+# CSDL SQLite lưu tài khoản quản trị, phiên đăng nhập, nhật ký và phiên bản mẫu. Không commit file này.
+ADMIN_DB_PATH = Path(os.environ.get("ADMIN_DB_PATH", str(DATA_DIR / "admin.sqlite3")))
+# Thời hạn một phiên đăng nhập quản trị (giờ)
+ADMIN_SESSION_HOURS = int(os.environ.get("ADMIN_SESSION_HOURS", "12"))
+# Đặt ADMIN_COOKIE_SECURE=1 khi chạy qua HTTPS để cookie phiên chỉ được gửi qua HTTPS
+ADMIN_COOKIE_SECURE = os.environ.get("ADMIN_COOKIE_SECURE", "0").lower() in ("1", "true", "yes")

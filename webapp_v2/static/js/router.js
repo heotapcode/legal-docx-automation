@@ -2,6 +2,7 @@ const routes = {
     '/': renderLanding,
     '/services': renderServices,
     '/wizard': renderWizard,
+    '/admin': () => window.renderAdmin(),
     '/pricing': renderLanding,
     '/contact': renderLanding,
     '/about': renderLanding
@@ -21,6 +22,10 @@ function handleRoute() {
     
     if (path === '/wizard' && window.initWizard) {
         setTimeout(window.initWizard, 0);
+    }
+
+    if (path === '/admin' && window.initAdmin) {
+        setTimeout(window.initAdmin, 0);
     }
 
     if ((path === '/' || path === '') && window.initLandingHarvey) {

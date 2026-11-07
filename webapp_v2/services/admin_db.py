@@ -1,0 +1,100 @@
+"""CSDL SQLite cho phần quản trị (Mục 10): tài khoản, phiên đăng nhập, lần đăng nhập, nhật ký.
+
+Chỉ dùng thư viện chuẩn (sqlite3). Đường dẫn file: config.ADMIN_DB_PATH (mặc định data/admin.sqlite3).
+Cấu trúc bảng được nâng cấp dần bằng MIGRATIONS, đánh số qua PRAGMA user_version:
+thêm thay đổi mới vào CUỐI danh sách, không sửa các phần tử đã có.
+"""
+import sqlite3
+import threading
+from contextlib import contextmanager
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Iterator
+
+import config
+
+MIGRATIONS = [
+    # 1: tài khoản, phiên, lần đăng nhập, nhật ký
+    """
+    CREATE TABLE users (
+        id            INTEGER PRIMARY KEY,
+        username      TEXT NOT NULL UNIQUE COLLATE NOCASE,
+        password_hash TEXT NOT NULL,
+        role          TEXT NOT NULL DEFAULT 'admin',
+        is_active     INTEGER NOT NULL DEFAULT 1,
+        created_at    TEXT NOT NULL
+    );
+    CREATE TABLE sessions (
+        token_hash TEXT PRIMARY KEY,
+        user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        created_at TEXT NOT NULL,
+        expires_at TEXT NOT NULL,
+        ip         TEXT
+    );
+    CREATE INDEX idx_sessions_user ON sessions(user_id);
+    CREATE TABLE login_attempts (
+        id       INTEGER PRIMARY KEY,
+        username TEXT NOT NULL COLLATE NOCASE,
+        ip       TEXT,
+        at       TEXT NOT NULL,
+        success  INTEGER NOT NULL
+    );
+    CREATE INDEX idx_login_attempts_user_at ON login_attempts(username, at);
+    CREATE TABLE audit_log (
+        id      INTEGER PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        action  TEXT NOT NULL,
+        detail  TEXT,
+        at      TEXT NOT NULL
+    );
+    """,
+]
+
+_init_lock = threading.Lock()
+_initialized = set()
+
+
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def db_path() -> Path:
+    return Path(config.ADMIN_DB_PATH)
+
+
+def _migrate(conn: sqlite3.Connection) -> None:
+    current = conn.execute("PRAGMA user_version").fetchone()[0]
+    for version, sql in enumerate(MIGRATIONS[current:], start=current + 1):
+        with conn:
+            conn.executescript(sql)
+            conn.execute(f"PRAGMA user_version = {version}")
+
+
+@contextmanager
+def connect() -> Iterator[sqlite3.Connection]:
+    """Kết nối mới (mỗi yêu cầu một kết nối); tự tạo file và bảng ở lần đầu."""
+    path = db_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(str(path), timeout=10)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys = ON")
+    try:
+        key = str(path.resolve())
+        if key not in _initialized:
+            with _init_lock:
+                if key not in _initialized:
+                    conn.execute("PRAGMA journal_mode = WAL")
+                    _migrate(conn)
+                    _initialized.add(key)
+        yield conn
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+def audit(conn: sqlite3.Connection, user_id, action: str, detail: str = "") -> None:
+    conn.execute("INSERT INTO audit_log(user_id, action, detail, at) VALUES (?, ?, ?, ?)",
+                 (user_id, action, detail, now_iso()))
