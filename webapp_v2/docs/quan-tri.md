@@ -5,10 +5,33 @@ Trang `#/admin` dành cho người làm nghiệp vụ, để cập nhật mẫu 
 | Bước | Nội dung | Trạng thái |
 |---|---|---|
 | 10.1 | Đăng nhập quản trị | ✅ |
-| 10.2 | API tải mẫu nháp, quét mẫu, sinh thử, xuất bản | ⏳ |
+| 10.2 | API tải mẫu nháp, quét mẫu, sinh thử, xuất bản | ✅ API (giao diện: PR sau) |
 | 10.3 | Tự gợi ý schema từ tên biến trong mẫu | ⏳ |
-| 10.4 | Phiên bản mẫu, quay lại bản cũ | ⏳ |
-| 10.5 | Chặn xuất bản khi quét mẫu còn lỗi | ⏳ |
+| 10.4 | Phiên bản mẫu, quay lại bản cũ | ✅ API |
+| 10.5 | Chặn xuất bản khi quét mẫu còn lỗi | ✅ |
+
+## Cập nhật một bộ mẫu
+
+1. **Tạo bản nháp** từ bộ mẫu đang dùng. Bản nháp là bản sao, sửa thoải mái không ảnh hưởng người đang tạo hồ sơ.
+2. **Sửa bản nháp:** tải lên file Word mới (thay file cùng tên hoặc thêm file), xóa file, sửa `_schema.json` (không được đổi `id`, `name`).
+   File tải lên phải là `.docx` thật, tối đa 5 MB, không chứa macro.
+3. **Quét mẫu:** báo lỗi cú pháp, biến chưa có trong schema, file chưa khai báo trong `documents`, dữ liệu cá nhân viết cứng...
+4. **Sinh thử:** tải về bộ hồ sơ sinh từ bản nháp với dữ liệu mẫu để xem trước.
+5. **Xuất bản** (bắt buộc ghi chú; tùy chọn căn cứ pháp lý, ngày hiệu lực). Bị chặn nếu:
+   - quét mẫu còn **lỗi** (cảnh báo không chặn);
+   - bộ mẫu đã được người khác xuất bản sau khi tạo bản nháp này (tạo bản nháp mới để không ghi đè).
+
+Mỗi lần xuất bản lưu thành một **phiên bản** (số tăng dần, ghi `version` vào `_schema.json`). Lần đầu tiên, nội dung đang có
+(bản trong git) được lưu tự động làm phiên bản 1. **Quay lại bản cũ** tạo một phiên bản mới có nội dung của bản cũ, lịch sử không bị xóa.
+
+| Thư mục | Nội dung |
+|---|---|
+| `templates/<tên>/` | Bộ mẫu đang dùng |
+| `data/template_drafts/<mã>/` (`TEMPLATE_DRAFTS_DIR`) | Bản nháp |
+| `data/template_versions/<id>/v<n>/` (`TEMPLATE_VERSIONS_DIR`) | Nội dung đầy đủ của từng phiên bản |
+
+> **Lưu ý khi triển khai:** xuất bản ghi trực tiếp vào `templates/`. Nếu máy chủ chạy từ bản git, các thay đổi này cần được
+> sao lưu (hoặc commit lại) để không mất khi cập nhật mã nguồn; thư mục `data/template_versions/` cũng cần được sao lưu.
 
 ## Tạo tài khoản
 
