@@ -460,3 +460,32 @@ def test_chuyen_doi_on_generic_form(page, base_url):
     assert resp.value.status == 200, resp.value.text()
     body = resp.value.request.post_data_json
     assert body["data"]["hinh_thuc_cn"] == "mot_phan" and "cd1tv2tv_data" not in body["special_payload"]
+
+
+# ---------- Trang quản trị (Mục 10.1) ----------
+
+def test_admin_login_logout_page(page, base_url, tmp_path, monkeypatch):
+    import config
+    from services import auth
+
+    monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
+    auth.create_user(XSS, "mat-khau-thu-nghiem-123")  # tên đăng nhập có ký tự HTML: phải được escape
+    page.goto(f"{base_url}/#/admin")
+    page.wait_for_selector("#admin-login-form")
+    page.fill("#admin-username", XSS)
+    page.fill("#admin-password", "sai-mat-khau-000")
+    page.click("#admin-login-form button[type=submit]")
+    page.wait_for_function("document.getElementById('admin-login-error') && "
+                           "document.getElementById('admin-login-error').textContent.includes('Sai')")
+    page.fill("#admin-username", XSS)
+    page.fill("#admin-password", "mat-khau-thu-nghiem-123")
+    page.click("#admin-login-form button[type=submit]")
+    page.wait_for_selector("#admin-current-user")
+    assert page.inner_text("#admin-current-user") == XSS
+    assert page.evaluate("window.__xss || 0") == 0
+    # Tải lại trang: vẫn đăng nhập (cookie phiên), JS không đọc được cookie (HttpOnly)
+    page.reload()
+    page.wait_for_selector("#admin-current-user")
+    assert "nac_admin_session" not in page.evaluate("document.cookie")
+    page.click("#admin-logout")
+    page.wait_for_selector("#admin-login-form")

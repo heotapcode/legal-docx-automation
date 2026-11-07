@@ -62,3 +62,7 @@ scripts_and_tools/backup_*/
 Thumbs.db
 Desktop.ini
 .agents/
+
+# CSDL quản trị (tài khoản, phiên đăng nhập)
+webapp_v2/data/*.sqlite3
+webapp_v2/data/*.sqlite3-*
