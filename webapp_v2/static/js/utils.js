@@ -83,24 +83,3 @@ function renderSelectOptions(options, current) {
     return html;
 }
 window.renderSelectOptions = renderSelectOptions;
-
-/**
- * Ô chọn tỉnh/thành phố nơi đăng ký cho các wizard riêng (không vẽ form từ schema).
- * Ghi giá trị vào window.wizardState.formData.tinh_dang_ky.
- */
-function renderTinhDangKySelect(extraClass) {
-    const fd = (window.wizardState && window.wizardState.formData) || {};
-    const cat = window.__catalogs.tinh_thanh;
-    const options = cat ? cat.options : [{ value: 'Hà Nội', label: 'Thành phố Hà Nội' }];
-    if (!fd.tinh_dang_ky) fd.tinh_dang_ky = (cat && cat.defaultValue) || 'Hà Nội';
-    return `
-        <div class="form-group">
-            <label class="form-label">Tỉnh/Thành phố nơi đăng ký <span class="text-error">*</span></label>
-            <select name="tinh_dang_ky" id="input-tinh_dang_ky" class="form-control ${extraClass || ''}"
-                    onchange="window.wizardState.formData.tinh_dang_ky = this.value">
-                ${renderSelectOptions(options, fd.tinh_dang_ky)}
-            </select>
-        </div>
-    `;
-}
-window.renderTinhDangKySelect = renderTinhDangKySelect;

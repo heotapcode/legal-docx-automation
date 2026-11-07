@@ -149,15 +149,20 @@ def test_required_member_fields(page, base_url):
 
 
 def test_tang_von_completeness_reflects_real_state(page, base_url):
+    """% hoàn thiện tính theo lõi kiểm tra dữ liệu (không phải đếm ô đã gõ) và tăng khi nhập đúng."""
     open_template(page, base_url, "Tăng vốn công ty TNHH 2 TV")
-    page.wait_for_selector("#tv2-completeness-score")
-    assert page.inner_text("#tv2-completeness-score") != "100%"
-    assert "Thiếu" in page.inner_text(".tv2-doc-badge")
+    page.wait_for_selector("#universal-completeness-score")
+    before = int(page.inner_text("#universal-completeness-score").rstrip("%"))
+    assert before < 100
+    page.fill('input[name="ten_cong_ty_vn"]', "CÔNG TY TNHH A")
+    page.fill('input[name="ma_so_thue"]', "0101234567")
+    after = int(page.inner_text("#universal-completeness-score").rstrip("%"))
+    assert after > before
 
     # Bấm tải hồ sơ khi còn thiếu dữ liệu -> bị chặn, không gọi API
     requests = []
     page.on("request", lambda r: requests.append(r.url) if "/api/documents/generate" in r.url else None)
-    page.evaluate("tv2GenerateAll()")
+    page.evaluate("window.wizardState.step = 4; generateDocuments()")
     page.wait_for_timeout(300)
     assert not requests
     assert page.dialogs and "bắt buộc" in page.dialogs[-1]
@@ -200,7 +205,7 @@ def open_wizard_until(page, base_url, template, selector):
 
 @pytest.mark.parametrize("template", [
     "Tạm dừng công ty TNHH 1 TV",          # wizard chung
-    "Tăng vốn công ty TNHH 2 TV",          # wizard riêng
+    "Tăng vốn công ty TNHH 2 TV",          # wizard chung
     "Chuyển nhượng Công ty TNHH 2 TV",     # wizard chung (list + options_from)
     "Chuyển đổi loại hình 1TV sang 2 TV",  # wizard chung (show_if theo hình thức chuyển nhượng)
 ])
