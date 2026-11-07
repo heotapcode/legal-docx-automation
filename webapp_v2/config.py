@@ -41,3 +41,6 @@ ADMIN_DB_PATH = Path(os.environ.get("ADMIN_DB_PATH", str(DATA_DIR / "admin.sqlit
 ADMIN_SESSION_HOURS = int(os.environ.get("ADMIN_SESSION_HOURS", "12"))
 # Đặt ADMIN_COOKIE_SECURE=1 khi chạy qua HTTPS để cookie phiên chỉ được gửi qua HTTPS
 ADMIN_COOKIE_SECURE = os.environ.get("ADMIN_COOKIE_SECURE", "0").lower() in ("1", "true", "yes")
+# Bản nháp và các phiên bản đã xuất bản của bộ mẫu (Mục 10.2, 10.4). Không commit.
+TEMPLATE_DRAFTS_DIR = Path(os.environ.get("TEMPLATE_DRAFTS_DIR", str(DATA_DIR / "template_drafts")))
+TEMPLATE_VERSIONS_DIR = Path(os.environ.get("TEMPLATE_VERSIONS_DIR", str(DATA_DIR / "template_versions")))

@@ -1562,9 +1562,12 @@ def render_documents(
     template_name: str,
     raw_data: Dict[str, Any],
     ma_nganh_list: Optional[List[Dict[str, Any]]] = None,
-    special_payload: Optional[Dict[str, Any]] = None
+    special_payload: Optional[Dict[str, Any]] = None,
+    template_dir: Optional[Path] = None,
 ) -> bytes:
-    template_dir = validate_template_dir(template_name)
+    """ZIP các file hồ sơ. `template_dir` (tùy chọn): sinh từ thư mục này thay cho bộ mẫu đang dùng,
+    vd bản nháp ở trang quản trị (services/template_store.py)."""
+    template_dir = Path(template_dir) if template_dir is not None else validate_template_dir(template_name)
 
     # Merge special_payload into raw_data if provided
     merged_data = dict(raw_data)

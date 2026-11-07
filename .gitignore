@@ -66,3 +66,5 @@ Desktop.ini
 # CSDL quản trị (tài khoản, phiên đăng nhập)
 webapp_v2/data/*.sqlite3
 webapp_v2/data/*.sqlite3-*
+webapp_v2/data/template_drafts/
+webapp_v2/data/template_versions/

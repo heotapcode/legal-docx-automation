@@ -48,6 +48,28 @@ MIGRATIONS = [
         at      TEXT NOT NULL
     );
     """,
+    # 2: bản nháp và phiên bản bộ mẫu (Mục 10.2, 10.4)
+    """
+    CREATE TABLE template_drafts (
+        id           TEXT PRIMARY KEY,
+        template_id  TEXT NOT NULL,
+        base_version INTEGER NOT NULL,
+        created_by   INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        created_at   TEXT NOT NULL
+    );
+    CREATE TABLE template_versions (
+        id             INTEGER PRIMARY KEY,
+        template_id    TEXT NOT NULL,
+        version        INTEGER NOT NULL,
+        source         TEXT NOT NULL,
+        note           TEXT,
+        legal_basis    TEXT,
+        effective_from TEXT,
+        created_by     INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        created_at     TEXT NOT NULL,
+        UNIQUE (template_id, version)
+    );
+    """,
 ]
 
 _init_lock = threading.Lock()
