@@ -97,7 +97,15 @@
         errors.push(e);
     }
 
-    function checkValue(field, value, scope, errors, today, index, prefix) {
+    /** Giá trị của select có options_from là số thứ tự (0, 1, ...) của phần tử trong list nguồn. */
+    function refIndex(value, items) {
+        const s = String(value).trim();
+        if (!/^\d+$/.test(s)) return null;
+        const i = parseInt(s, 10);
+        return Array.isArray(items) && i < items.length ? i : null;
+    }
+
+    function checkValue(field, value, scope, errors, today, index, prefix, root) {
         const key = field.key, label = (prefix || '') + (field.label || field.key);
         if (isBlank(value) && 'default' in field) value = field.default;  // bỏ trống -> dùng giá trị mặc định
         if (isBlank(value)) {
@@ -110,6 +118,10 @@
         const rules = field.validate || {};
         const msg = rules.message;
         const sv = String(value).trim();
+        if (field.options_from) {
+            const source = (root || scope || {})[field.options_from];
+            if (refIndex(value, source) === null) err(errors, key, label, 'options_from', msg || `${label}: chọn một mục trong danh sách`, index);
+        }
         if (field.type === 'cccd' && !('pattern' in rules) && !/^\d{12}$/.test(sv)) {
             err(errors, key, label, 'pattern', msg || `${label}: số CCCD phải gồm 12 chữ số`, index);
         }
@@ -138,6 +150,7 @@
     function checkList(field, items, root, errors, today) {
         const key = field.key, label = field.label || field.key;
         items = Array.isArray(items) ? items : [];
+        const start = errors.length;
         const lo = 'min' in field ? field.min : (field.required ? 1 : 0);
         if (items.length < lo) err(errors, key, label, 'min_items', `${label}: cần ít nhất ${lo} (hiện có ${items.length})`);
         if ('max' in field && items.length > field.max) err(errors, key, label, 'max_items', `${label}: tối đa ${field.max} (hiện có ${items.length})`);
@@ -158,7 +171,7 @@
                 });
             }
             subs.forEach(sub => {
-                if (evalCondition(sub.show_if, item)) checkValue(sub, item[sub.key], item, errors, today, i, `${label} #${i + 1}: `);
+                if (evalCondition(sub.show_if, item)) checkValue(sub, item[sub.key], item, errors, today, i, `${label} #${i + 1}: `, root);
             });
         });
         const subLabel = k => { const s = subs.find(x => x.key === k); return s ? (s.label || k) : k; };
@@ -184,6 +197,8 @@
                 });
             }
         });
+        // Lỗi của một phần tử: ghi kèm danh sách chứa nó
+        errors.slice(start).forEach(e => { if (e.index !== undefined) e.list = key; });
     }
 
     /** Danh sách lỗi [{key, label, code, message, index?}] cho các trường đang hiển thị. */

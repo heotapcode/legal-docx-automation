@@ -35,6 +35,47 @@ SAMPLE_NGANH = [
 ]
 
 
+LIST_PERSON_BASE = 60  # người trong các `list` là NGUYỄN VĂN THỬ61, THỬ62...
+
+
+def sample_value(sub: Dict[str, Any], person: Dict[str, str], i: int) -> Any:
+    """Giá trị mẫu cho một ô trong phần tử thứ i của `list`."""
+    key, typ = sub["key"], sub["type"]
+    if key == "dia_chi_day_du":
+        return ", ".join(person[k] for k in ("dia_chi_so_nha", "dia_chi_xa_phuong", "dia_chi_tinh_thanh"))
+    if key in person:
+        return person[key]
+    if typ == "select":
+        if sub.get("options_from"):
+            return ("__ref__", i)  # thay bằng chỉ số thật ở resolve_sample_refs (list nguồn có thể chưa có)
+        return sub.get("default") or (sub["options"][0]["value"] if sub.get("options") else "")
+    return {"date": "01/01/1990", "cccd": f"00109100{i:04d}", "percent": "25", "money": "500000000",
+            "number": "1"}.get(typ, f"GIATRI_{key.upper()}_{i + 1}")
+
+
+def sample_list(field: Dict[str, Any], data: Dict[str, Any], n_members: int) -> List[dict]:
+    n = max(field.get("min", 0), 1)
+    items = []
+    for i in range(n):
+        person = sample_person(LIST_PERSON_BASE + 1 + i)
+        items.append({sub["key"]: sample_value(sub, person, i) for sub in field.get("item", [])})
+    return items
+
+
+def resolve_sample_refs(schema: Dict[str, Any], data: Dict[str, Any]) -> None:
+    """Ô options_from trong list mẫu: chọn phần tử thứ i (vòng lại) của list nguồn."""
+    for step in schema.get("steps", []):
+        for f in step["fields"]:
+            if f["type"] != "list":
+                continue
+            for item in data.get(f["key"], []):
+                for sub in f.get("item", []):
+                    v = item.get(sub["key"])
+                    if isinstance(v, tuple) and v[0] == "__ref__":
+                        source = data.get(sub["options_from"]) or [None]
+                        item[sub["key"]] = str(v[1] % len(source))
+
+
 def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[dict, Dict[str, str], List[dict]]:
     """Trả về (payload cho /api/documents/generate, markers, members).
 
@@ -68,8 +109,12 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
             elif typ == "email":
                 data[key] = "test@example.com"
             elif typ == "person":
-                data.update(sample_person(90, key + "_"))
-                markers[key] = "NGUYỄN VĂN THỬ90"
+                # Người "cũ" (vd ĐDPL cũ) khác người mới, để hồ sơ có thay đổi người đại diện
+                idx = 89 if key.endswith("_cu") else 90
+                data.update(sample_person(idx, key + "_"))
+                markers[key] = f"NGUYỄN VĂN THỬ{idx}"
+            elif typ == "list":
+                data[key] = sample_list(f, data, n_members)
             elif typ == "person_list":
                 n_members = max(n_members, f.get("min", 1))  # không ít hơn số tối thiểu của schema
                 for i in range(1, n_members + 1):
@@ -85,9 +130,11 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
             elif typ == "checkbox_group":
                 data[key] = [o["value"] for o in f["options"]]
     data["thanh_vien"] = members
+    resolve_sample_refs(schema, data)
 
     special: Dict[str, Any] = {}
-    if "Chuyển nhượng" in name:
+    has_transfer_field = any(f["key"] == "chuyen_nhuong" for st in schema.get("steps", []) for f in st["fields"])
+    if "Chuyển nhượng" in name and not has_transfer_field:
         a, b = sample_person(1), sample_person(77)
         transfers = [{
             "ben_a": {"ho_ten": a["ho_ten"], "so_cccd": a["so_cccd"], "dia_chi_day_du": "Hà Nội"},

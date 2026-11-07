@@ -24,6 +24,7 @@ process.stdout.write(JSON.stringify({
   parse_date: cases.parse_date.map(([v]) => pd(v)),
   conditions: cases.conditions.map(([c, d]) => E.evalCondition(c, d)),
   validate: cases.validate.map(c => E.validate(c.schema, c.data, c.today).map(e => [e.key, e.code, e.index === undefined ? -1 : e.index])),
+  lists: cases.validate.map(c => E.validate(c.schema, c.data, c.today).map(e => e.list || null)),
 }));
 """
 
@@ -95,3 +96,25 @@ def test_real_schemas_reject_empty_form(name):
     from conftest import load_schema
 
     assert py.validate(load_schema(name), {}), "Bộ mẫu không có trường bắt buộc nào?"
+
+
+def test_resolve_refs_replaces_index_with_item_copy():
+    schema = CASES["validate"][-1]["schema"]
+    tv_cu = [{"ho_ten": "A"}, {"ho_ten": "B"}]
+    data = {"tv_cu": tv_cu, "thanh_vien": [{"ho_ten": "C"}],
+            "chuyen_nhuong": [{"ben_a": "1", "ben_b": 0, "gia_tri_so": "5"}, {"ben_a": "9", "ben_b": "x"}]}
+    out = py.resolve_refs(schema, data)
+    assert out["chuyen_nhuong"] == [{"ben_a": {"ho_ten": "B"}, "ben_b": {"ho_ten": "C"}, "gia_tri_so": "5"},
+                                    {"ben_a": {}, "ben_b": {}}]
+    out["chuyen_nhuong"][0]["ben_a"]["ho_ten"] = "Z"
+    assert tv_cu[1]["ho_ten"] == "B" and data["chuyen_nhuong"][0]["ben_a"] == "1", "Không được sửa dữ liệu gốc"
+
+
+@pytest.mark.parametrize("i", range(len(CASES["validate"])), ids=[c["name"] for c in CASES["validate"]])
+def test_errors_name_their_list(i, js_results):
+    """Lỗi của phần tử danh sách ghi kèm khóa danh sách (để trỏ đúng ô khi hai danh sách có cùng tên ô)."""
+    case = CASES["validate"][i]
+    errors = py.validate(case["schema"], case["data"], date.fromisoformat(case["today"]))
+    lists = [e.get("list") for e in errors]
+    assert js_results["lists"][i] == lists
+    assert all((lst is not None) == ("index" in e) for e, lst in zip(errors, lists))

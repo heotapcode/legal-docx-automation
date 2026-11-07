@@ -8,9 +8,9 @@ Thay cho các điều kiện viết cứng theo tên thư mục/tên file trong 
      "post": ["fill_member_table"]}     # xử lý sau khi điền (HOOKS), theo thứ tự
 
 RULE DATA = ngữ cảnh đã chuẩn hóa, cộng:
-    tv_moi         danh sách thành viên dùng để lặp/điền bảng (cn2tv_data.tv_moi nếu có, ngược lại thanh_vien)
+    tv_moi         danh sách thành viên dùng để lặp/điền bảng (= thanh_vien)
     chuyen_nhuong  danh sách giao dịch chuyển nhượng
-    ddpl_changed   True/False: có thay đổi người đại diện (mặc định True)
+    ddpl_changed   True/False: có thay đổi người đại diện (CCCD ĐDPL cũ khác ĐDPL mới; thiếu dữ liệu -> True)
 
 Danh sách rỗng ở `repeat_for` -> file được điền một lần như bình thường (giữ hành vi cũ).
 Các hook chỉ chạy khi `tv_moi` có phần tử (giữ hành vi cũ).

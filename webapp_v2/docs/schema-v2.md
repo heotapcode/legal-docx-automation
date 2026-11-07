@@ -64,7 +64,7 @@ Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false
 | `help` | [v2] Ghi chú dưới ô nhập. |
 | `default` | Giá trị chọn sẵn (wizard hiện dùng cho `select`; các kiểu khác: [v2]). **Không dùng dữ liệu người thật.** |
 | `item` | [v2] Các trường con của `list` / `group`. |
-| `options_from` | [v2] `select` lấy lựa chọn từ một `list` khác. |
+| `options_from` | `select` trong phần tử của `list` chọn một phần tử của danh sách khác ở cấp gốc (`list` hoặc `person_list`, vd `"tv_cu"`, `"thanh_vien"`). Xem mục 3.4. |
 | `show_if` | Chỉ hiện trường khi điều kiện đúng (ẩn/hiện ngay khi nhập; trường ẩn không bị kiểm tra). |
 | `validate` | [v2] Ràng buộc giá trị (mục 3.2). |
 | `rules` | [v2] Ràng buộc trên cả danh sách (mục 3.3). |
@@ -80,7 +80,7 @@ Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false
 | `person_list` | ✔ | Danh sách người, dữ liệu gửi lên ở `thanh_vien`. |
 | `transfer_list` | ✔ | Danh sách giao dịch chuyển nhượng (`chuyen_nhuong`). |
 | `checkbox_group` | ✔ | Bắt buộc có `options`. |
-| `select` | ✔ | Danh sách sổ xuống. Cần `options`, `options_source` hoặc [v2] `options_from`. |
+| `select` | ✔ | Danh sách sổ xuống. Cần `options`, `options_source` hoặc `options_from` (mục 3.4). |
 | `date`, `cccd`, `percent`, `address` | ✔ | Bộ vẽ form chung (`static/js/engine/form_renderer.js`). `date` nhập DD/MM/YYYY; `cccd` 12 chữ số. |
 | `list` | ✔ | Danh sách lặp tổng quát, bắt buộc có `item`; có nút Thêm/Xóa, giới hạn `min`/`max`; dữ liệu gửi lên là mảng ở `data[key]`. |
 | `group` | [v2] | Bắt buộc có `item`. Thay dần `person` bằng định nghĩa tường minh. |
@@ -104,6 +104,28 @@ Khóa hỗ trợ: `pattern`, `message`, `min`, `max`, `min_age`, `greater_than`,
 ]
 ```
 `equals` là số, hoặc tên một trường khác để so với giá trị của trường đó.
+
+Lỗi của một phần tử danh sách có `index` (số thứ tự phần tử) và `list` (khóa danh sách chứa nó), để giao diện
+trỏ đúng ô khi hai danh sách có ô cùng tên (vd `tv_cu` và `thanh_vien` đều có `ho_ten`).
+
+### 3.4. Chọn phần tử từ danh sách khác (`options_from`)
+
+Dùng cho ô "bên chuyển nhượng" chọn từ danh sách thành viên cũ, thay vì nhập lại họ tên, CCCD, địa chỉ:
+
+```json
+{ "key": "tv_cu", "label": "Thành viên cũ", "type": "list", "min": 2, "item": [ ...họ tên, CCCD, địa chỉ... ] },
+{ "key": "chuyen_nhuong", "label": "Giao dịch chuyển nhượng", "type": "list", "min": 1, "item": [
+  { "key": "ben_a", "label": "Bên chuyển nhượng (Bên A)", "type": "select", "options_from": "tv_cu", "required": true },
+  { "key": "ben_b", "label": "Bên nhận chuyển nhượng (Bên B)", "type": "select", "options_from": "thanh_vien", "required": true }
+] }
+```
+
+- Giá trị gửi lên là **số thứ tự** của phần tử được chọn: `"0"`, `"1"`... Kiểm tra dữ liệu báo `options_from` nếu
+  giá trị không phải số hoặc vượt quá độ dài danh sách nguồn.
+- Giao diện hiện lựa chọn dạng `#2: NGUYỄN VĂN A` và cập nhật ngay khi danh sách nguồn đổi.
+- Khi sinh hồ sơ, backend thay số thứ tự bằng bản sao của người được chọn (đã chuẩn hóa, có cả địa chỉ đầy đủ lẫn
+  số nhà/xã/tỉnh): `chuyen_nhuong[i].ben_a` trở thành `{ho_ten, so_cccd, ngay_sinh, dia_chi_day_du, ...}`
+  (`schema_engine.resolve_refs`, `render_service.resolve_list_refs`).
 
 ## 4. Điều kiện (`show_if`, `when`) [v2]
 
@@ -134,7 +156,7 @@ Cả 24 bộ mẫu đều khai báo; khi đã khai báo thì phải liệt kê *
 | Khóa | Mô tả |
 |---|---|
 | `file` ✔ | Tên file `.docx` trong thư mục bộ mẫu. |
-| `when` | Chỉ sinh khi điều kiện (mục 4) đúng trên **dữ liệu quy tắc**: ngữ cảnh đã chuẩn hóa cộng `tv_moi` (danh sách thành viên), `chuyen_nhuong` (danh sách giao dịch), `ddpl_changed` (có đổi người đại diện, mặc định `true`). |
+| `when` | Chỉ sinh khi điều kiện (mục 4) đúng trên **dữ liệu quy tắc**: ngữ cảnh đã chuẩn hóa cộng `tv_moi` (danh sách thành viên), `chuyen_nhuong` (danh sách giao dịch), `ddpl_changed` (có đổi người đại diện: `true` khi CCCD của ĐDPL cũ `ddpl_cu` khác ĐDPL mới `ddpl`; thiếu một trong hai -> `true`). |
 | `repeat_for` + `repeat_with` | Sinh một file cho mỗi phần tử của `tv_moi` hoặc `chuyen_nhuong`; `repeat_with` là hàm dựng ngữ cảnh và tên file: `xac_nhan_gop_von`, `giao_dich_chuyen_nhuong`, `giao_dich_chuyen_doi`, `giay_chung_nhan_gop_von`. Danh sách rỗng -> điền một lần như bình thường. |
 | `post` | Xử lý sau khi điền, theo thứ tự, chỉ chạy khi có thành viên: `fill_member_table`, `fill_member_table_tang_von`, `fill_founders_table`, `fill_cshhl_table`, `fill_qd_chuyen_doi`, `fill_dieu_le_chuyen_doi`, `fill_dieu_le_tlm_2tv`, `fill_dieu_le_tlm_cp`, `fill_bbh_tang_von_cp`, `fill_bbh_giam_von_cp`, `fill_bbh_tang_von_2tv`, `fill_bbh_giai_the_cp`. |
 | `output`, `item_alias` | [v2] Dự phòng cho sinh lặp tổng quát (chưa dùng). |

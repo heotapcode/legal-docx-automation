@@ -361,7 +361,9 @@ function validateRequiredFields(schema) {
     if (!schema || !schema.steps || !window.SchemaEngine) return out;
     SchemaEngine.validate(schema, wizardDataForSchema(schema, false)).forEach(e => {
         const item = { label: e.message };
+        const list = window.FormRenderer ? FormRenderer.listOfError(e) : null;
         if (e.index === undefined) item.name = e.key;
+        else if (list) { item.list = list; item.idx = e.index; item.key = e.key; }
         else if (TRANSFER_KEYS.has(e.key)) { item.tr = e.index; item.path = e.key; }
         else { item.member = e.index; item.prop = e.key; }
         out.push(item);
@@ -383,9 +385,11 @@ function ensureRequiredFields() {
     errors.forEach(e => {
         let el = null;
         if (e.name) el = document.querySelector(`[name="${e.name}"]`);
+        else if (e.list) {
+            el = document.querySelector(`.lf-field[data-list="${CSS.escape(e.list)}"][data-idx="${e.idx}"][data-key="${CSS.escape(e.key)}"]`);
+        }
         else if (e.member !== undefined) {
-            el = document.querySelector(`.m-field[data-idx="${e.member}"][data-prop="${e.prop}"]`)
-                || document.querySelector(`.lf-field[data-idx="${e.member}"][data-key="${e.prop}"]`);
+            el = document.querySelector(`.m-field[data-idx="${e.member}"][data-prop="${e.prop}"]`);
         }
         else if (e.tr !== undefined) el = document.querySelector(`.tr-field[data-idx="${e.tr}"][data-path="${e.path}"]`);
         if (el) {
@@ -407,13 +411,6 @@ window.ensureRequiredFields = ensureRequiredFields;
 window.nextStep = function() {
     if (window.wizardState.step === 2) {
         const tplName = window.wizardState.template ? window.wizardState.template.name : '';
-        if (tplName === 'Chuyển nhượng Công ty TNHH 2 TV' && window.collectCN2TVData) {
-            const ok = window.collectCN2TVData();
-            if (!ok) return;
-            window.wizardState.step = 4;
-            renderCurrentStep();
-            return;
-        }
         if (tplName === 'Chuyển đổi loại hình 1TV sang 2 TV' && window.collectCD1TV2TVData) {
             const cdStep = window.cd1tv2tvState ? window.cd1tv2tvState.step : 1;
             if (cdStep === 1) {
@@ -486,7 +483,6 @@ window.prevStep = function() {
 
 window.selectTemplate = function(name) {
     if (window.wizardState.template && window.wizardState.template.name !== name) {
-        window.cn2tvState = null;
         window.cd1tv2tvState = null;
     }
     window.wizardState.template = window.wizardState.templatesList.find(t => t.name === name);
@@ -578,13 +574,6 @@ async function loadStep2Schema() {
     await loadCatalog('tinh_thanh');
 
     // Check for custom specialized wizards
-    if (tplName === 'Chuyển nhượng Công ty TNHH 2 TV' && window.renderCN2TVWizard) {
-        window.wizardState.schema = { has_nganh: false, display_name: tplName };
-        content.innerHTML = '<div id="cn2tv-custom-wrapper" style="padding: 10px;"></div>';
-        window.renderCN2TVWizard(document.getElementById('cn2tv-custom-wrapper'));
-        return;
-    }
-
     if (tplName === 'Chuyển đổi loại hình 1TV sang 2 TV' && window.renderCD1TV2TVWizard) {
         window.wizardState.schema = { has_nganh: true, display_name: tplName };
         content.innerHTML = '<div id="cd1tv-custom-wrapper" style="padding: 10px;"></div>';
@@ -2237,11 +2226,7 @@ function renderStep4Download() {
 
 window.generateDocuments = async function() {
     const tplName = window.wizardState.template ? window.wizardState.template.name : '';
-    if (tplName === 'Chuyển nhượng Công ty TNHH 2 TV' && window.collectCN2TVData) {
-        if (document.getElementById('COMP_TEN_CONG_TY_VN')) {
-            window.collectCN2TVData();
-        }
-    } else if (tplName === 'Chuyển đổi loại hình 1TV sang 2 TV' && window.collectCD1TV2TVData) {
+    if (tplName === 'Chuyển đổi loại hình 1TV sang 2 TV' && window.collectCD1TV2TVData) {
         if (document.getElementById('cd_ten_cty')) {
             window.collectCD1TV2TVData();
         }
@@ -2280,7 +2265,6 @@ window.generateDocuments = async function() {
             is_main: !!n.is_main
         })),
         special_payload: {
-            cn2tv_data: window.wizardState.cn2tvData,
             cd1tv2tv_data: window.wizardState.cd1tv2tvData,
             chuyen_nhuong: window.wizardState.transferList,
             thanh_vien: window.wizardState.thanhVienList

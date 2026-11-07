@@ -69,15 +69,20 @@ def test_render_template(client, name, n_members):
 def test_chuyen_nhuong_splits_contract_per_transfer(client):
     name = "Chuyển nhượng Công ty TNHH 2 TV"
     payload, _, _ = build_payload(name, 3)
-    second = dict(payload["data"]["chuyen_nhuong"][0])
-    second["ben_a"] = dict(second["ben_a"], ho_ten="TRẦN THỊ BÊN A2")
-    payload["data"]["chuyen_nhuong"].append(second)
-    payload["special_payload"]["chuyen_nhuong"] = payload["data"]["chuyen_nhuong"]
+    data = payload["data"]
+    data["tv_cu"][1]["ho_ten"] = "TRẦN THỊ BÊN A2"
+    # Bên A/B chọn theo số thứ tự trong danh sách thành viên cũ / mới
+    data["chuyen_nhuong"].append(dict(data["chuyen_nhuong"][0], ben_a="1", ben_b="2"))
 
     r = client.post("/api/documents/generate", json=payload)
     assert r.status_code == 200
-    contracts = [n for n in read_zip(r.content) if "Hợp đồng chuyển nhượng" in n]
+    files = read_zip(r.content)
+    contracts = sorted(n for n in files if "Hợp đồng chuyển nhượng" in n)
     assert len(contracts) == 2, contracts
+    assert f"({data['tv_cu'][0]['ho_ten']} - {data['thanh_vien'][0]['ho_ten']})" in contracts[0]
+    assert f"(TRẦN THỊ BÊN A2 - {data['thanh_vien'][2]['ho_ten']})" in contracts[1]
+    # Thông tin đầy đủ của bên A lấy từ danh sách thành viên cũ
+    assert data["tv_cu"][1]["so_cccd"] in files[contracts[1]]
 
 
 @pytest.mark.parametrize("ly_do, expected", [

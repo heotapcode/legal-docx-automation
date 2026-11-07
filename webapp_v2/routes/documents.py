@@ -26,7 +26,7 @@ class DocGenRequest(BaseModel):
 
 # Wizard riêng gửi dữ liệu theo cấu trúc khác _schema.json (special_payload); chưa kiểm tra bằng lõi
 # schema cho tới khi chuyển sang bộ máy wizard chung (Mục 9, bước chuyển đổi).
-ENGINE_SKIP_IDS = {"chuyen-nhuong-cong-ty-tnhh-2-tv", "chuyen-doi-loai-hinh-1tv-sang-2-tv"}
+ENGINE_SKIP_IDS = {"chuyen-doi-loai-hinh-1tv-sang-2-tv"}
 
 
 def validate_request_data(template_name: str, data: Dict[str, Any]) -> List[Dict[str, Any]]:

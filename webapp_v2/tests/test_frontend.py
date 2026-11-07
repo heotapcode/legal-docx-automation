@@ -201,7 +201,7 @@ def open_wizard_until(page, base_url, template, selector):
 @pytest.mark.parametrize("template", [
     "Tạm dừng công ty TNHH 1 TV",          # wizard chung
     "Tăng vốn công ty TNHH 2 TV",          # wizard riêng
-    "Chuyển nhượng Công ty TNHH 2 TV",     # wizard riêng
+    "Chuyển nhượng Công ty TNHH 2 TV",     # wizard chung (list + options_from)
     "Chuyển đổi loại hình 1TV sang 2 TV",  # wizard riêng
 ])
 def test_province_select_present(page, base_url, template):
@@ -377,3 +377,50 @@ def test_renderer_payload_uses_schema_keys(page, base_url):
     data = req.value.post_data_json["data"]
     assert data["thay_doi"] == ["A2"]
     assert data["co_dong"][0]["ho_ten"] == "Nguyễn A"
+
+
+def test_chuyen_nhuong_2tv_on_generic_form(page, base_url):
+    """Chuyển nhượng 2 TV chạy trên bộ máy chung: bên A/B chọn từ danh sách thành viên cũ/mới."""
+    open_template(page, base_url, "Chuyển nhượng Công ty TNHH 2 TV")
+    page.evaluate("""() => {
+        const set = (n, v) => { const el = document.querySelector(`[name="${n}"]`); el.value = v; };
+        set('ten_cong_ty_vn', 'CÔNG TY TNHH A'); set('ma_so_thue', '0101234567');
+        set('ddpl_cu_ho_ten', 'NGƯỜI CŨ'); set('ddpl_cu_so_cccd', '001090000100');
+        set('ddpl_ho_ten', 'NGƯỜI MỚI'); set('ddpl_so_cccd', '001090000200');
+    }""")
+    lf = 'xpath=//*[@data-list="{0}" and @data-idx="{1}" and @data-key="{2}"]'
+    for i, (name, cccd) in enumerate([("CŨ MỘT", "001090000001"), ("CŨ HAI", "001090000002")]):
+        page.fill(lf.format("tv_cu", i, "ho_ten"), name)
+        page.fill(lf.format("tv_cu", i, "so_cccd"), cccd)
+        page.fill(lf.format("tv_cu", i, "dia_chi_day_du"), f"Số {i + 1} Phố Huế, Phường Hai Bà Trưng, Thành phố Hà Nội")
+    for i, name in enumerate(["MỚI MỘT", "MỚI HAI"]):
+        page.fill(f'.m-field[data-idx="{i}"][data-prop="ho_ten"]', name)
+        page.fill(f'.m-field[data-idx="{i}"][data-prop="von_gop"]', "500000000")
+        page.fill(f'.m-field[data-idx="{i}"][data-prop="ty_le"]', "50")
+    # Ô chọn bên A/B cập nhật theo họ tên vừa nhập
+    ben_a = lf.format("chuyen_nhuong", 0, "ben_a")
+    labels = page.eval_on_selector(ben_a, "s => [...s.options].map(o => o.textContent)")
+    assert labels == ["-- Chọn --", "#1: CŨ MỘT", "#2: CŨ HAI"]
+    page.select_option(ben_a, "1")
+    page.select_option(lf.format("chuyen_nhuong", 0, "ben_b"), "0")
+    page.fill(lf.format("chuyen_nhuong", 0, "gia_tri_so"), "250000000")
+    assert page.input_value(lf.format("chuyen_nhuong", 0, "gia_tri_so")) == "250.000.000"
+    page.evaluate("collectFormData()")
+    assert page.evaluate("validateRequiredFields(window.wizardState.schema).map(e => e.label)") == []
+    page.evaluate("nextStep()")
+    assert page.evaluate("window.wizardState.step") == 4
+    with page.expect_response(lambda r: "/api/documents/generate" in r.url) as resp:
+        page.evaluate("generateDocuments()")
+    body = resp.value.request.post_data_json["data"]
+    assert body["chuyen_nhuong"][0]["ben_a"] == "1" and body["chuyen_nhuong"][0]["ben_b"] == "0"
+    assert resp.value.status == 200, resp.value.text()
+
+
+def test_list_errors_point_to_their_own_list(page, base_url):
+    """Hai danh sách cùng có ô 'ho_ten': lỗi của tv_cu không được tô đỏ ô của danh sách khác."""
+    open_template(page, base_url, "Chuyển nhượng Công ty TNHH 2 TV")
+    page.evaluate("ensureRequiredFields()")
+    lf = '[data-list="tv_cu"][data-idx="0"][data-key="ho_ten"]'
+    assert page.eval_on_selector(f".lf-field{lf}", "el => el.classList.contains('input-invalid')")
+    assert "bắt buộc" in page.inner_text('.fr-error[data-error-for="tv_cu.0.ho_ten"]')
+    assert "bắt buộc" in page.inner_text('.fr-error[data-error-for="chuyen_nhuong.0.ben_a"]')
