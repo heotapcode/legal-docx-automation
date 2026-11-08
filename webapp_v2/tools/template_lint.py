@@ -15,7 +15,7 @@ Mã kiểm tra:
     W020  Còn placeholder kiểu cũ [TEN_BIEN] chưa chuyển sang {{ ten_bien }}
     W021  Biến trong mẫu không có nguồn dữ liệu -> luôn in ra trống
     I022  Biến chỉ được tạo bởi quy tắc riêng trong render_service (tùy dữ liệu đầu vào)
-    W030  Dữ liệu cụ thể bị viết cứng trong mẫu (email, số điện thoại, số CCCD)
+    W030  Dữ liệu cụ thể bị viết cứng trong mẫu (email, số điện thoại, số CCCD, tên công ty)
     W031  Còn file khóa tạm của Word (~$...)
     W032  Bộ mẫu không có file .docx nào
 
@@ -56,7 +56,11 @@ HARDCODED_PATTERNS = [
     ("email", re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+")),
     ("số điện thoại", re.compile(r"(?<![\d.,])0\d{2,3}[.\s]?\d{3}[.\s]?\d{3,4}(?![\d.,])")),
     ("số CCCD", re.compile(r"(?<!\d)0\d{11}(?!\d)")),
+    # Tên công ty cụ thể (dữ liệu khách hàng cũ), vd "CÔNG TY TNHH PHÁT TRIỂN ABC"; loại trừ tên loại hình ở dưới
+    ("tên công ty", re.compile(r"(?i:công ty\s+(?:TNHH|cổ phần|CP))(?:\s+[A-ZĐÀ-Ỹ0-9&-]{2,}){2,}")),
 ]
+# Cụm hợp lệ trong mẫu nhà nước, không phải tên công ty cụ thể
+HARDCODED_ALLOW = re.compile(r"(MỘT|HAI) THÀNH VIÊN|TRỞ LÊN")
 
 
 @dataclass
@@ -165,6 +169,8 @@ def lint_docx(tpl_dir: Path, docx_path: Path, known: Set[str], runtime: Set[str]
         static_text = JINJA_TAG_RE.sub(" ", text)
         for label, rx in HARDCODED_PATTERNS:
             for m in rx.finditer(static_text):
+                if label == "tên công ty" and HARDCODED_ALLOW.search(m.group(0)):
+                    continue
                 if (label, m.group(0)) in seen_hardcoded:
                     continue
                 seen_hardcoded.add((label, m.group(0)))
