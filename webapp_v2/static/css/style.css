@@ -1244,3 +1244,10 @@ input.input-invalid {
 .fr-error:empty {
     display: none;
 }
+
+/* ---------- Trang quản trị mẫu (#/admin) ---------- */
+.admin-table { border-collapse: collapse; font-size: var(--font-size-sm, 14px); }
+.admin-table th, .admin-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border-glass, rgba(255,255,255,0.1)); vertical-align: top; }
+.admin-table th { color: var(--text-secondary, #9ca3af); font-weight: 600; }
+.admin-table tr.lint-error td:first-child { color: var(--error, #f87171); font-weight: 700; }
+.admin-table tr.lint-warning td:first-child { color: var(--warning, #fbbf24); }

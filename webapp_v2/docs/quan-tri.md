@@ -5,12 +5,14 @@ Trang `#/admin` dành cho người làm nghiệp vụ, để cập nhật mẫu 
 | Bước | Nội dung | Trạng thái |
 |---|---|---|
 | 10.1 | Đăng nhập quản trị | ✅ |
-| 10.2 | API tải mẫu nháp, quét mẫu, sinh thử, xuất bản | ✅ API (giao diện: PR sau) |
+| 10.2 | Tải mẫu nháp, quét mẫu, sinh thử, xuất bản (API + giao diện `#/admin`) | ✅ |
 | 10.3 | Tự gợi ý schema từ tên biến trong mẫu | ⏳ |
-| 10.4 | Phiên bản mẫu, quay lại bản cũ | ✅ API |
+| 10.4 | Phiên bản mẫu, quay lại bản cũ (API + giao diện) | ✅ |
 | 10.5 | Chặn xuất bản khi quét mẫu còn lỗi | ✅ |
 
 ## Cập nhật một bộ mẫu
+
+Trên trang `#/admin`: chọn bộ mẫu → **Quản lý** → **Tạo bản nháp**, rồi làm theo 4 mục trên màn hình bản nháp.
 
 1. **Tạo bản nháp** từ bộ mẫu đang dùng. Bản nháp là bản sao, sửa thoải mái không ảnh hưởng người đang tạo hồ sơ.
 2. **Sửa bản nháp:** tải lên file Word mới (thay file cùng tên hoặc thêm file), xóa file, sửa `_schema.json` (không được đổi `id`, `name`).
