@@ -227,9 +227,10 @@ QUYẾT ĐỊNH:
    - Bán buôn máy móc, thiết bị và phụ tùng máy khác (Mã ngành: 4659);
 • Bỏ các ngành, nghề kinh doanh sau khỏi danh sách đã đăng ký:
    - GIATRI_TEN_1 (Mã ngành: GIATRI_MA_1);
-Điều 5.  Sửa đổi, bổ sung các điều khoản tương ứng trong Điều lệ Công ty theo các nội dung thay đổi tại Quyết định này.
-Điều 6.  Giao ông NGUYỄN VĂN THỬ91 – Người đại diện theo pháp luật của Công ty chịu trách nhiệm thực hiện các thủ tục đăng ký thay đổi nội dung đăng ký doanh nghiệp tại Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội theo quy định của pháp luật.
-Điều 7.  Quyết định này có hiệu lực kể từ ngày ký. Chủ sở hữu, Giám đốc và các cá nhân, bộ phận có liên quan chịu trách nhiệm thi hành Quyết định này.
+Điều 5.  Thay đổi người đại diện theo pháp luật của Công ty: miễn nhiệm ông NGUYỄN VĂN THỬ89 (Số định danh cá nhân: 001090000089); bổ nhiệm ông NGUYỄN VĂN THỬ91 (Số định danh cá nhân: 001090000091) giữ chức danh Giám đốc, là người đại diện theo pháp luật của Công ty.
+Điều 6.  Sửa đổi, bổ sung các điều khoản tương ứng trong Điều lệ Công ty theo các nội dung thay đổi tại Quyết định này.
+Điều 7.  Giao ông NGUYỄN VĂN THỬ91 – Người đại diện theo pháp luật của Công ty chịu trách nhiệm thực hiện các thủ tục đăng ký thay đổi nội dung đăng ký doanh nghiệp tại Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội theo quy định của pháp luật.
+Điều 8.  Quyết định này có hiệu lực kể từ ngày ký. Chủ sở hữu, Giám đốc và các cá nhân, bộ phận có liên quan chịu trách nhiệm thi hành Quyết định này.
 CÔNG TY TNHH THỬ NGHIỆM ABC
 -------
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
@@ -238,11 +239,122 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Số: 01/2026/QĐ-CSH
 Hà Nội, ngày 15 tháng 01 năm 2026
 Nơi nhận:
-- Như Điều 7;
+- Như Điều 8;
 - Cơ quan ĐKKD thành phố Hà Nội;
 - Lưu: VT, HS.
 CHỦ SỞ HỮU CÔNG TY
 
 (Ký, ghi rõ họ tên và đóng dấu)
+
+NGUYỄN VĂN THỬ91
+
+===== 06. Danh sách chủ sở hữu hưởng lợi.docx =====
+DANH SÁCH CHỦ SỞ HỮU HƯỞNG LỢI CỦA DOANH NGHIỆP
+
+STT
+Họ và tên
+Ngày, tháng, năm sinh
+Giới  tính
+Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
+Quốc tịch
+Dân tộc
+Địa chỉ liên lạc
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Ghi chú
+STT
+Họ và tên
+Ngày, tháng, năm sinh
+Giới  tính
+Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
+Quốc tịch
+Dân tộc
+Địa chỉ liên lạc
+Tỷ lệ sở hữu vốn điều lệ
+Tỷ lệ sở hữu cổ phần có quyền
+biểu quyết
+Quyền chi phối
+Ghi chú
+1
+2
+3
+4
+
+5
+6
+7
+9
+10
+11
+14
+1
+NGUYỄN VĂN THỬ1
+02/01/1990
+Nam
+Số định danh cá nhân: 001090000001
+Việt Nam
+Kinh
+Số 1 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+33.33
+33.33
+
+2
+NGUYỄN VĂN THỬ2
+03/01/1990
+Nữ
+Số định danh cá nhân: 001090000002
+Việt Nam
+Kinh
+Số 2 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+33.33
+33.33
+
+3
+NGUYỄN VĂN THỬ3
+04/01/1990
+Nam
+Số định danh cá nhân: 001090000003
+Việt Nam
+Kinh
+Số 3 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+33.33
+33.33
+
+Hà Nội, ngày       tháng      năm 2026                                                                                  NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY                                                  (Ký, ghi họ tên)
+
+===== 07. Thông báo thay đổi người đại diện theo pháp luật.docx =====
+GIẤY ĐỀ NGHỊ
+Đăng ký thay đổi người đại diện theo pháp luật
+Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
+Tên doanh nghiệp: CÔNG TY TNHH THỬ NGHIỆM ABC
+Mã số doanh nghiệp/Mã số thuế: 0101234567
+Số định danh cá nhân của Chủ sở hữu:
+Đăng ký thay đổi người đại diện theo pháp luật với các nội dung sau:
+Người đại diện theo pháp luật sau khi thay đổi::
+Họ, chữ đệm và tên: NGUYỄN VĂN THỬ91
+Ngày, tháng, năm sinh: 08/01/1990
+Giới tính: Nam
+Số định danh cá nhân: 001090000091
+Chức danh: Giám đốc
+Địa chỉ liên lạc:
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: Số 91 Ngõ Thử Nghiệm
+Xã/Phường/Đặc khu: Phường Cầu Giấy
+Tỉnh/Thành phố trực thuộc trung ương: Thành phố Hà Nội
+Quốc gia: Việt Nam
+Điện thoại (nếu có):                                  Email (nếu có):
+Trường hợp hồ sơ đăng ký doanh nghiệp hợp lệ, đề nghị Quý Cơ quan đăng công bố nội dung đăng ký doanh nghiệp trên Cổng thông tin quốc gia về đăng ký doanh nghiệp.
+Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Giấy đề nghị này.
+
+CÔNG TY TNHH THỬ NGHIỆM ABC
+
+Số: 01/2026-HM
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+
+Hà Nội, ngày 14 tháng 02 năm 2026
+
+CHỦ SỞ HỮU CÔNG TY
+(Ký và ghi họ tên)
 
 NGUYỄN VĂN THỬ91

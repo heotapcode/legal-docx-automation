@@ -83,7 +83,7 @@ def ho_so(client, selected, loai_hinh, **extra):
     data = payload["data"]
     data.update(dkkd_selected=selected, loai_hinh=loai_hinh, **extra)
     data["thanh_vien"] = [dict(sample_person(i), von_gop="500000000", ty_le="50") for i in (1, 2)] \
-        if loai_hinh != "tnhh_1tv" else []
+        if loai_hinh != "tnhh_1tv" or "A7" in selected else []
     r = client.post("/api/documents/generate", json=payload)
     assert r.status_code == 200, r.text[:300]
     return {k: unicodedata.normalize("NFC", v) for k, v in read_zip(r.content).items()}
@@ -128,3 +128,31 @@ def test_minutes_lists_attendees_and_contents(client):
     assert "1. Giảm vốn điều lệ từ 3,000,000,000 đồng xuống 2,000,000,000 đồng." in bbh
     assert "2. Cập nhật thông tin về chủ sở hữu hưởng lợi" in bbh
     assert "CÁC CỔ ĐÔNG DỰ HỌP KÝ TÊN" in bbh
+
+
+# ---------- Mục 8.2c: văn bản kèm theo ----------
+
+@pytest.mark.parametrize("loai_hinh, selected, expected", [
+    ("tnhh_1tv", ["A1"], ["01.", "02.", "03."]),
+    ("tnhh_2tv", ["A4"], ["01.", "02.", "03.", "04.", "05."]),
+    ("tnhh_2tv", ["A1"], ["01.", "02.", "03.", "04."]),          # không đổi thành viên/vốn: không có DS thành viên
+    ("cp", ["A4", "A7"], ["01.", "02.", "03.", "04.", "06."]),    # Cổ phần không có DS thành viên
+    ("tnhh_1tv", ["A8"], ["02.", "03.", "07."]),                  # chỉ đổi ĐDPL: không có Thông báo thay đổi ĐKDN
+])
+def test_attachments_follow_selection(client, loai_hinh, selected, expected):
+    files = ho_so(client, selected, loai_hinh)
+    assert sorted(k[:3] for k in files if k.endswith(".docx")) == expected
+
+
+def test_change_of_legal_representative(client):
+    files = ho_so(client, ["A8"], "cp", ddpl_cu_ho_ten="TRẦN VĂN CŨ", ddpl_cu_so_cccd="001080000001")
+    qd = next(v for k, v in files.items() if k.startswith("03."))
+    assert "miễn nhiệm" in qd and "TRẦN VĂN CŨ" in qd and "001080000001" in qd
+    tb = next(v for k, v in files.items() if k.startswith("07."))
+    assert "Số định danh cá nhân của Chủ tịch hội đồng quản trị" in tb and "CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ" in tb
+
+
+def test_beneficial_owner_list_uses_entered_people(client):
+    files = ho_so(client, ["A7"], "tnhh_1tv")
+    ds = next(v for k, v in files.items() if k.startswith("06."))
+    assert "NGUYỄN VĂN THỬ1" in ds and "NGUYỄN VĂN THỬ2" in ds

@@ -621,6 +621,7 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
         "dia_chi_day_du": cu_addr
     })
     ctx["ddpl_cu"] = ddpl_cu_dict
+    ctx["ddpl_cu_danh_xung"] = cu_dx
     ctx["ddpl_cu_ho_ten"] = cu_ht
     ctx["DDPL_CU_HO_TEN"] = cu_ht
     ctx["ddpl_cu_gioi_tinh"] = cu_gt
