@@ -556,3 +556,54 @@ def test_admin_draft_publish_rollback_flow(page, base_url, tmp_path, monkeypatch
     page.wait_for_function("document.getElementById('admin-message').textContent.includes('v3')")
     assert "NỘI DUNG MỚI TỪ TRANG QUẢN TRỊ" not in "\n".join(p.text for p in docx.Document(str(root / name / target.name)).paragraphs)
     assert page.locator('#admin-versions tbody tr').count() == 3
+
+
+def test_admin_suggest_fields_ui(page, base_url, tmp_path, monkeypatch):
+    """Trang bản nháp: tải mẫu có biến mới -> Gợi ý trường còn thiếu -> Thêm vào cấu hình."""
+    import io
+    import shutil
+
+    import docx
+
+    import config
+    from services import auth, render_service, template_store
+
+    name = "Tạm dừng công ty TNHH 1 TV"
+    root = tmp_path / "templates"
+    shutil.copytree(config.TEMPLATES_DIR / name, root / name)
+    for mod in (config, render_service):
+        monkeypatch.setattr(mod, "TEMPLATES_DIR", root)
+    monkeypatch.setattr(config, "TEMPLATE_DRAFTS_DIR", tmp_path / "drafts")
+    monkeypatch.setattr(config, "TEMPLATE_VERSIONS_DIR", tmp_path / "versions")
+    monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
+    auth.create_user("quantri", "mat-khau-thu-nghiem-123")
+    user = {"id": 1}
+    tid = template_store.list_templates()[0]["id"]
+    draft = template_store.create_draft(tid, user)
+    target = sorted((root / name).glob("*.docx"))[0]
+    d = docx.Document(str(target))
+    d.add_paragraph("Ký ngày {{ ngay_ky_hop_dong }}, liên hệ {{ nguoi_lien_he_ho_ten }} - {{ nguoi_lien_he_so_cccd }}")
+    buf = io.BytesIO()
+    d.save(buf)
+    template_store.put_docx(draft["id"], target.name, buf.getvalue(), user)
+
+    page.goto(f"{base_url}/#/admin")
+    page.wait_for_selector("#admin-login-form")
+    page.fill("#admin-username", "quantri")
+    page.fill("#admin-password", "mat-khau-thu-nghiem-123")
+    page.click("#admin-login-form button[type=submit]")
+    page.wait_for_selector("#admin-templates")
+    page.click(f'[data-action="open-template"][data-id="{tid}"]')
+    page.wait_for_selector(f'[data-action="open-draft"][data-id="{draft["id"]}"]')
+    page.click(f'[data-action="open-draft"][data-id="{draft["id"]}"]')
+    page.wait_for_selector('[data-action="suggest"]')
+    page.click('[data-action="suggest"]')
+    page.wait_for_selector("#admin-suggest-table")
+    assert page.locator(".admin-suggest-cb").evaluate_all("els => els.map(e => e.value)") == \
+        ["ngay_ky_hop_dong", "nguoi_lien_he"]
+    page.click('[data-action="apply-suggestions"]')
+    page.wait_for_function("document.getElementById('admin-message') && "
+                           "document.getElementById('admin-message').textContent.includes('Đã thêm 2 trường')")
+    assert '"bo_sung"' in page.input_value("#admin-schema")
+    page.click('[data-action="suggest"]')
+    page.wait_for_function("document.getElementById('admin-suggestions').textContent.includes('đều đã có ô nhập')")

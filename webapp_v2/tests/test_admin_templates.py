@@ -195,3 +195,66 @@ def test_discard_draft(api, env):
     assert api.delete(f"/api/admin/drafts/{draft['id']}", headers=CSRF).status_code == 200
     assert api.get(f"/api/admin/drafts/{draft['id']}").status_code == 404
     assert api.get("/api/admin/drafts/../../etc").status_code == 404
+
+
+# ---------- Gợi ý trường từ tên biến (Mục 10.3) ----------
+
+@pytest.mark.parametrize("key, typ", [
+    ("ngay_ky_hop_dong", "date"), ("ddpl_so_cccd", "cccd"), ("phi_dich_vu_so", "money"), ("von_gop_so", "money"),
+    ("ty_le_von", "percent"), ("email_cong_ty", "email"), ("sdt_cong_ty", "phone"), ("ma_so_thue_moi", "mst_lookup"),
+    ("so_quyet_dinh", "text"), ("ly_do", "text"),
+])
+def test_guess_type(key, typ):
+    from tools.schema_suggest import guess_type
+    assert guess_type(key) == typ
+
+
+def test_humanize():
+    from tools.schema_suggest import humanize
+    assert humanize("ngay_ky_hop_dong") == "Ngày ký hợp đồng"
+    assert humanize("nguoi_lien_he") == "Người liên hệ"
+
+
+def docx_with_variables(path, text):
+    d = docx.Document(str(path))
+    d.add_paragraph(text)
+    buf = io.BytesIO()
+    d.save(buf)
+    return buf.getvalue()
+
+
+def test_suggest_and_apply_fields(api, env):
+    draft = new_draft(api, env)
+    assert api.get(f"/api/admin/drafts/{draft['id']}/suggestions").json()["suggestions"] == []
+    target = first_docx(env)
+    text = ("Liên hệ: {{ nguoi_lien_he_ho_ten }}, CCCD {{ nguoi_lien_he_so_cccd }}. "
+            "Phí: {{ phi_dich_vu_so }}. Ký ngày {{ ngay_ky_hop_dong }}. Ghi chú: {{ ghi_chu_them }}")
+    assert upload(api, draft["id"], target.name, docx_with_variables(target, text)).status_code == 200
+    lint = api.get(f"/api/admin/drafts/{draft['id']}/lint").json()
+    assert {f["code"] for f in lint["findings"] if "nguoi_lien_he" in f["message"]} == {"W021"}
+
+    got = api.get(f"/api/admin/drafts/{draft['id']}/suggestions").json()["suggestions"]
+    assert [(s["key"], s["type"]) for s in got] == [
+        ("ghi_chu_them", "text"), ("ngay_ky_hop_dong", "date"), ("nguoi_lien_he", "person"), ("phi_dich_vu_so", "money")]
+    assert next(s for s in got if s["key"] == "nguoi_lien_he")["variables"] == \
+        ["nguoi_lien_he_ho_ten", "nguoi_lien_he_so_cccd"]
+
+    r = api.post(f"/api/admin/drafts/{draft['id']}/suggestions/apply", json={"keys": ["khong_co"]}, headers=CSRF)
+    assert r.status_code == 400
+    r = api.post(f"/api/admin/drafts/{draft['id']}/suggestions/apply", headers=CSRF,
+                 json={"keys": ["nguoi_lien_he", "phi_dich_vu_so", "ngay_ky_hop_dong"]})
+    assert r.status_code == 200
+    step = next(st for st in r.json()["schema"]["steps"] if st["id"] == "bo_sung")
+    assert [(f["key"], f["type"]) for f in step["fields"]] == [  # theo thứ tự tên trường
+        ("ngay_ky_hop_dong", "date"), ("nguoi_lien_he", "person"), ("phi_dich_vu_so", "money")]
+
+    # Sau khi thêm: các biến đó có nguồn, chỉ còn ghi_chu_them; schema vẫn đúng đặc tả (không có lỗi)
+    lint = api.get(f"/api/admin/drafts/{draft['id']}/lint").json()
+    w021 = [f["message"] for f in lint["findings"] if f["code"] == "W021"]
+    assert len(w021) == 1 and "ghi_chu_them" in w021[0]
+    assert lint["summary"]["error"] == 0
+    assert [s["key"] for s in api.get(f"/api/admin/drafts/{draft['id']}/suggestions").json()["suggestions"]] == ["ghi_chu_them"]
+    # Sinh thử: các ô mới được điền dữ liệu mẫu
+    r = api.post(f"/api/admin/drafts/{draft['id']}/preview", headers=CSRF)
+    text_out = "\n".join(read_zip(r.content).values())
+    assert "Liên hệ: NGUYỄN VĂN THỬ" in text_out and "Ký ngày 01/01/1990" in text_out
