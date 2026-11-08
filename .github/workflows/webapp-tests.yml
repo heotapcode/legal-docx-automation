@@ -47,5 +47,8 @@ jobs:
       - name: Quét bộ mẫu (lỗi E làm CI thất bại, cảnh báo W chỉ để xem)
         run: python -m tools.template_lint
 
+      - name: Cài dữ liệu OCR tiếng Việt
+        run: python -m tools.setup_ocr
+
       - name: Chạy pytest
         run: python -m pytest -v --durations=10

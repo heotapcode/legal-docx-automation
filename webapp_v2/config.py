@@ -17,6 +17,8 @@ else:
 MA_NGANH_JSON = ROOT_DIR / "ma_nganh_nghe.json"
 COMBO_NGANH_JSON = DATA_DIR / "combo_nganh.json"
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+# Dữ liệu tiếng Việt cho OCR cục bộ. Cài bằng: python -m tools.setup_ocr
+TESSDATA_DIR = Path(os.environ.get("TESSDATA_DIR", str(DATA_DIR / "tessdata")))
 
 HOST = os.environ.get("HOST", "0.0.0.0")
 PORT = int(os.environ.get("PORT", "8002"))

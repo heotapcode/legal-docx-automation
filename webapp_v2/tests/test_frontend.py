@@ -607,3 +607,47 @@ def test_admin_suggest_fields_ui(page, base_url, tmp_path, monkeypatch):
     assert '"bo_sung"' in page.input_value("#admin-schema")
     page.click('[data-action="suggest"]')
     page.wait_for_function("document.getElementById('admin-suggestions').textContent.includes('đều đã có ô nhập')")
+
+
+OCR_FAKE = {
+    "success": True,
+    "data": {
+        "ho_ten": "TRẦN THỊ MAI", "gioi_tinh": "Nữ", "ngay_sinh": "02/03/1985", "so_cccd": "034185012345",
+        "dia_chi": "Tổ 1, Phường Tây Hồ, Thành phố Hà Nội", "dia_chi_so_nha": "Tổ 1",
+        "dia_chi_xa_phuong": "Phường Tây Hồ", "dia_chi_quan_huyen": "", "dia_chi_tinh_thanh": "Thành Phố Hà Nội",
+        "nguon": "ocr", "can_kiem_tra": ["ho_ten", "dia_chi_so_nha"],
+    },
+}
+PNG_FILE = {"name": "a.png", "mimeType": "image/png", "buffer": b"\x89PNG\r\n\x1a\n"}
+
+
+def stub_ocr(page):
+    import json
+    page.route("**/api/ocr/vneid", lambda r: r.fulfill(content_type="application/json", body=json.dumps(OCR_FAKE)))
+
+
+def test_scan_fills_only_that_list_item(page, base_url):
+    open_template(page, base_url, "Chuyển nhượng Công ty TNHH 2 TV")
+    stub_ocr(page)
+    page.locator("#ocr-tv_cu-0").set_input_files(PNG_FILE)
+    field = lambda i, k: page.locator(f'.lf-field[data-list="tv_cu"][data-idx="{i}"][data-key="{k}"]')
+    page.wait_for_function("""document.querySelector('.lf-field[data-list="tv_cu"][data-idx="0"][data-key="ho_ten"]').value !== ''""")
+    assert field(0, "so_cccd").input_value() == "034185012345"
+    assert field(0, "dia_chi_day_du").input_value() == "Tổ 1, Phường Tây Hồ, Thành phố Hà Nội"
+    assert field(0, "gioi_tinh").input_value() == "Nữ"
+    assert field(1, "ho_ten").input_value() == ""
+    assert page.evaluate("wizardState.formData.tv_cu[0].ho_ten") == "TRẦN THỊ MAI"
+    assert field(0, "dia_chi_day_du").evaluate("e => e.style.borderColor") == "var(--accent-orange)"
+
+
+@pytest.mark.parametrize("template,prefix", [
+    ("Tăng vốn công ty TNHH 1 TV", "ddpl"),
+    ("Thay đổi địa chỉ và thuế TNHH 2 TV", "ktt"),
+])
+def test_scan_fills_loose_person_fields(page, base_url, template, prefix):
+    open_template(page, base_url, template)
+    stub_ocr(page)
+    page.locator(f"#ocr-file-{prefix}").set_input_files(PNG_FILE)
+    page.wait_for_function("p => document.getElementById(`input-${p}_so_cccd`).value !== ''", arg=prefix)
+    assert page.locator(f"#input-{prefix}_ho_ten").input_value() == "TRẦN THỊ MAI"
+    assert page.evaluate("p => wizardState.formData[`${p}_so_cccd`]", prefix) == "034185012345"
