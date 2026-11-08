@@ -1555,6 +1555,8 @@ def resolve_list_refs(schema: Dict[str, Any], context: Dict[str, Any]) -> None:
             for item in resolved[f["key"]]:
                 for k in refs:
                     item[k] = complete_person_address(item[k])
+                    if item[k].get("ho_ten"):
+                        item[k]["ho_ten"] = str(item[k]["ho_ten"]).upper()  # tên người viết hoa như các văn bản khác
                 items.append(item)
             context[f["key"]] = items
             context[f["key"].upper()] = items
