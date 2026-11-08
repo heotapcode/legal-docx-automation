@@ -216,32 +216,19 @@
     },
     {
       "id": "members",
-      "title": "Danh sách thành viên sau khi thay đổi",
+      "title": "Thành viên / cổ đông",
       "show_if": {
-        "all": [
-          {
-            "field": "loai_hinh",
-            "equals": "tnhh_2tv"
-          },
-          {
-            "any": [
-              {
-                "field": "dkkd_selected",
-                "contains": "A3"
-              },
-              {
-                "field": "dkkd_selected",
-                "contains": "A4"
-              }
-            ]
-          }
+        "field": "loai_hinh",
+        "in": [
+          "tnhh_2tv",
+          "cp"
         ]
       },
-      "description": "Danh sách thành viên công ty TNHH 2 TV trở lên sau khi thay đổi thành viên/vốn (đi kèm hồ sơ).",
+      "description": "TNHH 2 TV: danh sách thành viên sau khi thay đổi (dự họp Hội đồng thành viên, kèm hồ sơ khi đổi thành viên/vốn). Cổ phần: cổ đông dự họp Đại hội đồng cổ đông.",
       "fields": [
         {
           "key": "thanh_vien",
-          "label": "Thành viên",
+          "label": "Thành viên / cổ đông",
           "type": "person_list",
           "min": 2,
           "ocr": true,
@@ -352,6 +339,16 @@
     },
     {
       "file": "03. Quyết định.docx"
+    },
+    {
+      "file": "04. Biên bản họp.docx",
+      "when": {
+        "field": "loai_hinh",
+        "in": [
+          "tnhh_2tv",
+          "cp"
+        ]
+      }
     }
   ]
 }

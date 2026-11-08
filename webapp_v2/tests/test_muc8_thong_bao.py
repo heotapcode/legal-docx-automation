@@ -24,9 +24,9 @@ def thong_bao(client, selected, loai_hinh="tnhh_1tv", **extra):
     payload, _, _ = build_payload(NAME, 3)
     data = payload["data"]
     data.update(dkkd_selected=selected, loai_hinh=loai_hinh, **extra)
-    # Danh sách thành viên chỉ có (và bắt buộc) khi TNHH 2 TV đổi thành viên hoặc vốn
+    # Thành viên / cổ đông dự họp: bắt buộc với TNHH 2 TV và Cổ phần (có Biên bản họp)
     data["thanh_vien"] = [dict(sample_person(i), von_gop="500000000", ty_le="50") for i in (1, 2)] \
-        if loai_hinh == "tnhh_2tv" and {"A3", "A4"} & set(selected) else []
+        if loai_hinh != "tnhh_1tv" else []
     r = client.post("/api/documents/generate", json=payload)
     assert r.status_code == 200, r.text[:300]
     text = next(v for k, v in read_zip(r.content).items() if k.startswith("01."))
@@ -74,3 +74,57 @@ def test_tax_info_and_new_names(client):
     assert "sau khi thay đổi: CÔNG TY TNHH MỚI" in text
     assert "Kế toán trưởng/Phụ trách kế toán: LÊ VĂN KẾ" in text and "001090001234" in text
     assert "tổ/xóm/ấp/thôn: Số 5 Phố Huế" in text
+
+
+# ---------- Mục 8.2b: Quyết định và Biên bản họp ----------
+
+def ho_so(client, selected, loai_hinh, **extra):
+    payload, _, _ = build_payload(NAME, 3)
+    data = payload["data"]
+    data.update(dkkd_selected=selected, loai_hinh=loai_hinh, **extra)
+    data["thanh_vien"] = [dict(sample_person(i), von_gop="500000000", ty_le="50") for i in (1, 2)] \
+        if loai_hinh != "tnhh_1tv" else []
+    r = client.post("/api/documents/generate", json=payload)
+    assert r.status_code == 200, r.text[:300]
+    return {k: unicodedata.normalize("NFC", v) for k, v in read_zip(r.content).items()}
+
+
+@pytest.mark.parametrize("loai_hinh, co_quan, so, has_bbh", [
+    ("tnhh_1tv", "QUYẾT ĐỊNH CỦA CHỦ SỞ HỮU", "QĐ-CSH", False),
+    ("tnhh_2tv", "QUYẾT ĐỊNH CỦA HỘI ĐỒNG THÀNH VIÊN", "QĐ-HĐTV", True),
+    ("cp", "QUYẾT ĐỊNH CỦA ĐẠI HỘI ĐỒNG CỔ ĐÔNG", "QĐ-ĐHĐCĐ", True),
+])
+def test_decision_and_minutes_by_company_type(client, loai_hinh, co_quan, so, has_bbh):
+    files = ho_so(client, ["A1"], loai_hinh)
+    qd = next(v for k, v in files.items() if k.startswith("03."))
+    assert co_quan in qd and f"Số: 01/2026/{so}" in qd
+    assert any(k.startswith("04. Biên bản họp") for k in files) is has_bbh
+    assert ("Căn cứ Biên bản họp" in qd) is has_bbh
+
+
+def test_one_article_per_selected_content_numbered_in_order(client):
+    files = ho_so(client, ["A2", "A5", "A6", "A7"], "tnhh_1tv",
+                  nganh_bo=[{"ma": "4610", "ten": "Đại lý, môi giới, đấu giá hàng hóa"}])
+    qd = next(v for k, v in files.items() if k.startswith("03."))
+    dieu = [line.split(".")[0] + "." + line.split(".", 1)[1][:80] for line in qd.splitlines() if line.startswith("Điều ")]
+    # A2, A5, sửa Điều lệ, giao thực hiện, hiệu lực; A6/A7 không có Điều riêng
+    assert [d.split(".")[0] for d in dieu] == ["Điều 1", "Điều 2", "Điều 3", "Điều 4", "Điều 5"]
+    assert "địa chỉ trụ sở chính" in dieu[0] and "ngành, nghề" in dieu[1] and "Điều lệ" in dieu[2]
+    assert "Bỏ các ngành, nghề kinh doanh sau" in qd and "Đại lý, môi giới, đấu giá hàng hóa (Mã ngành: 4610)" in qd
+    assert "- Như Điều 5;" in qd
+
+
+def test_no_charter_article_when_only_tax_info(client):
+    qd = next(v for k, v in ho_so(client, ["A6"], "tnhh_1tv").items() if k.startswith("03."))
+    assert "Điều lệ Công ty theo các nội dung" not in qd
+    assert [line[:7] for line in qd.splitlines() if line.startswith("Điều ")] == ["Điều 1.", "Điều 2."]
+
+
+def test_minutes_lists_attendees_and_contents(client):
+    files = ho_so(client, ["A4", "A7"], "cp", hinh_thuc_thay_doi_von="giam", von_cu_so="3000000000",
+                  von_dieu_le_so="2000000000")
+    bbh = next(v for k, v in files.items() if k.startswith("04."))
+    assert "BIÊN BẢN HỌP ĐẠI HỘI ĐỒNG CỔ ĐÔNG" in bbh and "Tổng số cổ đông dự họp: 02/02 cổ đông" in bbh
+    assert "1. Giảm vốn điều lệ từ 3,000,000,000 đồng xuống 2,000,000,000 đồng." in bbh
+    assert "2. Cập nhật thông tin về chủ sở hữu hưởng lợi" in bbh
+    assert "CÁC CỔ ĐÔNG DỰ HỌP KÝ TÊN" in bbh

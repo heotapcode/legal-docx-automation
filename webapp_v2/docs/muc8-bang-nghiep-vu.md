@@ -59,8 +59,8 @@
 
 | Bước | Nội dung | Trạng thái |
 |---|---|---|
-| 8.2a | **Thông báo thay đổi nội dung ĐKDN** (bộ `Thay đổi nội dung ĐKKD`): chọn loại hình và các nội dung A1–A7; chỉ in phần đã chọn, đánh số lại tự động; điền tên mới, địa chỉ mới, vốn cũ/mới (số và chữ), bảng nguồn vốn, ngành bổ sung / ngành bỏ, kế toán trưởng và địa chỉ nhận thông báo thuế. A3 chỉ cho TNHH 2 TV; "thông tin cổ phần" chỉ cho Cổ phần; cam kết thanh toán nợ chỉ khi giảm vốn. Form có bước hiện theo lựa chọn. | ✅ (chờ PR) |
-| 8.2b | **Quyết định** (Chủ sở hữu / Hội đồng thành viên / Đại hội đồng cổ đông) mỗi nội dung một Điều, và **Biên bản họp** cho TNHH 2 TV / Cổ phần. Cần anh duyệt câu chữ pháp lý. | ⏳ |
+| 8.2a | **Thông báo thay đổi nội dung ĐKDN** (bộ `Thay đổi nội dung ĐKKD`): chọn loại hình và các nội dung A1–A7; chỉ in phần đã chọn, đánh số lại tự động; điền tên mới, địa chỉ mới, vốn cũ/mới (số và chữ), bảng nguồn vốn, ngành bổ sung / ngành bỏ, kế toán trưởng và địa chỉ nhận thông báo thuế. A3 chỉ cho TNHH 2 TV; "thông tin cổ phần" chỉ cho Cổ phần; cam kết thanh toán nợ chỉ khi giảm vốn. Form có bước hiện theo lựa chọn. | ✅ |
+| 8.2b | **Quyết định** (Chủ sở hữu / Hội đồng thành viên / Đại hội đồng cổ đông) mỗi nội dung một Điều, và **Biên bản họp** cho TNHH 2 TV / Cổ phần. | ✅ bản nháp, **chờ anh duyệt câu chữ** (mục 6) |
 | 8.2c | Văn bản kèm theo: Danh sách thành viên (A3/A4, TNHH 2 TV), Danh sách chủ sở hữu hưởng lợi (A7), Thông báo thay đổi người đại diện (A8), hợp đồng chuyển nhượng (A3). | ⏳ |
 | 8.3 | Lối tắt từ các bộ đơn lẻ (Tăng vốn, Thay đổi địa chỉ, Thay đổi ngành nghề…) mở sẵn thủ tục gộp. | ⏳ |
 
@@ -68,3 +68,30 @@ Ghi chú 8.2a:
 - Phần "Sửa đổi chi tiết ngành, nghề" của mẫu nhà nước được bỏ khỏi Thông báo (thủ tục gộp hỗ trợ bổ sung và bỏ ngành, theo ✅5).
 - Sửa lỗi cũ: bảng "ngành bỏ" và "ngành sửa đổi" trước đây bị tự điền nhầm danh sách ngành bổ sung.
 - Mẫu Word dựng lại bằng `scripts_and_tools/build_muc8_thong_bao.py` (giữ nguyên câu chữ mẫu nhà nước, chỉ thêm điều kiện và ô dữ liệu).
+
+## 6. Bản nháp Quyết định / Biên bản họp (8.2b): các điểm cần anh duyệt
+
+Mẫu: `templates/Thay đổi nội dung ĐKKD/03. Quyết định.docx`, `04. Biên bản họp.docx` (dựng bằng
+`scripts_and_tools/build_muc8_quyet_dinh.py`, nền là mẫu của bộ "Thay đổi địa chỉ và thuế TNHH 2 TV").
+
+**Quyết định**
+- Tiêu đề: "QUYẾT ĐỊNH CỦA CHỦ SỞ HỮU / HỘI ĐỒNG THÀNH VIÊN / ĐẠI HỘI ĐỒNG CỔ ĐÔNG", "(V/v thay đổi nội dung đăng ký doanh nghiệp)";
+  số "01/2026/QĐ-CSH / QĐ-HĐTV / QĐ-ĐHĐCĐ".
+- Căn cứ: Luật Doanh nghiệp 59/2020/QH14; Nghị định 168/2025/NĐ-CP về đăng ký doanh nghiệp; Điều lệ công ty;
+  (TNHH 2 TV, Cổ phần) Biên bản họp số 01/2026/BBH-… ngày lập hồ sơ.
+- Các Điều theo thứ tự, đánh số tự động: A1 đổi tên (tên tiếng Việt, nước ngoài, viết tắt) → A2 địa chỉ mới → A3 thay đổi
+  thành viên (theo Danh sách thành viên kèm theo) → A4 tăng/giảm vốn từ … lên/xuống … (TNHH 2 TV: phần vốn góp theo danh sách
+  kèm theo; Cổ phần: mệnh giá cổ phần) → A5 bổ sung / bỏ ngành (liệt kê tên, mã, ngành chính) → **sửa đổi Điều lệ** (khi có A1–A5)
+  → **giao người đại diện theo pháp luật** làm thủ tục tại phòng ĐKKD → **hiệu lực**. A6, A7 không có Điều riêng (✅6).
+- Người ký: TNHH 1 TV "CHỦ SỞ HỮU CÔNG TY"; TNHH 2 TV "T/M HỘI ĐỒNG THÀNH VIÊN – CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN";
+  Cổ phần "T/M ĐẠI HỘI ĐỒNG CỔ ĐÔNG – CHỦ TỌA CUỘC HỌP". **Giả định:** người ký là người đại diện theo pháp luật đã nhập.
+
+**Biên bản họp** (TNHH 2 TV, Cổ phần)
+- Thành phần: các thành viên / cổ đông đã nhập; 100% vốn điều lệ / cổ phần có quyền biểu quyết dự họp và tán thành.
+- **Giả định:** chủ tọa là người đại diện theo pháp luật (TNHH 2 TV: Chủ tịch Hội đồng thành viên; Cổ phần: Chủ tịch Hội đồng
+  quản trị); thư ký là thành viên / cổ đông đầu tiên khác chủ tọa; giờ họp 08:30–10:30 tại trụ sở chính.
+- Nội dung: mỗi nội dung đã chọn một mục (kể cả A6, A7), mục sửa Điều lệ, mục giao người đại diện ký Quyết định và làm thủ tục.
+- **Lưu ý A3:** danh sách dự họp là danh sách thành viên đã nhập (sau thay đổi). Nếu cần ghi thành viên **trước** thay đổi, cần thêm
+  bước nhập danh sách cũ (như bộ Chuyển nhượng 2 TV).
+
+Anh sửa trực tiếp câu chữ ở đây (hoặc nhắn theo mục) — em cập nhật vào mẫu.
