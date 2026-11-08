@@ -489,3 +489,70 @@ def test_admin_login_logout_page(page, base_url, tmp_path, monkeypatch):
     assert "nac_admin_session" not in page.evaluate("document.cookie")
     page.click("#admin-logout")
     page.wait_for_selector("#admin-login-form")
+
+
+# ---------- Quản lý bộ mẫu trên trang quản trị (Mục 10.2, 10.4) ----------
+
+def test_admin_draft_publish_rollback_flow(page, base_url, tmp_path, monkeypatch):
+    """Trên giao diện: tạo bản nháp, tải file Word, quét, xuất bản, quay lại bản cũ (bản sao tạm của bộ mẫu)."""
+    import io
+    import json as _json
+    import shutil
+
+    import docx
+
+    import config
+    from services import auth, render_service
+
+    name = "Tạm dừng công ty TNHH 1 TV"
+    root = tmp_path / "templates"
+    shutil.copytree(config.TEMPLATES_DIR / name, root / name)
+    for mod in (config, render_service):
+        monkeypatch.setattr(mod, "TEMPLATES_DIR", root)
+    monkeypatch.setattr(config, "TEMPLATE_DRAFTS_DIR", tmp_path / "drafts")
+    monkeypatch.setattr(config, "TEMPLATE_VERSIONS_DIR", tmp_path / "versions")
+    monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
+    auth.create_user("quantri", "mat-khau-thu-nghiem-123")
+    tid = _json.loads((root / name / "_schema.json").read_text(encoding="utf-8"))["id"]
+
+    page.goto(f"{base_url}/#/admin")
+    page.wait_for_selector("#admin-login-form")
+    page.fill("#admin-username", "quantri")
+    page.fill("#admin-password", "mat-khau-thu-nghiem-123")
+    page.click("#admin-login-form button[type=submit]")
+    page.wait_for_selector("#admin-templates")
+    assert "v1" in page.inner_text("#admin-templates")
+    page.click(f'[data-action="open-template"][data-id="{tid}"]')
+    page.wait_for_selector('[data-action="new-draft"]')
+    page.click('[data-action="new-draft"]')
+    page.wait_for_selector("#admin-draft-files")
+
+    # Tải lên bản sửa của một file Word (cùng tên -> thay file cũ)
+    target = sorted((root / name).glob("*.docx"))[0]
+    d = docx.Document(str(target))
+    d.add_paragraph("NỘI DUNG MỚI TỪ TRANG QUẢN TRỊ")
+    buf = io.BytesIO()
+    d.save(buf)
+    page.set_input_files("#admin-upload", files=[{"name": target.name, "buffer": buf.getvalue(),
+                                                   "mimeType": "application/octet-stream"}])
+    page.wait_for_function("document.getElementById('admin-message') && "
+                           "document.getElementById('admin-message').textContent.includes('Đã tải lên')")
+
+    page.click('[data-action="lint"]')
+    page.wait_for_function("document.getElementById('admin-lint').textContent.includes('0 lỗi')")
+    with page.expect_download() as dl:
+        page.click('[data-action="preview"]')
+    assert dl.value.suggested_filename == "ban_nhap_sinh_thu.zip"
+
+    page.fill("#admin-note", "Thêm đoạn nội dung mới")
+    page.click("#admin-publish-form button[type=submit]")
+    page.wait_for_selector("#admin-versions")
+    assert "Đã xuất bản phiên bản v2" in page.inner_text("#admin-message")
+    assert "NỘI DUNG MỚI TỪ TRANG QUẢN TRỊ" in "\n".join(p.text for p in docx.Document(str(root / name / target.name)).paragraphs)
+
+    # Quay lại v1
+    page.evaluate("window.confirm = () => true")  # fixture `page` tự đóng hộp thoại; ở đây đồng ý xác nhận
+    page.click('[data-action="rollback"][data-version="1"]')
+    page.wait_for_function("document.getElementById('admin-message').textContent.includes('v3')")
+    assert "NỘI DUNG MỚI TỪ TRANG QUẢN TRỊ" not in "\n".join(p.text for p in docx.Document(str(root / name / target.name)).paragraphs)
+    assert page.locator('#admin-versions tbody tr').count() == 3
