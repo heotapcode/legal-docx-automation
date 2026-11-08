@@ -100,6 +100,10 @@
             {
               "value": "A7",
               "label": "A7: Thay đổi chủ sở hữu hưởng lợi"
+            },
+            {
+              "value": "A8",
+              "label": "A8: Đổi người đại diện theo pháp luật"
             }
           ]
         }
@@ -216,19 +220,27 @@
     },
     {
       "id": "members",
-      "title": "Thành viên / cổ đông",
+      "title": "Thành viên / cổ đông / chủ sở hữu hưởng lợi",
       "show_if": {
-        "field": "loai_hinh",
-        "in": [
-          "tnhh_2tv",
-          "cp"
+        "any": [
+          {
+            "field": "loai_hinh",
+            "in": [
+              "tnhh_2tv",
+              "cp"
+            ]
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A7"
+          }
         ]
       },
-      "description": "TNHH 2 TV: danh sách thành viên sau khi thay đổi (dự họp Hội đồng thành viên, kèm hồ sơ khi đổi thành viên/vốn). Cổ phần: cổ đông dự họp Đại hội đồng cổ đông.",
+      "description": "TNHH 2 TV: thành viên sau khi thay đổi (dự họp Hội đồng thành viên, Danh sách thành viên). Cổ phần: cổ đông dự họp Đại hội đồng cổ đông. Khi chọn A7: danh sách này cũng là danh sách chủ sở hữu hưởng lợi.",
       "fields": [
         {
           "key": "thanh_vien",
-          "label": "Thành viên / cổ đông",
+          "label": "Thành viên / cổ đông / chủ sở hữu hưởng lợi",
           "type": "person_list",
           "min": 2,
           "ocr": true,
@@ -317,6 +329,24 @@
       ]
     },
     {
+      "id": "a8",
+      "title": "A8. Người đại diện theo pháp luật trước khi thay đổi",
+      "show_if": {
+        "field": "dkkd_selected",
+        "contains": "A8"
+      },
+      "description": "Người đại diện mới nhập ở bước cuối (người ký hồ sơ).",
+      "fields": [
+        {
+          "key": "ddpl_cu",
+          "label": "Người đại diện theo pháp luật cũ",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    },
+    {
       "id": "ddpl",
       "title": "Người đại diện theo pháp luật (người ký)",
       "fields": [
@@ -332,7 +362,39 @@
   ],
   "documents": [
     {
-      "file": "01. Thông báo bổ sung cập nhật.docx"
+      "file": "01. Thông báo bổ sung cập nhật.docx",
+      "when": {
+        "any": [
+          {
+            "field": "dkkd_selected",
+            "contains": "A1"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A2"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A3"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A4"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A5"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A6"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A7"
+          }
+        ]
+      }
     },
     {
       "file": "02. Giấy ủy quyền.docx"
@@ -348,6 +410,49 @@
           "tnhh_2tv",
           "cp"
         ]
+      }
+    },
+    {
+      "file": "05. Danh sách thành viên.docx",
+      "when": {
+        "all": [
+          {
+            "field": "loai_hinh",
+            "equals": "tnhh_2tv"
+          },
+          {
+            "any": [
+              {
+                "field": "dkkd_selected",
+                "contains": "A3"
+              },
+              {
+                "field": "dkkd_selected",
+                "contains": "A4"
+              }
+            ]
+          }
+        ]
+      },
+      "post": [
+        "fill_member_table"
+      ]
+    },
+    {
+      "file": "06. Danh sách chủ sở hữu hưởng lợi.docx",
+      "when": {
+        "field": "dkkd_selected",
+        "contains": "A7"
+      },
+      "post": [
+        "fill_cshhl_table"
+      ]
+    },
+    {
+      "file": "07. Thông báo thay đổi người đại diện theo pháp luật.docx",
+      "when": {
+        "field": "dkkd_selected",
+        "contains": "A8"
       }
     }
   ]

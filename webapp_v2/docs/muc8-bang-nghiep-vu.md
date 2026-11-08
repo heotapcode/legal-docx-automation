@@ -61,7 +61,8 @@
 |---|---|---|
 | 8.2a | **Thông báo thay đổi nội dung ĐKDN** (bộ `Thay đổi nội dung ĐKKD`): chọn loại hình và các nội dung A1–A7; chỉ in phần đã chọn, đánh số lại tự động; điền tên mới, địa chỉ mới, vốn cũ/mới (số và chữ), bảng nguồn vốn, ngành bổ sung / ngành bỏ, kế toán trưởng và địa chỉ nhận thông báo thuế. A3 chỉ cho TNHH 2 TV; "thông tin cổ phần" chỉ cho Cổ phần; cam kết thanh toán nợ chỉ khi giảm vốn. Form có bước hiện theo lựa chọn. | ✅ |
 | 8.2b | **Quyết định** (Chủ sở hữu / Hội đồng thành viên / Đại hội đồng cổ đông) mỗi nội dung một Điều, và **Biên bản họp** cho TNHH 2 TV / Cổ phần. | ✅ bản nháp, **chờ anh duyệt câu chữ** (mục 6) |
-| 8.2c | Văn bản kèm theo: Danh sách thành viên (A3/A4, TNHH 2 TV), Danh sách chủ sở hữu hưởng lợi (A7), Thông báo thay đổi người đại diện (A8), hợp đồng chuyển nhượng (A3). | ⏳ |
+| 8.2c | Văn bản kèm theo: **Danh sách thành viên** (TNHH 2 TV khi có A3/A4), **Danh sách chủ sở hữu hưởng lợi** (A7, theo danh sách người đã nhập), **Thông báo thay đổi người đại diện** (A8; người ký theo loại hình: Chủ sở hữu / Chủ tịch HĐTV / Chủ tịch HĐQT). Thêm lựa chọn A8 (nhập ĐDPL cũ; Quyết định có Điều miễn nhiệm/bổ nhiệm, Biên bản họp có mục tương ứng). Thông báo thay đổi nội dung ĐKDN chỉ sinh khi có ít nhất một nội dung A1–A7. | ✅ |
+| 8.2d | Hợp đồng chuyển nhượng + Biên bản thanh lý cho A3 (cần nhập thành viên cũ và các giao dịch như bộ Chuyển nhượng 2 TV). Trong lúc chờ: dùng bộ `Chuyển nhượng Công ty TNHH 2 TV`. | ⏳ |
 | 8.3 | Lối tắt từ các bộ đơn lẻ (Tăng vốn, Thay đổi địa chỉ, Thay đổi ngành nghề…) mở sẵn thủ tục gộp. | ⏳ |
 
 Ghi chú 8.2a:

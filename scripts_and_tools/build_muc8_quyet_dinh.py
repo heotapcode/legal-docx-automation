@@ -4,7 +4,7 @@ Nền: hai mẫu của bộ "Thay đổi địa chỉ và thuế TNHH 2 TV" (gi�
 Câu chữ là BẢN NHÁP, cần người làm pháp lý duyệt (docs/muc8-bang-nghiep-vu.md).
 
 - 03. Quyết định.docx: của Chủ sở hữu (TNHH 1 TV) / Hội đồng thành viên (TNHH 2 TV) / Đại hội đồng cổ đông (Cổ phần).
-  Mỗi nội dung đã chọn là một Điều, đánh số tự động; tiếp theo là Điều sửa Điều lệ (nếu có A1-A5), Điều giao người
+  Mỗi nội dung đã chọn là một Điều, đánh số tự động; tiếp theo là Điều sửa Điều lệ (nếu có A1-A5, A8), Điều giao người
   đại diện làm thủ tục, Điều hiệu lực. A6 (thuế) và A7 (chủ sở hữu hưởng lợi) không có Điều riêng (✅6).
 - 04. Biên bản họp.docx: Hội đồng thành viên / Đại hội đồng cổ đông, chỉ sinh cho TNHH 2 TV và Cổ phần (✅1).
 
@@ -30,7 +30,7 @@ SETUP = [
     "{%p set ns = namespace(d=0) %}",
 ]
 DIEU = "{% set ns.d = ns.d + 1 %}Điều {{ ns.d }}."
-DIEU_LE = "{%p if dkkd_selected | select('in', ['A1', 'A2', 'A3', 'A4', 'A5']) | list %}"
+DIEU_LE = "{%p if dkkd_selected | select('in', ['A1', 'A2', 'A3', 'A4', 'A5', 'A8']) | list %}"
 NGANH = [
     ("{%p if ma_nganh %}", None),
     ("• Bổ sung các ngành, nghề kinh doanh sau:", None),
@@ -140,6 +140,13 @@ def build_quyet_dinh():
         [(DIEU, True), ("  Thay đổi ngành, nghề kinh doanh của Công ty:", False)],
         *[t for t, _ in NGANH],
         "{%p endif %}",
+        # A8
+        "{%p if 'A8' in dkkd_selected %}",
+        [(DIEU, True), ("  Thay đổi người đại diện theo pháp luật của Công ty: miễn nhiệm {{ ddpl_cu_danh_xung | lower }} "
+                        "{{ ddpl_cu_ho_ten }} (Số định danh cá nhân: {{ ddpl_cu_so_cccd }}); bổ nhiệm "
+                        "{{ ddpl_danh_xung | lower }} {{ ddpl_ho_ten }} (Số định danh cá nhân: {{ ddpl_so_cccd }}) giữ chức "
+                        "danh Giám đốc, là người đại diện theo pháp luật của Công ty.", False)],
+        "{%p endif %}",
         # Điều lệ, giao thực hiện, hiệu lực
         DIEU_LE,
         [(DIEU, True), ("  Sửa đổi, bổ sung các điều khoản tương ứng trong Điều lệ Công ty theo các nội dung thay đổi "
@@ -211,6 +218,10 @@ def build_bien_ban():
         "{%p endif %}",
         "{%p if 'A7' in dkkd_selected %}",
         item + "Cập nhật thông tin về chủ sở hữu hưởng lợi của Công ty.",
+        "{%p endif %}",
+        "{%p if 'A8' in dkkd_selected %}",
+        item + "Thay đổi người đại diện theo pháp luật: miễn nhiệm {{ ddpl_cu_danh_xung | lower }} {{ ddpl_cu_ho_ten }}, "
+               "bổ nhiệm {{ ddpl_danh_xung | lower }} {{ ddpl_ho_ten }} giữ chức danh Giám đốc.",
         "{%p endif %}",
         DIEU_LE,
         item + "Sửa đổi, bổ sung các điều khoản tương ứng trong Điều lệ Công ty theo các nội dung thay đổi nêu trên.",

@@ -23,8 +23,9 @@ BAD_PATTERNS = [
 # Chuyển nhượng 2 TV: file 09 được tách thành 1 file/thành viên mới và file 10 bị bỏ.
 EXPECTED_FILE_COUNT = {
     "Chuyển nhượng Công ty TNHH 2 TV": lambda n_tpl, n_mem: n_tpl - 2 + n_mem,
-    # Thay đổi nội dung ĐKKD: dữ liệu mẫu là TNHH 1 TV nên không có Biên bản họp (chỉ TNHH 2 TV / Cổ phần)
-    "Thay đổi nội dung ĐKKD": lambda n_tpl, n_mem: n_tpl - 1,
+    # Thay đổi nội dung ĐKKD: dữ liệu mẫu là TNHH 1 TV nên không có Biên bản họp và Danh sách thành viên
+    # (chỉ TNHH 2 TV / Cổ phần)
+    "Thay đổi nội dung ĐKKD": lambda n_tpl, n_mem: n_tpl - 2,
 }
 
 
