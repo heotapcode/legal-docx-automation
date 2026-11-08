@@ -43,6 +43,8 @@ def test_clean_template_has_no_findings(tmp_path):
     ("Liên hệ: nguyenvana@example.com", "W030"),          # email viết cứng
     ("Điện thoại: 0987.135.358", "W030"),                 # số điện thoại viết cứng
     ("CCCD số: 001089021350", "W030"),                    # số CCCD viết cứng
+    ("CÔNG TY TNHH PHÁT TRIỂN CÔNG NGHỆ MẪU", "W030"),    # tên công ty khách hàng viết cứng
+    ("Công ty cổ phần THƯƠNG MẠI ĐẠI PHÁT", "W030"),
 ])
 def test_detects_problem(tmp_path, text, code):
     d = make_template(tmp_path, [text])
@@ -51,6 +53,17 @@ def test_detects_problem(tmp_path, text, code):
 
 def test_values_inside_jinja_tags_are_not_flagged(tmp_path):
     d = make_template(tmp_path, ['Email: {{ email or "lienhe@example.com" }}'])
+    assert "W030" not in codes(template_lint.lint_template(d))
+
+
+@pytest.mark.parametrize("text", [
+    "DANH SÁCH THÀNH VIÊN CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN",
+    "Đăng ký thay đổi thành viên công ty TNHH hai thành viên trở lên",
+    "CÔNG TY TNHH MỘT THÀNH VIÊN",
+    "Tên: {{ ten_cong_ty_vn }} (CÔNG TY TNHH)",
+])
+def test_company_type_titles_are_not_company_names(tmp_path, text):
+    d = make_template(tmp_path, [text])
     assert "W030" not in codes(template_lint.lint_template(d))
 
 
