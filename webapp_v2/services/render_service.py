@@ -948,7 +948,10 @@ def populate_ma_nganh_table(doc: docx.Document, ma_nganh_list: List[Dict[str, An
             has_ma = any("MÃ NGÀNH" in t for t in row0_text)
             has_ten = any("TÊN NGÀNH" in t for t in row0_text)
 
-            if has_ma and has_ten:
+            # Bảng "ngành bỏ khỏi danh sách" / "ngành sửa đổi" không phải danh sách ngành đã chọn
+            removal = any("BỎ KHỎI" in t or "SỬA ĐỔI" in t for t in row0_text)
+
+            if has_ma and has_ten and not removal:
                 col_stt = None
                 col_ten = None
                 col_ma = None
