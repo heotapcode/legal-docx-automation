@@ -3,12 +3,12 @@
   "name": "Thay đổi nội dung ĐKKD",
   "display_name": "Thay đổi nội dung ĐKKD",
   "category": "Thay đổi ĐKKD",
-  "description": "Hồ sơ thay đổi các nội dung đăng ký doanh nghiệp (Tên, Địa chỉ, Thành viên, Vốn, Ngành nghề...)",
+  "description": "Một bộ hồ sơ cho nhiều nội dung thay đổi đăng ký doanh nghiệp cùng lúc (tên, địa chỉ, thành viên, vốn, ngành nghề, thuế, chủ sở hữu hưởng lợi), cho TNHH 1 TV, TNHH 2 TV và Cổ phần",
   "has_nganh": true,
   "steps": [
     {
       "id": "company",
-      "title": "Thông tin Doanh nghiệp",
+      "title": "Thông tin doanh nghiệp",
       "fields": [
         {
           "key": "ten_cong_ty_vn",
@@ -23,12 +23,43 @@
           "required": true
         },
         {
+          "key": "loai_hinh",
+          "label": "Loại hình doanh nghiệp",
+          "type": "select",
+          "required": true,
+          "default": "tnhh_1tv",
+          "options": [
+            {
+              "value": "tnhh_1tv",
+              "label": "Công ty TNHH một thành viên"
+            },
+            {
+              "value": "tnhh_2tv",
+              "label": "Công ty TNHH hai thành viên trở lên"
+            },
+            {
+              "value": "cp",
+              "label": "Công ty cổ phần"
+            }
+          ]
+        },
+        {
           "key": "tinh_dang_ky",
           "label": "Tỉnh/Thành phố nơi đăng ký",
           "type": "select",
           "options_source": "tinh_thanh",
           "default": "Hà Nội",
           "required": true
+        },
+        {
+          "key": "sdt_cong_ty",
+          "label": "Điện thoại công ty",
+          "type": "phone"
+        },
+        {
+          "key": "email_cong_ty",
+          "label": "Email công ty",
+          "type": "email"
         }
       ]
     },
@@ -38,44 +69,269 @@
       "fields": [
         {
           "key": "dkkd_selected",
-          "label": "Chọn các mục thay đổi",
+          "label": "Chọn các nội dung thay đổi (có thể chọn nhiều)",
           "type": "checkbox_group",
+          "required": true,
           "options": [
             {
               "value": "A1",
-              "label": "A1: Đăng ký thay đổi tên doanh nghiệp"
+              "label": "A1: Đổi tên doanh nghiệp"
             },
             {
               "value": "A2",
-              "label": "A2: Đăng ký thay đổi địa chỉ trụ sở chính"
+              "label": "A2: Đổi địa chỉ trụ sở chính"
             },
             {
               "value": "A3",
-              "label": "A3: Đăng ký thay đổi thành viên công ty TNHH"
+              "label": "A3: Thay đổi thành viên (chỉ TNHH 2 TV)"
             },
             {
               "value": "A4",
-              "label": "A4: Đăng ký thay đổi vốn điều lệ"
+              "label": "A4: Thay đổi vốn điều lệ"
             },
             {
               "value": "A5",
-              "label": "A5: Thông báo thay đổi ngành, nghề kinh doanh"
+              "label": "A5: Thay đổi ngành, nghề kinh doanh (bổ sung / bỏ ngành)"
             },
             {
               "value": "A6",
-              "label": "A6: Thông báo thay đổi thông tin đăng ký thuế"
+              "label": "A6: Thay đổi thông tin đăng ký thuế"
             },
             {
               "value": "A7",
-              "label": "A7: Chủ sở hữu hưởng lợi của doanh nghiệp"
+              "label": "A7: Thay đổi chủ sở hữu hưởng lợi"
             }
           ]
         }
       ]
     },
     {
+      "id": "a1",
+      "title": "A1. Tên doanh nghiệp sau khi thay đổi",
+      "show_if": {
+        "field": "dkkd_selected",
+        "contains": "A1"
+      },
+      "fields": [
+        {
+          "key": "ten_moi_vn",
+          "label": "Tên tiếng Việt",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "ten_moi_nn",
+          "label": "Tên tiếng nước ngoài",
+          "type": "text"
+        },
+        {
+          "key": "ten_moi_viet_tat",
+          "label": "Tên viết tắt",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "id": "a2",
+      "title": "A2. Địa chỉ trụ sở chính sau khi thay đổi",
+      "show_if": {
+        "field": "dkkd_selected",
+        "contains": "A2"
+      },
+      "description": "Chuyển trụ sở sang tỉnh/thành khác thì nộp hồ sơ ở tỉnh mới: chọn lại 'Tỉnh/Thành phố nơi đăng ký' ở bước đầu.",
+      "fields": [
+        {
+          "key": "dia_chi_moi_so_nha",
+          "label": "Số nhà, đường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_moi_xa_phuong",
+          "label": "Xã/Phường/Đặc khu",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_moi_tinh_thanh",
+          "label": "Tỉnh/Thành phố",
+          "type": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "a4",
+      "title": "A4. Vốn điều lệ",
+      "show_if": {
+        "field": "dkkd_selected",
+        "contains": "A4"
+      },
+      "fields": [
+        {
+          "key": "hinh_thuc_thay_doi_von",
+          "label": "Hình thức",
+          "type": "select",
+          "required": true,
+          "default": "tang",
+          "options": [
+            {
+              "value": "tang",
+              "label": "Tăng vốn điều lệ"
+            },
+            {
+              "value": "giam",
+              "label": "Giảm vốn điều lệ"
+            }
+          ]
+        },
+        {
+          "key": "von_cu_so",
+          "label": "Vốn điều lệ đã đăng ký (VNĐ)",
+          "type": "money",
+          "required": true
+        },
+        {
+          "key": "von_dieu_le_so",
+          "label": "Vốn điều lệ sau khi thay đổi (VNĐ)",
+          "type": "money",
+          "required": true
+        },
+        {
+          "key": "ngay_thay_doi_von",
+          "label": "Thời điểm thay đổi vốn",
+          "type": "date"
+        },
+        {
+          "key": "menh_gia_co_phan",
+          "label": "Mệnh giá cổ phần (VNĐ)",
+          "type": "text",
+          "default": "10.000",
+          "show_if": {
+            "field": "loai_hinh",
+            "equals": "cp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "members",
+      "title": "Danh sách thành viên sau khi thay đổi",
+      "show_if": {
+        "all": [
+          {
+            "field": "loai_hinh",
+            "equals": "tnhh_2tv"
+          },
+          {
+            "any": [
+              {
+                "field": "dkkd_selected",
+                "contains": "A3"
+              },
+              {
+                "field": "dkkd_selected",
+                "contains": "A4"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Danh sách thành viên công ty TNHH 2 TV trở lên sau khi thay đổi thành viên/vốn (đi kèm hồ sơ).",
+      "fields": [
+        {
+          "key": "thanh_vien",
+          "label": "Thành viên",
+          "type": "person_list",
+          "min": 2,
+          "ocr": true,
+          "extra_fields": [
+            {
+              "key": "von_gop",
+              "label": "Vốn góp (VNĐ)",
+              "type": "money",
+              "required": true
+            },
+            {
+              "key": "ty_le",
+              "label": "Tỷ lệ (%)",
+              "type": "number",
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a5",
+      "title": "A5. Ngành, nghề bỏ khỏi danh sách đã đăng ký",
+      "show_if": {
+        "field": "dkkd_selected",
+        "contains": "A5"
+      },
+      "description": "Ngành bổ sung chọn ở bước 'Ngành nghề kinh doanh'. Ở đây kê các ngành cần bỏ (nếu có).",
+      "fields": [
+        {
+          "key": "nganh_bo",
+          "label": "Ngành bỏ",
+          "type": "list",
+          "item": [
+            {
+              "key": "ma",
+              "label": "Mã ngành",
+              "type": "text",
+              "required": true
+            },
+            {
+              "key": "ten",
+              "label": "Tên ngành",
+              "type": "text",
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a6",
+      "title": "A6. Thông tin đăng ký thuế",
+      "show_if": {
+        "field": "dkkd_selected",
+        "contains": "A6"
+      },
+      "fields": [
+        {
+          "key": "ktt",
+          "label": "Kế toán trưởng / Phụ trách kế toán",
+          "type": "person",
+          "ocr": true
+        },
+        {
+          "key": "ktt_sdt",
+          "label": "Điện thoại kế toán trưởng",
+          "type": "phone"
+        },
+        {
+          "key": "dia_chi_thue_so_nha",
+          "label": "Địa chỉ nhận thông báo thuế: số nhà, đường",
+          "type": "text",
+          "help": "Để trống thì dùng địa chỉ trụ sở (mới, nếu có đổi địa chỉ)."
+        },
+        {
+          "key": "dia_chi_thue_xa_phuong",
+          "label": "Địa chỉ nhận thông báo thuế: xã/phường",
+          "type": "text"
+        },
+        {
+          "key": "dia_chi_thue_tinh_thanh",
+          "label": "Địa chỉ nhận thông báo thuế: tỉnh/thành phố",
+          "type": "text"
+        }
+      ]
+    },
+    {
       "id": "ddpl",
-      "title": "Người đại diện theo pháp luật",
+      "title": "Người đại diện theo pháp luật (người ký)",
       "fields": [
         {
           "key": "ddpl",

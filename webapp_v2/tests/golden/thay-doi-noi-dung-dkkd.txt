@@ -10,46 +10,35 @@ Mã số doanh nghiệp/Mã số thuế:  0101234567
 
 A. ĐĂNG KÝ THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP/
 THÔNG BÁO THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
-
 ĐĂNG KÝ THAY ĐỔI TÊN DOANH NGHIỆP
-Tên doanh nghiệp viết bằng tiếng Việt sau khi thay đổi:
-Tên doanh nghiệp viết bằng tiếng nước ngoài sau khi thay đổi:
-Tên doanh nghiệp viết tắt sau khi thay đổi (nếu có):
+Tên doanh nghiệp viết bằng tiếng Việt sau khi thay đổi: GIATRI_TEN_MOI_VN
+Tên doanh nghiệp viết bằng tiếng nước ngoài sau khi thay đổi: GIATRI_TEN_MOI_NN
+Tên doanh nghiệp viết tắt sau khi thay đổi (nếu có): GIATRI_TEN_MOI_VIET_TAT
 
 ĐĂNG KÝ THAY ĐỔI ĐỊA CHỈ TRỤ SỞ CHÍNH
 Địa chỉ trụ sở chính sau khi thay đổi:
-Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn:
-Xã/Phường/Đặc khu:
-Tỉnh/Thành phố trực thuộc trung ương:
-Điện thoại: 	Số fax (nếu có):
-Thư điện tử (nếu có): 	Website (nếu có):
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: GIATRI_DIA_CHI_MOI_SO_NHA
+Xã/Phường/Đặc khu: GIATRI_DIA_CHI_MOI_XA_PHUONG
+Tỉnh/Thành phố trực thuộc trung ương: GIATRI_DIA_CHI_MOI_TINH_THANH
+Điện thoại: 0912345678	Số fax (nếu có):
+Thư điện tử (nếu có): test@example.com	Website (nếu có):
 Đồng thời thay đổi địa chỉ nhận thông báo thuế (Đánh dấu X vào ô vuông nếu doanh nghiệp thay đổi địa chỉ nhận thông báo thuế tương ứng với địa chỉ trụ sở chính).
 - Doanh nghiệp nằm trong (Doanh nghiệp phải đánh dấu X vào ô vuông tương ứng với khu công nghệ cao nếu nộp hồ sơ tới Ban quản lý khu công nghệ cao):
 Doanh nghiệp/chủ doanh nghiệp tư nhân cam kết trụ sở doanh nghiệp thuộc quyền sử dụng hợp pháp của doanh nghiệp/chủ doanh nghiệp tư nhân và được sử dụng đúng mục đích theo quy định của pháp luật.
 
-ĐĂNG KÝ THAY ĐỔI THÀNH VIÊN CÔNG TY TNHH
-Trường hợp thay đổi thành viên công ty TNHH: (kê khai Danh sách thành viên công ty TNHH theo Mẫu số 6 Phụ lục I hành kèm theo Thông tư này) Gửi kèm.
-
 ĐĂNG KÝ THAY ĐỔI VỐN ĐIỀU LỆ, PHẦN VỐN GÓP, TỶ LỆ PHẦN VỐN GÓP
 Đăng ký thay đổi vốn điều lệ của công ty:
-Vốn điều lệ đã đăng ký (bằng số, bằng chữ, VNĐ):
-Vốn điều lệ sau khi thay đổi (bằng số, bằng chữ, VNĐ):
+Vốn điều lệ đã đăng ký (bằng số, bằng chữ, VNĐ): 	1,005,000,000 VNĐ (Một tỷ không trăm linh năm triệu đồng)
+Vốn điều lệ sau khi thay đổi (bằng số, bằng chữ, VNĐ): 	2,105,030,000 VNĐ (Hai tỷ một trăm linh năm triệu không trăm ba mươi nghìn đồng)
 Giá trị tương đương theo đơn vị tiền nước ngoài (nếu có, ghi bằng số, loại ngoại tệ):
 Có hiển thị thông tin về giá trị tương đương theo đơn vị tiền tệ nước ngoài trên Giấy chứng nhận đăng ký doanh nghiệp hay không ?   Có          Không
-Thời điểm thay đổi vốn:
-Hình thức tăng, giảm vốn:
+Thời điểm thay đổi vốn: 	01/01/1990
+Hình thức tăng, giảm vốn: 	Tăng vốn điều lệ
 Nguồn vốn điều lệ sau khi thay đổi vốn điều lệ:
 Tài sản góp vốn sau khi thay đổi vốn điều lệ:
-Thông tin về cổ phần (chỉ kê khai đối với công ty cổ phần):
-Mệnh giá cổ phần:
-Đăng ký thay đổi phần vốn góp, tỷ lệ phần vốn góp công ty TNHH, công ty hợp danh: Gửi kèm.
-Kê khai phần vốn góp, tỷ lệ phần vốn góp mới của thành viên công ty TNHH hai thành viên trở lên/thành viên hợp danh công ty hợp danh theo mẫu tương ứng tại Mẫu số 6, Mẫu số 9 Phụ lục I ban hành kèm theo Thông tư này.
-(Đối với thành viên có phần vốn góp không thay đổi, trong danh sách thành viên không bắt buộc phải có chữ ký của thành viên đó).
-Doanh nghiệp cam kết bảo đảm thanh toán đủ các khoản nợ và các nghĩa vụ tài sản khác sau khi giảm vốn (doanh nghiệp chỉ ghi cam kết trong trường hợp đăng ký giảm vốn điều lệ).
 THÔNG BÁO THAY ĐỔI NGÀNH, NGHỀ KINH DOANH
 Bổ sung ngành, nghề kinh doanh sau (kê khai trong trường hợp doanh nghiệp thông báo bổ sung ngành, nghề kinh doanh vào danh sách ngành, nghề kinh doanh đã đăng ký với cơ quan đăng ký kinh doanh):
 Bỏ ngành, nghề kinh doanh sau (kê khai trong trường hợp doanh nghiệp thông báo bỏ ngành, nghề kinh doanh khỏi danh sách ngành, nghề kinh doanh đã đăng ký với cơ quan đăng ký kinh doanh):
-Sửa đổi chi tiết ngành, nghề kinh doanh sau (kê khai trong trường hợp doanh nghiệp thông báo thay đổi nội dung chi tiết của ngành, nghề kinh doanh đã đăng ký với cơ quan đăng ký kinh doanh):
  Doanh nghiệp cam kết đáp ứng điều kiện tiếp cận thị trường đối với các ngành nghề thuộc Danh mục ngành, nghề hạn chế tiếp cận thị trường đối với nhà đầu tư nước ngoài theo quy định của pháp luật về đầu tư.
 
 THÔNG BÁO THAY ĐỔI THÔNG TIN ĐĂNG KÝ THUẾ
@@ -81,20 +70,23 @@ Tỷ lệ (%)
 Vốn ngân sách nhà nước
 
 Vốn tư nhân
-
+2,105,030,000
+100
 Vốn nước ngoài
 
 Vốn khác
 
 Tổng cộng
-
+2,105,030,000
+100
 STT
 Tài sản góp vốn
 Giá trị vốn của từng tài sản trong vốn điều lệ (bằng số, VNĐ)
 Tỷ lệ (%)
 1
 Đồng Việt Nam
-
+2,105,030,000
+100
 2
 Ngoại tệ tự do chuyển đổi (ghi rõ loại ngoại tệ, số tiền được góp bằng mỗi loại ngoại tệ)
 
@@ -112,31 +104,8 @@ Các tài sản khác (ghi rõ loại tài sản, số lượng và giá trị c
 
 Tổng số
 Tổng số
-
-STT
-Loại cổ phần
-Số lượng
-Giá trị (bằng số, VNĐ)
-Tỉ lệ so với
-vốn điều lệ (%)
-1
-Cổ phần phổ thông
-
-2
-Cổ phần ưu đã biểu quyết
-
-3
-Cổ phần ưu đã cổ tức
-
-4
-Cổ phần ưu đãi hoàn lại
-
-5
-Các cổ phần ưu đãi khác
-
-Tổng số
-Tổng số
-
+2,105,030,000
+100
 STT
 Tên ngành, nghề kinh doanh
 được bổ sung
@@ -156,25 +125,8 @@ Tên ngành, nghề kinh doanh
 Mã ngành
 Ghi chú
 1
-Lập trình máy vi tính
-6201
-
-2
-Bán buôn máy móc, thiết bị và phụ tùng máy khác
-4659
-
-STT
-Tên ngành, nghề kinh doanh
-được sửa đổi chi tiết
-Mã ngành
-Ngành, nghề kinh doanh chính (Trường hợp ngành, nghề kinh doanh được sửa đổi là ngành, nghề kinh doanh chính thì đánh dấu X để chọn một trong các ngành, nghề đã kê khai)
-1
-Lập trình máy vi tính
-6201
-X
-2
-Bán buôn máy móc, thiết bị và phụ tùng máy khác
-4659
+GIATRI_TEN_1
+GIATRI_MA_1
 
 STT
 Các chỉ tiêu thông tin đăng ký thuế
@@ -187,18 +139,18 @@ Số định danh cá nhân: ...................................................
 Điện thoại:................................................................................................
 2
 Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):
-Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:................................
-Ngày, tháng, năm sinh: ……/……/……
-Giới tính: ………………
-Số định danh cá nhân: .................................................................................
-Điện thoại:...................................................................................................
+Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán: NGUYỄN VĂN THỬ90
+Ngày, tháng, năm sinh: 07/01/1990
+Giới tính: Nữ
+Số định danh cá nhân: 001090000090
+Điện thoại: 0912345678
 3
 Địa chỉ nhận thông báo thuế:
-Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: ……
-Xã/Phường/Đặc khu: …………………………………………………
-Tỉnh/Thành phố trực thuộc trung ương: ………………………………
-Điện thoại (nếu có): ………………….Số fax (nếu có):………………..
-Thư điện tử (nếu có):……………………………………………………
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: GIATRI_DIA_CHI_THUE_SO_NHA
+Xã/Phường/Đặc khu: GIATRI_DIA_CHI_THUE_XA_PHUONG
+Tỉnh/Thành phố trực thuộc trung ương: GIATRI_DIA_CHI_THUE_TINH_THANH
+Điện thoại (nếu có): 0912345678
+Thư điện tử (nếu có): test@example.com
 4
 Ngày bắt đầu hoạt động: …../…../…….
 5
@@ -219,7 +171,7 @@ NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
 CỦA DOANH NGHIỆP
 (Ký, ghi họ tên)
 
-                            NGUYỄN VĂN THỬ90
+                            NGUYỄN VĂN THỬ91
 
 ===== 02. Giấy ủy quyền.docx =====
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
@@ -230,10 +182,10 @@ GIẤY ỦY QUYỀN
 Giấy ủy quyền này được lập và ký vào ngày 15 tháng 07 năm 2026, giữa các bên dưới đây:
 
 BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
-Ông: NGUYỄN VĂN THỬ90             Chức danh: Giám đốc
-Ngày, tháng, năm sinh: 07/01/1990
+Ông: NGUYỄN VĂN THỬ91             Chức danh: Giám đốc
+Ngày, tháng, năm sinh: 08/01/1990
 Giới tính: Nam
-Số định danh cá nhân: 001090000090
+Số định danh cá nhân: 001090000091
 Là người đại diện theo pháp luật:
 CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp: 0101234567
@@ -253,7 +205,7 @@ Giấy ủy quyền này có giá trị kể từ ngày ký và sẽ t
 
 BÊN A
 
-NGUYỄN VĂN THỬ90
+NGUYỄN VĂN THỬ91
 
 ===== 03. Quyết định.docx =====
 CHỦ SỞ HỮU
@@ -406,26 +358,12 @@ Tên ngành, nghề kinh doanh
 được bỏ khỏi danh sách đã đăng ký
 Mã ngành
 Ghi chú
-1
-Lập trình máy vi tính
-6201
-
-2
-Bán buôn máy móc, thiết bị và phụ tùng máy khác
-4659
 
 STT
 Tên ngành, nghề kinh doanh
 được sửa đổi chi tiết
 Mã ngành
 Ngành, nghề kinh doanh chính (Trường hợp ngành, nghề kinh doanh được sửa đổi là ngành, nghề kinh doanh chính thì đánh dấu X để chọn một trong các ngành, nghề đã kê khai)
-1
-Lập trình máy vi tính
-6201
-X
-2
-Bán buôn máy móc, thiết bị và phụ tùng máy khác
-4659
 
 STT
 Các chỉ tiêu thông tin đăng ký thuế
@@ -472,4 +410,4 @@ Nơi nhận:
    T/M CHỦ SỞ HỮU
 GIÁM ĐỐC
 
-NGUYỄN VĂN THỬ90
+NGUYỄN VĂN THỬ91

@@ -1,6 +1,6 @@
 """API quản lý bộ mẫu cho quản trị viên (Mục 10.2, 10.4, 10.5). Mọi API cần đăng nhập (services/auth.py);
 API thay đổi dữ liệu cần thêm header X-Requested-With: nac-admin."""
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 from fastapi import APIRouter, Depends, File, HTTPException, Response, UploadFile
 from fastapi.responses import JSONResponse
@@ -16,6 +16,10 @@ class PublishRequest(BaseModel):
     note: str
     legal_basis: str = ""
     effective_from: str = ""
+
+
+class ApplySuggestionsRequest(BaseModel):
+    keys: List[str]
 
 
 class RollbackRequest(BaseModel):
@@ -93,6 +97,16 @@ def put_schema(draft_id: str, schema: Dict[str, Any], user: dict = Depends(requi
 @router.get("/drafts/{draft_id}/lint")
 def lint_draft(draft_id: str, user: dict = Depends(require_admin)):
     return _call(store.lint_draft, draft_id)
+
+
+@router.get("/drafts/{draft_id}/suggestions")
+def suggestions(draft_id: str, user: dict = Depends(require_admin)):
+    return {"suggestions": _call(store.suggest_fields, draft_id)}
+
+
+@router.post("/drafts/{draft_id}/suggestions/apply")
+def apply_suggestions(draft_id: str, body: ApplySuggestionsRequest, user: dict = Depends(require_admin)):
+    return _call(store.apply_suggestions, draft_id, body.keys, user)
 
 
 @router.post("/drafts/{draft_id}/preview")

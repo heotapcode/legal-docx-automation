@@ -6,7 +6,7 @@ Trang `#/admin` dành cho người làm nghiệp vụ, để cập nhật mẫu 
 |---|---|---|
 | 10.1 | Đăng nhập quản trị | ✅ |
 | 10.2 | Tải mẫu nháp, quét mẫu, sinh thử, xuất bản (API + giao diện `#/admin`) | ✅ |
-| 10.3 | Tự gợi ý schema từ tên biến trong mẫu | ⏳ |
+| 10.3 | Tự gợi ý trường cho schema từ tên biến trong mẫu | ✅ |
 | 10.4 | Phiên bản mẫu, quay lại bản cũ (API + giao diện) | ✅ |
 | 10.5 | Chặn xuất bản khi quét mẫu còn lỗi | ✅ |
 
@@ -17,6 +17,11 @@ Trên trang `#/admin`: chọn bộ mẫu → **Quản lý** → **Tạo bản nh
 1. **Tạo bản nháp** từ bộ mẫu đang dùng. Bản nháp là bản sao, sửa thoải mái không ảnh hưởng người đang tạo hồ sơ.
 2. **Sửa bản nháp:** tải lên file Word mới (thay file cùng tên hoặc thêm file), xóa file, sửa `_schema.json` (không được đổi `id`, `name`).
    File tải lên phải là `.docx` thật, tối đa 5 MB, không chứa macro.
+   Thêm biến mới vào mẫu Word (vd `{{ ngay_ky_hop_dong }}`) thì bấm **Gợi ý trường còn thiếu**: hệ thống đọc các biến
+   chưa có ô nhập và đoán kiểu theo tên (`<x>_ho_ten`, `<x>_so_cccd`... gộp thành một người `<x>`; `ngay_...` là ngày;
+   `..._so_cccd` là CCCD; `von_..._so`, `phi_..._so` là tiền; `ty_le` là phần trăm; còn lại là chữ). Chọn trường rồi
+   **Thêm vào cấu hình**: các trường vào bước "Thông tin bổ sung"; sửa nhãn trong ô cấu hình nếu cần.
+   Dòng lệnh tương đương: `python -m tools.schema_suggest "templates/<tên bộ mẫu>"`.
 3. **Quét mẫu:** báo lỗi cú pháp, biến chưa có trong schema, file chưa khai báo trong `documents`, dữ liệu cá nhân viết cứng...
 4. **Sinh thử:** tải về bộ hồ sơ sinh từ bản nháp với dữ liệu mẫu để xem trước.
 5. **Xuất bản** (bắt buộc ghi chú; tùy chọn căn cứ pháp lý, ngày hiệu lực). Bị chặn nếu:

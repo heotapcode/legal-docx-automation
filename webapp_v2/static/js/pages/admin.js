@@ -203,6 +203,8 @@
                 <textarea id="admin-schema" class="form-control" rows="14" spellcheck="false"
                           style="font-family: monospace; font-size: 12px;">${e(JSON.stringify(d.schema, null, 2))}</textarea>
                 <button type="button" class="btn btn-secondary btn-sm mt-2" data-action="save-schema">Lưu cấu hình</button>
+                <button type="button" class="btn btn-secondary btn-sm mt-2" data-action="suggest">Gợi ý trường còn thiếu</button>
+                <div id="admin-suggestions" class="mt-2"></div>
 
                 <h2 class="text-lg font-bold mt-4 mb-2">3. Kiểm tra</h2>
                 <button type="button" class="btn btn-secondary btn-sm" data-action="lint">Quét mẫu</button>
@@ -329,6 +331,30 @@
             if (r.ok) renderFindings(r.body, 'Kết quả quét:'); else failed(r);
         },
         'preview': () => preview(),
+        'suggest': async () => {
+            const r = await adminFetch(`/api/admin/drafts/${encodeURIComponent(st.draftId)}/suggestions`);
+            if (!r.ok) return failed(r);
+            const box = document.getElementById('admin-suggestions');
+            const list = r.body.suggestions || [];
+            if (!list.length) { box.innerHTML = '<p class="text-sm text-secondary">Mọi biến trong mẫu Word đều đã có ô nhập.</p>'; return; }
+            box.innerHTML = `
+                <p class="text-sm">Các biến trong mẫu Word chưa có ô nhập. Chọn những trường muốn thêm vào bước "Thông tin bổ sung"
+                    (sửa lại nhãn trong cấu hình sau khi thêm nếu cần):</p>
+                <table class="admin-table" id="admin-suggest-table" style="width: 100%;">
+                    <thead><tr><th></th><th>Trường</th><th>Kiểu</th><th>Nhãn gợi ý</th><th>Biến trong mẫu</th></tr></thead>
+                    <tbody>${list.map(x => `
+                        <tr><td><input type="checkbox" class="admin-suggest-cb" value="${e(x.key)}" checked></td>
+                            <td><code>${e(x.key)}</code></td><td>${e(x.type)}</td><td>${e(x.label)}</td>
+                            <td class="text-xs">${x.variables.map(e).join(', ')}<br><span class="text-secondary">${x.files.map(e).join(', ')}</span></td></tr>`).join('')}
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-primary btn-sm mt-2" data-action="apply-suggestions">Thêm vào cấu hình</button>`;
+        },
+        'apply-suggestions': async () => {
+            const keys = Array.from(document.querySelectorAll('.admin-suggest-cb:checked')).map(cb => cb.value);
+            const r = await adminFetch(`/api/admin/drafts/${encodeURIComponent(st.draftId)}/suggestions/apply`, jsonBody('POST', { keys }));
+            if (r.ok) showDraft(st.draftId, `Đã thêm ${keys.length} trường vào bước "Thông tin bổ sung"`); else failed(r);
+        },
         'discard-draft': async () => {
             if (!window.confirm('Bỏ bản nháp này? Mọi thay đổi trong bản nháp sẽ mất.')) return;
             const r = await adminFetch(`/api/admin/drafts/${encodeURIComponent(st.draftId)}`, { method: 'DELETE' });

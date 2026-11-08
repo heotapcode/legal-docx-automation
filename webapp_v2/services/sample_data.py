@@ -144,6 +144,14 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
                 data[key] = [o["value"] for o in f["options"]]
     data["thanh_vien"] = members
     resolve_sample_refs(schema, data)
+    # Ô bị ẩn theo show_if (vd mệnh giá cổ phần khi không phải công ty cổ phần) không bắt buộc xuất hiện trong hồ sơ
+    from services.schema_engine import visible_fields
+    shown_fields = list(visible_fields(schema, data))
+    shown = {f["key"] for f in shown_fields}
+    markers = {k: v for k, v in markers.items() if k in shown}
+    if members and not any(f["type"] == "person_list" for f in shown_fields):
+        members = []  # bước danh sách thành viên đang ẩn
+        data["thanh_vien"] = []
 
     special: Dict[str, Any] = {}
     has_transfer_field = any(f["key"] == "chuyen_nhuong" for st in schema.get("steps", []) for f in st["fields"])

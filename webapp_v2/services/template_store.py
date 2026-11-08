@@ -252,6 +252,32 @@ def preview_draft(draft_id: str) -> bytes:
                             payload["special_payload"], template_dir=d)
 
 
+def suggest_fields(draft_id: str) -> List[dict]:
+    """Gợi ý trường cho các biến trong mẫu Word chưa có nguồn dữ liệu (tools/schema_suggest.py, Mục 10.3)."""
+    from tools.schema_suggest import suggest
+
+    return suggest(draft_dir(draft_id))
+
+
+def apply_suggestions(draft_id: str, keys: List[str], user: dict) -> dict:
+    """Thêm các gợi ý được chọn vào bước "Thông tin bổ sung" của _schema.json trong bản nháp."""
+    from tools.schema_suggest import apply_to_schema
+
+    wanted = set(keys or [])
+    if not wanted:
+        raise StoreError("Chưa chọn gợi ý nào")
+    chosen = [s for s in suggest_fields(draft_id) if s["key"] in wanted]
+    unknown = wanted - {s["key"] for s in chosen}
+    if unknown:
+        raise StoreError(f"Không có gợi ý: {', '.join(sorted(unknown))}")
+    d = draft_dir(draft_id)
+    schema = apply_to_schema(_read_schema(d), chosen)
+    (d / "_schema.json").write_text(json.dumps(schema, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    with admin_db.connect() as conn:
+        admin_db.audit(conn, user["id"], "draft.apply_suggestions", f"{draft_id}: {', '.join(sorted(wanted))}")
+    return get_draft(draft_id)
+
+
 # ---------- Xuất bản và phiên bản ----------
 
 def _versions_root(template_id: str) -> Path:
