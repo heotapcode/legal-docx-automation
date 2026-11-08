@@ -171,7 +171,7 @@ NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
 CỦA DOANH NGHIỆP
 (Ký, ghi họ tên)
 
-                            NGUYỄN VĂN THỬ91
+                            NGUYỄN VĂN THỬ92
 
 ===== 02. Giấy ủy quyền.docx =====
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
@@ -182,10 +182,10 @@ GIẤY ỦY QUYỀN
 Giấy ủy quyền này được lập và ký vào ngày 15 tháng 07 năm 2026, giữa các bên dưới đây:
 
 BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
-Ông: NGUYỄN VĂN THỬ91             Chức danh: Giám đốc
-Ngày, tháng, năm sinh: 08/01/1990
+Ông: NGUYỄN VĂN THỬ92             Chức danh: Giám đốc
+Ngày, tháng, năm sinh: 09/01/1990
 Giới tính: Nam
-Số định danh cá nhân: 001090000091
+Số định danh cá nhân: 001090000092
 Là người đại diện theo pháp luật:
 CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp: 0101234567
@@ -205,7 +205,7 @@ Giấy ủy quyền này có giá trị kể từ ngày ký và sẽ t
 
 BÊN A
 
-NGUYỄN VĂN THỬ91
+NGUYỄN VĂN THỬ92
 
 ===== 03. Quyết định.docx =====
 QUYẾT ĐỊNH CỦA CHỦ SỞ HỮU
@@ -227,9 +227,9 @@ QUYẾT ĐỊNH:
    - Bán buôn máy móc, thiết bị và phụ tùng máy khác (Mã ngành: 4659);
 • Bỏ các ngành, nghề kinh doanh sau khỏi danh sách đã đăng ký:
    - GIATRI_TEN_1 (Mã ngành: GIATRI_MA_1);
-Điều 5.  Thay đổi người đại diện theo pháp luật của Công ty: miễn nhiệm ông NGUYỄN VĂN THỬ89 (Số định danh cá nhân: 001090000089); bổ nhiệm ông NGUYỄN VĂN THỬ91 (Số định danh cá nhân: 001090000091) giữ chức danh Giám đốc, là người đại diện theo pháp luật của Công ty.
+Điều 5.  Thay đổi người đại diện theo pháp luật của Công ty: miễn nhiệm ông NGUYỄN VĂN THỬ89 (Số định danh cá nhân: 001090000089); bổ nhiệm bà NGUYỄN VĂN THỬ92 (Số định danh cá nhân: 001090000092) giữ chức danh Giám đốc, là người đại diện theo pháp luật của Công ty.
 Điều 6.  Sửa đổi, bổ sung các điều khoản tương ứng trong Điều lệ Công ty theo các nội dung thay đổi tại Quyết định này.
-Điều 7.  Giao ông NGUYỄN VĂN THỬ91 – Người đại diện theo pháp luật của Công ty chịu trách nhiệm thực hiện các thủ tục đăng ký thay đổi nội dung đăng ký doanh nghiệp tại Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội theo quy định của pháp luật.
+Điều 7.  Giao bà NGUYỄN VĂN THỬ92 – Người đại diện theo pháp luật của Công ty chịu trách nhiệm thực hiện các thủ tục đăng ký thay đổi nội dung đăng ký doanh nghiệp tại Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội theo quy định của pháp luật.
 Điều 8.  Quyết định này có hiệu lực kể từ ngày ký. Chủ sở hữu, Giám đốc và các cá nhân, bộ phận có liên quan chịu trách nhiệm thi hành Quyết định này.
 CÔNG TY TNHH THỬ NGHIỆM ABC
 -------
@@ -329,16 +329,16 @@ GIẤY ĐỀ NGHỊ
 Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 Tên doanh nghiệp: CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp/Mã số thuế: 0101234567
-Số định danh cá nhân của Chủ sở hữu:
+Số định danh cá nhân của Chủ sở hữu: 001090000091
 Đăng ký thay đổi người đại diện theo pháp luật với các nội dung sau:
 Người đại diện theo pháp luật sau khi thay đổi::
-Họ, chữ đệm và tên: NGUYỄN VĂN THỬ91
-Ngày, tháng, năm sinh: 08/01/1990
-Giới tính: Nam
-Số định danh cá nhân: 001090000091
+Họ, chữ đệm và tên: NGUYỄN VĂN THỬ92
+Ngày, tháng, năm sinh: 09/01/1990
+Giới tính: Nữ
+Số định danh cá nhân: 001090000092
 Chức danh: Giám đốc
 Địa chỉ liên lạc:
-Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: Số 91 Ngõ Thử Nghiệm
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: Số 92 Ngõ Thử Nghiệm
 Xã/Phường/Đặc khu: Phường Cầu Giấy
 Tỉnh/Thành phố trực thuộc trung ương: Thành phố Hà Nội
 Quốc gia: Việt Nam

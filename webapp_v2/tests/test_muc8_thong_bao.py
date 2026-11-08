@@ -84,6 +84,9 @@ def ho_so(client, selected, loai_hinh, **extra):
     data.update(dkkd_selected=selected, loai_hinh=loai_hinh, **extra)
     data["thanh_vien"] = [dict(sample_person(i), von_gop="500000000", ty_le="50") for i in (1, 2)] \
         if loai_hinh != "tnhh_1tv" or "A7" in selected else []
+    if loai_hinh == "tnhh_2tv" and "A3" in selected and "tv_cu" not in extra:
+        data["tv_cu"] = [{"ho_ten": "THÀNH VIÊN CŨ MỘT", "so_cccd": "001080000011", "gioi_tinh": "Nam"},
+                         {"ho_ten": "THÀNH VIÊN CŨ HAI", "so_cccd": "001080000022", "gioi_tinh": "Nữ"}]
     r = client.post("/api/documents/generate", json=payload)
     assert r.status_code == 200, r.text[:300]
     return {k: unicodedata.normalize("NFC", v) for k, v in read_zip(r.content).items()}
@@ -156,3 +159,48 @@ def test_beneficial_owner_list_uses_entered_people(client):
     files = ho_so(client, ["A7"], "tnhh_1tv")
     ds = next(v for k, v in files.items() if k.startswith("06."))
     assert "NGUYỄN VĂN THỬ1" in ds and "NGUYỄN VĂN THỬ2" in ds
+
+
+
+# ---------- Người ký, chủ tọa, thư ký, người dự họp (anh xác nhận 08/11/2026) ----------
+
+CHU_TICH = dict(chu_tich_ho_ten="Lê Văn Chủ Tịch", chu_tich_so_cccd="001070000007", chu_tich_gioi_tinh="Nam")
+
+
+@pytest.mark.parametrize("loai_hinh, chuc_danh", [
+    ("tnhh_1tv", "CHỦ SỞ HỮU CÔNG TY"),
+    ("tnhh_2tv", "CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN"),
+    ("cp", "CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ"),
+])
+def test_decision_signed_by_owner_or_chairman(client, loai_hinh, chuc_danh):
+    files = ho_so(client, ["A1"], loai_hinh, **CHU_TICH)
+    qd = next(v for k, v in files.items() if k.startswith("03."))
+    sign = qd[qd.index(chuc_danh):]
+    assert "LÊ VĂN CHỦ TỊCH" in sign
+
+
+def test_chair_and_secretary_in_minutes(client):
+    # Chủ tịch cũng là thành viên thứ nhất -> thư ký là thành viên tiếp theo
+    files = ho_so(client, ["A1"], "cp", chu_tich_ho_ten="NGUYỄN VĂN THỬ1", chu_tich_so_cccd="001090000001",
+                  chu_tich_gioi_tinh="Nam")
+    bbh = next(v for k, v in files.items() if k.startswith("04."))
+    assert "Chủ tọa cuộc họp: Ông NGUYỄN VĂN THỬ1 — Chủ tịch Hội đồng quản trị." in bbh
+    assert "Thư ký cuộc họp: Bà NGUYỄN VĂN THỬ2 — Cổ đông." in bbh
+
+
+def test_member_change_minutes_attended_by_members_before_change(client):
+    files = ho_so(client, ["A3"], "tnhh_2tv", **CHU_TICH)
+    bbh = next(v for k, v in files.items() if k.startswith("04."))
+    attendees = bbh.split("I. THÀNH PHẦN DỰ HỌP:", 1)[1].split("Tổng số", 1)[0]
+    assert "THÀNH VIÊN CŨ MỘT" in attendees and "THÀNH VIÊN CŨ HAI" in attendees
+    assert "NGUYỄN VĂN THỬ1" not in attendees, "Không phải danh sách sau thay đổi"
+    # Danh sách thành viên kèm hồ sơ vẫn là danh sách SAU thay đổi
+    dstv = next(v for k, v in files.items() if k.startswith("05."))
+    assert "NGUYỄN VĂN THỬ1" in dstv
+
+
+def test_representative_notice_signed_by_chairman(client):
+    files = ho_so(client, ["A8"], "tnhh_2tv", **CHU_TICH)
+    tb = next(v for k, v in files.items() if k.startswith("07."))
+    assert "Số định danh cá nhân của Chủ tịch hội đồng thành viên: 001070000007" in tb
+    assert tb.rstrip().endswith("LÊ VĂN CHỦ TỊCH")

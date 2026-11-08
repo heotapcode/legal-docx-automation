@@ -84,15 +84,17 @@ Mẫu: `templates/Thay đổi nội dung ĐKKD/03. Quyết định.docx`, `04. B
   thành viên (theo Danh sách thành viên kèm theo) → A4 tăng/giảm vốn từ … lên/xuống … (TNHH 2 TV: phần vốn góp theo danh sách
   kèm theo; Cổ phần: mệnh giá cổ phần) → A5 bổ sung / bỏ ngành (liệt kê tên, mã, ngành chính) → **sửa đổi Điều lệ** (khi có A1–A5)
   → **giao người đại diện theo pháp luật** làm thủ tục tại phòng ĐKKD → **hiệu lực**. A6, A7 không có Điều riêng (✅6).
-- Người ký: TNHH 1 TV "CHỦ SỞ HỮU CÔNG TY"; TNHH 2 TV "T/M HỘI ĐỒNG THÀNH VIÊN – CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN";
-  Cổ phần "T/M ĐẠI HỘI ĐỒNG CỔ ĐÔNG – CHỦ TỌA CUỘC HỌP". **Giả định:** người ký là người đại diện theo pháp luật đã nhập.
+- ✅ Người ký (anh xác nhận 08/11/2026): TNHH 1 TV **Chủ sở hữu** ("CHỦ SỞ HỮU CÔNG TY"); TNHH 2 TV **Chủ tịch Hội đồng
+  thành viên** ("T/M HỘI ĐỒNG THÀNH VIÊN – CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN"); Cổ phần **Chủ tịch Hội đồng quản trị**
+  ("T/M ĐẠI HỘI ĐỒNG CỔ ĐÔNG – CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ"). Form có bước nhập riêng người này (không lấy người đại diện).
 
 **Biên bản họp** (TNHH 2 TV, Cổ phần)
 - Thành phần: các thành viên / cổ đông đã nhập; 100% vốn điều lệ / cổ phần có quyền biểu quyết dự họp và tán thành.
-- **Giả định:** chủ tọa là người đại diện theo pháp luật (TNHH 2 TV: Chủ tịch Hội đồng thành viên; Cổ phần: Chủ tịch Hội đồng
-  quản trị); thư ký là thành viên / cổ đông đầu tiên khác chủ tọa; giờ họp 08:30–10:30 tại trụ sở chính.
+- ✅ Chủ tọa: Chủ tịch Hội đồng thành viên / Chủ tịch Hội đồng quản trị (người ký Quyết định). ✅ Thư ký: thành viên / cổ đông
+  dự họp đầu tiên khác chủ tọa. Giờ họp 08:30–10:30 tại trụ sở chính.
 - Nội dung: mỗi nội dung đã chọn một mục (kể cả A6, A7), mục sửa Điều lệ, mục giao người đại diện ký Quyết định và làm thủ tục.
-- **Lưu ý A3:** danh sách dự họp là danh sách thành viên đã nhập (sau thay đổi). Nếu cần ghi thành viên **trước** thay đổi, cần thêm
-  bước nhập danh sách cũ (như bộ Chuyển nhượng 2 TV).
+- ✅ A3 (đổi thành viên): người dự họp là thành viên **trước** khi thay đổi (bước nhập riêng); Danh sách thành viên kèm hồ sơ
+  vẫn là danh sách sau khi thay đổi.
+- Thông báo thay đổi người đại diện (A8): dòng "Số định danh cá nhân của Chủ sở hữu / Chủ tịch …" và người ký theo người này.
 
 Anh sửa trực tiếp câu chữ ở đây (hoặc nhắn theo mục) — em cập nhật vào mẫu.

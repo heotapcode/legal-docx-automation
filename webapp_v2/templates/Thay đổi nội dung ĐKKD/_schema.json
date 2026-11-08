@@ -219,6 +219,71 @@
       ]
     },
     {
+      "id": "tv_cu",
+      "title": "Thành viên TRƯỚC khi thay đổi (dự họp Hội đồng thành viên)",
+      "show_if": {
+        "all": [
+          {
+            "field": "loai_hinh",
+            "equals": "tnhh_2tv"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A3"
+          }
+        ]
+      },
+      "description": "Khi thay đổi thành viên, cuộc họp Hội đồng thành viên do các thành viên hiện tại (trước khi thay đổi) dự họp và biểu quyết.",
+      "fields": [
+        {
+          "key": "tv_cu",
+          "label": "Thành viên hiện tại",
+          "type": "list",
+          "min": 2,
+          "item": [
+            {
+              "key": "ho_ten",
+              "label": "Họ và tên",
+              "type": "text",
+              "required": true
+            },
+            {
+              "key": "gioi_tinh",
+              "label": "Giới tính",
+              "type": "select",
+              "default": "Nam",
+              "options": [
+                {
+                  "value": "Nam",
+                  "label": "Nam"
+                },
+                {
+                  "value": "Nữ",
+                  "label": "Nữ"
+                }
+              ]
+            },
+            {
+              "key": "ngay_sinh",
+              "label": "Ngày sinh",
+              "type": "date"
+            },
+            {
+              "key": "so_cccd",
+              "label": "Số CCCD",
+              "type": "cccd",
+              "required": true
+            }
+          ],
+          "rules": [
+            {
+              "unique": "so_cccd"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "members",
       "title": "Thành viên / cổ đông / chủ sở hữu hưởng lợi",
       "show_if": {
@@ -347,8 +412,22 @@
       ]
     },
     {
+      "id": "chu_tich",
+      "title": "Người ký Quyết định / chủ tọa cuộc họp",
+      "description": "TNHH 1 TV: Chủ sở hữu. TNHH 2 TV: Chủ tịch Hội đồng thành viên. Cổ phần: Chủ tịch Hội đồng quản trị.",
+      "fields": [
+        {
+          "key": "chu_tich",
+          "label": "Chủ sở hữu / Chủ tịch Hội đồng thành viên / Chủ tịch Hội đồng quản trị",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        }
+      ]
+    },
+    {
       "id": "ddpl",
-      "title": "Người đại diện theo pháp luật (người ký)",
+      "title": "Người đại diện theo pháp luật",
       "fields": [
         {
           "key": "ddpl",

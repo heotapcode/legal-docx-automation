@@ -172,10 +172,11 @@ def build_quyet_dinh():
     noi_nhan, ky = d.tables[1].rows[0].cells
     set_run_text(noi_nhan.paragraphs[0], "Nơi nhận:\n- Như Điều {{ ns.d }};\n- Cơ quan ĐKKD {{ tinh_thanh_dkkd }};\n"
                                          "- Lưu: VT, HS.")
+    # Người ký: Chủ sở hữu / Chủ tịch Hội đồng thành viên / Chủ tịch Hội đồng quản trị (anh xác nhận 08/11/2026)
     set_run_text(ky.paragraphs[0], "{{ 'CHỦ SỞ HỮU CÔNG TY' if lh == 'tnhh_1tv' else 'T/M ' ~ chu_the }}\n"
                                    "{{ '' if lh == 'tnhh_1tv' else ('CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN' if lh == 'tnhh_2tv' "
-                                   "else 'CHỦ TỌA CUỘC HỌP') }}\n(Ký, ghi rõ họ tên và đóng dấu)\n\n\n\n\n"
-                                   "{{ ddpl_ho_ten }}")
+                                   "else 'CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ') }}\n(Ký, ghi rõ họ tên và đóng dấu)\n\n\n\n\n"
+                                   "{{ chu_tich_ho_ten | upper }}")
     d.save(str(DST / "03. Quyết định.docx"))
 
 
@@ -186,11 +187,16 @@ def build_bien_ban():
     set_run_text(P[0], "BIÊN BẢN HỌP {{ chu_the }}\n{{ ten_cong_ty_vn }}\n(V/v thay đổi nội dung đăng ký doanh nghiệp)")
     set_run_text(P[1], "Hôm nay, vào hồi 08 giờ 30 phút, {{ ngay_lap }}, tại trụ sở chính {{ ten_cong_ty_vn }}, "
                        "{{ co_quan }} đã tổ chức cuộc họp với các nội dung chi tiết như sau:")
-    set_run_text(P[6], "Tổng số {{ ai }} dự họp: {{ '%02d' % (thanh_vien|length) }}/{{ '%02d' % (thanh_vien|length) }} "
+    # Người dự họp: khi đổi thành viên (A3) là danh sách TRƯỚC khi thay đổi (tv_cu), ngược lại là thanh_vien
+    set_run_text(P[3], "{%p for tv in ds %}")
+    P[4].runs[0].text = "{{ loop.index }}. {{ tv.gioi_tinh | danh_xung }} {{ tv.ho_ten | upper }}"
+    set_run_text(P[6], "Tổng số {{ ai }} dự họp: {{ '%02d' % (ds|length) }}/{{ '%02d' % (ds|length) }} "
                        "{{ ai }}, đại diện cho 100% tổng số {{ von }} của Công ty.")
-    set_run_text(P[7], "Chủ tọa cuộc họp: {{ ddpl_danh_xung }} {{ ddpl_ho_ten }} — {{ 'Chủ tịch Hội đồng thành viên' "
+    set_run_text(P[7], "Chủ tọa cuộc họp: {{ chu_tich_gioi_tinh | danh_xung }} {{ chu_tich_ho_ten | upper }} — "
+                       "{{ 'Chủ tịch Hội đồng thành viên' "
                        "if lh == 'tnhh_2tv' else 'Chủ tịch Hội đồng quản trị' }}.")
-    set_run_text(P[8], "Thư ký cuộc họp: {{ thu_ky_danh_xung }} {{ thu_ky_ho_ten }} — {{ ai | capitalize }}.")
+    # Thư ký: người dự họp đầu tiên khác chủ tọa (không viết "{}" trong thẻ {%p: docxtpl đọc nhầm)
+    set_run_text(P[8], "Thư ký cuộc họp: {{ tk.gioi_tinh | danh_xung }} {{ tk.ho_ten | upper }} — {{ ai | capitalize }}.")
     item = "{% set ns.d = ns.d + 1 %}{{ ns.d }}. "
     items = [
         "{%p if 'A1' in dkkd_selected %}",
@@ -242,9 +248,17 @@ def build_bien_ban():
             set_run_text(p, p.text.replace("CÁC THÀNH VIÊN", "CÁC {{ ai | upper }}"))
     set_run_text(d.tables[0].rows[1].cells[0].paragraphs[0],
                  "Số: 01/2026/BBH-{{ 'HĐTV' if lh == 'tnhh_2tv' else 'ĐHĐCĐ' }}")
+    thu_ky, chu_toa = d.tables[1].rows[0].cells
+    set_run_text(thu_ky.paragraphs[0], thu_ky.paragraphs[0].text.replace("{{ thu_ky_ho_ten }}", "{{ tk.ho_ten | upper }}"))
+    set_run_text(chu_toa.paragraphs[0], chu_toa.paragraphs[0].text.replace("{{ ddpl_ho_ten }}",
+                                                                           "{{ chu_tich_ho_ten | upper }}"))
+    set_run_text(d.tables[2].rows[0].cells[0].paragraphs[0], "{%tc for tv in ds %}")
+    set_run_text(d.tables[2].rows[0].cells[1].paragraphs[0], "\n\n\n\n\n{{ tv.ho_ten | upper }}")
     title = d.element.body[0]
     for s in SETUP + ["{%p set ai = 'thành viên' if lh == 'tnhh_2tv' else 'cổ đông' %}",
-                      "{%p set von = 'vốn điều lệ' if lh == 'tnhh_2tv' else 'cổ phần có quyền biểu quyết' %}"]:
+                      "{%p set von = 'vốn điều lệ' if lh == 'tnhh_2tv' else 'cổ phần có quyền biểu quyết' %}",
+                      "{%p set ds = tv_cu if ('A3' in dkkd_selected and lh == 'tnhh_2tv' and tv_cu) else thanh_vien %}",
+                      "{%p set tk = ((ds | rejectattr('so_cccd', 'equalto', chu_tich_so_cccd) | list) or [dict()]) | first %}"]:
         title.addprevious(clone(body_tpl, [(s, False)]))
     d.save(str(DST / "04. Biên bản họp.docx"))
 
