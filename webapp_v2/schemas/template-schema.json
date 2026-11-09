@@ -46,6 +46,37 @@
         "chuyen_doi_1tv_2tv"
       ]
     },
+    "shortcut": {
+      "description": "Lối tắt sang thủ tục gộp (Mục 8.3): trên màn hình nhập liệu hiện nút mở bộ mẫu `template`, mang theo dữ liệu đã nhập và đặt sẵn các giá trị trong `preset` (vd loại hình, nội dung thay đổi đã chọn).",
+      "type": "object",
+      "required": [
+        "template",
+        "preset"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "template": {
+          "description": "Tên thư mục bộ mẫu đích.",
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "description": "Chữ trên nút (mặc định: \"Thay đổi thêm nội dung khác cùng lúc\").",
+          "type": "string"
+        },
+        "preset": {
+          "description": "Giá trị đặt sẵn theo key của schema đích; checkbox_group nhận mảng giá trị.",
+          "type": "object"
+        },
+        "map": {
+          "description": "Đổi tên key khi mang dữ liệu sang: {\"key ở bộ này\": \"key ở bộ đích\"}, vd {\"von_moi_so\": \"von_dieu_le_so\"}. Key trùng tên được mang sang tự động.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "schema_version": {
       "description": "[v2] Phiên bản đặc tả mà file này tuân theo.",
       "type": "integer",

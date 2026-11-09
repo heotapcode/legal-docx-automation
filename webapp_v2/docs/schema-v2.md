@@ -24,6 +24,7 @@ Mỗi bộ mẫu hồ sơ là một thư mục trong `webapp_v2/templates/`, g�
 | `description` | | Mô tả ngắn. |
 | `has_nganh` | | `true` nếu wizard có bước chọn mã ngành (bộ mẫu có bảng *Mã ngành / Tên ngành*). |
 | `prepare` | | Hàm dựng dữ liệu riêng của nghiệp vụ, chạy trước khi chuẩn hóa ngữ cảnh (`services/document_rules.py`, `PREPARERS`). Hiện có `chuyen_doi_1tv_2tv`: từ chủ sở hữu cũ `csh`, `hinh_thuc_cn` (`mot_phan` kèm `csh_von_giu_lai`, `csh_ty_le` / `toan_bo`) và các thành viên mới `thanh_vien`, dựng danh sách thành viên đầy đủ (chủ sở hữu cũ là Thành viên 1 khi giữ lại vốn) và mỗi thành viên mới một giao dịch nhận chuyển nhượng từ chủ sở hữu cũ. Chỉ dùng khi nghiệp vụ không diễn tả được bằng các khóa khác. |
+| `shortcut` | | Lối tắt sang thủ tục gộp (Mục 8.3): `{"template": "<thư mục bộ đích>", "preset": {...}, "map": {...}, "label": "..."}`. Màn hình nhập liệu hiện nút mở bộ đích, mang theo dữ liệu đã nhập (key trùng tên tự mang sang; `map` đổi tên key, vd `{"von_moi_so": "von_dieu_le_so"}`), rồi đặt các giá trị trong `preset` (checkbox_group nhận mảng). Công cụ quét báo `E004` nếu bộ đích không có, hoặc `preset`/`map` sai key hay giá trị. |
 | `steps` | ✔ | Danh sách bước của wizard (mục 2). |
 | `schema_version` | | [v2] `1` hoặc `2`. |
 | `version` | | [v2] Phiên bản nội dung bộ mẫu, tăng mỗi lần xuất bản (Mục 10). |

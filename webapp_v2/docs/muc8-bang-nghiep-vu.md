@@ -63,7 +63,7 @@
 | 8.2b | **Quyết định** (Chủ sở hữu / Hội đồng thành viên / Đại hội đồng cổ đông) mỗi nội dung một Điều, và **Biên bản họp** cho TNHH 2 TV / Cổ phần. | ✅ bản nháp, **chờ anh duyệt câu chữ** (mục 6) |
 | 8.2c | Văn bản kèm theo: **Danh sách thành viên** (TNHH 2 TV khi có A3/A4), **Danh sách chủ sở hữu hưởng lợi** (A7, theo danh sách người đã nhập), **Thông báo thay đổi người đại diện** (A8; người ký theo loại hình: Chủ sở hữu / Chủ tịch HĐTV / Chủ tịch HĐQT). Thêm lựa chọn A8 (nhập ĐDPL cũ; Quyết định có Điều miễn nhiệm/bổ nhiệm, Biên bản họp có mục tương ứng). Thông báo thay đổi nội dung ĐKDN chỉ sinh khi có ít nhất một nội dung A1–A7. | ✅ |
 | 8.2d | **Hợp đồng chuyển nhượng + Biên bản thanh lý** cho A3 (TNHH 2 TV): mỗi giao dịch một bộ; bên A chọn từ thành viên trước khi thay đổi (có địa chỉ), bên B từ thành viên sau khi thay đổi; kiểm tra lựa chọn hợp lệ. | ✅ |
-| 8.3 | Lối tắt từ các bộ đơn lẻ (Tăng vốn, Thay đổi địa chỉ, Thay đổi ngành nghề…) mở sẵn thủ tục gộp. | ⏳ |
+| 8.3 | **Lối tắt** từ các bộ đơn lẻ sang thủ tục gộp: trên màn hình nhập liệu của Tăng vốn (TNHH 1 TV, TNHH 2 TV, Cổ phần), Giảm vốn Cổ phần, Thay đổi ngành nghề TNHH 1 TV, Thay đổi địa chỉ và thuế TNHH 2 TV có nút "Thay đổi thêm nội dung khác cùng lúc". Bấm vào thì mở bộ `Thay đổi nội dung ĐKKD`, giữ dữ liệu đã nhập, đặt sẵn loại hình và nội dung thay đổi tương ứng (vd Giảm vốn Cổ phần → Cổ phần, A4, hình thức giảm). Bộ đơn lẻ vẫn dùng được như cũ. | ✅ |
 
 Ghi chú 8.2a:
 - Phần "Sửa đổi chi tiết ngành, nghề" của mẫu nhà nước được bỏ khỏi Thông báo (thủ tục gộp hỗ trợ bổ sung và bỏ ngành, theo ✅5).

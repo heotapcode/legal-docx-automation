@@ -651,3 +651,35 @@ def test_scan_fills_loose_person_fields(page, base_url, template, prefix):
     page.wait_for_function("p => document.getElementById(`input-${p}_so_cccd`).value !== ''", arg=prefix)
     assert page.locator(f"#input-{prefix}_ho_ten").input_value() == "TRẦN THỊ MAI"
     assert page.evaluate("p => wizardState.formData[`${p}_so_cccd`]", prefix) == "034185012345"
+
+
+# ---------- Mục 8.3: lối tắt sang thủ tục gộp ----------
+
+def test_shortcut_opens_combined_procedure_with_data(page, base_url):
+    """Từ Tăng vốn TNHH 1 TV: nút lối tắt mở thủ tục gộp, giữ dữ liệu, đặt sẵn loại hình và nội dung A4."""
+    open_template(page, base_url, "Tăng vốn công ty TNHH 1 TV")
+    page.fill('[name="ma_so_thue"]', "0101234567")
+    page.fill('[name="ten_cong_ty_vn"]', "CÔNG TY TNHH MỘT THÀNH VIÊN A")
+    page.fill('[name="von_moi_so"]', "2.000.000.000")
+    page.fill('[name="csh_ho_ten"]', "CHỦ SỞ HỮU")
+    page.click("#btn-combined-shortcut")
+    page.wait_for_function("window.wizardState.schema && window.wizardState.schema.name === 'Thay đổi nội dung ĐKKD'"
+                           " && document.querySelector('[name=\"loai_hinh\"]')")
+    page.wait_for_load_state("networkidle")
+    assert page.input_value('[name="ma_so_thue"]') == "0101234567"
+    assert page.input_value('[name="ten_cong_ty_vn"]') == "CÔNG TY TNHH MỘT THÀNH VIÊN A"
+    assert page.input_value('[name="loai_hinh"]') == "tnhh_1tv"
+    assert page.input_value('[name="hinh_thuc_thay_doi_von"]') == "tang"
+    assert page.input_value('[name="von_dieu_le_so"]') == "2.000.000.000"
+    assert page.input_value('[name="chu_tich_ho_ten"]') == "CHỦ SỞ HỮU"
+    checked = page.evaluate("Array.from(document.querySelectorAll('.dkkd-cb:checked')).map(c => c.value)")
+    assert checked == ["A4"]
+    assert visible(page, '[name="von_dieu_le_so"]')
+    # Bộ đích không có lối tắt
+    assert page.locator("#btn-combined-shortcut").count() == 0
+
+
+@pytest.mark.parametrize("template", ["Tạm dừng công ty TNHH 1 TV", "Thành lập mới công ty TNHH 2 TV"])
+def test_no_shortcut_without_config(page, base_url, template):
+    open_template(page, base_url, template)
+    assert page.locator("#btn-combined-shortcut").count() == 0

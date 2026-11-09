@@ -5,6 +5,15 @@
   "category": "Thay đổi",
   "description": "Bộ hồ sơ thông báo bổ sung, thay đổi ngành nghề kinh doanh cho Công ty TNHH Một thành viên theo Nghị định 168/2025/NĐ-CP",
   "has_nganh": true,
+  "shortcut": {
+    "template": "Thay đổi nội dung ĐKKD",
+    "preset": {
+      "loai_hinh": "tnhh_1tv",
+      "dkkd_selected": [
+        "A5"
+      ]
+    }
+  },
   "steps": [
     {
       "id": "company",

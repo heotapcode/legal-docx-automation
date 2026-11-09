@@ -5,6 +5,16 @@
   "category": "Tăng vốn",
   "description": "Bộ hồ sơ đăng ký tăng vốn điều lệ Công ty Cổ Phần",
   "has_nganh": false,
+  "shortcut": {
+    "template": "Thay đổi nội dung ĐKKD",
+    "preset": {
+      "loai_hinh": "cp",
+      "dkkd_selected": [
+        "A4"
+      ],
+      "hinh_thuc_thay_doi_von": "tang"
+    }
+  },
   "steps": [
     {
       "id": "company",

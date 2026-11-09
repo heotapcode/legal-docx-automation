@@ -5,6 +5,20 @@
   "category": "Tăng vốn",
   "description": "Hồ sơ tăng vốn điều lệ cho Công ty TNHH Một thành viên",
   "has_nganh": false,
+  "shortcut": {
+    "template": "Thay đổi nội dung ĐKKD",
+    "preset": {
+      "loai_hinh": "tnhh_1tv",
+      "dkkd_selected": [
+        "A4"
+      ],
+      "hinh_thuc_thay_doi_von": "tang"
+    },
+    "map": {
+      "von_moi_so": "von_dieu_le_so",
+      "csh_ho_ten": "chu_tich_ho_ten"
+    }
+  },
   "steps": [
     {
       "id": "company",

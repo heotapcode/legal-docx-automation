@@ -5,6 +5,16 @@
   "category": "Thay đổi",
   "description": "Bộ hồ sơ thay đổi địa chỉ trụ sở chính và bổ sung cập nhật thông tin đăng ký thuế cho Công ty TNHH Hai thành viên trở lên",
   "has_nganh": false,
+  "shortcut": {
+    "template": "Thay đổi nội dung ĐKKD",
+    "preset": {
+      "loai_hinh": "tnhh_2tv",
+      "dkkd_selected": [
+        "A2",
+        "A6"
+      ]
+    }
+  },
   "steps": [
     {
       "id": "company",
