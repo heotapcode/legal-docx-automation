@@ -161,3 +161,19 @@ def test_api_ocr_screenshot_without_qr():
     assert data["nguon"] == "ocr"
     assert (data["so_cccd"], data["ngay_sinh"], data["gioi_tinh"]) == ("001190012345", "05/11/1990", "Nữ")
     assert data["dia_chi_xa_phuong"] == "Phường Nghĩa Đô"
+
+
+def test_api_hides_internal_errors(monkeypatch):
+    """Lỗi hệ thống không lộ chi tiết kỹ thuật (đường dẫn, tên thư viện...) ra trình duyệt."""
+    from routes import ocr
+
+    async def boom(*_a, **_k):
+        raise RuntimeError("C:/secret/path/tesseract.dll failed")
+
+    monkeypatch.setattr(ocr, "extract_vneid", boom)
+    res = client.post("/api/ocr/vneid", files={"image": ("a.png", png_bytes(qr_image(QR_TEXT)), "image/png")}).json()
+    assert res["success"] is False and "secret" not in res["message"] and "lỗi hệ thống" in res["message"]
+
+
+def test_api_requires_upload():
+    assert client.post("/api/ocr/vneid", data={"target": "ddpl"}).status_code == 400

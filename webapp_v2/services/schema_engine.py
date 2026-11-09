@@ -9,7 +9,7 @@ import re
 from datetime import date
 from typing import Any, Dict, Iterable, List, Optional
 
-LIST_TYPES = {"list", "person_list", "transfer_list"}
+LIST_TYPES = {"list", "person_list"}
 
 
 # ---------- Giá trị ----------
@@ -171,16 +171,6 @@ def _check_list(field: dict, items: Any, root: Dict[str, Any], errors: list, tod
         _err(errors, key, label, "max_items", f"{label}: tối đa {field['max']} (hiện có {len(items)})")
     for i, item in enumerate(items):
         item = item if isinstance(item, dict) else {}
-        if field.get("type") == "transfer_list":
-            # Kiểu cũ: mỗi giao dịch {ben_a: {...}, ben_b: {...}, gia_tri_so}
-            for path, sub_label in (("ben_a.ho_ten", "Họ tên bên chuyển nhượng"), ("ben_b.ho_ten", "Họ tên bên nhận"),
-                                    ("gia_tri_so", "Giá trị chuyển nhượng")):
-                head, _, tail = path.partition(".")
-                v = item.get(head)
-                if tail:
-                    v = v.get(tail) if isinstance(v, dict) else None
-                _check_value({"key": path, "label": sub_label, "required": True}, v, item, errors, today,
-                             index=i, prefix=f"Giao dịch #{i + 1}: ")
         for sub in subs:
             if eval_condition(sub.get("show_if"), item):
                 _check_value(sub, item.get(sub["key"]), item, errors, today, index=i, prefix=f"{label} #{i + 1}: ",

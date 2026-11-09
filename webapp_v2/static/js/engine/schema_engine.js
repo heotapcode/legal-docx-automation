@@ -13,7 +13,7 @@
 })(typeof self !== 'undefined' ? self : this, function () {
     'use strict';
 
-    const LIST_TYPES = new Set(['list', 'person_list', 'transfer_list']);
+    const LIST_TYPES = new Set(['list', 'person_list']);
 
     // ---------- Giá trị ----------
 
@@ -160,16 +160,6 @@
         }
         items.forEach((raw, i) => {
             const item = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
-            if (field.type === 'transfer_list') {
-                // Kiểu cũ: mỗi giao dịch {ben_a: {...}, ben_b: {...}, gia_tri_so}
-                [['ben_a.ho_ten', 'Họ tên bên chuyển nhượng'], ['ben_b.ho_ten', 'Họ tên bên nhận'],
-                 ['gia_tri_so', 'Giá trị chuyển nhượng']].forEach(([path, subLabel]) => {
-                    const [head, tail] = path.split('.');
-                    let v = item[head];
-                    if (tail) v = (v && typeof v === 'object' && !Array.isArray(v)) ? v[tail] : null;
-                    checkValue({ key: path, label: subLabel, required: true }, v, item, errors, today, i, `Giao dịch #${i + 1}: `);
-                });
-            }
             subs.forEach(sub => {
                 if (evalCondition(sub.show_if, item)) checkValue(sub, item[sub.key], item, errors, today, i, `${label} #${i + 1}: `, root);
             });

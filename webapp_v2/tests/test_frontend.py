@@ -293,7 +293,7 @@ def open_demo(page, base_url, mode):
         localStorage.setItem('global_ui_mode', mode);
         const s = window.wizardState;
         s.template = { name: schema.name, display_name: schema.display_name };
-        s.schema = schema; s.step = 2; s.formData = {}; s.thanhVienList = []; s.transferList = []; s.dkkdSelected = [];
+        s.schema = schema; s.step = 2; s.formData = {}; s.thanhVienList = []; s.dkkdSelected = [];
         FormRenderer.resetTouched();
         renderStep2Form(schema);
     }""", [DEMO_SCHEMA, mode])

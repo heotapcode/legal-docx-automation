@@ -16,7 +16,7 @@ from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 # ── Constants ─────────────────────────────────────────────────────────────────
 BASE_DIR = r"c:\Users\Pc\Desktop\AI Agent\Điền thông tin file word"
 TEMPLATE_FOLDER = os.path.join(BASE_DIR, "Mẫu Chuyển nhượng Công ty TNHH 2 TV")
-GEMINI_API_KEY = "AQ.Ab8RN6KzqOjWiBtXNVDdLr2mkCMiNuSdhRlIrP9UZGVQnCwv_A"
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 
 # Wizard steps
 STEP_COMPANY     = "company"

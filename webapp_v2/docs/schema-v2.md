@@ -7,7 +7,7 @@ Mỗi bộ mẫu hồ sơ là một thư mục trong `webapp_v2/templates/`, g�
 
 Đặc tả máy đọc được nằm ở [`schemas/template-schema.json`](../schemas/template-schema.json) (JSON Schema 2020-12). Bộ test (`tests/test_schemas.py`) và công cụ quét mẫu (`tools/template_lint.py`, mã `E002`) kiểm tra mọi schema theo file này.
 
-> **Lõi kiểm tra dữ liệu (Mục 9, bước 1).** `show_if`, `validate`, `rules` và các kiểu cũ (`person`, `person_list`, `transfer_list`) đã được cài đặt ở `services/schema_engine.py` (backend) và `static/js/engine/schema_engine.js` (trình duyệt), hai bản chạy chung ca kiểm thử `tests/engine_cases.json`. Đã nối (bước 2): API `/api/documents/generate` trả 422 kèm danh sách lỗi khi dữ liệu không hợp lệ, và wizard dùng chung lõi để chặn bước tiếp/tải hồ sơ. Từ bước 5, cả 24 bộ mẫu chạy trên một bộ máy wizard chung (đã bỏ 3 wizard riêng: Chuyển nhượng 2 TV, Chuyển đổi 1TV→2TV, Tăng vốn 2 TV), nên mọi bộ mẫu đều được kiểm tra ở API và trên trình duyệt như nhau.
+> **Lõi kiểm tra dữ liệu (Mục 9, bước 1).** `show_if`, `validate`, `rules` và các kiểu cũ (`person`, `person_list`) đã được cài đặt ở `services/schema_engine.py` (backend) và `static/js/engine/schema_engine.js` (trình duyệt), hai bản chạy chung ca kiểm thử `tests/engine_cases.json`. Đã nối (bước 2): API `/api/documents/generate` trả 422 kèm danh sách lỗi khi dữ liệu không hợp lệ, và wizard dùng chung lõi để chặn bước tiếp/tải hồ sơ. Từ bước 5, cả 24 bộ mẫu chạy trên một bộ máy wizard chung (đã bỏ 3 wizard riêng: Chuyển nhượng 2 TV, Chuyển đổi 1TV→2TV, Tăng vốn 2 TV), nên mọi bộ mẫu đều được kiểm tra ở API và trên trình duyệt như nhau.
 >
 > **Trạng thái triển khai.** Các phần đánh dấu **[v2]** đã có trong đặc tả để thống nhất định dạng, nhưng wizard (`static/js/pages/wizard.js`) và `render_service.py` **chưa dùng tới**. Chúng sẽ được triển khai ở Mục 9 (bộ máy wizard chung). Hiện tại bộ mẫu thật chỉ nên dùng các kiểu trường wizard đang hỗ trợ (`tests/test_schemas.py::SUPPORTED_TYPES`).
 
@@ -80,7 +80,6 @@ Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false
 | `mst_lookup` | ✔ | Ô MST kèm nút tra cứu. |
 | `person` | ✔ | Nhóm cố định: sinh các biến `<key>_ho_ten`, `<key>_so_cccd`, `<key>_ngay_sinh`, `<key>_gioi_tinh`, `<key>_dia_chi_*`. |
 | `person_list` | ✔ | Danh sách người, dữ liệu gửi lên ở `thanh_vien`. |
-| `transfer_list` | ✔ | Danh sách giao dịch chuyển nhượng (`chuyen_nhuong`). |
 | `checkbox_group` | ✔ | Bắt buộc có `options`. |
 | `select` | ✔ | Danh sách sổ xuống. Cần `options`, `options_source` hoặc `options_from` (mục 3.4). |
 | `date`, `cccd`, `percent`, `address` | ✔ | Bộ vẽ form chung (`static/js/engine/form_renderer.js`). `date` nhập DD/MM/YYYY; `cccd` 12 chữ số. |
