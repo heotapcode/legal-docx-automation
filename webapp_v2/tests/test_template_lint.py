@@ -145,3 +145,43 @@ def test_documents_block_mismatch_is_error(tmp_path):
     d = make_template(tmp_path, ["{{ ten_cong_ty_vn }}"], schema=schema)
     msgs = [f.file for f in template_lint.lint_template(d) if f.code == "E003"]
     assert "01. Thử.docx" in msgs and "02. Không tồn tại.docx" in msgs
+
+
+def _schema_with_shortcut(shortcut):
+    return {
+        "id": "bo-thu-nghiem", "name": "Bộ thử nghiệm", "display_name": "Bộ thử nghiệm",
+        "shortcut": shortcut,
+        "steps": [{"id": "c", "title": "C", "fields": [{"key": "ten_cong_ty_vn", "label": "Tên", "type": "text"}]}],
+    }
+
+
+def test_valid_shortcut_has_no_error(tmp_path):
+    d = make_template(tmp_path, ["{{ ten_cong_ty_vn }}"], schema=_schema_with_shortcut({
+        "template": "Thay đổi nội dung ĐKKD",
+        "preset": {"loai_hinh": "cp", "dkkd_selected": ["A1", "A4"]},
+        "map": {"von_moi_so": "von_dieu_le_so", "csh_ho_ten": "chu_tich_ho_ten"},
+    }))
+    assert "E004" not in codes(template_lint.lint_template(d))
+
+
+@pytest.mark.parametrize("shortcut, fragment", [
+    ({"template": "Không có bộ này", "preset": {}}, "không tìm thấy bộ mẫu đích"),
+    ({"template": "../Thay đổi nội dung ĐKKD", "preset": {}}, "không tìm thấy bộ mẫu đích"),
+    ({"template": "Thay đổi nội dung ĐKKD", "preset": {"khong_co": 1}}, "không có trường 'khong_co'"),
+    ({"template": "Thay đổi nội dung ĐKKD", "preset": {"loai_hinh": "dntn"}}, "giá trị 'dntn'"),
+    ({"template": "Thay đổi nội dung ĐKKD", "preset": {"dkkd_selected": ["A9"]}}, "giá trị 'A9'"),
+    ({"template": "Thay đổi nội dung ĐKKD", "preset": {}, "map": {"a": "khong_co"}}, "map 'a' -> 'khong_co'"),
+])
+def test_bad_shortcut_is_error(tmp_path, shortcut, fragment):
+    d = make_template(tmp_path, ["{{ ten_cong_ty_vn }}"], schema=_schema_with_shortcut(shortcut))
+    msgs = [f.message for f in template_lint.lint_template(d) if f.code == "E004"]
+    assert any(fragment in m for m in msgs), msgs
+
+
+def test_single_change_sets_link_to_combined_procedure():
+    """Mục 8.3: các bộ một thay đổi có lối tắt sang thủ tục gộp."""
+    for name in ("Tăng vốn công ty TNHH 1 TV", "Tăng vốn công ty TNHH 2 TV", "Tăng vốn công ty Cổ Phần",
+                 "Giảm vốn công ty Cổ Phần", "Thay đổi ngành nghề kinh doanh TNHH 1 TV",
+                 "Thay đổi địa chỉ và thuế TNHH 2 TV"):
+        schema = json.loads((TEMPLATES_DIR / name / "_schema.json").read_text(encoding="utf-8"))
+        assert schema["shortcut"]["template"] == "Thay đổi nội dung ĐKKD", name

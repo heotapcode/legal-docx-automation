@@ -694,6 +694,42 @@ window.updateUniversalCapitalDistribution = function() {
     `;
 };
 
+/** Mục 8.3: dải gợi ý chuyển sang thủ tục gộp, khi schema có "shortcut" và bộ đích có trong danh sách. */
+function shortcutBannerHtml(schema) {
+    const sc = schema && schema.shortcut;
+    if (!sc || !(window.wizardState.templatesList || []).some(t => t.name === sc.template)) return '';
+    const label = sc.label || 'Thay đổi thêm nội dung khác cùng lúc';
+    return `
+        <div id="combined-shortcut" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 16px; margin-bottom: 16px; border: 1px dashed var(--gold-border-subtle, rgba(212,175,55,0.35)); border-radius: var(--radius-md, 8px); background: rgba(212, 175, 55, 0.06);">
+            <div style="font-size: 13px;">
+                <i class="fa-solid fa-layer-group" style="color: var(--gold-primary, #d4af37);"></i>
+                Cần đổi thêm tên, địa chỉ, vốn, ngành nghề, người đại diện... trong cùng một bộ hồ sơ?
+                Chuyển sang thủ tục <b>${escapeHtml(sc.template)}</b>, dữ liệu đã nhập được giữ lại.
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-combined-shortcut" onclick="openCombinedProcedure()" style="white-space: nowrap;">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i> ${escapeHtml(label)}
+            </button>
+        </div>`;
+}
+
+/** Mở thủ tục gộp: giữ dữ liệu đã nhập (đổi tên key theo shortcut.map), đặt sẵn giá trị trong shortcut.preset. */
+window.openCombinedProcedure = function() {
+    const st = window.wizardState;
+    const sc = st.schema && st.schema.shortcut;
+    if (!sc) return;
+    collectFormData();
+    const fd = Object.assign({}, st.formData);
+    Object.entries(sc.map || {}).forEach(([src, dst]) => {
+        if (fd[src] !== undefined && fd[src] !== '') fd[dst] = fd[src];
+    });
+    const preset = sc.preset || {};
+    Object.entries(preset).forEach(([k, v]) => { if (!Array.isArray(v)) fd[k] = v; });
+    st.formData = fd;
+    st.dkkdSelected = Array.isArray(preset.dkkd_selected) ? preset.dkkd_selected.slice() : [];
+    st.schema = null;
+    selectTemplate(sc.template);
+};
+
 function renderStep2Form(schema) {
     const content = document.getElementById('wizard-content');
     if (!content) return;
@@ -717,6 +753,7 @@ function renderStep2Form(schema) {
                     <i class="fa-solid fa-scale-balanced" style="color: #d4af37;"></i> Dùng giao diện Harvey
                 </button>
             </div>
+            ${shortcutBannerHtml(schema)}
             <div id="dynamic-form-container" style="display: flex; flex-direction: column; gap: var(--space-6);">
         `;
 
@@ -842,6 +879,8 @@ function renderStep2Form(schema) {
                     </span>
                 </div>
             </div>
+
+            ${shortcutBannerHtml(schema)}
 
             <!-- Studio 2-Column Split Grid -->
             <div class="studio-grid">

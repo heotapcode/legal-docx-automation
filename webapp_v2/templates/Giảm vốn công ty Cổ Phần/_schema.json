@@ -5,6 +5,16 @@
   "category": "Giảm vốn",
   "description": "Bộ hồ sơ đăng ký giảm vốn điều lệ Công ty Cổ Phần theo quy định tại Điều 112 Luật Doanh nghiệp 2020",
   "has_nganh": false,
+  "shortcut": {
+    "template": "Thay đổi nội dung ĐKKD",
+    "preset": {
+      "loai_hinh": "cp",
+      "dkkd_selected": [
+        "A4"
+      ],
+      "hinh_thuc_thay_doi_von": "giam"
+    }
+  },
   "steps": [
     {
       "id": "company",

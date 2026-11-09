@@ -10,6 +10,7 @@ Mã kiểm tra:
     E001  Thiếu hoặc hỏng _schema.json
     E002  _schema.json sai đặc tả (schemas/template-schema.json)
     E003  Khối "documents" không khớp các file .docx thật (thiếu, thừa hoặc trùng)
+    E004  Lối tắt "shortcut" trỏ tới bộ mẫu không có, hoặc preset sai key/giá trị của bộ đích
     E010  Cú pháp Jinja trong file Word bị lỗi (docxtpl không render được)
     E011  Dấu {{ }} / {% %} không cân trong một đoạn văn (thường do gõ sai hoặc tag bị tách đoạn)
     W020  Còn placeholder kiểu cũ [TEN_BIEN] chưa chuyển sang {{ ten_bien }}
@@ -230,8 +231,48 @@ def lint_template(tpl_dir: Path, spec: Optional[dict] = None, runtime: Optional[
         except Exception as e:
             findings.append(Finding("error", "E001", tpl_dir.name, "_schema.json",
                                     f"Không dựng được dữ liệu mẫu từ schema: {e}"))
+    if schema is not None and isinstance(schema.get("shortcut"), dict):
+        findings.extend(lint_shortcut(tpl_dir, schema["shortcut"]))
     for f in docx_files:
         findings.extend(lint_docx(tpl_dir, f, known, runtime, jinja_env))
+    return findings
+
+
+def lint_shortcut(tpl_dir: Path, shortcut: dict) -> List[Finding]:
+    """E004: lối tắt sang thủ tục gộp phải trỏ tới bộ mẫu có thật, preset đúng key và giá trị của bộ đích."""
+    name = tpl_dir.name
+    target = str(shortcut.get("template") or "")
+    bad = lambda msg: Finding("error", "E004", name, "_schema.json", f"shortcut: {msg}")  # noqa: E731
+    candidates = [tpl_dir.parent / target, TEMPLATES_DIR / target]
+    target_schema_path = next((p / "_schema.json" for p in candidates
+                               if target and Path(target).name == target and (p / "_schema.json").is_file()), None)
+    if target_schema_path is None:
+        return [bad(f"không tìm thấy bộ mẫu đích '{target}'")]
+    try:
+        target_schema = json.loads(target_schema_path.read_text(encoding="utf-8"))
+    except ValueError:
+        return [bad(f"_schema.json của bộ mẫu đích '{target}' hỏng")]
+    fields = {f.get("key"): f for st in target_schema.get("steps") or [] for f in st.get("fields") or []}
+    findings = []
+    for key, value in (shortcut.get("preset") or {}).items():
+        field = fields.get(key)
+        if field is None:
+            findings.append(bad(f"bộ mẫu đích không có trường '{key}'"))
+            continue
+        allowed = {o.get("value") for o in field.get("options") or []}
+        if field.get("type") == "checkbox_group":
+            values = value if isinstance(value, list) else [value]
+        elif field.get("type") == "select":
+            values = [value]
+        else:
+            continue
+        for v in values:
+            if allowed and v not in allowed:
+                findings.append(bad(f"giá trị '{v}' không có trong lựa chọn của '{key}'"))
+    persons = [k for k, f in fields.items() if f.get("type") == "person"]
+    for src, dst in (shortcut.get("map") or {}).items():
+        if dst not in fields and not any(dst.startswith(p + "_") for p in persons):
+            findings.append(bad(f"map '{src}' -> '{dst}': bộ mẫu đích không có trường '{dst}'"))
     return findings
 
 
