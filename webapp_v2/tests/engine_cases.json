@@ -964,7 +964,7 @@
    ]
   },
   {
-   "name": "kiểu cũ: person, person_list, transfer_list, checkbox_group thiếu dữ liệu",
+   "name": "kiểu cũ: person, person_list, checkbox_group thiếu dữ liệu",
    "schema": {
     "steps": [
      {
@@ -992,12 +992,6 @@
         ]
        },
        {
-        "key": "chuyen_nhuong",
-        "label": "Giao dịch",
-        "type": "transfer_list",
-        "required": true
-       },
-       {
         "key": "dkkd_selected",
         "label": "Nội dung",
         "type": "checkbox_group",
@@ -1022,14 +1016,6 @@
       "von_gop": "1"
      }
     ],
-    "chuyen_nhuong": [
-     {
-      "ben_a": {
-       "ho_ten": "X"
-      },
-      "ben_b": "sai kiểu"
-     }
-    ],
     "dkkd_selected": []
    },
    "errors": [
@@ -1045,16 +1031,6 @@
     ],
     [
      "ho_ten",
-     "required",
-     0
-    ],
-    [
-     "ben_b.ho_ten",
-     "required",
-     0
-    ],
-    [
-     "gia_tri_so",
      "required",
      0
     ],
@@ -1094,12 +1070,6 @@
         ]
        },
        {
-        "key": "chuyen_nhuong",
-        "label": "Giao dịch",
-        "type": "transfer_list",
-        "required": true
-       },
-       {
         "key": "dkkd_selected",
         "label": "Nội dung",
         "type": "checkbox_group",
@@ -1127,17 +1097,6 @@
      {
       "ho_ten": "B",
       "von_gop": "2"
-     }
-    ],
-    "chuyen_nhuong": [
-     {
-      "ben_a": {
-       "ho_ten": "X"
-      },
-      "ben_b": {
-       "ho_ten": "Y"
-      },
-      "gia_tri_so": "5"
      }
     ],
     "dkkd_selected": [

@@ -1,7 +1,7 @@
 from pathlib import Path
 import json
 import httpx
-from config import MA_NGANH_JSON, GEMINI_API_KEY, COMBO_NGANH_JSON
+from config import MA_NGANH_JSON, COMBO_NGANH_JSON
 
 _ma_nganh_data = None
 _combo_nganh_data = None

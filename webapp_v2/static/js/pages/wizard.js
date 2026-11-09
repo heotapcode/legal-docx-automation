@@ -7,7 +7,6 @@ window.wizardState = {
     schema: null,
     formData: {},
     thanhVienList: [],
-    transferList: [],
     maNganh: [],
     dkkdSelected: []
 };
@@ -247,7 +246,6 @@ window.initWizard = async function() {
         schema: null,
         formData: {},
         thanhVienList: [],
-        transferList: [],
         maNganh: [],
         dkkdSelected: []
     };
@@ -335,7 +333,6 @@ function renderCurrentStep() {
 }
 
 // --- VALIDATION: dùng lõi chung static/js/engine/schema_engine.js (cùng hành vi với backend) ---
-const TRANSFER_KEYS = new Set(['ben_a.ho_ten', 'ben_b.ho_ten', 'gia_tri_so']);
 
 /** Dữ liệu wizard theo đúng key của schema (danh sách lưu riêng trong wizardState). */
 function wizardDataForSchema(schema, blankLists) {
@@ -344,7 +341,6 @@ function wizardDataForSchema(schema, blankLists) {
     ((schema && schema.steps) || []).forEach(st => (st.fields || []).forEach(f => {
         let list = null;
         if (f.type === 'person_list') list = s.thanhVienList || [];
-        else if (f.type === 'transfer_list') list = s.transferList || [];
         else if (f.type === 'checkbox_group') { if (!blankLists) data[f.key] = s.dkkdSelected || []; return; }
         if (list) data[f.key] = blankLists ? list.map(() => ({})) : list;
     }));
@@ -352,7 +348,7 @@ function wizardDataForSchema(schema, blankLists) {
 }
 
 /**
- * Lỗi dữ liệu [{label, name | member+prop | tr+path}] theo _schema.json, kèm errors.total
+ * Lỗi dữ liệu [{label, name | member+prop | list+idx+key}] theo _schema.json, kèm errors.total
  * (số mục cần kiểm tra, dùng để tính % hoàn thiện).
  */
 function validateRequiredFields(schema) {
@@ -364,7 +360,6 @@ function validateRequiredFields(schema) {
         const list = window.FormRenderer ? FormRenderer.listOfError(e) : null;
         if (e.index === undefined) item.name = e.key;
         else if (list) { item.list = list; item.idx = e.index; item.key = e.key; }
-        else if (TRANSFER_KEYS.has(e.key)) { item.tr = e.index; item.path = e.key; }
         else { item.member = e.index; item.prop = e.key; }
         out.push(item);
     });
@@ -391,7 +386,6 @@ function ensureRequiredFields() {
         else if (e.member !== undefined) {
             el = document.querySelector(`.m-field[data-idx="${e.member}"][data-prop="${e.prop}"]`);
         }
-        else if (e.tr !== undefined) el = document.querySelector(`.tr-field[data-idx="${e.tr}"][data-path="${e.path}"]`);
         if (el) {
             el.classList.add('input-invalid');
             if (!firstEl) firstEl = el;
@@ -558,14 +552,6 @@ async function loadStep2Schema() {
                             ty_le: ''
                         });
                     }
-                }
-                if (f.type === 'transfer_list' && (!window.wizardState.transferList || window.wizardState.transferList.length === 0)) {
-                    window.wizardState.transferList = [{
-                        ben_a: { ho_ten: '', so_cccd: '', dia_chi_day_du: '' },
-                        ben_b: { ho_ten: '', so_cccd: '', dia_chi_so_nha: '', dia_chi_xa_phuong: '', dia_chi_tinh_thanh: '' },
-                        gia_tri_so: '',
-                        ty_le: ''
-                    }];
                 }
             });
         });
@@ -985,11 +971,6 @@ function renderField(field) {
         return renderPersonList(field);
     }
 
-    // Transfer List field
-    if (field.type === 'transfer_list') {
-        return renderTransferList(field);
-    }
-
     // Checkbox Group
     if (field.type === 'checkbox_group') {
         let opts = '';
@@ -1299,78 +1280,12 @@ window.removeMember = function(idx) {
     renderStep2Form(window.wizardState.schema);
 };
 
-// Transfer list UI for Chuyển nhượng
-function renderTransferList(field) {
-    const list = window.wizardState.transferList || [];
-    return `
-        <div id="transfer-list-wrapper">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
-                <span class="font-bold text-sm text-secondary">${field.label} (${list.length})</span>
-                <button type="button" class="btn btn-secondary btn-sm" onclick="addTransfer()">
-                    <i class="fa-solid fa-plus"></i> Thêm giao dịch
-                </button>
-            </div>
-            <div id="transfer-list-items">
-                ${list.map((tr, idx) => `
-                    <div class="person-card mb-3" id="transfer-card-${idx}">
-                        <div class="person-card-header">
-                            <span class="font-bold text-sm text-cyan">Hợp đồng chuyển nhượng #${idx + 1}</span>
-                            ${idx >= 1 ? `
-                                <button type="button" class="btn btn-ghost btn-sm text-error" onclick="removeTransfer(${idx})">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            ` : ''}
-                        </div>
-                        <div class="grid-form-2">
-                            <div class="form-group">
-                                <label class="form-label">Bên chuyển nhượng (Bên A)</label>
-                                <input type="text" class="form-control tr-field" data-idx="${idx}" data-path="ben_a.ho_ten" value="${escapeHtml(tr.ben_a ? tr.ben_a.ho_ten : '')}" placeholder="Họ tên Bên A">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Bên nhận chuyển nhượng (Bên B)</label>
-                                <input type="text" class="form-control tr-field" data-idx="${idx}" data-path="ben_b.ho_ten" value="${escapeHtml(tr.ben_b ? tr.ben_b.ho_ten : '')}" placeholder="Họ tên Bên B">
-                            </div>
-                        </div>
-                        <div class="grid-form-2">
-                            <div class="form-group">
-                                <label class="form-label">Giá trị chuyển nhượng (VNĐ)</label>
-                                <input type="text" class="form-control tr-field" data-idx="${idx}" data-path="gia_tri_so" value="${escapeHtml(tr.gia_tri_so || '')}" placeholder="Ví dụ: 500,000,000" onkeyup="handleMemberMoneyChange(this)">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Tỷ lệ chuyển nhượng (%)</label>
-                                <input type="number" class="form-control tr-field" data-idx="${idx}" data-path="ty_le" value="${escapeHtml(tr.ty_le || '')}" placeholder="Ví dụ: 50">
-                            </div>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-    `;
-}
-
-window.addTransfer = function() {
-    collectFormData();
-    window.wizardState.transferList.push({
-        ben_a: { ho_ten: '', so_cccd: '', dia_chi_day_du: '' },
-        ben_b: { ho_ten: '', so_cccd: '', dia_chi_so_nha: '', dia_chi_xa_phuong: '', dia_chi_tinh_thanh: '' },
-        gia_tri_so: '',
-        ty_le: ''
-    });
-    renderStep2Form(window.wizardState.schema);
-};
-
-window.removeTransfer = function(idx) {
-    collectFormData();
-    window.wizardState.transferList.splice(idx, 1);
-    renderStep2Form(window.wizardState.schema);
-};
-
 // --- DATA COLLECTION ---
 function collectFormData() {
     // Collect standard inputs
     const inputs = document.querySelectorAll('#dynamic-form-container input, #dynamic-form-container select');
     inputs.forEach(inp => {
-        if (inp.name && !inp.classList.contains('m-field') && !inp.classList.contains('tr-field') && inp.type !== 'file') {
+        if (inp.name && !inp.classList.contains('m-field') && inp.type !== 'file') {
             if (inp.type === 'checkbox') {
                 // handled separately
             } else {
@@ -1389,23 +1304,6 @@ function collectFormData() {
         }
     });
 
-    // Collect transfer fields
-    const trInputs = document.querySelectorAll('.tr-field');
-    trInputs.forEach(inp => {
-        const idx = parseInt(inp.getAttribute('data-idx'), 10);
-        const path = inp.getAttribute('data-path');
-        if (window.wizardState.transferList[idx]) {
-            const parts = path.split('.');
-            if (parts.length === 1) {
-                window.wizardState.transferList[idx][parts[0]] = inp.value;
-            } else if (parts.length === 2) {
-                if (!window.wizardState.transferList[idx][parts[0]]) {
-                    window.wizardState.transferList[idx][parts[0]] = {};
-                }
-                window.wizardState.transferList[idx][parts[0]][parts[1]] = inp.value;
-            }
-        }
-    });
 
     // Collect DKKD checkboxes
     const cbs = document.querySelectorAll('.dkkd-cb:checked');
@@ -2288,7 +2186,6 @@ window.generateDocuments = async function() {
         data: {
             ...window.wizardState.formData,
             thanh_vien: window.wizardState.thanhVienList,
-            chuyen_nhuong: window.wizardState.transferList,
             dkkd_selected: window.wizardState.dkkdSelected,
             // Dữ liệu theo đúng key của schema (vd checkbox_group/list có key riêng), cùng cách backend kiểm tra
             ...wizardDataForSchema(window.wizardState.schema, false)
@@ -2299,7 +2196,6 @@ window.generateDocuments = async function() {
             is_main: !!n.is_main
         })),
         special_payload: {
-            chuyen_nhuong: window.wizardState.transferList,
             thanh_vien: window.wizardState.thanhVienList
         }
     };

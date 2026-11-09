@@ -7,3 +7,5 @@ Thư mục này chứa tất cả các script bổ trợ, file kiểm tra (check
 
 **Quy tắc dự án:**
 Từ nay, mọi file nhỏ, script hỗ trợ, file test hoặc phân tích mới khi sinh ra sẽ được lưu trực tiếp vào thư mục  này để giữ cho thư mục gốc luôn gọn gàng, sạch sẽ.
+
+**Khóa bí mật:** `telegram_bot.py` và `wizard_cn2tv.py` đọc khóa từ biến môi trường `TELEGRAM_BOT_TOKEN`, `GEMINI_API_KEY`; không viết khóa vào mã nguồn.

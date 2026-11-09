@@ -16,8 +16,8 @@ from wizard_cn2tv import (
     handle_wizard_callback, handle_wizard_vneid
 )
 
-TOKEN = "8108649762:AAHZd6ai0KEVQfK4qOp_nKScMJGFpWm0dKQ"
-GEMINI_API_KEY = "AQ.Ab8RN6KzqOjWiBtXNVDdLr2mkCMiNuSdhRlIrP9UZGVQnCwv_A"
+TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 BASE_DIR = r"c:\Users\Pc\Desktop\AI Agent\Điền thông tin file word"
 MA_NGANH_JSON = os.path.join(BASE_DIR, "ma_nganh_nghe.json")
 PROFILES_JSON  = os.path.join(BASE_DIR, "company_profiles.json")

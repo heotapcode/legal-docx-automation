@@ -6,7 +6,7 @@
  * - Kiểu ô mới: date, cccd, percent, number, address, list (danh sách lặp tổng quát).
  *   Trong list: select có options_from = chọn một phần tử của list khác (giá trị là số thứ tự 0, 1...),
  *   money tự định dạng khi gõ.
- *   Kiểu cũ (text, money, mst_lookup, phone, email, select, person, person_list, transfer_list,
+ *   Kiểu cũ (text, money, mst_lookup, phone, email, select, person, person_list,
  *   checkbox_group) dùng lại renderField() của wizard.js để giữ OCR, tra MST, định dạng tiền.
  * - Báo lỗi ngay dưới ô khi người dùng rời khỏi ô (dùng SchemaEngine, cùng kết quả với backend).
  *
