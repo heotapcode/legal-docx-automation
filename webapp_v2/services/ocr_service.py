@@ -1,84 +1,119 @@
-import json
-import base64
-import re
-import httpx
-from config import GEMINI_API_KEY
+"""Đọc CCCD/VNeID ngay trên máy: ưu tiên mã QR, không có QR thì OCR bằng Tesseract.
 
-def detect_image_mime(b: bytes) -> str:
-    if b.startswith(b"\x89PNG\r\n\x1a\n"):
-        return "image/png"
-    if b.startswith(b"RIFF") and b[8:12] == b"WEBP":
-        return "image/webp"
-    return "image/jpeg"
+Ảnh không được gửi ra ngoài. Dữ liệu tiếng Việt cho Tesseract cài bằng: python -m tools.setup_ocr
+"""
+import asyncio
+import io
+from typing import Dict, Optional
 
-async def extract_vneid(image_bytes: bytes, target: str = "ddpl") -> dict:
-    if not GEMINI_API_KEY:
-        raise Exception("Chưa cấu hình GEMINI_API_KEY trong file .env")
+import zxingcpp
+from PIL import Image, ImageChops, ImageOps, ImageStat, UnidentifiedImageError
 
-    image_b64 = base64.b64encode(image_bytes).decode("utf-8")
-    mime_type = detect_image_mime(image_bytes)
+from config import TESSDATA_DIR
+from services.cccd_parser import combine_ocr, ocr_score, parse_ocr_text, parse_qr
 
-    prompt = """Đây là ảnh chụp màn hình VNeID (ứng dụng căn cước công dân điện tử của Việt Nam) hoặc ảnh chụp thẻ CCCD.
-Hãy trích xuất chính xác các thông tin sau và trả về JSON thuần túy (không có markdown, không có ```json):
-{
-  "ho_ten": "họ và tên đầy đủ viết hoa",
-  "ngay_sinh": "ngày sinh định dạng DD/MM/YYYY",
-  "gioi_tinh": "Nam hoặc Nữ",
-  "so_cccd": "số căn cước công dân (12 chữ số)",
-  "dia_chi": "địa chỉ thường trú đầy đủ (nguyên văn)",
-  "dia_chi_so_nha": "phần địa chỉ cụ thể: số nhà, ngõ, thôn, xóm, tổ dân phố (KHÔNG bao gồm xã/phường và tỉnh/thành)",
-  "dia_chi_xa_phuong": "tên xã hoặc phường hoặc thị trấn (ví dụ: Xã Đông Anh, Phường Cầu Giấy)",
-  "dia_chi_quan_huyen": "tên quận hoặc huyện hoặc thị xã nếu có (ví dụ: Huyện Đông Anh, Quận Cầu Giấy), để trống nếu không có",
-  "dia_chi_tinh_thanh": "tên tỉnh hoặc thành phố (ví dụ: Thành Phố Hà Nội, Tỉnh Bắc Ninh)"
-}
-Ví dụ địa chỉ 'Tiên Hội, Xã Đông Anh, Thành Phố Hà Nội' thì:
-- dia_chi_so_nha = 'Tiên Hội'
-- dia_chi_xa_phuong = 'Xã Đông Anh'
-- dia_chi_quan_huyen = ''
-- dia_chi_tinh_thanh = 'Thành Phố Hà Nội'
-Nếu không tìm thấy thông tin nào, để trống chuỗi "". Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác."""
+MAX_UPLOAD_BYTES = 15 * 1024 * 1024
+MAX_SIDE = 3500
+MIN_OCR_WIDTH = 2800  # phóng lớn giúp Tesseract giữ dấu tiếng Việt ở chữ in hoa
+MAX_OCR_SCALE = 4.0
+NOISE_CONF = 60
+GAP_RATIO = 2.5
+DARK_MEAN = 110
+FULL_SCORE = 4
+MIN_SCORE = 2
 
-    payload = {
-        "contents": [{
-            "parts": [
-                {"text": prompt},
-                {"inline_data": {"mime_type": mime_type, "data": image_b64}}
-            ]
-        }]
-    }
 
-    # Danh sách model OCR: ưu tiên các model flash-lite có quota ổn định
-    candidate_models = [
-        "gemini-flash-lite-latest",
-        "gemini-3.1-flash-lite",
-        "gemini-3.5-flash-lite",
-        "gemini-2.5-flash-lite",
-        "gemini-2.5-flash",
-    ]
-    last_error = ""
+def _load_image(image_bytes: bytes) -> Image.Image:
+    if len(image_bytes) > MAX_UPLOAD_BYTES:
+        raise ValueError("Ảnh quá lớn (tối đa 15 MB)")
+    try:
+        img = ImageOps.exif_transpose(Image.open(io.BytesIO(image_bytes))).convert("RGB")
+    except (UnidentifiedImageError, OSError, Image.DecompressionBombError) as e:
+        raise ValueError("Tệp tải lên không phải ảnh hợp lệ") from e
+    img.thumbnail((MAX_SIDE, MAX_SIDE))
+    return img
 
-    for model in candidate_models:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
-        try:
-            async with httpx.AsyncClient(timeout=30.0) as client:
-                resp = await client.post(url, json=payload)
-                if resp.status_code == 200:
-                    data = resp.json()
-                    candidates = data.get("candidates", [])
-                    if candidates:
-                        content = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "").strip()
-                        # Tìm khối JSON hợp lệ trong chuỗi trả về
-                        json_match = re.search(r"\{.*\}", content, re.DOTALL)
-                        if json_match:
-                            content = json_match.group(0)
-                        elif content.startswith("```"):
-                            content = re.sub(r"^```[a-zA-Z]*\n?", "", content)
-                            content = re.sub(r"\n?```$", "", content).strip()
-                        return json.loads(content)
-                else:
-                    last_error = f"{resp.status_code} - {resp.text}"
-        except Exception as e:
-            last_error = str(e)
-            continue
 
-    raise Exception(f"Lỗi gọi Gemini OCR: {last_error}")
+def _scaled(img: Image.Image, factor: float) -> Image.Image:
+    return img.resize((int(img.width * factor), int(img.height * factor)), Image.LANCZOS)
+
+
+def _read_qr(img: Image.Image) -> Optional[Dict]:
+    gray = ImageOps.autocontrast(img.convert("L"))
+    for candidate in (img, gray, _scaled(gray, 2), _scaled(gray, 0.5)):
+        for barcode in zxingcpp.read_barcodes(candidate, formats=zxingcpp.BarcodeFormat.QRCode):
+            parsed = parse_qr(barcode.text)
+            if parsed:
+                return parsed
+    return None
+
+
+def tsv_to_text(tsv: str) -> str:
+    """Dựng lại văn bản từ TSV của Tesseract: khoảng trống lớn thành tab, bỏ chữ ngắn cuối dòng độ tin cậy thấp."""
+    rows: Dict[tuple, list] = {}
+    for row in tsv.splitlines():
+        f = row.split("\t")
+        if len(f) == 12 and f[0] == "5" and f[11].strip():
+            rows.setdefault((f[2], f[3], f[4]), []).append(
+                (int(f[6]), int(f[6]) + int(f[8]), int(f[9]), float(f[10]), f[11].strip())
+            )
+
+    lines = []
+    for words in rows.values():
+        last = words[-1]
+        if len(words) > 1 and len(last[4]) <= 2 and last[4].isalpha() and last[3] < NOISE_CONF:
+            words = words[:-1]
+        height = max(w[2] for w in words)
+        text = words[0][4]
+        for prev, word in zip(words, words[1:]):
+            text += ("\t" if word[0] - prev[1] > GAP_RATIO * height else " ") + word[4]
+        lines.append(text)
+    return "\n".join(lines)
+
+
+def _prepare_for_ocr(img: Image.Image) -> Image.Image:
+    # Lấy kênh sáng nhất của mỗi điểm: hoa văn nền nhạt màu của VNeID gần như biến mất, chữ tối vẫn giữ nguyên
+    r, g, b = img.split()
+    gray = ImageOps.autocontrast(ImageChops.lighter(ImageChops.lighter(r, g), b))
+    if ImageStat.Stat(gray).mean[0] < DARK_MEAN:  # ảnh màn hình chế độ tối
+        gray = ImageOps.invert(gray)
+    if gray.width < MIN_OCR_WIDTH:
+        gray = _scaled(gray, min(MAX_OCR_SCALE, MIN_OCR_WIDTH / gray.width))
+    return gray
+
+
+def _read_ocr(img: Image.Image) -> Dict:
+    import tesserocr
+
+    if not (TESSDATA_DIR / "vie.traineddata").exists():
+        raise ValueError("Không đọc được mã QR và chưa cài dữ liệu OCR tiếng Việt. Chạy: python -m tools.setup_ocr")
+
+    gray = _prepare_for_ocr(img)
+
+    with tesserocr.PyTessBaseAPI(path=str(TESSDATA_DIR), lang="vie") as api:
+        def read(candidate: Image.Image, psm: int) -> Dict:
+            api.SetPageSegMode(psm)
+            api.SetImage(candidate)
+            return parse_ocr_text(tsv_to_text(api.GetTSVText(0)))
+
+        best = combine_ocr([read(gray, psm) for psm in (6, 4, 11)])
+        if ocr_score(best) < FULL_SCORE:  # ảnh có thể bị xoay
+            for angle in (90, 270, 180):
+                rotated = combine_ocr([read(gray.rotate(angle, expand=True), psm) for psm in (6, 11)])
+                if ocr_score(rotated) > ocr_score(best):
+                    best = rotated
+                if ocr_score(best) == FULL_SCORE:
+                    break
+
+    if ocr_score(best) < MIN_SCORE:
+        raise ValueError("Không nhận diện được thông tin trong ảnh. Vui lòng chụp lại rõ nét, đủ khung hình.")
+    return best
+
+
+def _extract(image_bytes: bytes) -> Dict:
+    img = _load_image(image_bytes)
+    return _read_qr(img) or _read_ocr(img)
+
+
+async def extract_vneid(image_bytes: bytes, target: str = "ddpl") -> Dict:
+    return await asyncio.to_thread(_extract, image_bytes)

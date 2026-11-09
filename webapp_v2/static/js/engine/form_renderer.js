@@ -90,6 +90,27 @@
         el.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
     }
 
+    /** Nút quét CCCD/VNeID; handler lấy nút ngay sau input làm nơi báo trạng thái. */
+    function scanControl(inputId, onchange) {
+        return `<input type="file" id="${inputId}" accept="image/*" style="display: none;" onchange="${onchange}">` +
+            `<button type="button" class="btn btn-ocr" onclick="document.getElementById('${inputId}').click()">` +
+            `<i class="fa-solid fa-id-card"></i> Quét ảnh VNeID</button>`;
+    }
+
+    function isPersonItem(field) {
+        const keys = (field.item || []).map(sub => sub.key);
+        return keys.includes('ho_ten') && keys.includes('so_cccd');
+    }
+
+    /** Nút quét cho nhóm ô rời cùng tiền tố (vd ddpl_ho_ten + ddpl_so_cccd), đặt ngay trên ô họ tên. */
+    function flatGroupScan(field, step) {
+        const m = /^(.+)_ho_ten$/.exec(field.key);
+        if (!m || !(step.fields || []).some(f => f.key === `${m[1]}_so_cccd`)) return '';
+        const prefix = escapeHtml(m[1]);
+        return `<div style="display: flex; justify-content: flex-end; margin-bottom: 6px;">` +
+            scanControl(`ocr-file-${prefix}`, `handleOcrUpload(this, '${prefix}')`) + `</div>`;
+    }
+
     function renderListField(field) {
         const key = field.key;
         const items = Array.isArray(fd()[key]) ? fd()[key] : (fd()[key] = []);
@@ -118,7 +139,10 @@
                 <div class="person-card fr-list-item" data-list-item="${escapeHtml(key)}" data-idx="${i}">
                     <div class="person-card-header">
                         <span class="font-bold text-sm">${escapeHtml(field.label)} #${i + 1}</span>
-                        ${canRemove ? `<button type="button" class="btn btn-secondary btn-sm" onclick="FormRenderer.removeListItem('${escapeHtml(key)}', ${i})">Xóa</button>` : ''}
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            ${isPersonItem(field) ? scanControl(`ocr-${escapeHtml(key)}-${i}`, `handleListOcrUpload(this, '${escapeHtml(key)}', ${i})`) : ''}
+                            ${canRemove ? `<button type="button" class="btn btn-secondary btn-sm" onclick="FormRenderer.removeListItem('${escapeHtml(key)}', ${i})">Xóa</button>` : ''}
+                        </div>
                     </div>
                     <div class="grid-form-2">${subs}</div>
                 </div>`;
@@ -149,7 +173,7 @@
         const steps = (schema && schema.steps) || [];
         return steps.map((step, i) => {
             const inner = (step.fields || []).map(f =>
-                `<div class="fr-field" data-field-key="${escapeHtml(f.key)}"${showIfAttr(f.show_if)}>${renderOne(f)}</div>`
+                `<div class="fr-field" data-field-key="${escapeHtml(f.key)}"${showIfAttr(f.show_if)}>${flatGroupScan(f, step)}${renderOne(f)}</div>`
             ).join('');
             return `<div class="fr-step" data-step-id="${escapeHtml(step.id)}"${showIfAttr(step.show_if)}>${wrapStep(step, i, steps.length, inner)}</div>`;
         }).join('');

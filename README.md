@@ -21,7 +21,7 @@ Hệ thống webapp thông minh hỗ trợ nhập liệu, tra cứu, trích xu�
 
 3. **Tích Hợp Tiện Ích Thông Minh:**
    - **Tra cứu Mã số thuế tự động:** Tự động lấy tên công ty, địa chỉ trụ sở qua API VietQR.
-   - **OCR Nhận diện thẻ CCCD / VNeID:** Trích xuất tự động họ tên, ngày sinh, số CCCD, địa chỉ thường trú qua Gemini Vision.
+   - **OCR Nhận diện thẻ CCCD / VNeID:** Đọc mã QR trên thẻ, không có QR thì OCR bằng Tesseract; chạy hoàn toàn trên máy, không cần khóa API, ảnh không gửi ra ngoài. Ô cần rà lại được viền cam.
    - **Chuẩn hóa văn bản hành chính:** Định dạng phông chữ Times New Roman đồng bộ, tự động đọc số tiền thành chữ tiếng Việt chuẩn xác.
 
 ---
@@ -37,10 +37,10 @@ Hệ thống webapp thông minh hỗ trợ nhập liệu, tra cứu, trích xu�
 pip install -r requirements.txt
 ```
 
-### 3. Cấu hình môi trường (Tùy chọn)
-Sao chép file `.env.example` thành `.env` bên trong thư mục `webapp_v2/` và điền khóa API Gemini (nếu sử dụng tính năng OCR CCCD):
+### 3. Cài dữ liệu OCR tiếng Việt và cấu hình môi trường (Tùy chọn)
+Chạy một lần trong `webapp_v2/`: `python -m tools.setup_ocr` (tải khoảng 12 MB, cần cho OCR ảnh không có QR). Cấu hình khác: sao chép `.env.example` thành `.env` trong `webapp_v2/`:
 ```bash
-GEMINI_API_KEY=your_gemini_api_key_here
+# TESSDATA_DIR=data/tessdata
 # Tùy chọn: origin được phép gọi API từ trình duyệt (CORS), mặc định chỉ localhost
 # CORS_ORIGINS=https://hoso.example.com
 ```
