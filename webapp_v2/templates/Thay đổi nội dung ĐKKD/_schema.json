@@ -273,6 +273,13 @@
               "label": "Số CCCD",
               "type": "cccd",
               "required": true
+            },
+            {
+              "key": "dia_chi_day_du",
+              "label": "Địa chỉ thường trú đầy đủ",
+              "type": "text",
+              "required": true,
+              "placeholder": "Số nhà, Phường/Xã, Tỉnh/Thành phố"
             }
           ],
           "rules": [
@@ -321,6 +328,62 @@
               "label": "Tỷ lệ (%)",
               "type": "number",
               "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chuyen_nhuong",
+      "title": "A3. Các giao dịch chuyển nhượng phần vốn góp",
+      "show_if": {
+        "all": [
+          {
+            "field": "loai_hinh",
+            "equals": "tnhh_2tv"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A3"
+          }
+        ]
+      },
+      "description": "Mỗi giao dịch sinh một Hợp đồng chuyển nhượng và một Biên bản thanh lý. Bên A chọn từ thành viên trước khi thay đổi, bên B từ thành viên sau khi thay đổi.",
+      "fields": [
+        {
+          "key": "chuyen_nhuong",
+          "label": "Giao dịch chuyển nhượng",
+          "type": "list",
+          "min": 1,
+          "item": [
+            {
+              "key": "ben_a",
+              "label": "Bên chuyển nhượng (Bên A)",
+              "type": "select",
+              "options_from": "tv_cu",
+              "required": true
+            },
+            {
+              "key": "ben_b",
+              "label": "Bên nhận chuyển nhượng (Bên B)",
+              "type": "select",
+              "options_from": "thanh_vien",
+              "required": true
+            },
+            {
+              "key": "gia_tri_so",
+              "label": "Giá trị phần vốn chuyển nhượng (VNĐ)",
+              "type": "money",
+              "required": true
+            },
+            {
+              "key": "ty_le",
+              "label": "Tỷ lệ phần vốn chuyển nhượng (%)",
+              "type": "percent",
+              "validate": {
+                "min": 0,
+                "max": 100
+              }
             }
           ]
         }
@@ -533,6 +596,40 @@
         "field": "dkkd_selected",
         "contains": "A8"
       }
+    },
+    {
+      "file": "08. Hợp đồng chuyển nhượng.docx",
+      "when": {
+        "all": [
+          {
+            "field": "loai_hinh",
+            "equals": "tnhh_2tv"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A3"
+          }
+        ]
+      },
+      "repeat_for": "chuyen_nhuong",
+      "repeat_with": "giao_dich_chuyen_nhuong"
+    },
+    {
+      "file": "09. Biên bản thanh lý.docx",
+      "when": {
+        "all": [
+          {
+            "field": "loai_hinh",
+            "equals": "tnhh_2tv"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A3"
+          }
+        ]
+      },
+      "repeat_for": "chuyen_nhuong",
+      "repeat_with": "giao_dich_chuyen_nhuong"
     }
   ]
 }

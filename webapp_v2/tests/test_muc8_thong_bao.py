@@ -85,8 +85,12 @@ def ho_so(client, selected, loai_hinh, **extra):
     data["thanh_vien"] = [dict(sample_person(i), von_gop="500000000", ty_le="50") for i in (1, 2)] \
         if loai_hinh != "tnhh_1tv" or "A7" in selected else []
     if loai_hinh == "tnhh_2tv" and "A3" in selected and "tv_cu" not in extra:
-        data["tv_cu"] = [{"ho_ten": "THÀNH VIÊN CŨ MỘT", "so_cccd": "001080000011", "gioi_tinh": "Nam"},
-                         {"ho_ten": "THÀNH VIÊN CŨ HAI", "so_cccd": "001080000022", "gioi_tinh": "Nữ"}]
+        data["tv_cu"] = [{"ho_ten": "THÀNH VIÊN CŨ MỘT", "so_cccd": "001080000011", "gioi_tinh": "Nam",
+                          "dia_chi_day_du": "Số 1 Phố Huế, Phường Hai Bà Trưng, Thành phố Hà Nội"},
+                         {"ho_ten": "THÀNH VIÊN CŨ HAI", "so_cccd": "001080000022", "gioi_tinh": "Nữ",
+                          "dia_chi_day_du": "Số 2 Ngõ Trạm, Phường Hoàn Kiếm, Thành phố Hà Nội"}]
+    if loai_hinh == "tnhh_2tv" and "A3" in selected and "chuyen_nhuong" not in extra:
+        data["chuyen_nhuong"] = [{"ben_a": "1", "ben_b": "0", "gia_tri_so": "500000000", "ty_le": "50"}]
     r = client.post("/api/documents/generate", json=payload)
     assert r.status_code == 200, r.text[:300]
     return {k: unicodedata.normalize("NFC", v) for k, v in read_zip(r.content).items()}
@@ -138,6 +142,7 @@ def test_minutes_lists_attendees_and_contents(client):
 @pytest.mark.parametrize("loai_hinh, selected, expected", [
     ("tnhh_1tv", ["A1"], ["01.", "02.", "03."]),
     ("tnhh_2tv", ["A4"], ["01.", "02.", "03.", "04.", "05."]),
+    ("tnhh_2tv", ["A3"], ["01.", "02.", "03.", "04.", "05.", "08.", "09."]),  # đổi thành viên: HĐ + BB thanh lý
     ("tnhh_2tv", ["A1"], ["01.", "02.", "03.", "04."]),          # không đổi thành viên/vốn: không có DS thành viên
     ("cp", ["A4", "A7"], ["01.", "02.", "03.", "04.", "06."]),    # Cổ phần không có DS thành viên
     ("tnhh_1tv", ["A8"], ["02.", "03.", "07."]),                  # chỉ đổi ĐDPL: không có Thông báo thay đổi ĐKDN
@@ -204,3 +209,29 @@ def test_representative_notice_signed_by_chairman(client):
     tb = next(v for k, v in files.items() if k.startswith("07."))
     assert "Số định danh cá nhân của Chủ tịch hội đồng thành viên: 001070000007" in tb
     assert tb.rstrip().endswith("LÊ VĂN CHỦ TỊCH")
+
+
+
+def test_member_change_contracts_one_per_transaction(client):
+    files = ho_so(client, ["A3"], "tnhh_2tv", chuyen_nhuong=[
+        {"ben_a": "1", "ben_b": "0", "gia_tri_so": "500000000", "ty_le": "25"},
+        {"ben_a": "0", "ben_b": "1", "gia_tri_so": "300000000", "ty_le": "15"}])
+    hd = sorted(k for k in files if k.startswith("08."))
+    assert hd == ["08. Hợp đồng chuyển nhượng_a (THÀNH VIÊN CŨ HAI - NGUYỄN VĂN THỬ1).docx",
+                  "08. Hợp đồng chuyển nhượng_b (THÀNH VIÊN CŨ MỘT - NGUYỄN VĂN THỬ2).docx"]
+    assert len([k for k in files if k.startswith("09.")]) == 2
+    text = files[hd[0]]
+    assert "001080000022" in text and "Số 2 Ngõ Trạm" in text and "500,000,000 VNĐ (Năm trăm triệu đồng)" in text
+
+
+def test_member_change_requires_valid_transaction(client):
+    payload, _, _ = build_payload(NAME, 3)
+    data = payload["data"]
+    data.update(loai_hinh="tnhh_2tv", dkkd_selected=["A3"],
+                thanh_vien=[dict(sample_person(i), von_gop="1", ty_le="50") for i in (1, 2)],
+                tv_cu=[{"ho_ten": "A", "so_cccd": "001080000011", "dia_chi_day_du": "x"},
+                       {"ho_ten": "B", "so_cccd": "001080000022", "dia_chi_day_du": "y"}],
+                chuyen_nhuong=[{"ben_a": "5", "ben_b": "0", "gia_tri_so": "1"}])
+    r = client.post("/api/documents/generate", json=payload)
+    assert r.status_code == 422
+    assert any(e["code"] == "options_from" and e["key"] == "ben_a" for e in r.json()["errors"])
