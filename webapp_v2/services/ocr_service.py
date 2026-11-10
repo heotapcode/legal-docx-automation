@@ -6,11 +6,21 @@ import asyncio
 import io
 from typing import Dict, Optional
 
-import zxingcpp
-from PIL import Image, ImageChops, ImageOps, ImageStat, UnidentifiedImageError
+try:
+    import zxingcpp
+except ImportError:
+    zxingcpp = None
+
+try:
+    from PIL import Image, ImageChops, ImageOps, ImageStat, UnidentifiedImageError
+except ImportError:
+    Image = None
 
 from config import TESSDATA_DIR
-from services.cccd_parser import combine_ocr, ocr_score, parse_ocr_text, parse_qr
+try:
+    from services.cccd_parser import combine_ocr, ocr_score, parse_ocr_text, parse_qr
+except ImportError:
+    combine_ocr = ocr_score = parse_ocr_text = parse_qr = None
 
 MAX_UPLOAD_BYTES = 15 * 1024 * 1024
 MAX_SIDE = 3500
