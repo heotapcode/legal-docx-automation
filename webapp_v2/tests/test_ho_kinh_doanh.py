@@ -1,4 +1,5 @@
 """Thành lập hộ kinh doanh (cá nhân): Giấy đề nghị + Giấy ủy quyền, trình bày theo hồ sơ đã điền anh gửi."""
+import re
 import unicodedata
 
 import pytest
@@ -75,7 +76,8 @@ def test_power_of_attorney_uses_owner_contact_address(client):
     assert "tên dự kiến là HỘ KINH DOANH THỬ BEAUTY" in uq
     assert "được lập và ký vào ngày ...... tháng ...... năm " in uq
     assert "ĐỖ QUANG HIẾU" in uq  # Bên B: nhân viên viết sẵn (anh xác nhận)
-    assert "NGUYỄN MẠNH HIỂU" not in uq and "001077009164" not in uq
+    # Không còn số định danh nào khác ngoài của chủ hộ (dữ liệu thử) và nhân viên nhận ủy quyền
+    assert set(re.findall(r"\b\d{12}\b", uq)) == {"001195000001", "001089021350"}
 
 
 @pytest.mark.parametrize("field, value", [("hkd_dia_chi_xa_phuong", "Đại Mỗ"), ("ten_hkd", "Minh Châu Beauty")])

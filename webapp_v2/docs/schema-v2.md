@@ -160,6 +160,7 @@ Cả 24 bộ mẫu đều khai báo; khi đã khai báo thì phải liệt kê *
 | `when` | Chỉ sinh khi điều kiện (mục 4) đúng trên **dữ liệu quy tắc**: ngữ cảnh đã chuẩn hóa cộng `tv_moi` (danh sách thành viên), `chuyen_nhuong` (danh sách giao dịch), `ddpl_changed` (có đổi người đại diện: `true` khi CCCD của ĐDPL cũ `ddpl_cu` khác ĐDPL mới `ddpl`; thiếu một trong hai -> `true`). |
 | `repeat_for` + `repeat_with` | Sinh một file cho mỗi phần tử của `tv_moi` hoặc `chuyen_nhuong`; `repeat_with` là hàm dựng ngữ cảnh và tên file: `xac_nhan_gop_von`, `giao_dich_chuyen_nhuong`, `giao_dich_chuyen_doi`, `giay_chung_nhan_gop_von`. Danh sách rỗng -> điền một lần như bình thường. |
 | `post` | Xử lý sau khi điền, theo thứ tự, chỉ chạy khi có thành viên: `fill_member_table`, `fill_member_table_tang_von`, `fill_founders_table`, `fill_cshhl_table`, `fill_qd_chuyen_doi`, `fill_dieu_le_chuyen_doi`, `fill_dieu_le_tlm_2tv`, `fill_dieu_le_tlm_cp`, `fill_bbh_tang_von_cp`, `fill_bbh_giam_von_cp`, `fill_bbh_tang_von_2tv`, `fill_bbh_giai_the_cp`. |
+| `fill_nganh_table` | Mặc định `true`: sau khi điền, mọi bảng có cột "Tên ngành" + "Mã ngành" được điền lại theo danh sách ngành đã chọn. Đặt `false` khi mẫu tự dựng bảng ngành bằng `{%tr for n in ma_nganh %}` (vd bộ `Thành lập hộ kinh doanh`: 3 cột, ngành chính ghi "(Chính)" sau mã). |
 | `output`, `item_alias` | [v2] Dự phòng cho sinh lặp tổng quát (chưa dùng). |
 
 Bảng mã ngành luôn được điền vào mọi file khi có danh sách ngành, không cần khai báo.
