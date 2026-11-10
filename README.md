@@ -91,7 +91,7 @@ GitHub Actions (`.github/workflows/webapp-tests.yml`) tự quét bộ mẫu và 
 │   ├── services/               # Nghiệp vụ xử lý Word, chuẩn hóa font, OCR
 │   ├── templates/              # 19 bộ mẫu Docx chuẩn hóa Jinja2 + _schema.json
 │   └── static/                 # Giao diện người dùng (HTML, CSS Ember theme, JS)
-├── scripts_and_tools/          # Bộ công cụ kiểm toán, chuẩn hóa và kiểm thử tự động
+├── scripts_and_tools/          # Script dựng / sửa mẫu Word (xem scripts_and_tools/README.md)
 ├── ma_nganh_nghe.json          # Cơ sở dữ liệu danh mục ngành nghề kinh doanh Việt Nam
 ├── requirements.txt            # Danh sách thư viện Python
 └── README.md                   # Tài liệu hướng dẫn sử dụng
