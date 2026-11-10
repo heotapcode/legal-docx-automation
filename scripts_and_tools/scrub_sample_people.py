@@ -35,13 +35,10 @@ TARGETS = {
 }
 
 
-REPO_ROOT = TEMPLATES.parent.parent  # bản sao cũ của bộ mẫu nằm ở thư mục "Mẫu <tên bộ>" tại gốc repo
-
-
 def target_paths(folder: str, fname: str):
-    for path in (TEMPLATES / folder / fname, REPO_ROOT / f"Mẫu {folder}" / fname):
-        if path.exists():
-            yield path
+    path = TEMPLATES / folder / fname
+    if path.exists():
+        yield path
 
 
 def main():
