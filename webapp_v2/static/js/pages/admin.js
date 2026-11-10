@@ -131,7 +131,41 @@
                     <thead><tr><th>Bộ mẫu</th><th>Phiên bản</th><th>File</th><th></th></tr></thead>
                     <tbody>${rows}</tbody>
                 </table>
+            </div>
+            <div class="card mt-4">
+                <h2 class="text-lg font-bold mb-2">Cấu hình dùng chung</h2>
+                <button type="button" class="btn btn-secondary btn-sm" data-action="open-uy-quyen" id="admin-open-uy-quyen">
+                    Người nhận ủy quyền (Bên B trong Giấy ủy quyền)</button>
             </div>`;
+    }
+
+    // ---------- Người nhận ủy quyền ----------
+
+    const UQ_FIELDS = [
+        ['ho_ten', 'Họ và tên', 'ĐỖ VĂN A'], ['gioi_tinh', 'Giới tính (Nam/Nữ)', 'Nam'],
+        ['ngay_sinh', 'Ngày sinh (DD/MM/YYYY)', '01/01/1990'], ['so_cccd', 'Số định danh cá nhân (12 số)', ''],
+        ['dia_chi', 'Địa chỉ', ''], ['sdt', 'Điện thoại', ''], ['email', 'Thư điện tử', ''],
+    ];
+
+    async function showUyQuyen(note) {
+        const r = await adminFetch('/api/admin/settings/nguoi-nhan-uy-quyen');
+        if (!r.ok) return failed(r);
+        const v = r.body.value;
+        root().innerHTML = `
+            <div class="card">
+                ${header('Người nhận ủy quyền', 'back-templates')}
+                <p class="text-sm text-secondary mb-4">Thông tin này in ở phần Bên B của Giấy ủy quyền trong mọi bộ hồ sơ.
+                    Lưu xong có hiệu lực ngay cho các hồ sơ tạo sau đó.</p>
+                <form id="admin-uy-quyen-form">
+                    ${UQ_FIELDS.map(([k, label, ph]) => `
+                        <div class="form-group">
+                            <label class="form-label" for="uq-${k}">${e(label)}</label>
+                            <input id="uq-${k}" name="${k}" class="form-control" value="${e(v[k])}" placeholder="${e(ph)}">
+                        </div>`).join('')}
+                    <button type="button" class="btn btn-primary" data-action="save-uy-quyen">Lưu</button>
+                </form>
+            </div>`;
+        if (note) message(note, false);
     }
 
     // ---------- Một bộ mẫu: phiên bản và bản nháp ----------
@@ -302,6 +336,13 @@
         'back-templates': () => showTemplates(),
         'back-template': () => showTemplate(st.templateId),
         'open-template': el => showTemplate(el.dataset.id),
+        'open-uy-quyen': () => showUyQuyen(),
+        'save-uy-quyen': async () => {
+            const data = {};
+            UQ_FIELDS.forEach(([k]) => { data[k] = document.getElementById(`uq-${k}`).value; });
+            const r = await adminFetch('/api/admin/settings/nguoi-nhan-uy-quyen', jsonBody('PUT', data));
+            if (r.ok) showUyQuyen('Đã lưu'); else failed(r);
+        },
         'open-draft': el => showDraft(el.dataset.id),
         'new-draft': async () => {
             const r = await adminFetch(`/api/admin/templates/${encodeURIComponent(st.templateId)}/drafts`, { method: 'POST' });

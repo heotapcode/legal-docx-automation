@@ -1,0 +1,10 @@
+{
+  "_ghi_chu": "Người nhận ủy quyền (Bên B) in trong mọi Giấy ủy quyền. Giá trị mặc định; sửa trên trang quản trị (#/admin) sẽ lưu đè trong CSDL quản trị. Mẫu Word dùng {{ uq_ho_ten }}, {{ uq_so_cccd }}...",
+  "ho_ten": "ĐỖ QUANG HIẾU",
+  "gioi_tinh": "Nam",
+  "ngay_sinh": "16/03/1989",
+  "so_cccd": "001089021350",
+  "dia_chi": "TK Đường, Phú Xuyên, Hà Nội",
+  "sdt": "0987.135.358",
+  "email": "dohieu52th@gmail.com"
+}

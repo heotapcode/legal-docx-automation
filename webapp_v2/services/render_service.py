@@ -847,6 +847,10 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
             ctx["thu_ky_danh_xung"] = "Ông/Bà"
     # Địa danh nơi lập văn bản / cơ quan đăng ký (ô chọn tỉnh/thành phố, mặc định Hà Nội)
     ctx.update(dia_ban_context(raw_data.get("tinh_dang_ky")))
+    # Người nhận ủy quyền (Bên B của Giấy ủy quyền): cấu hình dùng chung, sửa trên trang quản trị
+    from services import uy_quyen
+    for k, v in uy_quyen.context_values().items():
+        ctx.setdefault(k, v)
     # Ngày lập văn bản: lấy từ trường ngay_lap (DD/MM/YYYY) hoặc ngày hiện tại
     ctx["ngay_lap"] = format_date_vn(raw_data.get("ngay_lap") or None)
     ngay_lap_match = re.search(r"(\d{2}) tháng (\d{2}) năm (\d{4})", ctx["ngay_lap"])

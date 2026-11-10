@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from config import HOST, PORT, BASE_DIR, CORS_ORIGINS
-from routes import templates, documents, ocr, mst, nganh, services, dia_ban, admin_auth, admin_templates
+from routes import templates, documents, ocr, mst, nganh, services, dia_ban, admin_auth, admin_templates, admin_settings
 
 app = FastAPI(title="NAC v2 - Hệ thống Soạn thảo Hồ sơ Doanh nghiệp (Jinja2 / docxtpl)")
 
@@ -32,6 +32,7 @@ app.include_router(services.router)
 app.include_router(dia_ban.router)
 app.include_router(admin_auth.router)
 app.include_router(admin_templates.router)
+app.include_router(admin_settings.router)
 
 # Mount static files
 static_dir = BASE_DIR / "static"

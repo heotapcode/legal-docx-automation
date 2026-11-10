@@ -37,8 +37,10 @@ Sau khi cập nhật ảnh chụp chuẩn, luôn xem `git diff tests/golden`: ch
 
 - **Không đưa dữ liệu người thật vào repo**: tên, số định danh, địa chỉ, điện thoại của khách không được nằm trong mẫu,
   test, script, ảnh chụp chuẩn hay mô tả PR. Hồ sơ đã điền người dùng gửi chỉ để đối chiếu; test dùng người giả
-  (`conftest.sample_person`, "NGUYỄN VĂN THỬ…"). Ngoại lệ đã được duyệt: thông tin nhân viên nhận ủy quyền viết sẵn trong
-  các file Giấy ủy quyền (cảnh báo W030 của công cụ quét là chấp nhận được với các file này).
+  (`conftest.sample_person`, "NGUYỄN VĂN THỬ…"). Ngoại lệ đã được duyệt: thông tin nhân viên nhận ủy quyền, lưu MỘT chỗ ở
+  `webapp_v2/data/nguoi_nhan_uy_quyen.json` (sửa được trên trang quản trị). Mẫu Word dùng biến `{{ uq_ho_ten }}`,
+  `{{ uq_so_cccd }}`, `{{ uq_sdt }}`…, không chép thông tin này vào file Word
+  (`python scripts_and_tools/uy_quyen_dung_bien.py` thay giúp).
 - **Không viết khóa bí mật vào mã nguồn** (đọc từ biến môi trường / `.env`); `tests/test_no_secrets.py` chặn việc này.
 - **Câu chữ pháp lý do người dùng quyết định.** Không tự sửa nội dung văn bản; chỗ chưa rõ thì hỏi và ghi quyết định kèm
   ngày vào `webapp_v2/docs/`.

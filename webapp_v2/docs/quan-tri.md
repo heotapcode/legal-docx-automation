@@ -40,6 +40,13 @@ Mỗi lần xuất bản lưu thành một **phiên bản** (số tăng dần, g
 > **Lưu ý khi triển khai:** xuất bản ghi trực tiếp vào `templates/`. Nếu máy chủ chạy từ bản git, các thay đổi này cần được
 > sao lưu (hoặc commit lại) để không mất khi cập nhật mã nguồn; thư mục `data/template_versions/` cũng cần được sao lưu.
 
+## Người nhận ủy quyền (Bên B trong Giấy ủy quyền)
+
+Trang `#/admin` → **Cấu hình dùng chung** → **Người nhận ủy quyền**: sửa họ tên, giới tính, ngày sinh, số định danh,
+địa chỉ, điện thoại, thư điện tử rồi **Lưu**. Có hiệu lực ngay cho mọi bộ hồ sơ tạo sau đó (mọi Giấy ủy quyền dùng chung
+các biến `{{ uq_ho_ten }}`, `{{ uq_so_cccd }}`...). Giá trị mặc định nằm ở `data/nguoi_nhan_uy_quyen.json`; giá trị đã sửa
+lưu trong CSDL quản trị (`ADMIN_DB_PATH`), cần sao lưu cùng CSDL này.
+
 ## Tạo tài khoản
 
 Tài khoản chỉ tạo được trên máy chủ, bằng dòng lệnh (chạy trong thư mục `webapp_v2`):

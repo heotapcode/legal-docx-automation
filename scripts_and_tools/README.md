@@ -11,6 +11,7 @@ Các script dựng / sửa mẫu Word trong `webapp_v2/templates/`. Chạy từ 
 | `migrate_flat_schemas.py` | Chuyển `_schema.json` dạng `fields` phẳng sang dạng `steps` | Có |
 | `localize_ha_noi.py` | Thay chữ "Hà Nội" viết cứng bằng biến theo ô chọn tỉnh/thành phố (`--dry-run` để xem trước) | Có |
 | `use_phong_dkkd.py` | Thay tên phòng đăng ký kinh doanh bằng `{{ phong_dkkd }}` (chạy sau `localize_ha_noi.py`) | Có |
+| `uy_quyen_dung_bien.py` | Thay thông tin người nhận ủy quyền viết cứng trong mẫu bằng biến `{{ uq_* }}` (`--dry-run` để xem trước) | Có |
 | `scrub_sample_people.py` | Xóa thông tin cá nhân người thật còn sót trong mẫu | Có |
 
 Các script kiểm tra / sửa chạy một lần trước đây đã được xóa (vẫn còn trong lịch sử git nếu cần tra lại).

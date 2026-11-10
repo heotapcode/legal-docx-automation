@@ -3,7 +3,7 @@
 Nguồn:
   - Giấy đề nghị: form mẫu nhà nước, lưu ở scripts_and_tools/nguon_mau/ho_kinh_doanh/ (không chứa dữ liệu cá nhân).
   - Giấy ủy quyền (tùy chọn --uq): file Word của một hồ sơ cũ. File này có dữ liệu người thật nên KHÔNG đưa vào repo;
-    script thay toàn bộ thông tin Bên A bằng biến và kiểm tra không còn số định danh nào ngoài của nhân viên nhận ủy quyền.
+    script thay thông tin Bên A và Bên B bằng biến, rồi kiểm tra không còn số định danh nào viết cứng.
     Không truyền --uq thì giữ nguyên mẫu Giấy ủy quyền đang có.
 
 Trình bày theo hồ sơ đã điền (anh duyệt 10/11/2026): bỏ chú thích và ô đánh dấu, bảng ngành 3 cột, ngày để trống, khổ A4.
@@ -28,7 +28,6 @@ from docx.text.paragraph import Paragraph
 ROOT = Path(__file__).resolve().parent
 FORM = ROOT / "nguon_mau" / "ho_kinh_doanh" / "Giấy đề nghị đăng ký hộ kinh doanh (form gốc).docx"
 DST = ROOT.parent / "webapp_v2" / "templates" / "Thành lập hộ kinh doanh"
-STAFF_CCCD = "001089021350"  # nhân viên nhận ủy quyền (viết sẵn trong mẫu, anh xác nhận)
 _args = argparse.ArgumentParser(description=__doc__.split("\n")[0])
 _args.add_argument("--uq", help="File .docx Giấy ủy quyền nguồn (không lưu trong repo)")
 UQ = _args.parse_args().uq
@@ -231,13 +230,19 @@ def build_uq(src):
     signer = [p for p in u.tables[0].rows[0].cells[-1].paragraphs if p.text.strip()][-1]
     assert nfc(signer.text).strip() != "BÊN A"
     put(signer, "{{ chu_ho_ho_ten | upper }}")
+    # Bên B: thay thông tin nhân viên viết cứng bằng biến {{ uq_* }} (cấu hình dùng chung)
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from uy_quyen_dung_bien import fix_paragraph, iter_paragraphs
+    for p in iter_paragraphs(u):
+        fix_paragraph(p)
     a4(u)
     out = DST / "02. Giấy ủy quyền.docx"
     u.save(str(out))
     dedupe_zip(out)
-    # Không còn số định danh nào của người thật ngoài nhân viên nhận ủy quyền
+    # Không còn số định danh nào của người thật
     text = "\n".join(p.text for p in docx.Document(str(out)).paragraphs)
-    assert set(re.findall(r"\b\d{12}\b", text)) == {STAFF_CCCD}, "Còn số định danh lạ trong Giấy ủy quyền"
+    assert not re.findall(r"\b\d{12}\b", text), "Còn số định danh viết cứng trong Giấy ủy quyền"
 
 
 if UQ:

@@ -36,6 +36,7 @@ Viết `scripts_and_tools/build_<tên>.py` (chạy lại được, ghi đè file
 - Thay cả đoạn bằng chữ + biến, giữ phông và định dạng của run đầu (`set_parts` trong script hộ kinh doanh).
 - Danh sách lặp trong bảng: ba dòng `{%tr for … %}` / dòng dữ liệu / `{%tr endfor %}`.
 - Đặt khổ A4; cuối script kiểm tra không còn số định danh hay tên người thật.
+- Giấy ủy quyền: Bên B dùng biến `{{ uq_* }}` (chạy `python scripts_and_tools/uy_quyen_dung_bien.py` sau khi dựng).
 
 ## 4. Viết `_schema.json`
 
@@ -54,7 +55,7 @@ Theo `docs/schema-v2.md`. Lưu ý:
 
 ```bash
 cd webapp_v2
-python -m tools.template_lint "templates/<tên>"        # 0 lỗi; W030 chỉ được là thông tin nhân viên ủy quyền
+python -m tools.template_lint "templates/<tên>"        # 0 lỗi, không có cảnh báo W030 (dữ liệu viết cứng)
 UPDATE_GOLDEN=1 python -m pytest -q tests/test_golden_snapshots.py -k "<id>"
 git diff --stat tests/golden                             # chỉ có file của bộ mới
 python -m pytest -q                                      # toàn bộ

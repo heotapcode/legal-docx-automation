@@ -119,8 +119,8 @@ def test_real_templates_have_no_errors(name):
     assert not errors, "\n".join(f"{f.code} [{f.file}] {f.message}" for f in errors)
 
 
-# CCCD được phép xuất hiện trong mẫu: người nhận ủy quyền trong Giấy ủy quyền (giữ nguyên theo yêu cầu)
-ALLOWED_HARDCODED_CCCD = {"001089021350"}
+# Không số CCCD nào được viết cứng trong mẫu: người nhận ủy quyền dùng biến {{ uq_so_cccd }} (services/uy_quyen.py)
+ALLOWED_HARDCODED_CCCD = set()
 
 
 def test_no_unexpected_personal_id_in_templates():
