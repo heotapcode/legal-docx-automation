@@ -41,6 +41,11 @@
           "required": true
         },
         {
+          "key": "sdt_cong_ty",
+          "label": "Điện thoại công ty",
+          "type": "phone"
+        },
+        {
           "key": "tinh_dang_ky",
           "label": "Tỉnh/Thành phố nơi đăng ký",
           "type": "select",

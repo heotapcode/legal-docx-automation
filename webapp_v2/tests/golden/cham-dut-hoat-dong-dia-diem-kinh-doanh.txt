@@ -46,7 +46,7 @@ Ngày cấp: 20/08/2025   Nơi cấp: Phòng Đăng ký kinh doanh và tài chí
 Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: GIATRI_DIA_CHI_SO_NHA
 Xã/Phường/Đặc khu: GIATRI_DIA_CHI_XA_PHUONG
 Tỉnh/Thành phố trực thuộc trung ương: GIATRI_DIA_CHI_TINH_THANH
-Điện thoại: 0902276456                                                         Fax (nếu có):
+Điện thoại: 0912345678                                                         Fax (nếu có):
 Thư điện tử (nếu có): 	Website (nếu có):
 3. Chi nhánh chủ quản (chỉ kê khai đối với trường hợp đăng ký chấm dứt hoạt động của địa điểm kinh doanh trực thuộc chi nhánh):
 Tên chi nhánh:
