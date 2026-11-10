@@ -24,7 +24,6 @@ window.formatMoneyInput = function(input) {
     const raw = String(input.value || '').replace(/\D/g, '');
     input.value = raw ? Number(raw).toLocaleString('vi-VN') : '';
 };
-window.formatCurrencyInput = window.formatMoneyInput;
 
 function numToVietnameseWords(s) {
     if (!s) return '';
@@ -198,46 +197,6 @@ function renderWizard() {
     `;
 }
 
-window.updateSidebarNav = function() {
-    const nav = document.getElementById('sidebar-procedures-nav');
-    if (!nav) return;
-    const list = window.wizardState.templatesList || [];
-    if (!list.length) return;
-
-    const currentTplName = window.wizardState.template ? window.wizardState.template.name : '';
-    const categories = [...new Set(list.map(t => t.category || 'Khác'))];
-
-    let html = '';
-    categories.forEach(cat => {
-        const items = list.filter(t => (t.category || 'Khác') === cat);
-        html += `<div class="harvey-nav-group-title">${cat}</div>`;
-        items.forEach(item => {
-            const isActive = item.name === currentTplName ? 'active' : '';
-            html += `
-                <a class="harvey-nav-item ${isActive}" onclick="selectTemplate('${escapeHtml(item.name)}')">
-                    <i class="fa-solid fa-file-contract"></i>
-                    <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(item.display_name)}</span>
-                    <span class="harvey-nav-badge">${item.file_count || 5}</span>
-                </a>
-            `;
-        });
-    });
-
-    html += `
-        <div class="harvey-nav-group-title" style="margin-top: 14px;">Quản trị Pháp lý</div>
-        <a class="harvey-nav-item" onclick="if (window.showToast) window.showToast('Kho dữ liệu Pháp nhân & CCCD'); else alert('Kho dữ liệu Pháp nhân & CCCD');">
-            <i class="fa-solid fa-building-user"></i>
-            <span>Kho Pháp nhân & CCCD</span>
-        </a>
-        <a class="harvey-nav-item" onclick="if (window.showToast) window.showToast('Bộ biểu mẫu chuẩn hóa theo Nghị định 01/2021'); else alert('Bộ biểu mẫu chuẩn hóa (19 bộ)');">
-            <i class="fa-solid fa-file-word"></i>
-            <span>Mẫu biểu chuẩn (19 bộ)</span>
-        </a>
-    `;
-
-    nav.innerHTML = html;
-};
-
 window.initWizard = async function() {
     window.wizardState = {
         step: 1,
@@ -258,7 +217,6 @@ window.initWizard = async function() {
             const data = await res.json();
             window.wizardState.templatesList = data.templates;
             renderCurrentStep();
-            window.updateSidebarNav();
         }
     } catch (err) {
         console.error('Lỗi khi tải danh sách mẫu:', err);
@@ -442,7 +400,6 @@ window.selectTemplate = function(name) {
     window.wizardState.template = window.wizardState.templatesList.find(t => t.name === name);
     window.wizardState.step = 2;
     renderCurrentStep();
-    if (window.updateSidebarNav) window.updateSidebarNav();
 };
 
 // --- STEP 1: PROCEDURE SELECTION ---
@@ -463,7 +420,7 @@ function renderStep1() {
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-4);">
             <div>
                 <h2 class="text-2xl font-bold">Chọn thủ tục doanh nghiệp</h2>
-                <p class="text-secondary text-sm">Hệ thống hỗ trợ 19 bộ mẫu hồ sơ chuẩn hóa theo quy định mới nhất</p>
+                <p class="text-secondary text-sm">Hệ thống hỗ trợ ${list.length} bộ mẫu hồ sơ chuẩn hóa theo quy định mới nhất</p>
             </div>
             <div style="width: 260px;">
                 <input type="text" id="search-tpl-input" class="form-control" placeholder="Tìm thủ tục..." onkeyup="filterTemplates(this.value)">

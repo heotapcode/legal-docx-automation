@@ -35,6 +35,15 @@ CORS_ORIGINS = _parse_origins(
     os.environ.get("CORS_ORIGINS", f"http://localhost:{PORT},http://127.0.0.1:{PORT}")
 )
 
+# Giới hạn số lần gọi mỗi phút từ một địa chỉ IP (0 = tắt). Xem services/rate_limit.py.
+RATE_LIMITS = {
+    "generate": int(os.environ.get("RATE_LIMIT_GENERATE", "30")),   # sinh hồ sơ
+    "ocr": int(os.environ.get("RATE_LIMIT_OCR", "20")),             # quét CCCD/VNeID
+    "inquiry": int(os.environ.get("RATE_LIMIT_INQUIRY", "5")),      # gửi yêu cầu tư vấn
+}
+# Mức ghi log: DEBUG, INFO, WARNING, ERROR
+LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
+
 # ---------- Quản trị (Mục 10) ----------
 # CSDL SQLite lưu tài khoản quản trị, phiên đăng nhập, nhật ký và phiên bản mẫu. Không commit file này.
 ADMIN_DB_PATH = Path(os.environ.get("ADMIN_DB_PATH", str(DATA_DIR / "admin.sqlite3")))

@@ -6,7 +6,12 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from config import HOST, PORT, BASE_DIR, CORS_ORIGINS
+import logging
+
+from config import HOST, PORT, BASE_DIR, CORS_ORIGINS, LOG_LEVEL
+
+logging.basicConfig(level=getattr(logging, LOG_LEVEL, logging.INFO),
+                    format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 from routes import templates, documents, ocr, mst, nganh, services, dia_ban, admin_auth, admin_templates, admin_settings
 
 app = FastAPI(title="NAC v2 - Hệ thống Soạn thảo Hồ sơ Doanh nghiệp (Jinja2 / docxtpl)")

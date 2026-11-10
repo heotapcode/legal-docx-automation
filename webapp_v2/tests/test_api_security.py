@@ -122,3 +122,39 @@ def test_generate_by_id_keeps_special_rules(client):
     names = list(read_zip(r.content))
     assert any(n.startswith("06. Hợp đồng chuyển nhượng_a") for n in names), names
     assert not any(n == "10. Xác nhận góp vốn 2.docx" for n in names), names
+
+
+# ---------- Giới hạn tần suất và lỗi hệ thống ----------
+
+def test_rate_limit_returns_429(client, monkeypatch):
+    import config
+    from services import rate_limit
+
+    rate_limit.reset()
+    monkeypatch.setitem(config.RATE_LIMITS, "inquiry", 2)
+    bad = {"name": "A"}  # thiếu trường -> 422, vẫn tính vào giới hạn vì kiểm tra tần suất chạy trước
+    codes = [client.post("/api/services/inquiry", json=bad).status_code for _ in range(4)]
+    assert codes == [422, 422, 429, 429]
+    rate_limit.reset()
+
+
+def test_rate_limit_disabled_with_zero(client, monkeypatch):
+    import config
+    from services import rate_limit
+
+    rate_limit.reset()
+    monkeypatch.setitem(config.RATE_LIMITS, "inquiry", 0)
+    assert {client.post("/api/services/inquiry", json={"name": "A"}).status_code for _ in range(6)} == {422}
+
+
+def test_generate_hides_internal_error(client, monkeypatch):
+    """Lỗi hệ thống khi sinh hồ sơ: trả 500 với thông báo chung, không lộ chi tiết kỹ thuật."""
+    from routes import documents
+
+    def boom(**_kwargs):
+        raise RuntimeError("C:/secret/path/render.py line 1")
+
+    monkeypatch.setattr(documents, "render_documents", boom)
+    monkeypatch.setattr(documents, "validate_request_data", lambda *_a: [])
+    r = client.post("/api/documents/generate", json={"template_name": "Tạm dừng công ty TNHH 1 TV", "data": {}})
+    assert r.status_code == 500 and "secret" not in r.text and "lỗi hệ thống" in r.json()["detail"]

@@ -1,6 +1,9 @@
+import logging
 import docx
 from docx.oxml.ns import qn
 from lxml import etree
+
+logger = logging.getLogger(__name__)
 
 def standardize_document(doc: docx.Document):
     """
@@ -58,7 +61,7 @@ def standardize_document(doc: docx.Document):
         for szCs_node in styles_elem.xpath('//w:style[@w:styleId="Normal"]//w:szCs'):
             szCs_node.set(qn('w:val'), '24')
     except Exception as e:
-        print(f"Warning standardizing styles: {e}")
+        logger.exception("Lỗi khi chuẩn hóa style văn bản")
 
     # 2. Thu thập toàn bộ paragraphs từ body, tables, headers, footers
     all_paras = list(doc.paragraphs)

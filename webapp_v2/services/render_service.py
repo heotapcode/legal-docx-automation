@@ -1,3 +1,4 @@
+import logging
 import json
 import os
 import re
@@ -18,6 +19,8 @@ from jinja2 import Environment
 from config import TEMPLATES_DIR
 from services.dia_ban import context_values as dia_ban_context
 from services.dia_ban import co_quan_dk_ho_kinh_doanh
+
+logger = logging.getLogger(__name__)
 
 # --- HELPER FUNCTIONS ---
 
@@ -997,7 +1000,7 @@ def populate_ma_nganh_table(doc: docx.Document, ma_nganh_list: List[Dict[str, An
                             for run in p.runs:
                                 run.font.name = "Times New Roman"
         except Exception as e:
-            print(f"Warning: error filling ma_nganh table: {e}")
+            logger.exception("Lỗi khi filling ma_nganh table")
 
 def replace_section_between(doc: docx.Document, start_prefix: str, end_prefix: str, new_lines: list):
     p_start = None
@@ -1120,7 +1123,7 @@ def populate_qd_tables(doc: docx.Document, members_list: list, csh_info: dict, h
             replace_section_between(doc, "5. Thành viên công ty:", "6. Cơ cấu góp vốn:", lines_5)
 
     except Exception as e:
-        print(f"Warning: error populating QD tables: {e}")
+        logger.exception("Lỗi khi populating QD tables")
 
 def populate_dieu_le(doc: docx.Document, members_list: list):
     try:
@@ -1166,7 +1169,7 @@ def populate_dieu_le(doc: docx.Document, members_list: list):
                 else:
                     row.cells[1].text = ""
     except Exception as e:
-        print(f"Warning: error populating Dieu le: {e}")
+        logger.exception("Lỗi khi populating Dieu le")
 
 def populate_dieu_le_tlm_2tv(doc: docx.Document, members_list: list):
     try:
@@ -1210,7 +1213,7 @@ def populate_dieu_le_tlm_2tv(doc: docx.Document, members_list: list):
                 else:
                     row.cells[1].text = ""
     except Exception as e:
-        print(f"Warning: error in populate_dieu_le_tlm_2tv: {e}")
+        logger.exception("Lỗi khi in populate_dieu_le_tlm_2tv")
 
 def populate_dieu_le_tlm_cp(doc: docx.Document, shareholders_list: list, von_dieu_le_so: str = "", von_dieu_le_chu: str = ""):
     try:
@@ -1271,7 +1274,7 @@ def populate_dieu_le_tlm_cp(doc: docx.Document, shareholders_list: list, von_die
                 else:
                     row.cells[1].text = ""
     except Exception as e:
-        print(f"Warning: error in populate_dieu_le_tlm_cp: {e}")
+        logger.exception("Lỗi khi in populate_dieu_le_tlm_cp")
 
 def populate_cdsl(doc: docx.Document, shareholders: List[Dict[str, Any]]):
     if not shareholders or len(doc.tables) == 0:
@@ -1465,7 +1468,7 @@ def populate_bbh_tang_von_2tv(doc: docx.Document, members_list: List[Dict[str, A
                 p.text = vote_text
                 break
     except Exception as e:
-        print(f"Warning: error in populate_bbh_tang_von_2tv: {e}")
+        logger.exception("Lỗi khi in populate_bbh_tang_von_2tv")
 
 def populate_bbh_giai_the_cp(doc: docx.Document, shareholders: List[Dict[str, Any]], von_dieu_le_so: str = ""):
     try:
@@ -1531,7 +1534,7 @@ def populate_bbh_giai_the_cp(doc: docx.Document, shareholders: List[Dict[str, An
                 t6.rows[0].cells[0].text = f"ĐẠI DIỆN THEO PHÁP LUẬT\nGiám đốc\n\n\n\n{sh1_ht}"
                 t6.rows[0].cells[1].text = f"TM. ĐẠI HỘI ĐỒNG CỔ ĐÔNG\nCHỦ TỊCH HĐQT\n\n\n\n{sh1_ht}"
     except Exception as e:
-        print(f"Warning: error in populate_bbh_giai_the_cp: {e}")
+        logger.exception("Lỗi khi in populate_bbh_giai_the_cp")
 
 def complete_person_address(p: Dict[str, Any]) -> Dict[str, Any]:
     """Bổ sung địa chỉ cho một người: có địa chỉ đầy đủ thì tách ra số nhà/xã/tỉnh, và ngược lại."""
@@ -1651,7 +1654,7 @@ def render_documents(
 
             except Exception as e:
                 err_msg = f"{fname}: {type(e).__name__} - {str(e)}"
-                print(f"Lỗi khi render {fname}: {e}")
+                logger.exception("Lỗi khi render %s", fname)
                 render_errors.append(err_msg)
 
         docx_count = len([f for f in out_dir.iterdir() if f.is_file() and f.suffix == ".docx"])
@@ -1676,7 +1679,7 @@ def render_documents(
                     standardize_document(doc)
                     doc.save(str(f))
                 except Exception as e:
-                    print(f"Lỗi chuẩn hóa văn bản {f.name}: {e}")
+                    logger.exception("Lỗi chuẩn hóa văn bản %s", f.name)
 
         # Pack into ZIP
         zip_buf = BytesIO()

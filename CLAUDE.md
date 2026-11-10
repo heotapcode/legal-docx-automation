@@ -28,6 +28,7 @@ python -m pytest -q                                # toàn bộ, khoảng 5 phú
 python -m pytest -q tests/test_golden_snapshots.py # ảnh chụp chuẩn nội dung hồ sơ
 UPDATE_GOLDEN=1 python -m pytest -q tests/test_golden_snapshots.py -k "<id bộ mẫu>"   # cập nhật có chủ đích
 python main.py                                     # chạy máy chủ
+python -m tools.backup                             # sao lưu templates/, phiên bản mẫu, CSDL quản trị
 ```
 
 Test giao diện cần Chromium; trên máy đã cài sẵn thì đặt `PLAYWRIGHT_CHROMIUM_EXECUTABLE=<đường dẫn>`.
@@ -65,6 +66,10 @@ Sau khi cập nhật ảnh chụp chuẩn, luôn xem `git diff tests/golden`: ch
   "Duplicate name"); xem `dedupe_zip` trong `scripts_and_tools/build_ho_kinh_doanh.py`.
 - **Dữ liệu mẫu cho test** sinh tự động từ schema (`services/sample_data.py`). Ô có `validate.pattern` cần giá trị mẫu
   hợp lệ ở đó, nếu không test sinh hồ sơ của bộ mẫu sẽ trả 422.
+- **Giới hạn tần suất** (`services/rate_limit.py`, `config.RATE_LIMITS`) bị tắt trong bộ test ở `tests/conftest.py`;
+  test cần giới hạn thì tự bật bằng `monkeypatch.setitem(config.RATE_LIMITS, ...)` và gọi `rate_limit.reset()`.
+- **Lỗi hệ thống** ghi bằng `logger.exception(...)`, không `print`, không trả `str(e)` ra trình duyệt; chỉ `ValueError`
+  (lỗi do dữ liệu người dùng) mới được trả nguyên văn.
 - **Xuất bản từ trang quản trị** ghi thẳng vào `templates/` trên máy chủ: nội dung trên máy chủ có thể mới hơn git.
 
 ## Quy ước đặt tên biến

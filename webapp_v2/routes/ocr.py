@@ -1,13 +1,14 @@
 import logging
 from typing import Optional
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException
+from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
 from services.ocr_service import extract_vneid
+from services.rate_limit import limit
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/ocr", tags=["OCR"])
 
-@router.post("/vneid")
+@router.post("/vneid", dependencies=[Depends(limit("ocr"))])
 async def ocr_vneid(
     image: Optional[UploadFile] = File(None),
     file: Optional[UploadFile] = File(None),
