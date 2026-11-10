@@ -542,15 +542,75 @@
       "file": "02. Giấy ủy quyền.docx"
     },
     {
-      "file": "03. Quyết định.docx"
+      "file": "03. Quyết định.docx",
+      "when": {
+        "any": [
+          {
+            "field": "dkkd_selected",
+            "contains": "A1"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A2"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A3"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A4"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A5"
+          },
+          {
+            "field": "dkkd_selected",
+            "contains": "A8"
+          }
+        ]
+      }
     },
     {
       "file": "04. Biên bản họp.docx",
       "when": {
-        "field": "loai_hinh",
-        "in": [
-          "tnhh_2tv",
-          "cp"
+        "all": [
+          {
+            "field": "loai_hinh",
+            "in": [
+              "tnhh_2tv",
+              "cp"
+            ]
+          },
+          {
+            "any": [
+              {
+                "field": "dkkd_selected",
+                "contains": "A1"
+              },
+              {
+                "field": "dkkd_selected",
+                "contains": "A2"
+              },
+              {
+                "field": "dkkd_selected",
+                "contains": "A3"
+              },
+              {
+                "field": "dkkd_selected",
+                "contains": "A4"
+              },
+              {
+                "field": "dkkd_selected",
+                "contains": "A5"
+              },
+              {
+                "field": "dkkd_selected",
+                "contains": "A8"
+              }
+            ]
+          }
         ]
       }
     },

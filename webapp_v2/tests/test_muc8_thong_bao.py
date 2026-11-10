@@ -121,10 +121,11 @@ def test_one_article_per_selected_content_numbered_in_order(client):
     assert "- Như Điều 5;" in qd
 
 
-def test_no_charter_article_when_only_tax_info(client):
-    qd = next(v for k, v in ho_so(client, ["A6"], "tnhh_1tv").items() if k.startswith("03."))
-    assert "Điều lệ Công ty theo các nội dung" not in qd
-    assert [line[:7] for line in qd.splitlines() if line.startswith("Điều ")] == ["Điều 1.", "Điều 2."]
+@pytest.mark.parametrize("loai_hinh, selected", [("tnhh_1tv", ["A6"]), ("cp", ["A6", "A7"]), ("tnhh_2tv", ["A7"])])
+def test_no_decision_or_minutes_when_only_tax_or_beneficial_owner(client, loai_hinh, selected):
+    """A6, A7 không đưa vào Quyết định/Biên bản họp (anh xác nhận 10/11/2026): chỉ chọn A6/A7 thì không sinh hai văn bản này."""
+    files = ho_so(client, selected, loai_hinh)
+    assert not any(k.startswith(("03.", "04.")) for k in files)
 
 
 def test_minutes_lists_attendees_and_contents(client):
@@ -133,7 +134,7 @@ def test_minutes_lists_attendees_and_contents(client):
     bbh = next(v for k, v in files.items() if k.startswith("04."))
     assert "BIÊN BẢN HỌP ĐẠI HỘI ĐỒNG CỔ ĐÔNG" in bbh and "Tổng số cổ đông dự họp: 02/02 cổ đông" in bbh
     assert "1. Giảm vốn điều lệ từ 3,000,000,000 đồng xuống 2,000,000,000 đồng." in bbh
-    assert "2. Cập nhật thông tin về chủ sở hữu hưởng lợi" in bbh
+    assert "chủ sở hữu hưởng lợi" not in bbh and "đăng ký thuế" not in bbh
     assert "CÁC CỔ ĐÔNG DỰ HỌP KÝ TÊN" in bbh
 
 
@@ -146,6 +147,8 @@ def test_minutes_lists_attendees_and_contents(client):
     ("tnhh_2tv", ["A1"], ["01.", "02.", "03.", "04."]),          # không đổi thành viên/vốn: không có DS thành viên
     ("cp", ["A4", "A7"], ["01.", "02.", "03.", "04.", "06."]),    # Cổ phần không có DS thành viên
     ("tnhh_1tv", ["A8"], ["02.", "03.", "07."]),                  # chỉ đổi ĐDPL: không có Thông báo thay đổi ĐKDN
+    ("tnhh_1tv", ["A6"], ["01.", "02."]),                         # chỉ đổi thông tin thuế: không có Quyết định
+    ("cp", ["A6", "A7"], ["01.", "02.", "06."]),                  # thuế + CSHHL: không có Quyết định, Biên bản họp
 ])
 def test_attachments_follow_selection(client, loai_hinh, selected, expected):
     files = ho_so(client, selected, loai_hinh)
