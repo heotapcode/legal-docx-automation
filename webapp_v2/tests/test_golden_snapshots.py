@@ -19,7 +19,7 @@ from pathlib import Path
 import pytest
 
 from conftest import build_payload, list_template_names, load_schema
-from services import render_service
+from services import render_service, text_format
 from services.sample_data import docx_text
 
 GOLDEN_DIR = Path(__file__).parent / "golden"
@@ -36,6 +36,7 @@ class _FrozenDatetime(_dt.datetime):
 @pytest.fixture
 def frozen_time(monkeypatch):
     monkeypatch.setattr(render_service, "datetime", _FrozenDatetime)
+    monkeypatch.setattr(text_format, "datetime", _FrozenDatetime)  # format_date_vn: ngày hiện tại khi không nhập ngày
 
 
 def normalize(text: str) -> str:

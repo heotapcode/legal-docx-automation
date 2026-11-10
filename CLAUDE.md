@@ -9,7 +9,9 @@ phải lập trình viên: trao đổi bằng tiếng Việt, nói kết quả t
 |---|---|
 | `webapp_v2/` | Ứng dụng chính (FastAPI + giao diện tĩnh). Mọi lệnh dưới đây chạy trong thư mục này. |
 | `webapp_v2/templates/<tên thủ tục>/` | Một thủ tục = các file Word có biến Jinja + `_schema.json` (form, điều kiện sinh file). |
-| `webapp_v2/services/render_service.py` | Chuẩn hóa dữ liệu (`normalize_context`) và sinh hồ sơ (`render_documents`). File lớn, nhiều quy tắc cũ: sửa hẹp, chạy ảnh chụp chuẩn sau mỗi thay đổi. |
+| `webapp_v2/services/render_service.py` | Chuẩn hóa dữ liệu (`normalize_context`) và sinh hồ sơ (`render_documents`). Nhiều quy tắc cũ: sửa hẹp, chạy ảnh chụp chuẩn sau mỗi thay đổi. |
+| `webapp_v2/services/docx_fillers.py` | Điền bảng / đoạn văn sau khi docxtpl render (`populate_*`): danh sách thành viên, bảng ngành, Điều lệ, Biên bản họp. |
+| `webapp_v2/services/text_format.py` | Định dạng tiền, số thành chữ, danh xưng, ngày (`fmt_money`, `so_thanh_chu`, `danh_xung`, `format_date_vn`). |
 | `webapp_v2/services/schema_engine.py` + `static/js/engine/schema_engine.js` | Lõi kiểm tra dữ liệu, hai bản phải cùng hành vi (`tests/engine_cases.json` chạy cho cả hai). |
 | `webapp_v2/services/document_rules.py` | Quy tắc riêng theo nghiệp vụ, gọi qua khóa `prepare`, `post`, `repeat_with` trong schema. |
 | `webapp_v2/static/js/pages/wizard.js`, `engine/form_renderer.js` | Form nhập liệu. Kiểu trường mới thêm vào `form_renderer.js`, không thêm vào `wizard.js`. |
