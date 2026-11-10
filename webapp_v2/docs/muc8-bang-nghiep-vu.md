@@ -27,15 +27,15 @@
 | **A3** | Thay đổi thành viên (TNHH 2 TV) | "Đăng ký thay đổi thành viên công ty TNHH" | Chấp thuận chuyển nhượng/tiếp nhận thành viên mới | Danh sách thành viên; Hợp đồng chuyển nhượng + Biên bản thanh lý (mỗi giao dịch 1 bộ); Giấy xác nhận góp vốn cho thành viên mới | Danh sách giao dịch (bên A, bên B, giá trị, tỷ lệ) | `Chuyển nhượng Công ty TNHH 2 TV` |
 | **A4** | Thay đổi vốn điều lệ (tăng/giảm), phần vốn góp, tỷ lệ | "Đăng ký thay đổi vốn điều lệ, phần vốn góp, tỷ lệ phần vốn góp" | Tăng/giảm vốn từ … lên/xuống …; phân bổ cho từng thành viên/cổ đông | TNHH 2 TV: Danh sách thành viên, Giấy chứng nhận góp vốn (mỗi người 1 bản). Cổ phần: không tách "Thông báo bổ sung cập nhật" ✅4 | Vốn cũ, vốn mới, vốn góp và tỷ lệ từng người (tổng = 100%, tổng vốn = vốn mới) | `Tăng vốn …` (3 bộ), `Giảm vốn công ty Cổ Phần` |
 | **A5** | Thay đổi ngành, nghề kinh doanh | "Thông báo thay đổi ngành, nghề kinh doanh" (bảng bổ sung / bỏ ngành) | Bổ sung/rút ngành …; sửa Điều lệ | — | Ngành bổ sung, ngành rút bớt ✅5, ngành chính | `Thay đổi ngành nghề kinh doanh TNHH 1 TV` |
-| **A6** | Thay đổi thông tin đăng ký thuế | "Thông báo thay đổi thông tin đăng ký thuế" | — (không có Điều riêng ✅6) | — | Kế toán trưởng (họ tên, CCCD, ngày cấp, SĐT), địa chỉ nhận thông báo thuế… | `Thay đổi địa chỉ và thuế TNHH 2 TV` |
-| **A7** | Thay đổi chủ sở hữu hưởng lợi | "Thông báo thay đổi thông tin về chủ sở hữu hưởng lợi" | — | Danh sách chủ sở hữu hưởng lợi | Danh sách CSHHL | `… /Danh sách chủ sở hữu hưởng lợi` (nhiều bộ) |
+| **A6** | Thay đổi thông tin đăng ký thuế | "Thông báo thay đổi thông tin đăng ký thuế" | — (không đưa vào Quyết định, Biên bản họp ✅6) | — | Kế toán trưởng (họ tên, CCCD, ngày cấp, SĐT), địa chỉ nhận thông báo thuế… | `Thay đổi địa chỉ và thuế TNHH 2 TV` |
+| **A7** | Thay đổi chủ sở hữu hưởng lợi | "Thông báo thay đổi thông tin về chủ sở hữu hưởng lợi" | — (không đưa vào Quyết định, Biên bản họp ✅6) | Danh sách chủ sở hữu hưởng lợi | Danh sách CSHHL | `… /Danh sách chủ sở hữu hưởng lợi` (nhiều bộ) |
 | **A8** (đề xuất thêm) | Đổi người đại diện theo pháp luật | Thông báo thay đổi người đại diện theo pháp luật (mẫu riêng) | Miễn nhiệm ĐDPL cũ, bổ nhiệm ĐDPL mới | — | ĐDPL mới | `Chuyển nhượng …/02. Thông báo thay đổi người đại diện` |
 
 ✅2. Đổi tên (A1): **không** cần kèm Điều lệ (anh xác nhận 07/11/2026).
 ✅3. Đổi chủ sở hữu TNHH 1 TV **không được gộp** chung với thay đổi khác: giữ bộ riêng `Chuyển nhượng công ty TNHH 1 TV`, không có trong danh sách chọn của thủ tục gộp (anh xác nhận 07/11/2026).
 ✅4. Tăng/giảm vốn Cổ phần khi gộp: **không** tách "Thông báo bổ sung cập nhật" thành văn bản riêng (anh xác nhận 08/11/2026).
 ✅5. Thay đổi ngành nghề: **cần** cả rút bớt ngành, ngoài bổ sung ngành (anh xác nhận 08/11/2026).
-✅6. Thông tin thuế (A6) **không** có Điều riêng trong Quyết định, chỉ khai trong Thông báo (anh xác nhận 08/11/2026).
+✅6. Thông tin thuế (A6) và chủ sở hữu hưởng lợi (A7) **không** đưa vào Quyết định và Biên bản họp, chỉ khai trong Thông báo (anh xác nhận 08/11 và 10/11/2026). Chỉ chọn A6/A7 thì bộ hồ sơ không có Quyết định, Biên bản họp.
 
 ## 3. Tổ hợp không được gộp / cần lưu ý
 
@@ -60,7 +60,7 @@
 | Bước | Nội dung | Trạng thái |
 |---|---|---|
 | 8.2a | **Thông báo thay đổi nội dung ĐKDN** (bộ `Thay đổi nội dung ĐKKD`): chọn loại hình và các nội dung A1–A7; chỉ in phần đã chọn, đánh số lại tự động; điền tên mới, địa chỉ mới, vốn cũ/mới (số và chữ), bảng nguồn vốn, ngành bổ sung / ngành bỏ, kế toán trưởng và địa chỉ nhận thông báo thuế. A3 chỉ cho TNHH 2 TV; "thông tin cổ phần" chỉ cho Cổ phần; cam kết thanh toán nợ chỉ khi giảm vốn. Form có bước hiện theo lựa chọn. | ✅ |
-| 8.2b | **Quyết định** (Chủ sở hữu / Hội đồng thành viên / Đại hội đồng cổ đông) mỗi nội dung một Điều, và **Biên bản họp** cho TNHH 2 TV / Cổ phần. | ✅ bản nháp, **chờ anh duyệt câu chữ** (mục 6) |
+| 8.2b | **Quyết định** (Chủ sở hữu / Hội đồng thành viên / Đại hội đồng cổ đông) mỗi nội dung một Điều, và **Biên bản họp** cho TNHH 2 TV / Cổ phần. | ✅ (câu chữ anh đã duyệt 10/11/2026, mục 6) |
 | 8.2c | Văn bản kèm theo: **Danh sách thành viên** (TNHH 2 TV khi có A3/A4), **Danh sách chủ sở hữu hưởng lợi** (A7, theo danh sách người đã nhập), **Thông báo thay đổi người đại diện** (A8; người ký theo loại hình: Chủ sở hữu / Chủ tịch HĐTV / Chủ tịch HĐQT). Thêm lựa chọn A8 (nhập ĐDPL cũ; Quyết định có Điều miễn nhiệm/bổ nhiệm, Biên bản họp có mục tương ứng). Thông báo thay đổi nội dung ĐKDN chỉ sinh khi có ít nhất một nội dung A1–A7. | ✅ |
 | 8.2d | **Hợp đồng chuyển nhượng + Biên bản thanh lý** cho A3 (TNHH 2 TV): mỗi giao dịch một bộ; bên A chọn từ thành viên trước khi thay đổi (có địa chỉ), bên B từ thành viên sau khi thay đổi; kiểm tra lựa chọn hợp lệ. | ✅ |
 | 8.3 | **Lối tắt** từ các bộ đơn lẻ sang thủ tục gộp: trên màn hình nhập liệu của Tăng vốn (TNHH 1 TV, TNHH 2 TV, Cổ phần), Giảm vốn Cổ phần, Thay đổi ngành nghề TNHH 1 TV, Thay đổi địa chỉ và thuế TNHH 2 TV có nút "Thay đổi thêm nội dung khác cùng lúc". Bấm vào thì mở bộ `Thay đổi nội dung ĐKKD`, giữ dữ liệu đã nhập, đặt sẵn loại hình và nội dung thay đổi tương ứng (vd Giảm vốn Cổ phần → Cổ phần, A4, hình thức giảm). Bộ đơn lẻ vẫn dùng được như cũ. | ✅ |
@@ -70,7 +70,9 @@ Ghi chú 8.2a:
 - Sửa lỗi cũ: bảng "ngành bỏ" và "ngành sửa đổi" trước đây bị tự điền nhầm danh sách ngành bổ sung.
 - Mẫu Word dựng lại bằng `scripts_and_tools/build_muc8_thong_bao.py` (giữ nguyên câu chữ mẫu nhà nước, chỉ thêm điều kiện và ô dữ liệu).
 
-## 6. Bản nháp Quyết định / Biên bản họp (8.2b): các điểm cần anh duyệt
+## 6. Quyết định / Biên bản họp (8.2b): câu chữ đã duyệt
+
+✅ Anh duyệt câu chữ Quyết định và Biên bản họp ngày 10/11/2026.
 
 Mẫu: `templates/Thay đổi nội dung ĐKKD/03. Quyết định.docx`, `04. Biên bản họp.docx` (dựng bằng
 `scripts_and_tools/build_muc8_quyet_dinh.py`, nền là mẫu của bộ "Thay đổi địa chỉ và thuế TNHH 2 TV").
@@ -83,7 +85,7 @@ Mẫu: `templates/Thay đổi nội dung ĐKKD/03. Quyết định.docx`, `04. B
 - Các Điều theo thứ tự, đánh số tự động: A1 đổi tên (tên tiếng Việt, nước ngoài, viết tắt) → A2 địa chỉ mới → A3 thay đổi
   thành viên (theo Danh sách thành viên kèm theo) → A4 tăng/giảm vốn từ … lên/xuống … (TNHH 2 TV: phần vốn góp theo danh sách
   kèm theo; Cổ phần: mệnh giá cổ phần) → A5 bổ sung / bỏ ngành (liệt kê tên, mã, ngành chính) → **sửa đổi Điều lệ** (khi có A1–A5)
-  → **giao người đại diện theo pháp luật** làm thủ tục tại phòng ĐKKD → **hiệu lực**. A6, A7 không có Điều riêng (✅6).
+  → **giao người đại diện theo pháp luật** làm thủ tục tại phòng ĐKKD → **hiệu lực**. A6, A7 không đưa vào (✅6); chỉ chọn A6/A7 thì không sinh Quyết định.
 - ✅ Người ký (anh xác nhận 08/11/2026): TNHH 1 TV **Chủ sở hữu** ("CHỦ SỞ HỮU CÔNG TY"); TNHH 2 TV **Chủ tịch Hội đồng
   thành viên** ("T/M HỘI ĐỒNG THÀNH VIÊN – CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN"); Cổ phần **Chủ tịch Hội đồng quản trị**
   ("T/M ĐẠI HỘI ĐỒNG CỔ ĐÔNG – CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ"). Form có bước nhập riêng người này (không lấy người đại diện).
@@ -92,9 +94,9 @@ Mẫu: `templates/Thay đổi nội dung ĐKKD/03. Quyết định.docx`, `04. B
 - Thành phần: các thành viên / cổ đông đã nhập; 100% vốn điều lệ / cổ phần có quyền biểu quyết dự họp và tán thành.
 - ✅ Chủ tọa: Chủ tịch Hội đồng thành viên / Chủ tịch Hội đồng quản trị (người ký Quyết định). ✅ Thư ký: thành viên / cổ đông
   dự họp đầu tiên khác chủ tọa. Giờ họp 08:30–10:30 tại trụ sở chính.
-- Nội dung: mỗi nội dung đã chọn một mục (kể cả A6, A7), mục sửa Điều lệ, mục giao người đại diện ký Quyết định và làm thủ tục.
+- Nội dung: mỗi nội dung đã chọn một mục (trừ A6, A7 ✅6), mục sửa Điều lệ, mục giao người đại diện ký Quyết định và làm thủ tục.
 - ✅ A3 (đổi thành viên): người dự họp là thành viên **trước** khi thay đổi (bước nhập riêng); Danh sách thành viên kèm hồ sơ
   vẫn là danh sách sau khi thay đổi.
 - Thông báo thay đổi người đại diện (A8): dòng "Số định danh cá nhân của Chủ sở hữu / Chủ tịch …" và người ký theo người này.
 
-Anh sửa trực tiếp câu chữ ở đây (hoặc nhắn theo mục) — em cập nhật vào mẫu.
+Cần sửa câu chữ: sửa `scripts_and_tools/build_muc8_quyet_dinh.py` rồi chạy lại để dựng hai mẫu.

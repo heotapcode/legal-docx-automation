@@ -1,11 +1,13 @@
 """Mục 8.2b: dựng Quyết định và Biên bản họp cho thủ tục gộp thay đổi ĐKDN (bộ "Thay đổi nội dung ĐKKD").
 
 Nền: hai mẫu của bộ "Thay đổi địa chỉ và thuế TNHH 2 TV" (giữ khổ giấy, kiểu chữ, bảng tiêu đề, bảng ký).
-Câu chữ là BẢN NHÁP, cần người làm pháp lý duyệt (docs/muc8-bang-nghiep-vu.md).
+Câu chữ đã được duyệt ngày 10/11/2026 (docs/muc8-bang-nghiep-vu.md, mục 6).
 
 - 03. Quyết định.docx: của Chủ sở hữu (TNHH 1 TV) / Hội đồng thành viên (TNHH 2 TV) / Đại hội đồng cổ đông (Cổ phần).
   Mỗi nội dung đã chọn là một Điều, đánh số tự động; tiếp theo là Điều sửa Điều lệ (nếu có A1-A5, A8), Điều giao người
-  đại diện làm thủ tục, Điều hiệu lực. A6 (thuế) và A7 (chủ sở hữu hưởng lợi) không có Điều riêng (✅6).
+  đại diện làm thủ tục, Điều hiệu lực.
+- A6 (thông tin đăng ký thuế) và A7 (chủ sở hữu hưởng lợi) không đưa vào Quyết định và Biên bản họp (anh xác nhận
+  10/11/2026); chỉ chọn A6/A7 thì bộ hồ sơ không có Quyết định, Biên bản họp (điều kiện ở _schema.json).
 - 04. Biên bản họp.docx: Hội đồng thành viên / Đại hội đồng cổ đông, chỉ sinh cho TNHH 2 TV và Cổ phần (✅1).
 
 Chạy từ thư mục gốc repo:  python scripts_and_tools/build_muc8_quyet_dinh.py   (ghi đè hai file đích)
@@ -217,13 +219,6 @@ def build_bien_ban():
         "{%p if 'A5' in dkkd_selected %}",
         item + "Thay đổi ngành, nghề kinh doanh:",
         *[t for t, _ in NGANH],
-        "{%p endif %}",
-        "{%p if 'A6' in dkkd_selected %}",
-        item + "Cập nhật thông tin đăng ký thuế của Công ty{{ '; Kế toán trưởng: ' ~ (ktt_ho_ten | upper) if ktt_ho_ten "
-               "else '' }}.",
-        "{%p endif %}",
-        "{%p if 'A7' in dkkd_selected %}",
-        item + "Cập nhật thông tin về chủ sở hữu hưởng lợi của Công ty.",
         "{%p endif %}",
         "{%p if 'A8' in dkkd_selected %}",
         item + "Thay đổi người đại diện theo pháp luật: miễn nhiệm {{ ddpl_cu_danh_xung | lower }} {{ ddpl_cu_ho_ten }}, "
