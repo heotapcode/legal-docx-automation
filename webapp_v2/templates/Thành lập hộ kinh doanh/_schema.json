@@ -1,0 +1,184 @@
+{
+  "id": "thanh-lap-ho-kinh-doanh",
+  "name": "Thành lập hộ kinh doanh",
+  "display_name": "Thành lập hộ kinh doanh",
+  "category": "Thành lập mới",
+  "description": "Hồ sơ đăng ký hộ kinh doanh do một cá nhân thành lập: Giấy đề nghị đăng ký hộ kinh doanh, Giấy ủy quyền",
+  "has_nganh": true,
+  "steps": [
+    {
+      "id": "chu_ho",
+      "title": "Chủ hộ kinh doanh",
+      "fields": [
+        {
+          "key": "chu_ho",
+          "label": "Chủ hộ kinh doanh (địa chỉ: địa chỉ liên hệ, in ở Giấy ủy quyền)",
+          "type": "person",
+          "ocr": true,
+          "required": true
+        },
+        {
+          "key": "chu_ho_sdt",
+          "label": "Điện thoại của chủ hộ (nếu có)",
+          "type": "phone"
+        },
+        {
+          "key": "chu_ho_email",
+          "label": "Thư điện tử của chủ hộ (nếu có)",
+          "type": "email"
+        }
+      ]
+    },
+    {
+      "id": "hkd",
+      "title": "Thông tin hộ kinh doanh",
+      "fields": [
+        {
+          "key": "ten_hkd",
+          "label": "Tên hộ kinh doanh (tiếng Việt)",
+          "type": "text",
+          "required": true,
+          "placeholder": "HỘ KINH DOANH ...",
+          "validate": {
+            "pattern": "[Hh][Ộộ] [Kk][Ii][Nn][Hh] [Dd][Oo][Aa][Nn][Hh] .+",
+            "message": "Tên hộ kinh doanh phải bắt đầu bằng \"Hộ kinh doanh\""
+          }
+        },
+        {
+          "key": "ten_hkd_nn",
+          "label": "Tên viết bằng tiếng nước ngoài (nếu có)",
+          "type": "text"
+        },
+        {
+          "key": "ten_hkd_viet_tat",
+          "label": "Tên viết tắt (nếu có)",
+          "type": "text"
+        },
+        {
+          "key": "hkd_dia_chi_so_nha",
+          "label": "Trụ sở: Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố, tổ/xóm/ấp/thôn",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "hkd_dia_chi_xa_phuong",
+          "label": "Trụ sở: Xã/Phường/Đặc khu (ghi cả chữ Xã/Phường/Đặc khu)",
+          "type": "text",
+          "required": true,
+          "placeholder": "Phường Đại Mỗ",
+          "help": "Dùng để in \"Kính gửi\": Phường → Phòng Kinh tế, Hạ tầng và Đô thị Phường …; Xã/Đặc khu → Phòng Kinh tế Xã …",
+          "validate": {
+            "pattern": "([Xx]ã|[Pp]hường|[Đđ]ặc khu) .+",
+            "message": "Ghi cả chữ Xã/Phường/Đặc khu, vd \"Phường Đại Mỗ\""
+          }
+        },
+        {
+          "key": "hkd_dia_chi_tinh_thanh",
+          "label": "Trụ sở: Tỉnh/Thành phố trực thuộc trung ương",
+          "type": "text",
+          "required": true,
+          "default": "Hà Nội"
+        },
+        {
+          "key": "tinh_dang_ky",
+          "label": "Nơi lập hồ sơ (tỉnh/thành phố)",
+          "type": "select",
+          "options_source": "tinh_thanh",
+          "default": "Hà Nội",
+          "required": true
+        },
+        {
+          "key": "hkd_sdt",
+          "label": "Điện thoại của hộ kinh doanh",
+          "type": "phone",
+          "required": true
+        },
+        {
+          "key": "hkd_email",
+          "label": "Thư điện tử của hộ kinh doanh (nếu có)",
+          "type": "email"
+        },
+        {
+          "key": "kd_tai_tru_so",
+          "label": "Kinh doanh tại trụ sở",
+          "type": "select",
+          "default": "co",
+          "options": [
+            {
+              "value": "co",
+              "label": "Có"
+            },
+            {
+              "value": "khong",
+              "label": "Không (không có địa điểm kinh doanh cố định)"
+            }
+          ]
+        },
+        {
+          "key": "von_kinh_doanh_so",
+          "label": "Vốn kinh doanh (VNĐ)",
+          "type": "money",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "thue",
+      "title": "Thông tin đăng ký thuế",
+      "fields": [
+        {
+          "key": "so_lao_dong",
+          "label": "Tổng số lao động (dự kiến)",
+          "type": "number",
+          "required": true,
+          "default": "1"
+        },
+        {
+          "key": "pp_thue_gtgt",
+          "label": "Phương pháp tính thuế GTGT",
+          "type": "select",
+          "default": "ke_khai",
+          "options": [
+            {
+              "value": "ke_khai",
+              "label": "Phương pháp kê khai"
+            },
+            {
+              "value": "khoan",
+              "label": "Phương pháp khoán"
+            }
+          ]
+        },
+        {
+          "key": "ngay_bat_dau_hd",
+          "label": "Ngày bắt đầu hoạt động (để trống nếu bắt đầu từ ngày được cấp Giấy chứng nhận)",
+          "type": "date"
+        },
+        {
+          "key": "thue_dia_chi_so_nha",
+          "label": "Địa chỉ nhận thông báo thuế (chỉ khi khác trụ sở): Số nhà, đường",
+          "type": "text"
+        },
+        {
+          "key": "thue_dia_chi_xa_phuong",
+          "label": "Địa chỉ nhận thông báo thuế: Xã/Phường/Đặc khu",
+          "type": "text"
+        },
+        {
+          "key": "thue_dia_chi_tinh_thanh",
+          "label": "Địa chỉ nhận thông báo thuế: Tỉnh/Thành phố",
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "file": "01. Giấy đề nghị đăng ký hộ kinh doanh.docx",
+      "fill_nganh_table": false
+    },
+    {
+      "file": "02. Giấy ủy quyền.docx"
+    }
+  ]
+}

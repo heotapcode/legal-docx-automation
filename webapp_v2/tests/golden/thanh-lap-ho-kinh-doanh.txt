@@ -1,0 +1,94 @@
+===== 01. Giấy đề nghị đăng ký hộ kinh doanh.docx =====
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+_______________________
+Hà Nội, ngày ...... tháng ...... năm 2026
+GIẤY ĐỀ NGHỊ ĐĂNG KÝ HỘ KINH DOANH
+Kính gửi: Phòng Kinh tế, Hạ tầng và Đô thị Phường Cầu Giấy
+
+Tôi là: NGUYỄN VĂN THỬ90
+Sinh ngày: 07/01/1990	Giới tính: Nữ
+Số định danh cá nhân: 001090000090
+Điện thoại: 0912345678	Thư điện tử: test@example.com
+Trường hợp việc kết nối giữa Cơ sở dữ liệu về đăng ký hộ kinh doanh với Cơ sở dữ liệu quốc gia về dân cư bị gián đoạn thì đề nghị kê khai thêm các thông tin cá nhân dưới đây:
+Đăng ký hộ kinh doanh do tôi là chủ hộ với các nội dung sau:
+1. Tên hộ kinh doanh:
+Tên hộ kinh doanh viết bằng tiếng Việt: HỘ KINH DOANH THỬ NGHIỆM
+Tên hộ kinh doanh viết bằng tiếng nước ngoài: GIATRI_TEN_HKD_NN
+Tên hộ kinh doanh viết tắt: GIATRI_TEN_HKD_VIET_TAT
+2. Trụ sở của hộ kinh doanh:
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: GIATRI_HKD_DIA_CHI_SO_NHA
+Xã/Phường/Đặc khu: Phường Cầu Giấy
+Tỉnh/Thành phố trực thuộc trung ương: GIATRI_HKD_DIA_CHI_TINH_THANH
+Điện thoại: 0912345678	Fax:
+Thư điện tử: test@example.com	Website:
+Kinh doanh tại trụ sở: Có
+3. Ngành, nghề kinh doanh:
+4. Vốn kinh doanh:
+Bằng số: 2.105.030.000 VNĐ;
+Bằng chữ: Hai tỷ một trăm linh năm triệu không trăm ba mươi nghìn đồng
+5. Thông tin đăng ký thuế:
+5.1. Địa chỉ nhận thông báo thuế (chỉ kê khai nếu địa chỉ nhận thông báo thuế khác địa chỉ trụ sở):
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: GIATRI_THUE_DIA_CHI_SO_NHA
+Xã/Phường/Đặc khu: GIATRI_THUE_DIA_CHI_XA_PHUONG
+Tỉnh/Thành phố trực thuộc trung ương: GIATRI_THUE_DIA_CHI_TINH_THANH
+Điện thoại: 	Thư điện tử:
+5.2. Ngày bắt đầu hoạt động (trường hợp hộ kinh doanh dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký hộ kinh doanh thì không cần kê khai nội dung này): 01/01/1990
+5.3. Tổng số lao động (dự kiến): 1
+5.4. Phương pháp tính thuế GTGT: Phương pháp kê khai
+6. Chủ thể thành lập hộ kinh doanh: Cá nhân
+Tôi xin cam kết:
+- Bản thân (trường hợp hộ kinh doanh do một cá nhân đăng ký thành lập)/Bản thân và các thành viên hộ gia đình đăng ký hộ kinh doanh (trường hợp hộ kinh doanh do các thành viên hộ gia đình đăng ký thành lập) đồng ý chia sẻ thông tin cá nhân được lưu giữ tại Cơ sở dữ liệu quốc gia về dân cư cho Cơ quan đăng ký kinh doanh cấp xã, Cơ quan quản lý nhà nước về đăng ký kinh doanh để phục vụ công tác quản lý nhà nước về đăng ký hộ kinh doanh theo quy định;
+- Bản thân (trường hợp hộ kinh doanh do một cá nhân đăng ký thành lập)/Bản thân và các thành viên hộ gia đình đăng ký hộ kinh doanh (trường hợp hộ kinh doanh do các thành viên hộ gia đình đăng ký thành lập) không thuộc diện pháp luật cấm kinh doanh; không đồng thời là chủ hộ kinh doanh, thành viên hộ gia đình đăng ký hộ kinh doanh khác; không là chủ doanh nghiệp tư nhân;
+- Trụ sở thuộc quyền sử dụng hợp pháp của hộ kinh doanh và được sử dụng đúng mục đích theo quy định của pháp luật (hộ kinh doanh chỉ cam kết trong trường hợp kinh doanh tại trụ sở);
+- Hoàn toàn chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung đăng ký trên.
+
+Dân tộc:        Quốc tịch:
+Nơi thường trú:
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn:
+Xã/Phường/Đặc khu:
+Tỉnh/Thành phố trực thuộc trung ương:
+Nơi ở hiện tại:
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn:
+Xã/Phường/Đặc khu:
+Tỉnh/Thành phố trực thuộc trung ương:
+STT
+Tên ngành
+Mã ngành
+1
+Lập trình máy vi tính
+6201 (Chính)
+2
+Bán buôn máy móc, thiết bị và phụ tùng máy khác
+4659
+
+CHỦ HỘ KINH DOANH
+
+===== 02. Giấy ủy quyền.docx =====
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập- Tự do- Hạnh phúc
+--------o0o-------
+GIẤY ỦY QUYỀN
+
+Giấy ủy quyền này được lập và ký vào ngày ...... tháng ...... năm 2026, giữa các bên dưới đây:
+
+BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
+Ông/Bà: 	NGUYỄN VĂN THỬ90
+Số định danh cá nhân: 001090000090	Giới tính: Nữ
+Ngày sinh: 07/01/1990
+Địa chỉ liên hệ: Số 90 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
+BÊN NHẬN UỶ QUYỀN: (Sau đây gọi là “Bên B”):
+
+- Ông: ĐỖ QUANG HIẾU
+Số định danh cá nhân: 001089021350 	Giới tính: Nam	Ngày sinh: 16/03/1989
+Nơi ở hiện tại: TK Đường, Phú Xuyên, Hà Nội.
+Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com
+Nội dung uỷ quyền:
+
+Nội dung uỷ quyền : Bên A uỷ quyền cho Bên B thực hiện thủ tục nộp và nhận kết quả hồ sơ đăng ký hộ kinh doanh với tên dự kiến là HỘ KINH DOANH THỬ NGHIỆM
+
+Giấy ủy quyền này có giá trị kể từ ngày ký và sẽ tự động chấm dứt hiệu lực khi các công việc nêu trên đã được hoàn thành.
+
+BÊN A
+
+NGUYỄN VĂN THỬ90

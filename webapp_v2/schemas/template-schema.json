@@ -531,6 +531,10 @@
           "description": "Tên file đầu ra, có thể dùng {{letter}}, {{index}} và trường của phần tử.",
           "type": "string"
         },
+        "fill_nganh_table": {
+          "description": "Mặc định true: sau khi điền, bảng có cột \"Tên ngành\" + \"Mã ngành\" được tự điền lại theo danh sách ngành đã chọn. Đặt false khi mẫu tự dựng bảng ngành bằng {%tr for n in ma_nganh %}.",
+          "type": "boolean"
+        },
         "post": {
           "description": "Các bước xử lý sau khi điền, theo thứ tự (services/document_rules.py: HOOKS).",
           "type": "array",

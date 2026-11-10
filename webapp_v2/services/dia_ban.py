@@ -75,3 +75,19 @@ def context_values(value: Optional[str]) -> Dict[str, str]:
         "tinh_thanh_dkkd": tinh_thanh_dkkd,
         "phong_dkkd": tinh.get("phong_dkkd") or f"Phòng Đăng ký kinh doanh {tinh_thanh_dkkd}",
     }
+
+
+def co_quan_dk_ho_kinh_doanh(xa_phuong: Optional[str]) -> str:
+    """Cơ quan đăng ký hộ kinh doanh cấp xã, theo xã/phường/đặc khu của trụ sở hộ kinh doanh.
+
+    "Phường Đại Mỗ" -> "Phòng Kinh tế, Hạ tầng và Đô thị Phường Đại Mỗ"
+    "Xã Phú Xuyên"  -> "Phòng Kinh tế Xã Phú Xuyên"   (xã và đặc khu)
+    Mẫu Word dùng: {{ hkd_dia_chi_xa_phuong | co_quan_hkd }}
+    """
+    s = " ".join(unicodedata.normalize("NFC", xa_phuong or "").split())
+    if not s:
+        return ""
+    s = s[0].upper() + s[1:]
+    if s.lower().startswith("phường"):
+        return f"Phòng Kinh tế, Hạ tầng và Đô thị {s}"
+    return f"Phòng Kinh tế {s}"

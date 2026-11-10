@@ -17,6 +17,7 @@ from jinja2 import Environment
 
 from config import TEMPLATES_DIR
 from services.dia_ban import context_values as dia_ban_context
+from services.dia_ban import co_quan_dk_ho_kinh_doanh
 
 # --- HELPER FUNCTIONS ---
 
@@ -303,6 +304,7 @@ def create_jinja_env() -> Environment:
     env.filters["fmt_money"] = fmt_money
     env.filters["so_thanh_chu"] = so_thanh_chu
     env.filters["danh_xung"] = danh_xung
+    env.filters["co_quan_hkd"] = co_quan_dk_ho_kinh_doanh
     env.filters["upper"] = lambda s: str(s).upper() if s else ""
     env.filters["lower"] = lambda s: str(s).lower() if s else ""
     env.globals["today_vn"] = format_date_vn
@@ -1632,9 +1634,11 @@ def render_documents(
                 tpl.save(str(out_path))
 
                 hooks = entry.get("post") or []
-                if ma_nganh_list or (hooks and tv_moi_list):
+                # fill_nganh_table: false -> mẫu tự dựng bảng ngành bằng {%tr for n in ma_nganh %}
+                fill_nganh = bool(ma_nganh_list) and entry.get("fill_nganh_table", True)
+                if fill_nganh or (hooks and tv_moi_list):
                     doc = docx.Document(str(out_path))
-                    if ma_nganh_list:
+                    if fill_nganh:
                         populate_ma_nganh_table(doc, ma_nganh_list)
                     if tv_moi_list:
                         for hook in hooks:
