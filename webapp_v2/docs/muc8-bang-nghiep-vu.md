@@ -60,7 +60,7 @@
 | Bước | Nội dung | Trạng thái |
 |---|---|---|
 | 8.2a | **Thông báo thay đổi nội dung ĐKDN** (bộ `Thay đổi nội dung ĐKKD`): chọn loại hình và các nội dung A1–A7; chỉ in phần đã chọn, đánh số lại tự động; điền tên mới, địa chỉ mới, vốn cũ/mới (số và chữ), bảng nguồn vốn, ngành bổ sung / ngành bỏ, kế toán trưởng và địa chỉ nhận thông báo thuế. A3 chỉ cho TNHH 2 TV; "thông tin cổ phần" chỉ cho Cổ phần; cam kết thanh toán nợ chỉ khi giảm vốn. Form có bước hiện theo lựa chọn. | ✅ |
-| 8.2b | **Quyết định** (Chủ sở hữu / Hội đồng thành viên / Đại hội đồng cổ đông) mỗi nội dung một Điều, và **Biên bản họp** cho TNHH 2 TV / Cổ phần. | ✅ bản nháp, **chờ anh duyệt câu chữ** (mục 6) |
+| 8.2b | **Quyết định** (Chủ sở hữu / Hội đồng thành viên / Đại hội đồng cổ đông) mỗi nội dung một Điều, và **Biên bản họp** cho TNHH 2 TV / Cổ phần. | ✅ (câu chữ anh đã duyệt 10/11/2026, mục 6) |
 | 8.2c | Văn bản kèm theo: **Danh sách thành viên** (TNHH 2 TV khi có A3/A4), **Danh sách chủ sở hữu hưởng lợi** (A7, theo danh sách người đã nhập), **Thông báo thay đổi người đại diện** (A8; người ký theo loại hình: Chủ sở hữu / Chủ tịch HĐTV / Chủ tịch HĐQT). Thêm lựa chọn A8 (nhập ĐDPL cũ; Quyết định có Điều miễn nhiệm/bổ nhiệm, Biên bản họp có mục tương ứng). Thông báo thay đổi nội dung ĐKDN chỉ sinh khi có ít nhất một nội dung A1–A7. | ✅ |
 | 8.2d | **Hợp đồng chuyển nhượng + Biên bản thanh lý** cho A3 (TNHH 2 TV): mỗi giao dịch một bộ; bên A chọn từ thành viên trước khi thay đổi (có địa chỉ), bên B từ thành viên sau khi thay đổi; kiểm tra lựa chọn hợp lệ. | ✅ |
 | 8.3 | **Lối tắt** từ các bộ đơn lẻ sang thủ tục gộp: trên màn hình nhập liệu của Tăng vốn (TNHH 1 TV, TNHH 2 TV, Cổ phần), Giảm vốn Cổ phần, Thay đổi ngành nghề TNHH 1 TV, Thay đổi địa chỉ và thuế TNHH 2 TV có nút "Thay đổi thêm nội dung khác cùng lúc". Bấm vào thì mở bộ `Thay đổi nội dung ĐKKD`, giữ dữ liệu đã nhập, đặt sẵn loại hình và nội dung thay đổi tương ứng (vd Giảm vốn Cổ phần → Cổ phần, A4, hình thức giảm). Bộ đơn lẻ vẫn dùng được như cũ. | ✅ |
@@ -70,7 +70,9 @@ Ghi chú 8.2a:
 - Sửa lỗi cũ: bảng "ngành bỏ" và "ngành sửa đổi" trước đây bị tự điền nhầm danh sách ngành bổ sung.
 - Mẫu Word dựng lại bằng `scripts_and_tools/build_muc8_thong_bao.py` (giữ nguyên câu chữ mẫu nhà nước, chỉ thêm điều kiện và ô dữ liệu).
 
-## 6. Bản nháp Quyết định / Biên bản họp (8.2b): các điểm cần anh duyệt
+## 6. Quyết định / Biên bản họp (8.2b): câu chữ đã duyệt
+
+✅ Anh duyệt câu chữ Quyết định và Biên bản họp ngày 10/11/2026.
 
 Mẫu: `templates/Thay đổi nội dung ĐKKD/03. Quyết định.docx`, `04. Biên bản họp.docx` (dựng bằng
 `scripts_and_tools/build_muc8_quyet_dinh.py`, nền là mẫu của bộ "Thay đổi địa chỉ và thuế TNHH 2 TV").
@@ -97,4 +99,4 @@ Mẫu: `templates/Thay đổi nội dung ĐKKD/03. Quyết định.docx`, `04. B
   vẫn là danh sách sau khi thay đổi.
 - Thông báo thay đổi người đại diện (A8): dòng "Số định danh cá nhân của Chủ sở hữu / Chủ tịch …" và người ký theo người này.
 
-Anh sửa trực tiếp câu chữ ở đây (hoặc nhắn theo mục) — em cập nhật vào mẫu.
+Cần sửa câu chữ: sửa `scripts_and_tools/build_muc8_quyet_dinh.py` rồi chạy lại để dựng hai mẫu.

@@ -1,7 +1,7 @@
 """Mục 8.2b: dựng Quyết định và Biên bản họp cho thủ tục gộp thay đổi ĐKDN (bộ "Thay đổi nội dung ĐKKD").
 
 Nền: hai mẫu của bộ "Thay đổi địa chỉ và thuế TNHH 2 TV" (giữ khổ giấy, kiểu chữ, bảng tiêu đề, bảng ký).
-Câu chữ là BẢN NHÁP, cần người làm pháp lý duyệt (docs/muc8-bang-nghiep-vu.md).
+Câu chữ đã được duyệt ngày 10/11/2026 (docs/muc8-bang-nghiep-vu.md, mục 6).
 
 - 03. Quyết định.docx: của Chủ sở hữu (TNHH 1 TV) / Hội đồng thành viên (TNHH 2 TV) / Đại hội đồng cổ đông (Cổ phần).
   Mỗi nội dung đã chọn là một Điều, đánh số tự động; tiếp theo là Điều sửa Điều lệ (nếu có A1-A5, A8), Điều giao người
