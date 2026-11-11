@@ -177,3 +177,69 @@ def test_api_hides_internal_errors(monkeypatch):
 
 def test_api_requires_upload():
     assert client.post("/api/ocr/vneid", data={"target": "ddpl"}).status_code == 400
+
+
+# ---------- Máy chủ thiếu thành phần: báo rõ thiếu gì, không báo "lỗi hệ thống" chung chung ----------
+
+def _text_image_bytes():
+    img = Image.new("RGB", (600, 200), "white")
+    ImageDraw.Draw(img).text((20, 80), "khong co ma QR", fill="black")
+    return png_bytes(img)
+
+
+def test_missing_tessdata_message_names_the_fix(monkeypatch, tmp_path):
+    pytest.importorskip("tesserocr")
+    from services import ocr_service
+
+    monkeypatch.setattr(ocr_service, "TESSDATA_DIR", tmp_path)
+    res = client.post("/api/ocr/vneid", files={"image": ("a.png", _text_image_bytes(), "image/png")}).json()
+    assert res["success"] is False
+    assert "chưa cài dữ liệu đọc chữ" in res["message"] and "python -m tools.setup_ocr" in res["message"]
+    assert client.get("/api/ocr/status").json()["ocr_ready"] is False
+
+
+def test_missing_tesserocr_message_names_the_fix(monkeypatch):
+    import builtins
+
+    real_import = builtins.__import__
+
+    def fake_import(name, *args, **kwargs):
+        if name == "tesserocr":
+            raise ImportError("DLL load failed")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", fake_import)
+    res = client.post("/api/ocr/vneid", files={"image": ("a.png", _text_image_bytes(), "image/png")}).json()
+    assert res["success"] is False and "tesserocr" in res["message"] and "pip install" in res["message"]
+    assert "DLL" not in res["message"]  # chi tiết kỹ thuật chỉ ghi log
+    st = client.get("/api/ocr/status").json()
+    assert st["tesserocr"] is False and st["qr_ready"] is True and "tessdata_dir" not in st
+
+
+def test_qr_still_works_without_tesserocr(monkeypatch):
+    import builtins
+
+    real_import = builtins.__import__
+    monkeypatch.setattr(builtins, "__import__", lambda name, *a, **k: (_ for _ in ()).throw(ImportError(name))
+                        if name == "tesserocr" else real_import(name, *a, **k))
+    res = client.post("/api/ocr/vneid", files={"image": ("a.png", png_bytes(qr_image(QR_TEXT)), "image/png")}).json()
+    assert res["success"] and res["data"]["nguon"] == "qr"
+
+
+def test_missing_qr_library_falls_back_to_text(monkeypatch):
+    from services import ocr_service
+
+    monkeypatch.setattr(ocr_service, "zxingcpp", None)
+    monkeypatch.setattr(ocr_service, "_read_ocr", lambda img: {"nguon": "ocr", "ho_ten": "A"})
+    res = client.post("/api/ocr/vneid", files={"image": ("a.png", png_bytes(qr_image(QR_TEXT)), "image/png")}).json()
+    assert res["success"] and res["data"]["nguon"] == "ocr"
+
+
+def test_setup_ocr_check_command(capsys):
+    from tools import setup_ocr
+    from services import ocr_service
+
+    code = setup_ocr.check()
+    out = capsys.readouterr().out
+    assert "Đọc thử ảnh có mã QR" in out and "KẾT LUẬN" in out
+    assert code == (0 if ocr_service.status()["ocr_ready"] else 1)

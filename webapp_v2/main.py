@@ -1,8 +1,9 @@
 import os
+import re
 from pathlib import Path
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -27,6 +28,18 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
+# Báo ngay khi khởi động nếu phần đọc CCCD thiếu thành phần (kiểm tra chi tiết: python -m tools.setup_ocr --check)
+def _log_ocr_status() -> None:
+    from services import ocr_service
+    st = ocr_service.status()
+    if not st["qr_ready"] or not st["ocr_ready"]:
+        logging.getLogger("ocr").warning(
+            "Đọc CCCD chưa đầy đủ (đọc QR: %s, đọc chữ: %s). Chạy: python -m tools.setup_ocr --check",
+            "sẵn sàng" if st["qr_ready"] else "THIẾU", "sẵn sàng" if st["ocr_ready"] else "THIẾU")
+
+
+_log_ocr_status()
+
 # Include API routers
 app.include_router(templates.router)
 app.include_router(documents.router)
@@ -44,11 +57,29 @@ static_dir = BASE_DIR / "static"
 static_dir.mkdir(parents=True, exist_ok=True)
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
-# Serve index.html
+_ASSET_RE = re.compile(r'(src|href)="(/static/[^"?]+)(?:\?[^"]*)?"')
+
+
+def render_index() -> str:
+    """index.html với mỗi file JS/CSS nội bộ gắn ?v=<thời điểm sửa file>.
+
+    Sửa file nào thì địa chỉ file đó đổi, trình duyệt buộc tải bản mới: người dùng không bị kẹt bản JS cũ
+    trong bộ nhớ đệm sau khi cập nhật máy chủ (không cần tự tăng số phiên bản trong index.html).
+    """
+    html = (static_dir / "index.html").read_text(encoding="utf-8")
+
+    def stamp(m):
+        f = static_dir / m.group(2)[len("/static/"):]
+        version = int(f.stat().st_mtime) if f.is_file() else 0
+        return f'{m.group(1)}="{m.group(2)}?v={version}"'
+
+    return _ASSET_RE.sub(stamp, html)
+
+
+# Serve index.html (không lưu đệm trang khung; các file tĩnh có ?v= riêng)
 @app.get("/")
 async def serve_index():
-    index_path = static_dir / "index.html"
-    return FileResponse(str(index_path), media_type="text/html")
+    return HTMLResponse(render_index(), headers={"Cache-Control": "no-cache"})
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host=HOST, port=PORT, reload=True)

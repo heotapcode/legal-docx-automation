@@ -1,12 +1,22 @@
 import logging
 from typing import Optional
 from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
+from services import ocr_service
 from services.ocr_service import extract_vneid
 from services.rate_limit import limit
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/ocr", tags=["OCR"])
+
+@router.get("/status")
+def ocr_status():
+    """Tình trạng các thành phần đọc CCCD trên máy chủ (để tìm nguyên nhân khi nút quét không hoạt động)."""
+    st = ocr_service.status()
+    st.pop("tessdata_dir", None)       # không lộ đường dẫn trên máy chủ
+    st.pop("tesserocr_error", None)
+    return st
+
 
 @router.post("/vneid", dependencies=[Depends(limit("ocr"))])
 async def ocr_vneid(
@@ -21,6 +31,9 @@ async def ocr_vneid(
         image_bytes = await upload.read()
         data = await extract_vneid(image_bytes, target)
         return {"success": True, "data": data}
+    except ocr_service.OcrSetupError as e:
+        logger.error("Đọc CCCD: máy chủ thiếu thành phần: %s (%s)", e, ocr_service.status())
+        return {"success": False, "message": str(e)}
     except ValueError as e:
         # Lỗi do ảnh/dữ liệu đầu vào: thông báo đã viết sẵn cho người dùng
         return {"success": False, "message": str(e)}

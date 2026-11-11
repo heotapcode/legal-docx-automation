@@ -33,7 +33,38 @@ FULL_SCORE = 4
 MIN_SCORE = 2
 
 
-def _load_image(image_bytes: bytes) -> Image.Image:
+INSTALL_HINT = "Trên máy chủ, trong thư mục webapp_v2, chạy: pip install -r requirements.txt"
+DATA_HINT = "Trên máy chủ, trong thư mục webapp_v2, chạy: python -m tools.setup_ocr"
+
+
+class OcrSetupError(ValueError):
+    """Máy chủ thiếu thành phần để đọc CCCD. Thông báo viết cho người dùng, nói rõ thiếu gì và cách cài."""
+
+
+def status() -> Dict[str, object]:
+    """Tình trạng các thành phần đọc CCCD (dùng cho /api/ocr/status và python -m tools.setup_ocr --check)."""
+    try:
+        import tesserocr  # noqa: F401
+        tesser, tesser_error = True, ""
+    except Exception as e:  # ImportError, hoặc thiếu thư viện hệ thống trên Windows
+        tesser, tesser_error = False, f"{type(e).__name__}: {e}"
+    data = (TESSDATA_DIR / "vie.traineddata").exists()
+    return {
+        "pillow": Image is not None,
+        "parser": parse_qr is not None,
+        "qr": zxingcpp is not None,
+        "tesserocr": tesser,
+        "tesserocr_error": tesser_error,
+        "tessdata": data,
+        "tessdata_dir": str(TESSDATA_DIR),
+        "qr_ready": Image is not None and parse_qr is not None and zxingcpp is not None,
+        "ocr_ready": Image is not None and parse_qr is not None and tesser and data,
+    }
+
+
+def _load_image(image_bytes: bytes) -> "Image.Image":
+    if Image is None or parse_qr is None:
+        raise OcrSetupError(f"Máy chủ chưa cài thư viện xử lý ảnh (Pillow). {INSTALL_HINT}")
     if len(image_bytes) > MAX_UPLOAD_BYTES:
         raise ValueError("Ảnh quá lớn (tối đa 15 MB)")
     try:
@@ -44,11 +75,13 @@ def _load_image(image_bytes: bytes) -> Image.Image:
     return img
 
 
-def _scaled(img: Image.Image, factor: float) -> Image.Image:
+def _scaled(img: "Image.Image", factor: float) -> "Image.Image":
     return img.resize((int(img.width * factor), int(img.height * factor)), Image.LANCZOS)
 
 
-def _read_qr(img: Image.Image) -> Optional[Dict]:
+def _read_qr(img: "Image.Image") -> Optional[Dict]:
+    if zxingcpp is None:  # thiếu thư viện đọc QR: vẫn thử đọc chữ
+        return None
     gray = ImageOps.autocontrast(img.convert("L"))
     for candidate in (img, gray, _scaled(gray, 2), _scaled(gray, 0.5)):
         for barcode in zxingcpp.read_barcodes(candidate, formats=zxingcpp.BarcodeFormat.QRCode):
@@ -81,7 +114,7 @@ def tsv_to_text(tsv: str) -> str:
     return "\n".join(lines)
 
 
-def _prepare_for_ocr(img: Image.Image) -> Image.Image:
+def _prepare_for_ocr(img: "Image.Image") -> "Image.Image":
     # Lấy kênh sáng nhất của mỗi điểm: hoa văn nền nhạt màu của VNeID gần như biến mất, chữ tối vẫn giữ nguyên
     r, g, b = img.split()
     gray = ImageOps.autocontrast(ImageChops.lighter(ImageChops.lighter(r, g), b))
@@ -92,16 +125,22 @@ def _prepare_for_ocr(img: Image.Image) -> Image.Image:
     return gray
 
 
-def _read_ocr(img: Image.Image) -> Dict:
-    import tesserocr
-
+def _read_ocr(img: "Image.Image") -> Dict:
+    no_qr = "Không đọc được mã QR trong ảnh" if zxingcpp is not None else \
+        "Máy chủ chưa cài thư viện đọc mã QR (zxing-cpp)"
+    try:
+        import tesserocr
+    except Exception as e:
+        raise OcrSetupError(f"{no_qr}, và máy chủ chưa cài được thư viện đọc chữ (tesserocr). {INSTALL_HINT} "
+                            f"Trong lúc chờ: chụp rõ mã QR trên thẻ hoặc nhập tay.") from e
     if not (TESSDATA_DIR / "vie.traineddata").exists():
-        raise ValueError("Không đọc được mã QR và chưa cài dữ liệu OCR tiếng Việt. Chạy: python -m tools.setup_ocr")
+        raise OcrSetupError(f"{no_qr}, và máy chủ chưa cài dữ liệu đọc chữ tiếng Việt. {DATA_HINT} "
+                            f"Trong lúc chờ: chụp rõ mã QR trên thẻ hoặc nhập tay.")
 
     gray = _prepare_for_ocr(img)
 
     with tesserocr.PyTessBaseAPI(path=str(TESSDATA_DIR), lang="vie") as api:
-        def read(candidate: Image.Image, psm: int) -> Dict:
+        def read(candidate: "Image.Image", psm: int) -> Dict:
             api.SetPageSegMode(psm)
             api.SetImage(candidate)
             return parse_ocr_text(tsv_to_text(api.GetTSVText(0)))

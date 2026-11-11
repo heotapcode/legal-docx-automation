@@ -14,7 +14,8 @@ phải lập trình viên: trao đổi bằng tiếng Việt, nói kết quả t
 | `webapp_v2/services/text_format.py` | Định dạng tiền, số thành chữ, danh xưng, ngày (`fmt_money`, `so_thanh_chu`, `danh_xung`, `format_date_vn`). |
 | `webapp_v2/services/schema_engine.py` + `static/js/engine/schema_engine.js` | Lõi kiểm tra dữ liệu, hai bản phải cùng hành vi (`tests/engine_cases.json` chạy cho cả hai). |
 | `webapp_v2/services/document_rules.py` | Quy tắc riêng theo nghiệp vụ, gọi qua khóa `prepare`, `post`, `repeat_with` trong schema. |
-| `webapp_v2/static/js/pages/wizard.js`, `engine/form_renderer.js` | Form nhập liệu. Kiểu trường mới thêm vào `form_renderer.js`, không thêm vào `wizard.js`. |
+| `webapp_v2/static/js/pages/wizard.js` | Khung wizard 4 bước, thu dữ liệu, gọi API sinh hồ sơ. `pages/wizard_nganh.js`: bước chọn mã ngành. |
+| `webapp_v2/static/js/engine/form_renderer.js`, `field_types.js`, `ocr_scan.js` | Vẽ form theo schema. Kiểu ô mới thêm vào `form_renderer.js`; `field_types.js` giữ các kiểu cũ (thẻ người, danh sách thành viên, tiền, MST); `ocr_scan.js` là các nút quét CCCD. |
 | `webapp_v2/tools/` | `template_lint` (quét mẫu), `schema_suggest`, `admin_user`, `setup_ocr`. |
 | `webapp_v2/docs/` | `schema-v2.md` (đặc tả `_schema.json`), `them-thu-tuc-moi.md`, `muc8-bang-nghiep-vu.md`, `quan-tri.md`. |
 | `scripts_and_tools/` | Script dựng / sửa mẫu Word (xem README trong đó). |
@@ -30,6 +31,7 @@ python -m pytest -q                                # toàn bộ, khoảng 5 phú
 python -m pytest -q tests/test_golden_snapshots.py # ảnh chụp chuẩn nội dung hồ sơ
 UPDATE_GOLDEN=1 python -m pytest -q tests/test_golden_snapshots.py -k "<id bộ mẫu>"   # cập nhật có chủ đích
 python main.py                                     # chạy máy chủ
+python -m tools.setup_ocr --check                  # kiểm tra phần đọc CCCD (thư viện, dữ liệu tiếng Việt, đọc thử)
 python -m tools.backup                             # sao lưu templates/, phiên bản mẫu, CSDL quản trị
 ```
 
@@ -72,6 +74,10 @@ Sau khi cập nhật ảnh chụp chuẩn, luôn xem `git diff tests/golden`: ch
   test cần giới hạn thì tự bật bằng `monkeypatch.setitem(config.RATE_LIMITS, ...)` và gọi `rate_limit.reset()`.
 - **Lỗi hệ thống** ghi bằng `logger.exception(...)`, không `print`, không trả `str(e)` ra trình duyệt; chỉ `ValueError`
   (lỗi do dữ liệu người dùng) mới được trả nguyên văn.
+- **File JS/CSS**: `index.html` không ghi số phiên bản; máy chủ tự gắn `?v=<thời điểm sửa file>` (`main.py: render_index`).
+  Thêm file JS mới thì khai báo trong `static/index.html`, đúng thứ tự phụ thuộc (engine trước, pages sau).
+- **Đọc CCCD không chạy trên máy người dùng**: bảo họ chạy `python -m tools.setup_ocr --check` bằng đúng Python đang chạy
+  máy chủ; thường là thiếu `data/tessdata` (không nằm trong git) hoặc thiếu thư viện trong môi trường Python đó.
 - **Xuất bản từ trang quản trị** ghi thẳng vào `templates/` trên máy chủ: nội dung trên máy chủ có thể mới hơn git.
 
 ## Quy ước đặt tên biến

@@ -411,12 +411,12 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
         ctx[k.upper()] = v if v is not None else ""
 
     # Parse company address
-    so_nha = ctx.get("dia_chi_so_nha") or ctx.get("DIA_CHI_SO_NHA") or ""
-    xa_phuong = ctx.get("dia_chi_xa_phuong") or ctx.get("DIA_CHI_XA_PHUONG") or ""
-    quan_huyen = ctx.get("dia_chi_quan_huyen") or ctx.get("DIA_CHI_QUAN_HUYEN") or ""
-    tinh_thanh = ctx.get("dia_chi_tinh_thanh") or ctx.get("DIA_CHI_TINH_THANH") or ""
+    so_nha = ctx.get("dia_chi_so_nha") or ""
+    xa_phuong = ctx.get("dia_chi_xa_phuong") or ""
+    quan_huyen = ctx.get("dia_chi_quan_huyen") or ""
+    tinh_thanh = ctx.get("dia_chi_tinh_thanh") or ""
     addr_parts = [p for p in [so_nha, xa_phuong, quan_huyen, tinh_thanh] if p]
-    full_addr = ctx.get("dia_chi_day_du") or ctx.get("DIA_CHI_DAY_DU") or ", ".join(addr_parts)
+    full_addr = ctx.get("dia_chi_day_du") or ", ".join(addr_parts)
 
     ctx["dia_chi"] = {
         "so_nha": so_nha,
@@ -427,40 +427,35 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
         "full": full_addr
     }
     ctx["dia_chi_day_du"] = full_addr
-    ctx["DIA_CHI_DAY_DU"] = full_addr
 
     # Parse Địa điểm kinh doanh address (DDKD)
-    ddkd_sn = ctx.get("ddkd_dia_chi_so_nha") or ctx.get("dia_chi_ddkd_so_nha") or ctx.get("DDKD_DIA_CHI_SO_NHA") or ""
-    ddkd_xp = ctx.get("ddkd_dia_chi_xa_phuong") or ctx.get("dia_chi_ddkd_xa_phuong") or ctx.get("DDKD_DIA_CHI_XA_PHUONG") or ""
-    ddkd_tt = ctx.get("ddkd_dia_chi_tinh_thanh") or ctx.get("dia_chi_ddkd_tinh_thanh") or ctx.get("DDKD_DIA_CHI_TINH_THANH") or ""
+    ddkd_sn = ctx.get("ddkd_dia_chi_so_nha") or ctx.get("dia_chi_ddkd_so_nha") or ""
+    ddkd_xp = ctx.get("ddkd_dia_chi_xa_phuong") or ctx.get("dia_chi_ddkd_xa_phuong") or ""
+    ddkd_tt = ctx.get("ddkd_dia_chi_tinh_thanh") or ctx.get("dia_chi_ddkd_tinh_thanh") or ""
     ddkd_parts = [p for p in [ddkd_sn, ddkd_xp, ddkd_tt] if p]
-    ddkd_full = ctx.get("ddkd_dia_chi_day_du") or ctx.get("DDKD_DIA_CHI_DAY_DU") or ", ".join(ddkd_parts)
+    ddkd_full = ctx.get("ddkd_dia_chi_day_du") or ", ".join(ddkd_parts)
 
     ctx["ddkd_dia_chi_so_nha"] = ddkd_sn
-    ctx["DDKD_DIA_CHI_SO_NHA"] = ddkd_sn
     ctx["dia_chi_ddkd_so_nha"] = ddkd_sn
     ctx["ddkd_dia_chi_xa_phuong"] = ddkd_xp
-    ctx["DDKD_DIA_CHI_XA_PHUONG"] = ddkd_xp
     ctx["dia_chi_ddkd_xa_phuong"] = ddkd_xp
     ctx["ddkd_dia_chi_tinh_thanh"] = ddkd_tt
-    ctx["DDKD_DIA_CHI_TINH_THANH"] = ddkd_tt
     ctx["dia_chi_ddkd_tinh_thanh"] = ddkd_tt
     ctx["ddkd_dia_chi_day_du"] = ddkd_full
-    ctx["DDKD_DIA_CHI_DAY_DU"] = ddkd_full
 
     # DDPL normalization
     ddpl_raw = ctx.get("ddpl") if isinstance(ctx.get("ddpl"), dict) else {}
-    ddpl_gt = ddpl_raw.get("gioi_tinh") or ctx.get("ddpl_gioi_tinh") or ctx.get("DDPL_GIOI_TINH") or "Nam"
+    ddpl_gt = ddpl_raw.get("gioi_tinh") or ctx.get("ddpl_gioi_tinh") or "Nam"
     ddpl_dx = danh_xung(ddpl_gt)
-    ddpl_ho_ten = (ddpl_raw.get("ho_ten") or ctx.get("ddpl_ho_ten") or ctx.get("DDPL_HO_TEN") or "").upper()
-    ddpl_cccd = ddpl_raw.get("so_cccd") or ctx.get("ddpl_so_cccd") or ctx.get("DDPL_SO_CCCD") or ""
-    ddpl_ns = ddpl_raw.get("ngay_sinh") or ctx.get("ddpl_ngay_sinh") or ctx.get("DDPL_NGAY_SINH") or ""
-    ddpl_sn = ddpl_raw.get("dia_chi_so_nha") or ctx.get("ddpl_dia_chi_so_nha") or ctx.get("DDPL_DIA_CHI_SO_NHA") or ""
-    ddpl_xp = ddpl_raw.get("dia_chi_xa_phuong") or ctx.get("ddpl_dia_chi_xa_phuong") or ctx.get("DDPL_DIA_CHI_XA_PHUONG") or ""
-    ddpl_qh = ddpl_raw.get("dia_chi_quan_huyen") or ctx.get("ddpl_dia_chi_quan_huyen") or ctx.get("DDPL_DIA_CHI_QUAN_HUYEN") or ""
-    ddpl_tt = ddpl_raw.get("dia_chi_tinh_thanh") or ctx.get("ddpl_dia_chi_tinh_thanh") or ctx.get("DDPL_DIA_CHI_TINH_THANH") or ""
+    ddpl_ho_ten = (ddpl_raw.get("ho_ten") or ctx.get("ddpl_ho_ten") or "").upper()
+    ddpl_cccd = ddpl_raw.get("so_cccd") or ctx.get("ddpl_so_cccd") or ""
+    ddpl_ns = ddpl_raw.get("ngay_sinh") or ctx.get("ddpl_ngay_sinh") or ""
+    ddpl_sn = ddpl_raw.get("dia_chi_so_nha") or ctx.get("ddpl_dia_chi_so_nha") or ""
+    ddpl_xp = ddpl_raw.get("dia_chi_xa_phuong") or ctx.get("ddpl_dia_chi_xa_phuong") or ""
+    ddpl_qh = ddpl_raw.get("dia_chi_quan_huyen") or ctx.get("ddpl_dia_chi_quan_huyen") or ""
+    ddpl_tt = ddpl_raw.get("dia_chi_tinh_thanh") or ctx.get("ddpl_dia_chi_tinh_thanh") or ""
     ddpl_parts = [p for p in [ddpl_sn, ddpl_xp, ddpl_qh, ddpl_tt] if p]
-    ddpl_full = ddpl_raw.get("dia_chi_day_du") or ctx.get("ddpl_dia_chi_day_du") or ctx.get("DDPL_DIA_CHI_DAY_DU") or ", ".join(ddpl_parts)
+    ddpl_full = ddpl_raw.get("dia_chi_day_du") or ctx.get("ddpl_dia_chi_day_du") or ", ".join(ddpl_parts)
 
     ddpl_dict = SafeDict({
         "ho_ten": ddpl_ho_ten,
@@ -479,34 +474,24 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
 
     # Flatten DDPL
     ctx["ddpl_ho_ten"] = ddpl_ho_ten
-    ctx["DDPL_HO_TEN"] = ddpl_ho_ten
     ctx["ddpl_gioi_tinh"] = ddpl_gt
-    ctx["DDPL_GIOI_TINH"] = ddpl_gt
     ctx["ddpl_danh_xung"] = ddpl_dx
-    ctx["DDPL_DANH_XUNG"] = ddpl_dx
     ctx["ddpl_so_cccd"] = ddpl_cccd
-    ctx["DDPL_SO_CCCD"] = ddpl_cccd
     ctx["ddpl_ngay_sinh"] = ddpl_ns
-    ctx["DDPL_NGAY_SINH"] = ddpl_ns
     ctx["ddpl_dia_chi_so_nha"] = ddpl_sn
-    ctx["DDPL_DIA_CHI_SO_NHA"] = ddpl_sn
     ctx["ddpl_dia_chi_xa_phuong"] = ddpl_xp
-    ctx["DDPL_DIA_CHI_XA_PHUONG"] = ddpl_xp
     ctx["ddpl_dia_chi_quan_huyen"] = ddpl_qh
-    ctx["DDPL_DIA_CHI_QUAN_HUYEN"] = ddpl_qh
     ctx["ddpl_dia_chi_tinh_thanh"] = ddpl_tt
-    ctx["DDPL_DIA_CHI_TINH_THANH"] = ddpl_tt
     ctx["ddpl_dia_chi_day_du"] = ddpl_full
-    ctx["DDPL_DIA_CHI_DAY_DU"] = ddpl_full
 
     # DDPL CŨ normalization
     ddpl_cu_raw = ctx.get("ddpl_cu") if isinstance(ctx.get("ddpl_cu"), dict) else {}
-    cu_gt = ddpl_cu_raw.get("gioi_tinh") or ctx.get("ddpl_cu_gioi_tinh") or ctx.get("DDPL_CU_GIOI_TINH") or "Nam"
+    cu_gt = ddpl_cu_raw.get("gioi_tinh") or ctx.get("ddpl_cu_gioi_tinh") or "Nam"
     cu_dx = danh_xung(cu_gt)
-    cu_ht = (ddpl_cu_raw.get("ho_ten") or ctx.get("ddpl_cu_ho_ten") or ctx.get("DDPL_CU_HO_TEN") or "").upper()
-    cu_cccd = ddpl_cu_raw.get("so_cccd") or ctx.get("ddpl_cu_so_cccd") or ctx.get("DDPL_CU_SO_CCCD") or ""
-    cu_ns = ddpl_cu_raw.get("ngay_sinh") or ctx.get("ddpl_cu_ngay_sinh") or ctx.get("DDPL_CU_NGAY_SINH") or ""
-    cu_addr = ddpl_cu_raw.get("dia_chi_day_du") or ctx.get("ddpl_cu_dia_chi_day_du") or ctx.get("DDPL_CU_DIA_CHI_DAY_DU") or ""
+    cu_ht = (ddpl_cu_raw.get("ho_ten") or ctx.get("ddpl_cu_ho_ten") or "").upper()
+    cu_cccd = ddpl_cu_raw.get("so_cccd") or ctx.get("ddpl_cu_so_cccd") or ""
+    cu_ns = ddpl_cu_raw.get("ngay_sinh") or ctx.get("ddpl_cu_ngay_sinh") or ""
+    cu_addr = ddpl_cu_raw.get("dia_chi_day_du") or ctx.get("ddpl_cu_dia_chi_day_du") or ""
 
     ddpl_cu_dict = SafeDict({
         "ho_ten": cu_ht,
@@ -519,74 +504,55 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
     ctx["ddpl_cu"] = ddpl_cu_dict
     ctx["ddpl_cu_danh_xung"] = cu_dx
     ctx["ddpl_cu_ho_ten"] = cu_ht
-    ctx["DDPL_CU_HO_TEN"] = cu_ht
     ctx["ddpl_cu_gioi_tinh"] = cu_gt
-    ctx["DDPL_CU_GIOI_TINH"] = cu_gt
     ctx["ddpl_cu_so_cccd"] = cu_cccd
-    ctx["DDPL_CU_SO_CCCD"] = cu_cccd
     ctx["ddpl_cu_ngay_sinh"] = cu_ns
-    ctx["DDPL_CU_NGAY_SINH"] = cu_ns
     ctx["ddpl_cu_dia_chi_day_du"] = cu_addr
-    ctx["DDPL_CU_DIA_CHI_DAY_DU"] = cu_addr
 
     # DDPL MỚI normalization (fallback to DDPL if empty)
     ddpl_moi_raw = ctx.get("ddpl_moi") if isinstance(ctx.get("ddpl_moi"), dict) else {}
-    moi_gt = ddpl_moi_raw.get("gioi_tinh") or ctx.get("ddpl_moi_gioi_tinh") or ctx.get("DDPL_MOI_GIOI_TINH") or ddpl_gt
+    moi_gt = ddpl_moi_raw.get("gioi_tinh") or ctx.get("ddpl_moi_gioi_tinh") or ddpl_gt
     moi_dx = danh_xung(moi_gt)
-    moi_ht = (ddpl_moi_raw.get("ho_ten") or ctx.get("ddpl_moi_ho_ten") or ctx.get("DDPL_MOI_HO_TEN") or ddpl_ho_ten).upper()
-    moi_cccd = ddpl_moi_raw.get("so_cccd") or ctx.get("ddpl_moi_so_cccd") or ctx.get("DDPL_MOI_SO_CCCD") or ddpl_cccd
-    moi_ns = ddpl_moi_raw.get("ngay_sinh") or ctx.get("ddpl_moi_ngay_sinh") or ctx.get("DDPL_MOI_NGAY_SINH") or ddpl_ns
-    moi_addr = ddpl_moi_raw.get("dia_chi_day_du") or ctx.get("ddpl_moi_dia_chi_day_du") or ctx.get("DDPL_MOI_DIA_CHI_DAY_DU") or ddpl_full
+    moi_ht = (ddpl_moi_raw.get("ho_ten") or ctx.get("ddpl_moi_ho_ten") or ddpl_ho_ten).upper()
+    moi_cccd = ddpl_moi_raw.get("so_cccd") or ctx.get("ddpl_moi_so_cccd") or ddpl_cccd
+    moi_ns = ddpl_moi_raw.get("ngay_sinh") or ctx.get("ddpl_moi_ngay_sinh") or ddpl_ns
+    moi_addr = ddpl_moi_raw.get("dia_chi_day_du") or ctx.get("ddpl_moi_dia_chi_day_du") or ddpl_full
     moi_sn, moi_xp, moi_tt = parse_address_str(moi_addr)
 
     ctx["ddpl_moi_ho_ten"] = moi_ht
-    ctx["DDPL_MOI_HO_TEN"] = moi_ht
     ctx["ddpl_moi_gioi_tinh"] = moi_gt
-    ctx["DDPL_MOI_GIOI_TINH"] = moi_gt
     ctx["ddpl_moi_so_cccd"] = moi_cccd
-    ctx["DDPL_MOI_SO_CCCD"] = moi_cccd
     ctx["ddpl_moi_ngay_sinh"] = moi_ns
-    ctx["DDPL_MOI_NGAY_SINH"] = moi_ns
     ctx["ddpl_moi_dia_chi_day_du"] = moi_addr
-    ctx["DDPL_MOI_DIA_CHI_DAY_DU"] = moi_addr
     ctx["ddpl_moi_dia_chi_so_nha"] = moi_sn
-    ctx["DDPL_MOI_DIA_CHI_SO_NHA"] = moi_sn
     ctx["ddpl_moi_dia_chi_xa_phuong"] = moi_xp
-    ctx["DDPL_MOI_DIA_CHI_XA_PHUONG"] = moi_xp
     ctx["ddpl_moi_dia_chi_tinh_thanh"] = moi_tt
-    ctx["DDPL_MOI_DIA_CHI_TINH_THANH"] = moi_tt
 
     # Có thay đổi người đại diện không: so CCCD của ĐDPL cũ và ĐDPL mới (thiếu một trong hai -> giữ mặc định "có")
     if "ddpl_changed" not in ctx and cu_cccd and moi_cccd:
         ctx["ddpl_changed"] = str(cu_cccd).strip() != str(moi_cccd).strip()
 
     # Capital / Money fields
-    von_raw = ctx.get("von_dieu_le_so") or ctx.get("VON_DIEU_LE_SO") or ctx.get("von_dieu_le") or ctx.get("von_moi_so") or ctx.get("VON_MOI_SO") or ""
+    von_raw = ctx.get("von_dieu_le_so") or ctx.get("von_dieu_le") or ctx.get("von_moi_so") or ""
     if von_raw:
         v_num = re.sub(r"[^\d]", "", str(von_raw))
         if v_num:
             v_fmt = fmt_money(v_num)
             v_chu = so_thanh_chu(v_num)
             ctx["von_dieu_le_so"] = v_fmt
-            ctx["VON_DIEU_LE_SO"] = v_fmt
             ctx["von_moi_so"] = v_fmt
-            ctx["VON_MOI_SO"] = v_fmt
-            v_chu_final = ctx.get("von_dieu_le_chu") or ctx.get("VON_DIEU_LE_CHU") or ctx.get("von_moi_chu") or ctx.get("VON_MOI_CHU") or v_chu
+            v_chu_final = ctx.get("von_dieu_le_chu") or ctx.get("von_moi_chu") or v_chu
             ctx["von_dieu_le_chu"] = v_chu_final
-            ctx["VON_DIEU_LE_CHU"] = v_chu_final
             ctx["von_moi_chu"] = v_chu_final
-            ctx["VON_MOI_CHU"] = v_chu_final
 
-    von_cu_raw = ctx.get("von_cu_so") or ctx.get("VON_CU_SO") or ctx.get("von_cu") or ""
+    von_cu_raw = ctx.get("von_cu_so") or ctx.get("von_cu") or ""
     if von_cu_raw:
         vc_num = re.sub(r"[^\d]", "", str(von_cu_raw))
         if vc_num:
             vc_fmt = fmt_money(vc_num)
             vc_chu = so_thanh_chu(vc_num)
             ctx["von_cu_so"] = vc_fmt
-            ctx["VON_CU_SO"] = vc_fmt
-            ctx["von_cu_chu"] = ctx.get("von_cu_chu") or ctx.get("VON_CU_CHU") or vc_chu
-            ctx["VON_CU_CHU"] = ctx["von_cu_chu"]
+            ctx["von_cu_chu"] = ctx.get("von_cu_chu") or vc_chu
 
     # Share count calculations (mệnh giá 10.000 VNĐ/cổ phần)
     v_n = re.sub(r"[^\d]", "", str(ctx.get("von_dieu_le_so") or ""))
@@ -679,42 +645,36 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
             ddpl_match = norm_tv[0]
 
         if ddpl_match:
-            if not ctx.get("ddpl_ty_le") and not ctx.get("DDPL_TY_LE"):
+            if not ctx.get("ddpl_ty_le"):
                 ctx["ddpl_ty_le"] = ddpl_match.get("ty_le", "")
-                ctx["DDPL_TY_LE"] = ddpl_match.get("ty_le", "")
             if not ctx.get("ddpl_von_gop"):
                 ctx["ddpl_von_gop"] = ddpl_match.get("von_gop", "")
             # Chưa nhập giới tính ĐDPL: lấy danh xưng của thành viên tương ứng
-            ddpl_gt_input = ddpl_raw.get("gioi_tinh") or raw_data.get("ddpl_gioi_tinh") or raw_data.get("DDPL_GIOI_TINH")
+            ddpl_gt_input = ddpl_raw.get("gioi_tinh") or raw_data.get("ddpl_gioi_tinh")
             if not ddpl_gt_input and ddpl_match.get("gioi_tinh"):
                 if ddpl_match.get("danh_xung"):
                     ctx["ddpl_danh_xung"] = ddpl_match["danh_xung"]
-                    ctx["DDPL_DANH_XUNG"] = ddpl_match["danh_xung"]
             if not ctx.get("ddpl_von_moi_so"):
                 ctx["ddpl_von_moi_so"] = ddpl_match.get("von_gop", "")
-                ctx["DDPL_VON_MOI_SO"] = ddpl_match.get("von_gop", "")
             # Fallback ngày sinh nếu ĐDPL chưa có ngày sinh
-            if not ctx.get("ddpl_ngay_sinh") or not ctx.get("DDPL_NGAY_SINH"):
+            if not ctx.get("ddpl_ngay_sinh"):
                 m_ns = ddpl_match.get("ngay_sinh", "")
                 if m_ns:
                     ctx["ddpl_ngay_sinh"] = m_ns
-                    ctx["DDPL_NGAY_SINH"] = m_ns
                     if isinstance(ctx.get("ddpl"), dict):
                         ctx["ddpl"]["ngay_sinh"] = m_ns
             # Fallback số CCCD nếu ĐDPL chưa có
-            if not ctx.get("ddpl_so_cccd") or not ctx.get("DDPL_SO_CCCD"):
+            if not ctx.get("ddpl_so_cccd"):
                 m_cccd = ddpl_match.get("so_cccd", "")
                 if m_cccd:
                     ctx["ddpl_so_cccd"] = m_cccd
-                    ctx["DDPL_SO_CCCD"] = m_cccd
                     if isinstance(ctx.get("ddpl"), dict):
                         ctx["ddpl"]["so_cccd"] = m_cccd
             # Fallback địa chỉ nếu ĐDPL chưa có
-            if not ctx.get("ddpl_dia_chi_day_du") or not ctx.get("DDPL_DIA_CHI_DAY_DU"):
+            if not ctx.get("ddpl_dia_chi_day_du"):
                 m_addr = ddpl_match.get("dia_chi_day_du") or ddpl_match.get("dia_chi", "")
                 if m_addr:
                     ctx["ddpl_dia_chi_day_du"] = m_addr
-                    ctx["DDPL_DIA_CHI_DAY_DU"] = m_addr
                     if isinstance(ctx.get("ddpl"), dict):
                         ctx["ddpl"]["dia_chi_day_du"] = m_addr
 
@@ -752,12 +712,10 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
     ctx["so_luong_co_dong"] = f"{len(norm_tv)}/{len(norm_tv)}" if isinstance(thanh_vien, list) and norm_tv else "3/3"
 
     # Signer defaults
-    if not ctx.get("chuc_danh_ky") and not ctx.get("CHUC_DANH_KY"):
+    if not ctx.get("chuc_danh_ky"):
         ctx["chuc_danh_ky"] = "CHỦ SỞ HỮU"
-        ctx["CHUC_DANH_KY"] = "CHỦ SỞ HỮU"
-    if not ctx.get("chuc_vu_ky") and not ctx.get("CHUC_VU_KY"):
+    if not ctx.get("chuc_vu_ky"):
         ctx["chuc_vu_ky"] = "GIÁM ĐỐC"
-        ctx["CHUC_VU_KY"] = "GIÁM ĐỐC"
 
     return ctx
 
