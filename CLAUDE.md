@@ -19,7 +19,6 @@ phải lập trình viên: trao đổi bằng tiếng Việt, nói kết quả t
 | `webapp_v2/tools/` | `template_lint` (quét mẫu), `schema_suggest`, `admin_user`, `setup_ocr`. |
 | `webapp_v2/docs/` | `schema-v2.md` (đặc tả `_schema.json`), `them-thu-tuc-moi.md`, `muc8-bang-nghiep-vu.md`, `quan-tri.md`. |
 | `scripts_and_tools/` | Script dựng / sửa mẫu Word (xem README trong đó). |
-| `crm/` | Ứng dụng Node riêng, chưa có test và CI. Không sửa khi chưa được yêu cầu. |
 
 ## Lệnh thường dùng (trong `webapp_v2/`)
 
