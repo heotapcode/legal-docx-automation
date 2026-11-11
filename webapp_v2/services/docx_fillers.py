@@ -481,9 +481,9 @@ def populate_bbh_tang_von_cp(doc: docx.Document, shareholders: List[Dict[str, An
         new_tr = copy.deepcopy(template_tr)
         t2._tbl.append(new_tr)
         cells = t2.rows[-1].cells
-        ht = str(sh.get("HO_TEN") or sh.get("ho_ten", "")).upper()
+        ht = str(sh.get("ho_ten", "")).upper()
         cells[0].text = ht
-        ty_le_str = str(sh.get("TY_LE") or sh.get("ty_le", "0"))
+        ty_le_str = str(sh.get("ty_le", "0"))
         try:
             ty_le_val = float(ty_le_str.replace('%', '').strip())
         except ValueError:
@@ -494,7 +494,7 @@ def populate_bbh_tang_von_cp(doc: docx.Document, shareholders: List[Dict[str, An
             v_cu_sh = int(round(vc_int * (ty_le_val / 100.0)))
             sl_cp_cu = f"{v_cu_sh // 10000:,}".replace(',', '.')
         else:
-            v_raw = str(sh.get("VON_GOP") or sh.get("von_gop") or sh.get("von_so", "0"))
+            v_raw = str(sh.get("von_gop") or sh.get("von_so", "0"))
             v_num = re.sub(r'[^\d]', '', v_raw)
             v_int = int(v_num) if v_num else 0
             sl_cp_cu = f"{v_int // 10000:,}".replace(',', '.') if v_int else "0"
@@ -511,13 +511,13 @@ def populate_bbh_tang_von_cp(doc: docx.Document, shareholders: List[Dict[str, An
         p_head = p_target.insert_paragraph_before("Cơ cấu sở hữu cổ phần của các cổ đông sau khi tăng vốn:")
         p_head.style = 'Normal'
         for i, sh in enumerate(shareholders):
-            ht = str(sh.get("HO_TEN") or sh.get("ho_ten", "")).upper()
-            v_raw = str(sh.get("VON_GOP") or sh.get("von_gop") or sh.get("von_so", "0"))
+            ht = str(sh.get("ho_ten", "")).upper()
+            v_raw = str(sh.get("von_gop") or sh.get("von_so", "0"))
             v_num = re.sub(r'[^\d]', '', v_raw)
             v_fmt = fmt_money(v_num) if v_num else "0"
             v_int = int(v_num) if v_num else 0
             sl_cp = f"{v_int // 10000:,}".replace(',', '.') if v_int else "0"
-            ty_le = str(sh.get("TY_LE") or sh.get("ty_le", ""))
+            ty_le = str(sh.get("ty_le", ""))
             p_sh = p_target.insert_paragraph_before(f"- Cổ đông {ht}: sở hữu {sl_cp} cổ phần phổ thông (giá trị {v_fmt} đồng), chiếm {ty_le}% tổng số vốn điều lệ;")
             p_sh.style = 'Normal'
 
@@ -538,9 +538,9 @@ def populate_bbh_giam_von_cp(doc: docx.Document, shareholders: List[Dict[str, An
         new_tr = copy.deepcopy(template_tr)
         t2._tbl.append(new_tr)
         cells = t2.rows[-1].cells
-        ht = str(sh.get("HO_TEN") or sh.get("ho_ten", "")).upper()
+        ht = str(sh.get("ho_ten", "")).upper()
         cells[0].text = ht
-        ty_le_str = str(sh.get("TY_LE") or sh.get("ty_le", "0"))
+        ty_le_str = str(sh.get("ty_le", "0"))
         try:
             ty_le_val = float(ty_le_str.replace('%', '').strip())
         except ValueError:
@@ -551,7 +551,7 @@ def populate_bbh_giam_von_cp(doc: docx.Document, shareholders: List[Dict[str, An
             v_cu_sh = int(round(vc_int * (ty_le_val / 100.0)))
             sl_cp_cu = f"{v_cu_sh // 10000:,}".replace(',', '.')
         else:
-            v_raw = str(sh.get("VON_GOP") or sh.get("von_gop") or sh.get("von_so", "0"))
+            v_raw = str(sh.get("von_gop") or sh.get("von_so", "0"))
             v_num = re.sub(r'[^\d]', '', v_raw)
             v_int = int(v_num) if v_num else 0
             sl_cp_cu = f"{v_int // 10000:,}".replace(',', '.') if v_int else "0"
@@ -568,13 +568,13 @@ def populate_bbh_giam_von_cp(doc: docx.Document, shareholders: List[Dict[str, An
         p_head = p_target.insert_paragraph_before("Cơ cấu sở hữu cổ phần của các cổ đông sau khi giảm vốn:")
         p_head.style = 'Normal'
         for i, sh in enumerate(shareholders):
-            ht = str(sh.get("HO_TEN") or sh.get("ho_ten", "")).upper()
-            v_raw = str(sh.get("VON_GOP") or sh.get("von_gop") or sh.get("von_so", "0"))
+            ht = str(sh.get("ho_ten", "")).upper()
+            v_raw = str(sh.get("von_gop") or sh.get("von_so", "0"))
             v_num = re.sub(r'[^\d]', '', v_raw)
             v_fmt = fmt_money(v_num) if v_num else "0"
             v_int = int(v_num) if v_num else 0
             sl_cp = f"{v_int // 10000:,}".replace(',', '.') if v_int else "0"
-            ty_le = str(sh.get("TY_LE") or sh.get("ty_le", ""))
+            ty_le = str(sh.get("ty_le", ""))
             p_sh = p_target.insert_paragraph_before(f"- Cổ đông {ht}: sở hữu {sl_cp} cổ phần phổ thông (giá trị {v_fmt} đồng), chiếm {ty_le}% tổng số vốn điều lệ;")
             p_sh.style = 'Normal'
 
@@ -584,12 +584,12 @@ def populate_bbh_tang_von_2tv(doc: docx.Document, members_list: List[Dict[str, A
         n = len(members_list)
         lines.append(f"Tham gia cuộc họp có tất cả {n:02d}/{n:02d} thành viên, sở hữu và đại diện cho 100 % vốn điều lệ công ty, cụ thể gồm:")
         for i, m in enumerate(members_list):
-            ht = str(m.get("HO_TEN") or m.get("ho_ten", "")).upper()
-            v_raw = str(m.get("VON_GOP") or m.get("von_gop") or m.get("von_so", "0"))
+            ht = str(m.get("ho_ten", "")).upper()
+            v_raw = str(m.get("von_gop") or m.get("von_so", "0"))
             v_num = re.sub(r'[^\d]', '', v_raw)
             v_fmt = fmt_money(v_num) if v_num else "0"
             v_chu = so_thanh_chu(v_num) if v_num else ""
-            ty_le = str(m.get("TY_LE") or m.get("ty_le", ""))
+            ty_le = str(m.get("ty_le", ""))
             lines.append(f"Họ và tên: {ht}")
             lines.append(f"Số vốn góp: {v_fmt} VNĐ ({v_chu}), chiếm {ty_le}% tổng số vốn điều lệ.")
             lines.append(f"Giấy chứng nhận đăng ký vốn góp số: {i+1:02d}/2026/GCN cấp ngày …./…./20….")
@@ -599,8 +599,8 @@ def populate_bbh_tang_von_2tv(doc: docx.Document, members_list: List[Dict[str, A
         # Cập nhật đoạn quy ước biểu quyết linh hoạt cho N thành viên
         vote_parts = []
         for m in members_list:
-            ht = str(m.get("HO_TEN") or m.get("ho_ten", "")).upper()
-            ty_le = str(m.get("TY_LE") or m.get("ty_le", ""))
+            ht = str(m.get("ho_ten", "")).upper()
+            ty_le = str(m.get("ty_le", ""))
             vote_parts.append(f"{ht} có {ty_le} phiếu biểu quyết, tương ứng với {ty_le}% vốn điều lệ.")
         vote_text = (
             "Công ty quy ước 1.000.000 đồng tương ứng với 1 phiếu biểu quyết. Vậy "
@@ -633,9 +633,9 @@ def populate_bbh_giai_the_cp(doc: docx.Document, shareholders: List[Dict[str, An
             total_tr.addprevious(new_tr)
             cells = t2.rows[i + 1].cells
             cells[0].text = str(i + 1)
-            ht = str(sh.get("HO_TEN") or sh.get("ho_ten", "")).upper()
+            ht = str(sh.get("ho_ten", "")).upper()
             cells[1].text = ht
-            v_raw = str(sh.get("VON_GOP") or sh.get("von_gop") or sh.get("von_so", "0"))
+            v_raw = str(sh.get("von_gop") or sh.get("von_so", "0"))
             v_num = re.sub(r'[^\\d]', '', v_raw)
             v_int = int(v_num) if v_num else 0
             sl_cp = v_int // 10000 if v_int else 0
@@ -643,7 +643,7 @@ def populate_bbh_giai_the_cp(doc: docx.Document, shareholders: List[Dict[str, An
             total_val += v_int
             sl_cp_str = f"{sl_cp:,}".replace(',', '.')
             v_fmt = f"{v_int:,}".replace(',', '.')
-            ty_le = str(sh.get("TY_LE") or sh.get("ty_le", ""))
+            ty_le = str(sh.get("ty_le", ""))
             cells[2].text = sl_cp_str
             cells[3].text = sl_cp_str
             cells[4].text = v_fmt
@@ -657,8 +657,8 @@ def populate_bbh_giai_the_cp(doc: docx.Document, shareholders: List[Dict[str, An
 
         sh1 = shareholders[0]
         sh2 = shareholders[1] if len(shareholders) > 1 else sh1
-        sh1_ht = str(sh1.get("HO_TEN") or sh1.get("ho_ten", "")).upper()
-        sh2_ht = str(sh2.get("HO_TEN") or sh2.get("ho_ten", "")).upper()
+        sh1_ht = str(sh1.get("ho_ten", "")).upper()
+        sh2_ht = str(sh2.get("ho_ten", "")).upper()
 
         if len(doc.tables) >= 3:
             t3 = doc.tables[2]
