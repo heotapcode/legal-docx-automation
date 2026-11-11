@@ -158,3 +158,17 @@ def test_generate_hides_internal_error(client, monkeypatch):
     monkeypatch.setattr(documents, "validate_request_data", lambda *_a: [])
     r = client.post("/api/documents/generate", json={"template_name": "Tạm dừng công ty TNHH 1 TV", "data": {}})
     assert r.status_code == 500 and "secret" not in r.text and "lỗi hệ thống" in r.json()["detail"]
+
+
+def test_index_stamps_static_assets_with_file_version(client):
+    """Mỗi file JS/CSS nội bộ có ?v=<thời điểm sửa file>: cập nhật máy chủ xong trình duyệt không dùng bản cũ."""
+    import re
+
+    r = client.get("/")
+    assert r.status_code == 200 and r.headers["cache-control"] == "no-cache"
+    assets = re.findall(r'(?:src|href)="(/static/[^"]+)"', r.text)
+    assert len(assets) >= 10
+    for url in assets:
+        path, _, version = url.partition("?v=")
+        assert version.isdigit() and int(version) > 0, url      # file có thật, có phiên bản
+        assert client.get(path).status_code == 200, path
