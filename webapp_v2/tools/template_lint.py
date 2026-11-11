@@ -19,6 +19,7 @@ Mã kiểm tra:
     W030  Dữ liệu cụ thể bị viết cứng trong mẫu (email, số điện thoại, số CCCD, tên công ty)
     W031  Còn file khóa tạm của Word (~$...)
     W032  Bộ mẫu không có file .docx nào
+    W033  Còn kiểu person_list cũ (vẫn chạy, tự chuyển thành list); nên đổi sang list trong _schema.json
 
 Mã thoát: 0 nếu không có lỗi (E), 1 nếu có lỗi (hoặc có cảnh báo khi dùng --strict).
 """
@@ -148,6 +149,12 @@ def lint_schema(tpl_dir: Path, spec: Optional[dict]) -> (Optional[dict], List[Fi
             for err in sorted(validator.iter_errors(schema), key=lambda e: list(e.absolute_path)):
                 loc = "/".join(str(p) for p in err.absolute_path) or "(gốc)"
                 findings.append(Finding("error", "E002", name, "_schema.json", f"{loc}: {err.message}"))
+    for step in (schema.get("steps") or []) if isinstance(schema, dict) else []:
+        for f in step.get("fields") or []:
+            if isinstance(f, dict) and f.get("type") == "person_list":
+                findings.append(Finding("warning", "W033", name, "_schema.json",
+                                        f"Trường '{f.get('key')}' dùng kiểu person_list cũ; nên đổi sang list "
+                                        "(xem docs/schema-v2.md)"))
     return schema, findings
 
 

@@ -1,6 +1,6 @@
 /**
- * Quét CCCD/VNeID: gửi ảnh lên /api/ocr/vneid rồi điền vào thẻ một người (handleOcrUpload), một thành viên
- * (handleMemberOcrUpload) hoặc một phần tử của danh sách kiểu list (handleListOcrUpload).
+ * Quét CCCD/VNeID: gửi ảnh lên /api/ocr/vneid rồi điền vào thẻ một người / nhóm ô rời (handleOcrUpload)
+ * hoặc một phần tử của danh sách kiểu list, vd thành viên (handleListOcrUpload).
  * Ô cần rà lại được viền cam (can_kiem_tra do máy chủ trả về).
  * Phụ thuộc: pages/wizard.js (wizardState, collectFormData, renderStep2Form).
  */
@@ -122,86 +122,6 @@ function ocrDoneLabel(data) {
         : `<i class="fa-solid fa-check text-success"></i> Đã nhận diện (${source})`;
 }
 
-window.handleMemberOcrUpload = async function(fileInput, memberIdx) {
-    const file = fileInput.files[0];
-    if (!file) return;
-
-    // Lưu ngay toàn bộ dữ liệu form hiện thời (thông tin công ty, ĐDPL, các thành viên khác)
-    collectFormData();
-
-    const btn = fileInput.nextElementSibling;
-    const originalText = btn ? btn.innerHTML : '';
-    if (btn) {
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang đọc VNeID...';
-        btn.disabled = true;
-    }
-
-    try {
-        const fd = new FormData();
-        fd.append('image', file);
-        fd.append('target', `member_${memberIdx}`);
-
-        const resData = await ocrRequest(fd);
-
-        if (resData.success && resData.data) {
-            const data = resData.data;
-            const targetMember = window.wizardState.thanhVienList[memberIdx];
-            if (targetMember) {
-                targetMember.ho_ten = data.ho_ten || '';
-                targetMember.gioi_tinh = data.gioi_tinh || 'Nam';
-                targetMember.ngay_sinh = data.ngay_sinh || '';
-                targetMember.so_cccd = data.so_cccd || '';
-                targetMember.dia_chi_so_nha = data.dia_chi_so_nha || '';
-                targetMember.dia_chi_xa_phuong = data.dia_chi_xa_phuong || '';
-                targetMember.dia_chi_tinh_thanh = data.dia_chi_tinh_thanh || '';
-            }
-
-            // Điền trực tiếp vào DOM của thẻ thành viên tương ứng, tránh re-render làm mất thông tin công ty
-            const card = document.getElementById(`member-card-${memberIdx}`);
-            if (card) {
-                const mapProps = {
-                    ho_ten: data.ho_ten || '',
-                    gioi_tinh: data.gioi_tinh || 'Nam',
-                    ngay_sinh: data.ngay_sinh || '',
-                    so_cccd: data.so_cccd || '',
-                    dia_chi_so_nha: data.dia_chi_so_nha || '',
-                    dia_chi_xa_phuong: data.dia_chi_xa_phuong || '',
-                    dia_chi_tinh_thanh: data.dia_chi_tinh_thanh || ''
-                };
-                for (const [prop, val] of Object.entries(mapProps)) {
-                    const el = card.querySelector(`[data-prop="${prop}"]`);
-                    if (el) {
-                        el.value = val;
-                        el.style.borderColor = 'var(--accent-green)';
-                    }
-                }
-                markOcrReview(data, k => card.querySelector(`[data-prop="${k}"]`));
-            }
-
-            if (btn) {
-                btn.innerHTML = ocrDoneLabel(data);
-                btn.disabled = false;
-            }
-        } else {
-            alert(resData.message || 'Không thể nhận diện ảnh VNeID. Vui lòng thử lại.');
-            if (btn) {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
-        }
-    } catch (err) {
-        console.error('Lỗi OCR member:', err);
-        alert('Có lỗi xảy ra khi xử lý ảnh VNeID.');
-        if (btn) {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-    } finally {
-        fileInput.value = '';
-    }
-};
-
-// Quét CCCD cho một phần tử của danh sách kiểu `list` (vd Thành viên cũ)
 window.handleListOcrUpload = async function(fileInput, listKey, idx) {
     const file = fileInput.files[0];
     if (!file) return;
@@ -225,9 +145,12 @@ window.handleListOcrUpload = async function(fileInput, listKey, idx) {
 
         const data = resData.data;
         const getEl = k => document.querySelector(`.lf-field[data-list="${CSS.escape(listKey)}"][data-idx="${idx}"][data-key="${k}"]`);
+        const gt = String(data.gioi_tinh || '').toLowerCase();
         const values = {
-            ho_ten: data.ho_ten, gioi_tinh: data.gioi_tinh, ngay_sinh: data.ngay_sinh,
-            so_cccd: data.so_cccd, dia_chi_day_du: data.dia_chi
+            ho_ten: data.ho_ten, gioi_tinh: gt ? (gt.includes('nữ') || gt === 'nu' ? 'Nữ' : 'Nam') : '',
+            ngay_sinh: data.ngay_sinh, so_cccd: data.so_cccd, dia_chi_day_du: data.dia_chi,
+            dia_chi_so_nha: data.dia_chi_so_nha, dia_chi_xa_phuong: data.dia_chi_xa_phuong,
+            dia_chi_tinh_thanh: data.dia_chi_tinh_thanh
         };
         for (const [k, v] of Object.entries(values)) {
             const el = getEl(k);

@@ -67,10 +67,56 @@
         {
           "key": "thanh_vien",
           "label": "Cổ đông tham dự",
-          "type": "person_list",
+          "type": "list",
           "min": 1,
-          "ocr": true,
-          "extra_fields": [
+          "item": [
+            {
+              "key": "ho_ten",
+              "label": "Họ và tên",
+              "type": "text",
+              "required": true
+            },
+            {
+              "key": "gioi_tinh",
+              "label": "Giới tính",
+              "type": "select",
+              "default": "Nam",
+              "options": [
+                {
+                  "value": "Nam",
+                  "label": "Nam"
+                },
+                {
+                  "value": "Nữ",
+                  "label": "Nữ"
+                }
+              ]
+            },
+            {
+              "key": "ngay_sinh",
+              "label": "Ngày sinh",
+              "type": "date"
+            },
+            {
+              "key": "so_cccd",
+              "label": "Số CCCD",
+              "type": "cccd"
+            },
+            {
+              "key": "dia_chi_so_nha",
+              "label": "Số nhà, đường",
+              "type": "text"
+            },
+            {
+              "key": "dia_chi_xa_phuong",
+              "label": "Xã/Phường",
+              "type": "text"
+            },
+            {
+              "key": "dia_chi_tinh_thanh",
+              "label": "Tỉnh/Thành phố",
+              "type": "text"
+            },
             {
               "key": "von_gop",
               "label": "Vốn góp (VNĐ)",
@@ -81,7 +127,12 @@
               "label": "Tỷ lệ (%)",
               "type": "number"
             }
-          ]
+          ],
+          "auto_ratio": {
+            "part": "von_gop",
+            "total": "von_dieu_le_so",
+            "target": "ty_le"
+          }
         }
       ]
     }

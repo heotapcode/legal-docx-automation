@@ -7,7 +7,7 @@ Mỗi bộ mẫu hồ sơ là một thư mục trong `webapp_v2/templates/`, g�
 
 Đặc tả máy đọc được nằm ở [`schemas/template-schema.json`](../schemas/template-schema.json) (JSON Schema 2020-12). Bộ test (`tests/test_schemas.py`) và công cụ quét mẫu (`tools/template_lint.py`, mã `E002`) kiểm tra mọi schema theo file này.
 
-> **Lõi kiểm tra dữ liệu (Mục 9, bước 1).** `show_if`, `validate`, `rules` và các kiểu cũ (`person`, `person_list`) đã được cài đặt ở `services/schema_engine.py` (backend) và `static/js/engine/schema_engine.js` (trình duyệt), hai bản chạy chung ca kiểm thử `tests/engine_cases.json`. Đã nối (bước 2): API `/api/documents/generate` trả 422 kèm danh sách lỗi khi dữ liệu không hợp lệ, và wizard dùng chung lõi để chặn bước tiếp/tải hồ sơ. Từ bước 5, cả 24 bộ mẫu chạy trên một bộ máy wizard chung (đã bỏ 3 wizard riêng: Chuyển nhượng 2 TV, Chuyển đổi 1TV→2TV, Tăng vốn 2 TV), nên mọi bộ mẫu đều được kiểm tra ở API và trên trình duyệt như nhau.
+> **Lõi kiểm tra dữ liệu (Mục 9, bước 1).** `show_if`, `validate`, `rules` và các kiểu cũ (`person`; `person_list` nay tự chuyển thành `list`) đã được cài đặt ở `services/schema_engine.py` (backend) và `static/js/engine/schema_engine.js` (trình duyệt), hai bản chạy chung ca kiểm thử `tests/engine_cases.json`. Đã nối (bước 2): API `/api/documents/generate` trả 422 kèm danh sách lỗi khi dữ liệu không hợp lệ, và wizard dùng chung lõi để chặn bước tiếp/tải hồ sơ. Từ bước 5, cả 24 bộ mẫu chạy trên một bộ máy wizard chung (đã bỏ 3 wizard riêng: Chuyển nhượng 2 TV, Chuyển đổi 1TV→2TV, Tăng vốn 2 TV), nên mọi bộ mẫu đều được kiểm tra ở API và trên trình duyệt như nhau.
 >
 > **Trạng thái triển khai.** Các phần đánh dấu **[v2]** đã có trong đặc tả để thống nhất định dạng, nhưng wizard (`static/js/pages/wizard.js`) và `render_service.py` **chưa dùng tới**. Chúng sẽ được triển khai ở Mục 9 (bộ máy wizard chung). Hiện tại bộ mẫu thật chỉ nên dùng các kiểu trường wizard đang hỗ trợ (`tests/test_schemas.py::SUPPORTED_TYPES`).
 
@@ -58,18 +58,19 @@ Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false
 | `type` ✔ | Xem bảng kiểu bên dưới. |
 | `required` | Bắt buộc nhập. Wizard chặn bước tiếp theo và nút tải hồ sơ khi còn trống. |
 | `placeholder` | Gợi ý mờ trong ô nhập. |
-| `ocr` | Cho phép quét ảnh CCCD/VNeID (kiểu `person`, `person_list`). |
+| `ocr` | Cho phép quét ảnh CCCD/VNeID (kiểu `person`). Phần tử của `list` có ô `ho_ten` + `so_cccd` luôn có nút quét. |
 | `min` / `max` | Số phần tử tối thiểu / tối đa ([v2] `max`) của danh sách. |
-| `extra_fields` | Trường thêm cho mỗi người trong `person_list` (vd vốn góp, tỷ lệ). |
+| `extra_fields` | Chỉ cho kiểu cũ `person_list`: trường thêm cho mỗi người (vd vốn góp, tỷ lệ). Bộ mẫu mới khai báo thẳng trong `item` của `list`. |
 | `options` | Danh sách `{value, label}` cho `checkbox_group`, `select`. |
 | `options_source` | `select` lấy lựa chọn từ danh mục dùng chung do API cung cấp. Hiện có `tinh_thanh` (34 tỉnh/thành phố, `GET /api/dia-ban/tinh-thanh`). |
 | `help` | [v2] Ghi chú dưới ô nhập. |
 | `default` | Giá trị chọn sẵn (wizard hiện dùng cho `select`; các kiểu khác: [v2]). **Không dùng dữ liệu người thật.** |
 | `item` | [v2] Các trường con của `list` / `group`. |
-| `options_from` | `select` trong phần tử của `list` chọn một phần tử của danh sách khác ở cấp gốc (`list` hoặc `person_list`, vd `"tv_cu"`, `"thanh_vien"`). Xem mục 3.4. |
+| `options_from` | `select` trong phần tử của `list` chọn một phần tử của danh sách khác ở cấp gốc (`list`, vd `"tv_cu"`, `"thanh_vien"`). Xem mục 3.4. |
 | `show_if` | Chỉ hiện trường khi điều kiện đúng (ẩn/hiện ngay khi nhập; trường ẩn không bị kiểm tra). |
 | `validate` | [v2] Ràng buộc giá trị (mục 3.2). |
 | `rules` | [v2] Ràng buộc trên cả danh sách (mục 3.3). |
+| `auto_ratio` | Chỉ cho `list`: `{"part": "von_gop", "total": "von_dieu_le_so", "target": "ty_le"}`. Nhập phần (vd vốn góp) thì giao diện tự tính `target` = phần / tổng (%), sửa tổng thì tính lại cả danh sách, và hiện thanh phân bổ vốn. Không ảnh hưởng máy chủ. |
 
 ### 3.1. Kiểu trường
 
@@ -79,7 +80,7 @@ Khóa không có trong bảng sẽ bị báo lỗi (`additionalProperties: false
 | `money` | ✔ | Tự định dạng `1,000,000` và hiện số tiền bằng chữ. |
 | `mst_lookup` | ✔ | Ô MST kèm nút tra cứu. |
 | `person` | ✔ | Nhóm cố định: sinh các biến `<key>_ho_ten`, `<key>_so_cccd`, `<key>_ngay_sinh`, `<key>_gioi_tinh`, `<key>_dia_chi_*`. |
-| `person_list` | ✔ | Danh sách người, dữ liệu gửi lên ở `thanh_vien`. |
+| `person_list` | (cũ) | **Không dùng cho bộ mẫu mới.** Lõi kiểm tra (Python + JS) tự chuyển thành `list` với các ô người chuẩn (`ho_ten` bắt buộc, `gioi_tinh` Nam/Nữ, `ngay_sinh`, `so_cccd`, địa chỉ 3 phần) + `extra_fields`; có `von_gop` + `ty_le` thì thêm `auto_ratio`. Công cụ quét báo W033. Danh sách thành viên / cổ đông dùng `list` với key `thanh_vien` (các quy tắc điền bảng thành viên đọc key này). |
 | `checkbox_group` | ✔ | Bắt buộc có `options`. |
 | `select` | ✔ | Danh sách sổ xuống. Cần `options`, `options_source` hoặc `options_from` (mục 3.4). |
 | `date`, `cccd`, `percent`, `address` | ✔ | Bộ vẽ form chung (`static/js/engine/form_renderer.js`). `date` nhập DD/MM/YYYY; `cccd` 12 chữ số. |

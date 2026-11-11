@@ -99,17 +99,18 @@ def test_escape_html_helper(page, base_url):
 def test_form_values_are_escaped(page, base_url, template):
     open_template(page, base_url, template)
     # Điền payload XSS vào mọi ô và vào dữ liệu thành viên, rồi buộc vẽ lại form
-    for el in page.query_selector_all("input[name]:not([type=file]):not([type=checkbox]), input[data-prop]"):
+    for el in page.query_selector_all("input[name]:not([type=file]):not([type=checkbox]), input.lf-field"):
         try:
             el.fill(XSS, timeout=500)
         except Exception:
             pass
     page.evaluate("""xss => {
         const s = window.wizardState;
-        s.thanhVienList.forEach(m => { m.ho_ten = xss; m.so_cccd = xss; });
-        if (typeof collectFormData === 'function' && !window.tv2Sync) collectFormData();
-        if (window.tv2Sync) window.tv2Sync();
-        for (const k of Object.keys(s.formData)) s.formData[k] = xss;
+        if (typeof collectFormData === 'function') collectFormData();
+        for (const k of Object.keys(s.formData)) {
+            if (Array.isArray(s.formData[k])) s.formData[k].forEach(m => { if (m && typeof m === 'object') { m.ho_ten = xss; m.so_cccd = xss; } });
+            else s.formData[k] = xss;
+        }
         renderCurrentStep();
     }""", XSS)
     page.wait_for_timeout(300)
@@ -293,7 +294,7 @@ def open_demo(page, base_url, mode):
         localStorage.setItem('global_ui_mode', mode);
         const s = window.wizardState;
         s.template = { name: schema.name, display_name: schema.display_name };
-        s.schema = schema; s.step = 2; s.formData = {}; s.thanhVienList = []; s.dkkdSelected = [];
+        s.schema = schema; s.step = 2; s.formData = {}; s.dkkdSelected = [];
         FormRenderer.resetTouched();
         renderStep2Form(schema);
     }""", [DEMO_SCHEMA, mode])
@@ -399,9 +400,9 @@ def test_chuyen_nhuong_2tv_on_generic_form(page, base_url):
         page.fill(lf.format("tv_cu", i, "so_cccd"), cccd)
         page.fill(lf.format("tv_cu", i, "dia_chi_day_du"), f"Số {i + 1} Phố Huế, Phường Hai Bà Trưng, Thành phố Hà Nội")
     for i, name in enumerate(["MỚI MỘT", "MỚI HAI"]):
-        page.fill(f'.m-field[data-idx="{i}"][data-prop="ho_ten"]', name)
-        page.fill(f'.m-field[data-idx="{i}"][data-prop="von_gop"]', "500000000")
-        page.fill(f'.m-field[data-idx="{i}"][data-prop="ty_le"]', "50")
+        page.fill(lf.format("thanh_vien", i, "ho_ten"), name)
+        page.fill(lf.format("thanh_vien", i, "von_gop"), "500000000")
+        page.fill(lf.format("thanh_vien", i, "ty_le"), "50")
     # Ô chọn bên A/B cập nhật theo họ tên vừa nhập
     ben_a = lf.format("chuyen_nhuong", 0, "ben_a")
     labels = page.eval_on_selector(ben_a, "s => [...s.options].map(o => o.textContent)")
@@ -448,10 +449,11 @@ def test_chuyen_doi_on_generic_form(page, base_url):
         set('csh_von_giu_lai', '600.000.000'); set('csh_ty_le', '60');
         set('ddpl_ho_ten', 'CHỦ CŨ'); set('ddpl_so_cccd', '001080000011');
     }""")
-    page.fill('.m-field[data-idx="0"][data-prop="ho_ten"]', "THÀNH VIÊN MỚI")
-    page.fill('.m-field[data-idx="0"][data-prop="so_cccd"]', "001190000022")
-    page.fill('.m-field[data-idx="0"][data-prop="von_gop"]', "400000000")
-    page.fill('.m-field[data-idx="0"][data-prop="ty_le"]', "40")
+    tv = lambda k: f'.lf-field[data-list="thanh_vien"][data-idx="0"][data-key="{k}"]'
+    page.fill(tv("ho_ten"), "THÀNH VIÊN MỚI")
+    page.fill(tv("so_cccd"), "001190000022")
+    page.fill(tv("von_gop"), "400000000")
+    page.fill(tv("ty_le"), "40")
     page.evaluate("collectFormData()")
     assert page.evaluate("validateRequiredFields(window.wizardState.schema).map(e => e.label)") == []
     page.evaluate("window.wizardState.step = 4")
@@ -459,7 +461,7 @@ def test_chuyen_doi_on_generic_form(page, base_url):
         page.evaluate("generateDocuments()")
     assert resp.value.status == 200, resp.value.text()
     body = resp.value.request.post_data_json
-    assert body["data"]["hinh_thuc_cn"] == "mot_phan" and "cd1tv2tv_data" not in body["special_payload"]
+    assert body["data"]["hinh_thuc_cn"] == "mot_phan" and "special_payload" not in body
 
 
 # ---------- Trang quản trị (Mục 10.1) ----------
@@ -726,3 +728,56 @@ def test_scan_shows_server_error_reason(page, base_url):
     page.wait_for_timeout(300)
     assert any("thao tác quá nhanh" in d for d in page.dialogs), page.dialogs
     assert page.locator(".btn-ocr").first.is_enabled()
+
+
+
+# ---------- Danh sách thành viên dùng kiểu list chung ----------
+
+def test_members_list_auto_ratio_scan_and_payload(page, base_url):
+    """Thành viên: danh sách chung (min theo schema), tự tính tỷ lệ theo vốn điều lệ, thanh phân bổ vốn,
+    quét CCCD điền đủ ô kể cả địa chỉ, thêm/xóa thành viên, dữ liệu gửi lên ở thanh_vien."""
+    open_template(page, base_url, "Tăng vốn công ty TNHH 2 TV")
+    tv = lambda i, k: page.locator(f'.lf-field[data-list="thanh_vien"][data-idx="{i}"][data-key="{k}"]')
+    assert page.locator('.fr-list-item[data-list-item="thanh_vien"]').count() == 2      # min = 2
+    assert tv(0, "gioi_tinh").input_value() == "Nam"                                     # mặc định
+    page.fill('input[name="von_dieu_le_so"]', "2000000000")
+    tv(0, "von_gop").fill("500000000")
+    assert tv(0, "von_gop").input_value() == "500.000.000"
+    assert tv(0, "ty_le").input_value() == "25.0"
+    tv(1, "von_gop").fill("1500000000")
+    assert tv(1, "ty_le").input_value() == "75.0"
+    assert "Khớp 100% vốn" in page.inner_text("#universal-capital-bar-container")
+    page.fill('input[name="von_dieu_le_so"]', "4000000000")                         # đổi tổng: tính lại cả hai
+    assert tv(0, "ty_le").input_value() == "12.5" and tv(1, "ty_le").input_value() == "37.5"
+
+    stub_ocr(page)
+    page.locator("#ocr-thanh_vien-1").set_input_files(PNG_FILE)
+    page.wait_for_function("""document.querySelector('.lf-field[data-list="thanh_vien"][data-idx="1"][data-key="ho_ten"]').value !== ''""")
+    assert tv(1, "so_cccd").input_value() == "034185012345" and tv(1, "gioi_tinh").input_value() == "Nữ"
+    assert tv(1, "dia_chi_xa_phuong").input_value() != ""
+    assert tv(1, "von_gop").input_value() == "1.500.000.000"                             # quét không xóa vốn góp
+
+    page.click('[data-list="thanh_vien"] ~ button:has-text("Thêm")')
+    assert page.locator('.fr-list-item[data-list-item="thanh_vien"]').count() == 3
+    assert tv(2, "gioi_tinh").input_value() == "Nam"
+    page.evaluate("collectFormData()")
+    data = page.evaluate("wizardDataForSchema(wizardState.schema, false)")
+    assert len(data["thanh_vien"]) == 3 and data["thanh_vien"][1]["so_cccd"] == "034185012345"
+    assert "thanhVienList" not in page.evaluate("Object.keys(wizardState)")
+
+
+def test_legacy_person_list_schema_still_renders(page, base_url):
+    """Bộ mẫu cũ còn kiểu person_list (vd đã xuất bản trên máy chủ): tự chuyển thành danh sách chung."""
+    open_demo(page, base_url, "modern")
+    page.evaluate("""() => {
+        const schema = SchemaEngine.normalizeSchema({id: 'cu', name: 'Cũ', display_name: 'Cũ', steps: [{id: 'a', title: 'A', fields: [
+            {key: 'thanh_vien', label: 'Thành viên', type: 'person_list', min: 2,
+             extra_fields: [{key: 'von_gop', label: 'Vốn góp', type: 'money', required: true},
+                            {key: 'ty_le', label: 'Tỷ lệ', type: 'number', required: true}]}]}]});
+        const s = window.wizardState; s.schema = schema; s.formData = {};
+        renderStep2Form(schema);
+    }""")
+    assert page.locator('.fr-list-item[data-list-item="thanh_vien"]').count() == 2
+    keys = page.eval_on_selector_all('.lf-field[data-list="thanh_vien"][data-idx="0"]', "els => els.map(e => e.dataset.key)")
+    assert keys[:4] == ["ho_ten", "gioi_tinh", "ngay_sinh", "so_cccd"] and "von_gop" in keys
+    assert page.evaluate("wizardState.schema.steps[0].fields[0].auto_ratio.part") == "von_gop"

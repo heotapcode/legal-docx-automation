@@ -9,7 +9,20 @@ import re
 from datetime import date
 from typing import Any, Dict, Iterable, List, Optional
 
-LIST_TYPES = {"list", "person_list"}
+LIST_TYPES = {"list"}
+
+# Các ô của một người trong danh sách (thành viên, cổ đông...). Kiểu cũ `person_list` được tự chuyển thành
+# `list` với các ô này + extra_fields (expand_field), để bộ mẫu cũ (vd đã xuất bản trên máy chủ) vẫn chạy.
+PERSON_ITEM = [
+    {"key": "ho_ten", "label": "Họ và tên", "type": "text", "required": True},
+    {"key": "gioi_tinh", "label": "Giới tính", "type": "select", "default": "Nam",
+     "options": [{"value": "Nam", "label": "Nam"}, {"value": "Nữ", "label": "Nữ"}]},
+    {"key": "ngay_sinh", "label": "Ngày sinh", "type": "date"},
+    {"key": "so_cccd", "label": "Số CCCD", "type": "cccd"},
+    {"key": "dia_chi_so_nha", "label": "Số nhà, đường", "type": "text"},
+    {"key": "dia_chi_xa_phuong", "label": "Xã/Phường", "type": "text"},
+    {"key": "dia_chi_tinh_thanh", "label": "Tỉnh/Thành phố", "type": "text"},
+]
 
 
 # ---------- Giá trị ----------
@@ -89,6 +102,21 @@ def eval_condition(cond: Optional[dict], data: Dict[str, Any]) -> bool:
     return True
 
 
+def expand_field(f: dict) -> dict:
+    """Kiểu cũ `person_list` -> `list` (ô người chuẩn + extra_fields); các kiểu khác giữ nguyên."""
+    if f.get("type") != "person_list":
+        return f
+    extra = list(f.get("extra_fields", []))
+    extra_keys = {x["key"] for x in extra}
+    out = {k: v for k, v in f.items() if k not in ("extra_fields", "ocr")}
+    out["type"] = "list"
+    out["item"] = [dict(x) for x in PERSON_ITEM if x["key"] not in extra_keys] + extra
+    out.setdefault("min", 1)
+    if {"von_gop", "ty_le"} <= extra_keys:
+        out.setdefault("auto_ratio", {"part": "von_gop", "total": "von_dieu_le_so", "target": "ty_le"})
+    return out
+
+
 def visible_steps(schema: dict, data: Dict[str, Any]) -> List[dict]:
     return [s for s in schema.get("steps", []) if eval_condition(s.get("show_if"), data)]
 
@@ -97,7 +125,7 @@ def visible_fields(schema: dict, data: Dict[str, Any]) -> Iterable[dict]:
     for step in visible_steps(schema, data):
         for f in step.get("fields", []):
             if eval_condition(f.get("show_if"), data):
-                yield f
+                yield expand_field(f)
 
 
 # ---------- Kiểm tra dữ liệu ----------
@@ -162,9 +190,7 @@ def _check_list(field: dict, items: Any, root: Dict[str, Any], errors: list, tod
     items = items if isinstance(items, list) else []
     start = len(errors)
     lo = field.get("min", 1 if field.get("required") else 0)
-    subs = field.get("item", []) + field.get("extra_fields", [])
-    if field.get("type") == "person_list" and not any(sub["key"] == "ho_ten" for sub in subs):
-        subs = [{"key": "ho_ten", "label": "Họ và tên", "type": "text", "required": True}] + subs
+    subs = field.get("item", [])
     if len(items) < lo:
         _err(errors, key, label, "min_items", f"{label}: cần ít nhất {lo} (hiện có {len(items)})")
     if "max" in field and len(items) > field["max"]:

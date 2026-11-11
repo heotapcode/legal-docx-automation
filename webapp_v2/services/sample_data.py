@@ -35,6 +35,7 @@ SAMPLE_NGANH = [
 ]
 
 
+MEMBERS_KEY = "thanh_vien"  # danh sách thành viên / cổ đông (kiểu list, trước đây person_list)
 LIST_PERSON_BASE = 60  # người trong các `list` là NGUYỄN VĂN THỬ61, THỬ62...
 
 
@@ -130,9 +131,10 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
                 n_person += idx != 89
                 data.update(sample_person(idx, key + "_"))
                 markers[key] = f"NGUYỄN VĂN THỬ{idx}"
-            elif typ == "list":
+            elif typ == "list" and key != MEMBERS_KEY:
                 data[key] = sample_list(f, data, n_members)
-            elif typ == "person_list":
+            elif typ == "person_list" or (typ == "list" and key == MEMBERS_KEY):
+                # Danh sách thành viên / cổ đông: người THỬ1, THỬ2... (ảnh chụp chuẩn dựa trên các người này)
                 n_members = max(n_members, f.get("min", 1))  # không ít hơn số tối thiểu của schema
                 for i in range(1, n_members + 1):
                     p = sample_person(i)
@@ -153,7 +155,7 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
     shown_fields = list(visible_fields(schema, data))
     shown = {f["key"] for f in shown_fields}
     markers = {k: v for k, v in markers.items() if k in shown}
-    if members and not any(f["type"] == "person_list" for f in shown_fields):
+    if members and not any(f["key"] == MEMBERS_KEY for f in shown_fields):
         members = []  # bước danh sách thành viên đang ẩn
         data["thanh_vien"] = []
 

@@ -13,7 +13,42 @@
 })(typeof self !== 'undefined' ? self : this, function () {
     'use strict';
 
-    const LIST_TYPES = new Set(['list', 'person_list']);
+    const LIST_TYPES = new Set(['list']);
+
+    // Các ô của một người trong danh sách; kiểu cũ person_list tự chuyển thành list (expandField), như bản Python.
+    const PERSON_ITEM = [
+        { key: 'ho_ten', label: 'Họ và tên', type: 'text', required: true },
+        { key: 'gioi_tinh', label: 'Giới tính', type: 'select', default: 'Nam',
+          options: [{ value: 'Nam', label: 'Nam' }, { value: 'Nữ', label: 'Nữ' }] },
+        { key: 'ngay_sinh', label: 'Ngày sinh', type: 'date' },
+        { key: 'so_cccd', label: 'Số CCCD', type: 'cccd' },
+        { key: 'dia_chi_so_nha', label: 'Số nhà, đường', type: 'text' },
+        { key: 'dia_chi_xa_phuong', label: 'Xã/Phường', type: 'text' },
+        { key: 'dia_chi_tinh_thanh', label: 'Tỉnh/Thành phố', type: 'text' },
+    ];
+
+    function expandField(f) {
+        if (!f || f.type !== 'person_list') return f;
+        const extra = (f.extra_fields || []).slice();
+        const extraKeys = new Set(extra.map(x => x.key));
+        const out = {};
+        Object.keys(f).forEach(k => { if (k !== 'extra_fields' && k !== 'ocr') out[k] = f[k]; });
+        out.type = 'list';
+        out.item = PERSON_ITEM.filter(x => !extraKeys.has(x.key)).map(x => Object.assign({}, x)).concat(extra);
+        if (!('min' in out)) out.min = 1;
+        if (extraKeys.has('von_gop') && extraKeys.has('ty_le') && !out.auto_ratio) {
+            out.auto_ratio = { part: 'von_gop', total: 'von_dieu_le_so', target: 'ty_le' };
+        }
+        return out;
+    }
+
+    /** Bản sao schema với mọi ô person_list đã chuyển thành list (giao diện vẽ form từ bản này). */
+    function normalizeSchema(schema) {
+        if (!schema || !Array.isArray(schema.steps)) return schema;
+        return Object.assign({}, schema, {
+            steps: schema.steps.map(st => Object.assign({}, st, { fields: (st.fields || []).map(expandField) })),
+        });
+    }
 
     // ---------- Giá trị ----------
 
@@ -82,7 +117,7 @@
     function visibleFields(schema, data) {
         const out = [];
         visibleSteps(schema, data).forEach(step => (step.fields || []).forEach(f => {
-            if (evalCondition(f.show_if, data)) out.push(f);
+            if (evalCondition(f.show_if, data)) out.push(expandField(f));
         }));
         return out;
     }
@@ -154,10 +189,7 @@
         const lo = 'min' in field ? field.min : (field.required ? 1 : 0);
         if (items.length < lo) err(errors, key, label, 'min_items', `${label}: cần ít nhất ${lo} (hiện có ${items.length})`);
         if ('max' in field && items.length > field.max) err(errors, key, label, 'max_items', `${label}: tối đa ${field.max} (hiện có ${items.length})`);
-        let subs = (field.item || []).concat(field.extra_fields || []);
-        if (field.type === 'person_list' && !subs.some(sub => sub.key === 'ho_ten')) {
-            subs = [{ key: 'ho_ten', label: 'Họ và tên', type: 'text', required: true }].concat(subs);
-        }
+        const subs = field.item || [];
         items.forEach((raw, i) => {
             const item = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
             subs.forEach(sub => {
@@ -212,5 +244,5 @@
         return errors;
     }
 
-    return { isBlank, toNumber, parseDate, evalCondition, visibleSteps, visibleFields, validate };
+    return { isBlank, toNumber, parseDate, evalCondition, visibleSteps, visibleFields, validate, expandField, normalizeSchema, PERSON_ITEM };
 });

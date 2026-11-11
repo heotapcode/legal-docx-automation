@@ -262,6 +262,17 @@
         "validate": {
           "$ref": "#/$defs/validate"
         },
+        "auto_ratio": {
+          "description": "Chỉ cho `list`: khi nhập ô `part` của một phần tử (vd vốn góp), giao diện tự tính ô `target` (vd tỷ lệ %) = part / ô `total` ở cấp gốc (vd vốn điều lệ) và hiện thanh phân bổ vốn.",
+          "type": "object",
+          "required": ["part", "total", "target"],
+          "additionalProperties": false,
+          "properties": {
+            "part": {"$ref": "#/$defs/key"},
+            "total": {"$ref": "#/$defs/key"},
+            "target": {"$ref": "#/$defs/key"}
+          }
+        },
         "rules": {
           "description": "[v2] Quy tắc trên cả danh sách.",
           "type": "array",

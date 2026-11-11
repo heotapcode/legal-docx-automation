@@ -6,7 +6,6 @@ window.wizardState = {
     template: null,
     schema: null,
     formData: {},
-    thanhVienList: [],
     maNganh: [],
     dkkdSelected: []
 };
@@ -204,7 +203,6 @@ window.initWizard = async function() {
         template: null,
         schema: null,
         formData: {},
-        thanhVienList: [],
         maNganh: [],
         dkkdSelected: []
     };
@@ -292,21 +290,23 @@ function renderCurrentStep() {
 
 // --- VALIDATION: dùng lõi chung static/js/engine/schema_engine.js (cùng hành vi với backend) ---
 
-/** Dữ liệu wizard theo đúng key của schema (danh sách lưu riêng trong wizardState). */
+/**
+ * Dữ liệu wizard theo đúng key của schema. blankLists: form trống nhưng giữ số dòng của mỗi danh sách
+ * (để tính số mục cần kiểm tra cho thanh "MỨC HOÀN THIỆN").
+ */
 function wizardDataForSchema(schema, blankLists) {
     const s = window.wizardState;
-    const data = blankLists ? {} : Object.assign({}, s.formData || {});
+    const fd = s.formData || {};
+    const data = blankLists ? {} : Object.assign({}, fd);
     ((schema && schema.steps) || []).forEach(st => (st.fields || []).forEach(f => {
-        let list = null;
-        if (f.type === 'person_list') list = s.thanhVienList || [];
-        else if (f.type === 'checkbox_group') { if (!blankLists) data[f.key] = s.dkkdSelected || []; return; }
-        if (list) data[f.key] = blankLists ? list.map(() => ({})) : list;
+        if (f.type === 'checkbox_group') { if (!blankLists) data[f.key] = s.dkkdSelected || []; }
+        else if (f.type === 'list' && blankLists) data[f.key] = (Array.isArray(fd[f.key]) ? fd[f.key] : []).map(() => ({}));
     }));
     return data;
 }
 
 /**
- * Lỗi dữ liệu [{label, name | member+prop | list+idx+key}] theo _schema.json, kèm errors.total
+ * Lỗi dữ liệu [{label, name | list+idx+key}] theo _schema.json, kèm errors.total
  * (số mục cần kiểm tra, dùng để tính % hoàn thiện).
  */
 function validateRequiredFields(schema) {
@@ -316,9 +316,8 @@ function validateRequiredFields(schema) {
     SchemaEngine.validate(schema, wizardDataForSchema(schema, false)).forEach(e => {
         const item = { label: e.message };
         const list = window.FormRenderer ? FormRenderer.listOfError(e) : null;
-        if (e.index === undefined) item.name = e.key;
-        else if (list) { item.list = list; item.idx = e.index; item.key = e.key; }
-        else { item.member = e.index; item.prop = e.key; }
+        if (e.index === undefined || !list) item.name = e.key;
+        else { item.list = list; item.idx = e.index; item.key = e.key; }
         out.push(item);
     });
     // Số mục cần kiểm tra = số lỗi khi form còn trống (giữ nguyên số dòng danh sách hiện có)
@@ -340,9 +339,6 @@ function ensureRequiredFields() {
         if (e.name) el = document.querySelector(`[name="${e.name}"]`);
         else if (e.list) {
             el = document.querySelector(`.lf-field[data-list="${CSS.escape(e.list)}"][data-idx="${e.idx}"][data-key="${CSS.escape(e.key)}"]`);
-        }
-        else if (e.member !== undefined) {
-            el = document.querySelector(`.m-field[data-idx="${e.member}"][data-prop="${e.prop}"]`);
         }
         if (el) {
             el.classList.add('input-invalid');
@@ -486,34 +482,10 @@ async function loadStep2Schema() {
         if (!res.ok) throw new Error('Schema not found');
         const schema = await res.json();
         await loadCatalogsForSchema(schema);
-        window.wizardState.schema = schema;
+        // Kiểu cũ person_list (bộ mẫu cũ) -> danh sách chung `list`, cùng cách với máy chủ
+        window.wizardState.schema = SchemaEngine.normalizeSchema(schema);
 
-        // Initialize person list if schema has person_list
-        const steps = schema.steps || [];
-        steps.forEach(st => {
-            (st.fields || []).forEach(f => {
-                if (f.type === 'person_list' && (!window.wizardState.thanhVienList || window.wizardState.thanhVienList.length === 0)) {
-                    const min = f.min || 1;
-                    window.wizardState.thanhVienList = [];
-                    for (let i = 0; i < min; i++) {
-                        window.wizardState.thanhVienList.push({
-                            stt: i + 1,
-                            ho_ten: '',
-                            gioi_tinh: 'Nam',
-                            ngay_sinh: '',
-                            so_cccd: '',
-                            dia_chi_so_nha: '',
-                            dia_chi_xa_phuong: '',
-                            dia_chi_tinh_thanh: '',
-                            von_gop: '',
-                            ty_le: ''
-                        });
-                    }
-                }
-            });
-        });
-
-        renderStep2Form(schema);
+        renderStep2Form(window.wizardState.schema);
     } catch (err) {
         console.error('Lỗi tải schema:', err);
         const content = document.getElementById('wizard-content');
@@ -562,22 +534,26 @@ window.updateUniversalCompleteness = function() {
     if (fillEl) fillEl.style.width = `${pct}%`;
 };
 
+/** Danh sách có auto_ratio (vd thành viên: vốn góp / vốn điều lệ) trong schema đang mở, hoặc null. */
+function ratioListField() {
+    const steps = (window.wizardState.schema && window.wizardState.schema.steps) || [];
+    for (const st of steps) for (const f of (st.fields || [])) if (f.type === 'list' && f.auto_ratio) return f;
+    return null;
+}
+
 window.updateUniversalCapitalDistribution = function() {
-    const vonInput = document.getElementById('input-von_dieu_le_so');
     const container = document.getElementById('universal-capital-bar-container');
     if (!container) return;
-
-    if (!vonInput) {
-        container.innerHTML = '';
-        return;
-    }
-
-    const totalVon = parseInt(vonInput.value.replace(/\D/g, '') || '0', 10);
-    const memberList = window.wizardState.thanhVienList || [];
+    const field = ratioListField();
+    const fd = window.wizardState.formData;
+    const totalInput = field ? document.querySelector(`[name="${field.auto_ratio.total}"]`) : null;
+    const totalVon = parseInt(String((totalInput ? totalInput.value : fd[field && field.auto_ratio.total]) || '').replace(/\D/g, '') || '0', 10);
+    const memberList = field && Array.isArray(fd[field.key]) ? fd[field.key] : [];
     if (!memberList.length || totalVon <= 0) {
         container.innerHTML = '';
         return;
     }
+    const part = field.auto_ratio.part;
 
     const colors = ['#f97316', '#3b82f6', '#10b981', '#a855f7', '#ec4899', '#eab308', '#06b6d4'];
     let distributed = 0;
@@ -585,15 +561,13 @@ window.updateUniversalCapitalDistribution = function() {
     let badgesHtml = '';
 
     memberList.forEach((m, idx) => {
-        const mInput = document.querySelector(`.m-field[data-idx="${idx}"][data-prop="von_gop"]`);
-        const valStr = mInput ? mInput.value : (m.von_gop || '0');
+        const valStr = (m && m[part]) || '0';
         const mVal = parseInt(String(valStr).replace(/\D/g, '') || '0', 10);
         distributed += mVal;
 
         const pct = ((mVal / totalVon) * 100).toFixed(1);
         const color = colors[idx % colors.length];
-        const nameInput = document.querySelector(`.m-field[data-idx="${idx}"][data-prop="ho_ten"]`);
-        const name = (nameInput && nameInput.value) ? nameInput.value : (m.ho_ten || `Thành viên ${idx + 1}`);
+        const name = (m && m.ho_ten) || `Thành viên ${idx + 1}`;
 
         if (mVal > 0) {
             segmentsHtml += `<div style="width: ${pct}%; background: ${color}; height: 100%; transition: width 0.3s;" title="${escapeHtml(name)}: ${pct}% (${formatMoneyStr(String(mVal))} đ)"></div>`;
@@ -789,7 +763,7 @@ function renderStep2Form(schema) {
                 <div class="harvey-kpi-card">
                     <div>
                         <div class="kpi-label">THÀNH VIÊN SÁNG LẬP</div>
-                        <div class="harvey-kpi-num" id="kpi-member-count">${(window.wizardState.thanhVienList || []).length} Người</div>
+                        <div class="harvey-kpi-num" id="kpi-member-count">${(window.wizardState.formData.thanh_vien || []).length} Người</div>
                         <div style="font-size: 11px; color: var(--status-green); margin-top: 3px;"><i class="fa-solid fa-id-card"></i> VNeID Verified</div>
                     </div>
                     <div class="kpi-icon-box" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 15px;"><i class="fa-solid fa-users"></i></div>
@@ -891,7 +865,7 @@ function collectFormData() {
     // Collect standard inputs
     const inputs = document.querySelectorAll('#dynamic-form-container input, #dynamic-form-container select');
     inputs.forEach(inp => {
-        if (inp.name && !inp.classList.contains('m-field') && inp.type !== 'file') {
+        if (inp.name && inp.type !== 'file') {
             if (inp.type === 'checkbox') {
                 // handled separately
             } else {
@@ -899,17 +873,6 @@ function collectFormData() {
             }
         }
     });
-
-    // Collect member fields
-    const mInputs = document.querySelectorAll('.m-field');
-    mInputs.forEach(inp => {
-        const idx = parseInt(inp.getAttribute('data-idx'), 10);
-        const prop = inp.getAttribute('data-prop');
-        if (window.wizardState.thanhVienList[idx]) {
-            window.wizardState.thanhVienList[idx][prop] = inp.value;
-        }
-    });
-
 
     // Collect DKKD checkboxes
     const cbs = document.querySelectorAll('.dkkd-cb:checked');
@@ -1014,7 +977,7 @@ window.lookupMST = async function(fieldKey) {
 function renderStep4Download() {
     const tpl = window.wizardState.template;
     const fd = window.wizardState.formData;
-    const tv = window.wizardState.thanhVienList;
+    const tv = Array.isArray(window.wizardState.formData.thanh_vien) ? window.wizardState.formData.thanh_vien : [];
     const nganh = window.wizardState.maNganh;
 
     const companyName = fd['ten_cong_ty_vn'] || 'Chưa cập nhật';
@@ -1072,7 +1035,6 @@ window.generateDocuments = async function() {
         template_name: window.wizardState.template.name,
         data: {
             ...window.wizardState.formData,
-            thanh_vien: window.wizardState.thanhVienList,
             dkkd_selected: window.wizardState.dkkdSelected,
             // Dữ liệu theo đúng key của schema (vd checkbox_group/list có key riêng), cùng cách backend kiểm tra
             ...wizardDataForSchema(window.wizardState.schema, false)
@@ -1081,10 +1043,7 @@ window.generateDocuments = async function() {
             ma: n.ma,
             ten: n.ten,
             is_main: !!n.is_main
-        })),
-        special_payload: {
-            thanh_vien: window.wizardState.thanhVienList
-        }
+        }))
     };
 
     try {
