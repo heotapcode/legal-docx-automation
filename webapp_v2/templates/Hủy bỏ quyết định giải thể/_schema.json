@@ -109,6 +109,16 @@
           "required": true
         },
         {
+          "key": "ddpl_sdt",
+          "label": "Điện thoại người đại diện (in ở Giấy ủy quyền)",
+          "type": "phone"
+        },
+        {
+          "key": "ddpl_email",
+          "label": "Thư điện tử người đại diện (in ở Giấy ủy quyền)",
+          "type": "email"
+        },
+        {
           "key": "ddpl_dia_chi_day_du",
           "label": "Địa chỉ ĐDPL",
           "type": "text",

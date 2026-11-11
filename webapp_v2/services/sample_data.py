@@ -93,6 +93,10 @@ def build_sample_payload(schema: Dict[str, Any], n_members: int = 3) -> Tuple[di
                 value = "0101234567" if typ == "mst_lookup" else f"GIATRI_{key.upper()}"
                 if "ten_cong_ty" in key:
                     value = "CÔNG TY TNHH THỬ NGHIỆM ABC"
+                elif key == "ten_hkd":
+                    value = "HỘ KINH DOANH THỬ NGHIỆM"
+                elif key.endswith("xa_phuong") and (f.get("validate") or {}).get("pattern"):
+                    value = "Phường Cầu Giấy"  # ô có kiểm tra định dạng "Xã/Phường/Đặc khu ..."
                 if key == "ngay_lap":
                     # Ngày lập được in dạng "ngày 20 tháng 10 năm 2026"
                     data[key] = "20/10/2026"

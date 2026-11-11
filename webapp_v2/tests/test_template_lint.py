@@ -119,8 +119,8 @@ def test_real_templates_have_no_errors(name):
     assert not errors, "\n".join(f"{f.code} [{f.file}] {f.message}" for f in errors)
 
 
-# CCCD được phép xuất hiện trong mẫu: người nhận ủy quyền trong Giấy ủy quyền (giữ nguyên theo yêu cầu)
-ALLOWED_HARDCODED_CCCD = {"001089021350"}
+# Không số CCCD nào được viết cứng trong mẫu: người nhận ủy quyền dùng biến {{ uq_so_cccd }} (services/uy_quyen.py)
+ALLOWED_HARDCODED_CCCD = set()
 
 
 def test_no_unexpected_personal_id_in_templates():
@@ -185,3 +185,10 @@ def test_single_change_sets_link_to_combined_procedure():
                  "Thay đổi địa chỉ và thuế TNHH 2 TV"):
         schema = json.loads((TEMPLATES_DIR / name / "_schema.json").read_text(encoding="utf-8"))
         assert schema["shortcut"]["template"] == "Thay đổi nội dung ĐKKD", name
+
+
+def test_no_hardcoded_personal_data_in_templates():
+    """Không còn dữ liệu cụ thể viết cứng (W030: email, điện thoại, CCCD, tên công ty) trong bất kỳ mẫu nào."""
+    found = [f"{name} / {f.file}: {f.message}" for name in list_template_names()
+             for f in template_lint.lint_template(TEMPLATES_DIR / name) if f.code == "W030"]
+    assert not found, "\n".join(found)

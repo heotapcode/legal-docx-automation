@@ -258,3 +258,33 @@ def test_suggest_and_apply_fields(api, env):
     r = api.post(f"/api/admin/drafts/{draft['id']}/preview", headers=CSRF)
     text_out = "\n".join(read_zip(r.content).values())
     assert "Liên hệ: NGUYỄN VĂN THỬ" in text_out and "Ký ngày 01/01/1990" in text_out
+
+
+# ---------- Cấu hình dùng chung: người nhận ủy quyền (Bên B trong Giấy ủy quyền) ----------
+
+UQ_URL = "/api/admin/settings/nguoi-nhan-uy-quyen"
+UQ_NEW = {"ho_ten": "Trần Thị Nhận Thử", "gioi_tinh": "Nữ", "ngay_sinh": "02/03/1991", "so_cccd": "001191000099",
+          "dia_chi": "Số 5 Phố Thử, Phường Cầu Giấy, Hà Nội", "sdt": "0900.000.001", "email": "nhan@example.com"}
+
+
+def test_power_of_attorney_recipient_settings(api, env, client):
+    from services import uy_quyen
+
+    assert client.get(UQ_URL).json()["value"] == uy_quyen.defaults()
+    assert client.put(UQ_URL, json=UQ_NEW).status_code == 403                                  # thiếu CSRF
+    assert client.put(UQ_URL, json=dict(UQ_NEW, so_cccd="123"), headers=CSRF).status_code == 400
+    assert client.put(UQ_URL, json=dict(UQ_NEW, ho_ten=""), headers=CSRF).status_code == 400
+    r = client.put(UQ_URL, json=UQ_NEW, headers=CSRF)
+    assert r.status_code == 200 and r.json()["value"] == UQ_NEW
+
+    # Hồ sơ tạo sau đó in người nhận ủy quyền mới, không còn người mặc định
+    uq = render_live(api, env)
+    old = uy_quyen.defaults()
+    assert "- Bà: TRẦN THỊ NHẬN THỬ" in uq and UQ_NEW["so_cccd"] in uq and UQ_NEW["sdt"] in uq and UQ_NEW["email"] in uq
+    assert old["ho_ten"] not in uq and old["so_cccd"] not in uq and old["sdt"] not in uq
+
+
+def test_recipient_settings_require_login(client, env):
+    client.cookies.clear()
+    assert client.get(UQ_URL).status_code == 401
+    assert client.put(UQ_URL, json=UQ_NEW, headers=CSRF).status_code == 401

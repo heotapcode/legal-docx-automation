@@ -68,6 +68,7 @@ webapp_v2/data/*.sqlite3
 webapp_v2/data/*.sqlite3-*
 webapp_v2/data/template_drafts/
 webapp_v2/data/template_versions/
+webapp_v2/data/backups/
 
 # Du lieu OCR tai bang tools/setup_ocr.py
 webapp_v2/data/tessdata/

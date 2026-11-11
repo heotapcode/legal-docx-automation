@@ -491,6 +491,36 @@ def test_admin_login_logout_page(page, base_url, tmp_path, monkeypatch):
     page.wait_for_selector("#admin-login-form")
 
 
+def test_admin_edit_power_of_attorney_recipient(page, base_url, tmp_path, monkeypatch):
+    """Trang quản trị: sửa người nhận ủy quyền (Bên B của mọi Giấy ủy quyền), giá trị có ký tự HTML được escape."""
+    import config
+    from services import auth, uy_quyen
+
+    monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
+    auth.create_user("quantri", "mat-khau-thu-nghiem-123")
+    page.goto(f"{base_url}/#/admin")
+    page.wait_for_selector("#admin-login-form")
+    page.fill("#admin-username", "quantri")
+    page.fill("#admin-password", "mat-khau-thu-nghiem-123")
+    page.click("#admin-login-form button[type=submit]")
+    page.click("#admin-open-uy-quyen")
+    page.wait_for_selector("#uq-ho_ten")
+    assert page.input_value("#uq-so_cccd") == uy_quyen.defaults()["so_cccd"]
+    page.fill("#uq-ho_ten", "Trần Thị Nhận Thử")
+    page.fill("#uq-gioi_tinh", "Nữ")
+    page.fill("#uq-so_cccd", "123")
+    page.click('[data-action="save-uy-quyen"]')
+    page.wait_for_function("document.getElementById('admin-message').textContent.includes('12 chữ số')")
+    page.fill("#uq-so_cccd", "001191000099")
+    page.fill("#uq-dia_chi", XSS)
+    page.click('[data-action="save-uy-quyen"]')
+    page.wait_for_function("document.getElementById('admin-message').textContent.includes('Đã lưu')")
+    assert page.input_value("#uq-dia_chi") == XSS and page.evaluate("window.__xss || 0") == 0
+    saved = uy_quyen.get()
+    assert saved["ho_ten"] == "Trần Thị Nhận Thử" and saved["so_cccd"] == "001191000099"
+    assert uy_quyen.context_values()["uq_danh_xung"] == "Bà"
+
+
 # ---------- Quản lý bộ mẫu trên trang quản trị (Mục 10.2, 10.4) ----------
 
 def test_admin_draft_publish_rollback_flow(page, base_url, tmp_path, monkeypatch):

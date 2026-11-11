@@ -62,8 +62,8 @@ GIẤY ỦY QUYỀN
 BÊN ỦY QUYỀN (BÊN A)
 Tên tôi là: GIATRI_DDPL_HO_TEN
 Số giấy tờ pháp lý cá nhân: GIATRI_DDPL_SO_CCCD
-Giới tính: Nữ                                            Ngày sinh: GIATRI_DDPL_NGAY_SINH
-SĐT: 0971222812                                   Email: dqhaccount@gmail.com
+Giới tính: GIATRI_DDPL_GIOI_TINH                                            Ngày sinh: GIATRI_DDPL_NGAY_SINH
+SĐT: 0912345678                                   Email: test@example.com
 Địa chỉ liên hệ:
 GIATRI_DDPL_DIA_CHI_DAY_DU
 Là người đại diện theo pháp luật CÔNG TY TNHH THỬ NGHIỆM ABC

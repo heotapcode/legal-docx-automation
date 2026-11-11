@@ -9,7 +9,7 @@ import threading
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterator
+from typing import Iterator, Optional
 
 import config
 
@@ -70,6 +70,15 @@ MIGRATIONS = [
         UNIQUE (template_id, version)
     );
     """,
+    # 3: cấu hình dùng chung sửa được trên trang quản trị (vd người nhận ủy quyền)
+    """
+    CREATE TABLE settings (
+        key        TEXT PRIMARY KEY,
+        value      TEXT NOT NULL,
+        updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        updated_at TEXT NOT NULL
+    );
+    """,
 ]
 
 _init_lock = threading.Lock()
@@ -120,3 +129,21 @@ def connect() -> Iterator[sqlite3.Connection]:
 def audit(conn: sqlite3.Connection, user_id, action: str, detail: str = "") -> None:
     conn.execute("INSERT INTO audit_log(user_id, action, detail, at) VALUES (?, ?, ?, ?)",
                  (user_id, action, detail, now_iso()))
+
+
+def get_setting(key: str) -> Optional[str]:
+    """Giá trị đã lưu của một cấu hình, None nếu chưa có (không tạo file CSDL khi chưa tồn tại)."""
+    if not db_path().exists():
+        return None
+    with connect() as conn:
+        row = conn.execute("SELECT value FROM settings WHERE key = ?", (key,)).fetchone()
+    return row["value"] if row else None
+
+
+def set_setting(key: str, value: str, user_id=None) -> None:
+    with connect() as conn:
+        conn.execute(
+            "INSERT INTO settings(key, value, updated_by, updated_at) VALUES (?, ?, ?, ?) "
+            "ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_by = excluded.updated_by, "
+            "updated_at = excluded.updated_at", (key, value, user_id, now_iso()))
+        audit(conn, user_id, "setting.update", key)

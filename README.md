@@ -89,7 +89,7 @@ GitHub Actions (`.github/workflows/webapp-tests.yml`) tự quét bộ mẫu và 
 │   ├── config.py               # Cấu hình hệ thống & nạp .env
 │   ├── routes/                 # API endpoints (Documents, MST, OCR, Templates)
 │   ├── services/               # Nghiệp vụ xử lý Word, chuẩn hóa font, OCR
-│   ├── templates/              # 19 bộ mẫu Docx chuẩn hóa Jinja2 + _schema.json
+│   ├── templates/              # Các bộ mẫu Docx (biến Jinja2) + _schema.json, mỗi thủ tục một thư mục
 │   └── static/                 # Giao diện người dùng (HTML, CSS Ember theme, JS)
 ├── scripts_and_tools/          # Script dựng / sửa mẫu Word (xem scripts_and_tools/README.md)
 ├── ma_nganh_nghe.json          # Cơ sở dữ liệu danh mục ngành nghề kinh doanh Việt Nam

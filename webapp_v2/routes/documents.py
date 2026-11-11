@@ -1,14 +1,18 @@
+import logging
 import re
 import unicodedata
 from urllib.parse import quote
 import json
 
-from fastapi import APIRouter, Response, HTTPException
+from fastapi import APIRouter, Depends, Response, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Dict, List, Optional, Any
 from services.render_service import render_documents, validate_template_dir
 from services import schema_engine
+from services.rate_limit import limit
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/documents", tags=["Document Generation"])
 
@@ -38,7 +42,7 @@ def make_ascii_filename(s: str) -> str:
     safe = re.sub(r'[^a-zA-Z0-9_]+', '_', normalized).strip('_')
     return safe or "Ho_So"
 
-@router.post("/generate")
+@router.post("/generate", dependencies=[Depends(limit("generate"))])
 def generate_docs(req: DocGenRequest):
     try:
         raw_data = req.data if req.data is not None else (req.context if req.context is not None else {})
@@ -69,6 +73,9 @@ def generate_docs(req: DocGenRequest):
         )
     except (ValueError, FileNotFoundError) as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        # Lỗi hệ thống: ghi log kèm tên bộ mẫu, không trả chi tiết kỹ thuật ra trình duyệt
+        logger.exception("Lỗi khi sinh hồ sơ '%s'", req.template_name)
+        raise HTTPException(status_code=500, detail="Không tạo được hồ sơ do lỗi hệ thống. Vui lòng thử lại; "
+                                                    "nếu vẫn lỗi, báo quản trị viên kèm thời điểm xảy ra.")
 

@@ -40,6 +40,27 @@ Mỗi lần xuất bản lưu thành một **phiên bản** (số tăng dần, g
 > **Lưu ý khi triển khai:** xuất bản ghi trực tiếp vào `templates/`. Nếu máy chủ chạy từ bản git, các thay đổi này cần được
 > sao lưu (hoặc commit lại) để không mất khi cập nhật mã nguồn; thư mục `data/template_versions/` cũng cần được sao lưu.
 
+## Người nhận ủy quyền (Bên B trong Giấy ủy quyền)
+
+Trang `#/admin` → **Cấu hình dùng chung** → **Người nhận ủy quyền**: sửa họ tên, giới tính, ngày sinh, số định danh,
+địa chỉ, điện thoại, thư điện tử rồi **Lưu**. Có hiệu lực ngay cho mọi bộ hồ sơ tạo sau đó (mọi Giấy ủy quyền dùng chung
+các biến `{{ uq_ho_ten }}`, `{{ uq_so_cccd }}`...). Giá trị mặc định nằm ở `data/nguoi_nhan_uy_quyen.json`; giá trị đã sửa
+lưu trong CSDL quản trị (`ADMIN_DB_PATH`), cần sao lưu cùng CSDL này.
+
+## Sao lưu
+
+Xuất bản từ trang quản trị ghi thẳng vào `templates/` trên máy chủ, nên nội dung trên máy chủ có thể mới hơn git.
+Chạy định kỳ (vd mỗi đêm bằng Task Scheduler / cron), trong thư mục `webapp_v2`:
+
+```bash
+python -m tools.backup                         # tạo data/backups/backup-YYYYmmdd-HHMMSS.zip, giữ 14 bản mới nhất
+python -m tools.backup --keep 30 --dir "D:/SaoLuu"
+```
+
+File sao lưu gồm: `templates/`, `data/template_versions/`, CSDL quản trị (tài khoản, nhật ký, người nhận ủy quyền),
+`data/inquiries.json`. Nên đặt `--dir` ở ổ đĩa khác hoặc thư mục được đồng bộ ra ngoài máy chủ.
+Khôi phục: tắt máy chủ, giải nén, chép `templates/` và `data/` về đúng chỗ.
+
 ## Tạo tài khoản
 
 Tài khoản chỉ tạo được trên máy chủ, bằng dòng lệnh (chạy trong thư mục `webapp_v2`):
@@ -64,6 +85,10 @@ Lệnh hỏi mật khẩu hai lần, không hiện khi gõ, tối thiểu 10 ký
 | `ADMIN_DB_PATH` | `data/admin.sqlite3` | File SQLite lưu tài khoản, phiên, nhật ký (đã có trong `.gitignore`, **không commit**). |
 | `ADMIN_SESSION_HOURS` | `12` | Thời hạn một phiên đăng nhập. |
 | `ADMIN_COOKIE_SECURE` | `0` | Đặt `1` khi chạy qua HTTPS để cookie phiên chỉ gửi qua HTTPS. |
+| `RATE_LIMIT_GENERATE` | `30` | Số lần sinh hồ sơ tối đa mỗi phút từ một địa chỉ IP (0 = tắt). Quá mức trả lỗi 429. |
+| `RATE_LIMIT_OCR` | `20` | Số lần quét CCCD/VNeID tối đa mỗi phút từ một IP. |
+| `RATE_LIMIT_INQUIRY` | `5` | Số lần gửi yêu cầu tư vấn tối đa mỗi phút từ một IP. |
+| `LOG_LEVEL` | `INFO` | Mức ghi log (`DEBUG`, `INFO`, `WARNING`, `ERROR`). Lỗi hệ thống được ghi kèm chi tiết vào log; người dùng chỉ thấy thông báo chung. |
 
 ## An toàn
 
