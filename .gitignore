@@ -34,14 +34,12 @@ ENV/
 
 # Node.js
 node_modules/
-crm/node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 # Database & local data
 *.db
-crm/data/*.db
 webapp_v2/data/inquiries.json
 
 # Temporary test & scratch folders

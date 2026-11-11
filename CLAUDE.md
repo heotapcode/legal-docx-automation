@@ -19,7 +19,6 @@ phải lập trình viên: trao đổi bằng tiếng Việt, nói kết quả t
 | `webapp_v2/tools/` | `template_lint` (quét mẫu), `schema_suggest`, `admin_user`, `setup_ocr`. |
 | `webapp_v2/docs/` | `schema-v2.md` (đặc tả `_schema.json`), `them-thu-tuc-moi.md`, `muc8-bang-nghiep-vu.md`, `quan-tri.md`. |
 | `scripts_and_tools/` | Script dựng / sửa mẫu Word (xem README trong đó). |
-| `crm/` | Ứng dụng Node riêng, chưa có test và CI. Không sửa khi chưa được yêu cầu. |
 
 ## Lệnh thường dùng (trong `webapp_v2/`)
 
@@ -62,7 +61,8 @@ Sau khi cập nhật ảnh chụp chuẩn, luôn xem `git diff tests/golden`: ch
 - **Bảng ngành nghề**: sau khi điền, mọi bảng có cột "Tên ngành" + "Mã ngành" bị điền lại theo danh sách ngành đã chọn.
   Mẫu tự dựng bảng bằng `{%tr for n in ma_nganh %}` phải đặt `"fill_nganh_table": false` ở mục `documents`.
 - **Kiểu `person`** sinh biến phẳng `<key>_ho_ten`, `<key>_so_cccd`, `<key>_ngay_sinh`, `<key>_gioi_tinh`,
-  `<key>_dia_chi_so_nha|xa_phuong|tinh_thanh`. Danh sách `person_list` luôn gửi lên ở `thanh_vien`.
+  `<key>_dia_chi_so_nha|xa_phuong|tinh_thanh`. Danh sách thành viên / cổ đông là `list` key `thanh_vien` (kiểu cũ
+  `person_list` chỉ còn để bộ mẫu cũ chạy được, tự chuyển thành `list`; không dùng cho bộ mẫu mới).
 - **Ngày và địa danh**: `{{ noi_lap }}`, `{{ phong_dkkd }}`, `{{ ngay_lap }}`, `{{ ngay_lap_ngan }}` do
   `normalize_context` tạo từ `tinh_dang_ky` / `ngay_lap`. Cơ quan đăng ký hộ kinh doanh: `{{ <xã phường> | co_quan_hkd }}`.
 - **Tiền**: `| money` ra `1,000,000`; `| so_thanh_chu` ra chữ. Muốn dấu chấm: `| money | replace(',', '.')`.

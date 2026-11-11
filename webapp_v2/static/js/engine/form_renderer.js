@@ -6,8 +6,10 @@
  * - Kiểu ô mới: date, cccd, percent, number, address, list (danh sách lặp tổng quát).
  *   Trong list: select có options_from = chọn một phần tử của list khác (giá trị là số thứ tự 0, 1...),
  *   money tự định dạng khi gõ.
- *   Kiểu cũ (text, money, mst_lookup, phone, email, select, person, person_list,
- *   checkbox_group) dùng lại renderField() của wizard.js để giữ OCR, tra MST, định dạng tiền.
+ *   Danh sách thành viên / cổ đông cũng là `list` (kiểu cũ person_list được SchemaEngine.normalizeSchema chuyển
+ *   sang list); `auto_ratio` tự tính tỷ lệ (vd vốn góp / vốn điều lệ) và hiện thanh phân bổ vốn.
+ *   Kiểu cũ (text, money, mst_lookup, phone, email, select, person, checkbox_group) dùng renderField()
+ *   của field_types.js để giữ tra MST, định dạng tiền.
  * - Báo lỗi ngay dưới ô khi người dùng rời khỏi ô (dùng SchemaEngine, cùng kết quả với backend).
  *
  * Dữ liệu: ô thường lưu ở wizardState.formData[key]; danh sách `list` lưu ở formData[key] (mảng).
@@ -115,7 +117,7 @@
         const key = field.key;
         const items = Array.isArray(fd()[key]) ? fd()[key] : (fd()[key] = []);
         const min = field.min || 0;
-        while (items.length < min) items.push({});
+        while (items.length < min) items.push(newItem(key));
         const cards = items.map((item, i) => {
             const subs = (field.item || []).map(sub => {
                 const attrs = `data-list="${escapeHtml(key)}" data-idx="${i}" data-key="${escapeHtml(sub.key)}" class="form-control lf-field"`;
@@ -151,6 +153,7 @@
         return `
             <div class="form-group">
                 <label class="form-label">${escapeHtml(field.label)}${reqBadge(field)}</label>
+                ${field.auto_ratio ? '<div id="universal-capital-bar-container"></div>' : ''}
                 <div class="fr-list" data-list="${escapeHtml(key)}">${cards}</div>
                 ${canAdd ? `<button type="button" class="btn btn-secondary btn-sm mt-2" onclick="FormRenderer.addListItem('${escapeHtml(key)}')">+ Thêm</button>` : ''}
                 <div class="fr-error text-xs text-error mt-1" data-error-for="${escapeHtml(key)}"></div>
@@ -266,6 +269,7 @@
         container.addEventListener('input', ev => {
             if (ev.target && ev.target.getAttribute && ev.target.getAttribute('data-money')) formatMoney(ev.target);
             if (window.collectFormData) collectFormData();
+            applyAutoRatio(ev.target);
             applyVisibility(container);
             refreshRefOptions(container);
         });
@@ -279,6 +283,45 @@
     }
 
     function resetTouched() { touched.clear(); }
+
+    // ---------- Tự tính tỷ lệ (auto_ratio) ----------
+
+    function ratioFields() {
+        const out = [];
+        ((state().schema && state().schema.steps) || []).forEach(st => (st.fields || []).forEach(f => {
+            if (f.type === 'list' && f.auto_ratio) out.push(f);
+        }));
+        return out;
+    }
+
+    const digits = v => parseInt(String(v || '').replace(/\D/g, '') || '0', 10);
+
+    /**
+     * target = part / total (%), 1 chữ số thập phân. Chỉ tính lại theo ô vừa sửa (`changed`): sửa phần (vd vốn góp)
+     * -> phần tử đó; sửa tổng (vd vốn điều lệ) -> mọi phần tử. Phần tử chưa nhập phần thì giữ nguyên.
+     */
+    function applyAutoRatio(changed) {
+        ratioFields().forEach(f => {
+            const r = f.auto_ratio;
+            const isTotal = changed && changed.getAttribute && changed.getAttribute('name') === r.total;
+            const isPart = changed && changed.classList && changed.classList.contains('lf-field') &&
+                changed.getAttribute('data-list') === f.key && changed.getAttribute('data-key') === r.part;
+            if (!isTotal && !isPart) return;
+            const totalEl = document.querySelector(`[name="${CSS.escape(r.total)}"]`);
+            const total = digits(totalEl ? totalEl.value : fd()[r.total]);
+            const items = Array.isArray(fd()[f.key]) ? fd()[f.key] : [];
+            items.forEach((item, i) => {
+                if (isPart && String(i) !== changed.getAttribute('data-idx')) return;
+                const part = digits(item && item[r.part]);
+                if (total <= 0 || part <= 0) return;
+                const pct = ((part / total) * 100).toFixed(1);
+                item[r.target] = pct;
+                const el = document.querySelector(`.lf-field[data-list="${CSS.escape(f.key)}"][data-idx="${i}"][data-key="${CSS.escape(r.target)}"]`);
+                if (el) el.value = pct;
+            });
+        });
+        if (window.updateUniversalCapitalDistribution) window.updateUniversalCapitalDistribution();
+    }
 
     // ---------- Thêm/xóa phần tử danh sách ----------
 
@@ -294,12 +337,23 @@
         if (window.renderStep2Form) renderStep2Form(state().schema);
     }
 
-    function addListItem(key) { mutateList(key, list => list.push({})); }
+    /** Phần tử mới: các ô select nhận sẵn giá trị mặc định (vd giới tính Nam), như khi vẽ form. */
+    function newItem(key) {
+        const item = {};
+        ((state().schema && state().schema.steps) || []).forEach(st => (st.fields || []).forEach(f => {
+            if (f.key === key && f.type === 'list') (f.item || []).forEach(sub => {
+                if (sub.type === 'select' && sub.default !== undefined && !sub.options_from) item[sub.key] = sub.default;
+            });
+        }));
+        return item;
+    }
+
+    function addListItem(key) { mutateList(key, list => list.push(newItem(key))); }
 
     function removeListItem(key, idx) { mutateList(key, list => list.splice(idx, 1)); }
 
     root.FormRenderer = {
         NEW_TYPES, renderSteps, renderOne, collectLists, applyVisibility, showInlineErrors,
-        attach, resetTouched, addListItem, removeListItem, listOfError, refreshRefOptions,
+        attach, resetTouched, addListItem, removeListItem, listOfError, refreshRefOptions, applyAutoRatio,
     };
 })(typeof self !== 'undefined' ? self : this);

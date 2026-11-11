@@ -192,3 +192,15 @@ def test_no_hardcoded_personal_data_in_templates():
     found = [f"{name} / {f.file}: {f.message}" for name in list_template_names()
              for f in template_lint.lint_template(TEMPLATES_DIR / name) if f.code == "W030"]
     assert not found, "\n".join(found)
+
+
+def test_legacy_person_list_is_warning(tmp_path):
+    schema = {
+        "id": "bo-thu-nghiem", "name": "Bộ thử nghiệm", "display_name": "Bộ thử nghiệm",
+        "steps": [{"id": "c", "title": "C", "fields": [
+            {"key": "ten_cong_ty_vn", "label": "Tên", "type": "text"},
+            {"key": "thanh_vien", "label": "Thành viên", "type": "person_list", "min": 1}]}],
+    }
+    d = make_template(tmp_path, ["{{ ten_cong_ty_vn }}"], schema=schema)
+    found = [f for f in template_lint.lint_template(d) if f.code == "W033"]
+    assert len(found) == 1 and found[0].level == "warning"
