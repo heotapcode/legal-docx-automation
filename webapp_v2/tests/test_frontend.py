@@ -713,3 +713,16 @@ def test_shortcut_opens_combined_procedure_with_data(page, base_url):
 def test_no_shortcut_without_config(page, base_url, template):
     open_template(page, base_url, template)
     assert page.locator("#btn-combined-shortcut").count() == 0
+
+
+def test_scan_shows_server_error_reason(page, base_url):
+    """Máy chủ trả lỗi HTTP (vd 429 thao tác quá nhanh): người dùng thấy đúng lý do, nút quét dùng lại được."""
+    open_template(page, base_url, "Tạm dừng công ty TNHH 1 TV")
+    page.route("**/api/ocr/vneid", lambda r: r.fulfill(status=429, content_type="application/json",
+                                                        body='{"detail": "Bạn thao tác quá nhanh. Vui lòng thử lại sau một phút."}'))
+    page.locator("input[type=file]").first.set_input_files(
+        {"name": "a.png", "mimeType": "image/png", "buffer": b"x"})
+    page.wait_for_function("true")
+    page.wait_for_timeout(300)
+    assert any("thao tác quá nhanh" in d for d in page.dialogs), page.dialogs
+    assert page.locator(".btn-ocr").first.is_enabled()

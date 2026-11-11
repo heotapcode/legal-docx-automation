@@ -1271,6 +1271,23 @@ function collectFormData() {
 }
 
 // --- OCR HANDLERS ---
+/** Gửi ảnh CCCD/VNeID lên máy chủ. Luôn trả {success, data?, message?}; lỗi mạng / lỗi HTTP có thông báo rõ. */
+async function ocrRequest(fd) {
+    let res;
+    try {
+        res = await fetch('/api/ocr/vneid', { method: 'POST', body: fd });
+    } catch (err) {
+        return { success: false, message: 'Không kết nối được máy chủ để đọc ảnh. Kiểm tra máy chủ còn chạy không rồi thử lại.' };
+    }
+    let body = null;
+    try { body = await res.json(); } catch (err) { body = null; }
+    if (!res.ok) {
+        const detail = body && (body.message || (typeof body.detail === 'string' ? body.detail : ''));
+        return { success: false, message: detail || `Máy chủ báo lỗi ${res.status} khi đọc ảnh. Vui lòng thử lại hoặc nhập tay.` };
+    }
+    return body || { success: false, message: 'Máy chủ trả về dữ liệu không đọc được. Vui lòng thử lại hoặc nhập tay.' };
+}
+
 window.handleOcrUpload = async function(fileInput, targetKey) {
     const file = fileInput.files[0];
     if (!file) return;
@@ -1290,8 +1307,7 @@ window.handleOcrUpload = async function(fileInput, targetKey) {
         fd.append('image', file);
         fd.append('target', targetKey);
 
-        const res = await fetch('/api/ocr/vneid', { method: 'POST', body: fd });
-        const resData = await res.json();
+        const resData = await ocrRequest(fd);
 
         if (resData.success && resData.data) {
             const data = resData.data;
@@ -1392,8 +1408,7 @@ window.handleMemberOcrUpload = async function(fileInput, memberIdx) {
         fd.append('image', file);
         fd.append('target', `member_${memberIdx}`);
 
-        const res = await fetch('/api/ocr/vneid', { method: 'POST', body: fd });
-        const resData = await res.json();
+        const resData = await ocrRequest(fd);
 
         if (resData.success && resData.data) {
             const data = resData.data;
@@ -1468,7 +1483,7 @@ window.handleListOcrUpload = async function(fileInput, listKey, idx) {
         const fd = new FormData();
         fd.append('image', file);
         fd.append('target', `${listKey}_${idx}`);
-        const resData = await (await fetch('/api/ocr/vneid', { method: 'POST', body: fd })).json();
+        const resData = await ocrRequest(fd);
         if (!resData.success || !resData.data) {
             alert(resData.message || 'Không thể nhận diện ảnh VNeID. Vui lòng thử lại.');
             btn.innerHTML = originalText;

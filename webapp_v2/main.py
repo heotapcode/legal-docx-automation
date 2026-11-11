@@ -27,6 +27,18 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
+# Báo ngay khi khởi động nếu phần đọc CCCD thiếu thành phần (kiểm tra chi tiết: python -m tools.setup_ocr --check)
+def _log_ocr_status() -> None:
+    from services import ocr_service
+    st = ocr_service.status()
+    if not st["qr_ready"] or not st["ocr_ready"]:
+        logging.getLogger("ocr").warning(
+            "Đọc CCCD chưa đầy đủ (đọc QR: %s, đọc chữ: %s). Chạy: python -m tools.setup_ocr --check",
+            "sẵn sàng" if st["qr_ready"] else "THIẾU", "sẵn sàng" if st["ocr_ready"] else "THIẾU")
+
+
+_log_ocr_status()
+
 # Include API routers
 app.include_router(templates.router)
 app.include_router(documents.router)

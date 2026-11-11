@@ -45,6 +45,18 @@ Chạy một lần trong `webapp_v2/`: `python -m tools.setup_ocr` (tải khoả
 # CORS_ORIGINS=https://hoso.example.com
 ```
 
+#### Nút quét CCCD/VNeID không hoạt động?
+Chạy lệnh kiểm tra trong `webapp_v2/`, **bằng đúng Python đang chạy máy chủ** (nếu dùng `run.bat` thì là Python ghi trong file đó):
+```bash
+python -m tools.setup_ocr --check
+```
+Lệnh in từng thành phần `[OK]` / `[THIẾU]` kèm cách cài, rồi đọc thử một ảnh QR. Các trường hợp thường gặp:
+- **Thiếu dữ liệu tiếng Việt** (thư mục `data/tessdata` không nằm trong git, máy mới kéo mã về phải cài lại): `python -m tools.setup_ocr`.
+- **Thiếu thư viện** (máy chủ chạy bằng môi trường Python khác với nơi đã cài): `pip install -r requirements.txt` bằng đúng Python đó.
+- Ảnh có mã QR rõ vẫn đọc được khi thiếu phần đọc chữ; ảnh chụp màn hình VNeID (không có QR) cần đủ cả hai.
+
+Khi thiếu thành phần, thông báo trên trang cũng ghi rõ thiếu gì; địa chỉ `/api/ocr/status` cho biết tình trạng hiện tại.
+
 ### 4. Khởi chạy WebApp V2
 ```bash
 cd webapp_v2

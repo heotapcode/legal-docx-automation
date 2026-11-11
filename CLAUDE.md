@@ -30,6 +30,7 @@ python -m pytest -q                                # toàn bộ, khoảng 5 phú
 python -m pytest -q tests/test_golden_snapshots.py # ảnh chụp chuẩn nội dung hồ sơ
 UPDATE_GOLDEN=1 python -m pytest -q tests/test_golden_snapshots.py -k "<id bộ mẫu>"   # cập nhật có chủ đích
 python main.py                                     # chạy máy chủ
+python -m tools.setup_ocr --check                  # kiểm tra phần đọc CCCD (thư viện, dữ liệu tiếng Việt, đọc thử)
 python -m tools.backup                             # sao lưu templates/, phiên bản mẫu, CSDL quản trị
 ```
 
