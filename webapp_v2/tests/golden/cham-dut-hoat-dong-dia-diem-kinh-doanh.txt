@@ -4,7 +4,7 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 --------o0o-------
 GIẤY ỦY QUYỀN
 
-Giấy ủy quyền này được lập và ký vào ngày        tháng      năm 2026, giữa các bên dưới đây:
+Giấy ủy quyền này được lập và ký vào ngày        tháng      năm 2026, giữa các bên dưới đây:
 
 BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
 
@@ -18,7 +18,7 @@ BÊN NHẬN UỶ QUYỀN: (Sau đây gọi là “Bên B”):
 
 - Ông: ĐỖ QUANG HIẾU
 Số định danh cá nhân: 001089021350
-Ngày sinh: [ĐÃ XÓA]	Giới tính: Nam
+Ngày sinh: 16/03/1989	Giới tính: Nam
 Nơi ở hiện tại: TK Đường, Phú Xuyên, Hà Nội.
 Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com
 Nội dung uỷ quyền:
@@ -41,7 +41,7 @@ Mã số doanh nghiệp: 0101234567
 Thông báo chấm dứt hoạt động địa điểm kinh doanh sau:
 Tên địa điểm kinh doanh: ĐỊA ĐIỂM KINH DOANH SỐ 4 - CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số địa điểm kinh doanh: 00004
-Ngày cấp: 20/08/2025   Nơi cấp: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
+Ngày cấp: …/…/……   Nơi cấp: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 2. Địa chỉ địa điểm kinh doanh:
 Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: GIATRI_DIA_CHI_SO_NHA
 Xã/Phường/Đặc khu: GIATRI_DIA_CHI_XA_PHUONG

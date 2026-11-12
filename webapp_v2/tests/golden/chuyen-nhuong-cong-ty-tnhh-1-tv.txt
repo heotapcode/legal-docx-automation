@@ -118,7 +118,7 @@ DANH SÁCH CHỦ SỞ HỮU HƯỞNG LỢI CỦA DOANH NGHIỆP
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -137,7 +137,7 @@ Người quản lý doanh nghiệp
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -159,7 +159,7 @@ Người quản lý doanh nghiệp
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -379,7 +379,7 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 --------o0o-------
 GIẤY ỦY QUYỀN
 
-Giấy ủy quyền này được lập và ký vào ngày     tháng     năm 2026, giữa các bên dưới đây:
+Giấy ủy quyền này được lập và ký vào ngày     tháng     năm 2026, giữa các bên dưới đây:
 
 BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
 Ông/bà: NGUYỄN VĂN THỬ89
@@ -392,7 +392,7 @@ BÊN NHẬN UỶ QUYỀN: (Sau đây gọi là “Bên B”):
 
 - Ông: ĐỖ QUANG HIẾU
 Số định danh cá nhân: 001089021350   Giới tính: Nam
-Ngày sinh: [ĐÃ XÓA]
+Ngày sinh: 16/03/1989
 Nơi ở hiện tại: TK Đường, Phú Xuyên, Hà Nội.
 Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com
 Nội dung uỷ quyền:
@@ -411,7 +411,7 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 --------o0o-------
 GIẤY ỦY QUYỀN
 
-Giấy ủy quyền này được lập và ký vào ngày     tháng     năm 2026, giữa các bên dưới đây:
+Giấy ủy quyền này được lập và ký vào ngày     tháng     năm 2026, giữa các bên dưới đây:
 
 BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
 
@@ -424,7 +424,7 @@ BÊN NHẬN UỶ QUYỀN: (Sau đây gọi là “Bên B”):
 
 - Ông: ĐỖ QUANG HIẾU
 Số định danh cá nhân: 001089021350   Giới tính: Nam
-Ngày sinh: [ĐÃ XÓA]
+Ngày sinh: 16/03/1989
 Nơi ở hiện tại: TK Đường, Phú Xuyên, Hà Nội.
 Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com
 

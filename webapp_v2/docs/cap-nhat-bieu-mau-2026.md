@@ -75,3 +75,15 @@ Quyết định và Giấy ủy quyền còn dữ liệu ghi cứng của hồ s
 số "01/2026/QĐ-TA", "Ông", và ngày sinh / ngày cấp / nơi thường trú của người nhận ủy quyền cũ. Nay dùng
 `{{ noi_lap }}`, `{{ phong_dkkd }}`, `{{ ddpl_danh_xung }}`, `{{ uq_ngay_sinh }}`, `{{ uq_gioi_tinh }}`, `{{ uq_dia_chi }}`;
 bỏ dòng ngày cấp CCCD của Bên B.
+
+## Rà soát dữ liệu ghi cứng trong toàn bộ mẫu (12/11/2026)
+
+- 23 Giấy/Văn bản ủy quyền in chữ "[ĐÃ XÓA]" ở ngày sinh người nhận ủy quyền (dấu vết lần xóa dữ liệu người thật trước):
+  nay `{{ uq_ngay_sinh }}`; giới tính Bên B `{{ uq_gioi_tinh }}`, Bên A `{{ ddpl_gioi_tinh }}`, danh xưng Bên A
+  `{{ ddpl_danh_xung }}`. Điều lệ Cổ phần: bỏ hai chữ "[ĐÃ XÓA]" ở phần chữ ký.
+- Ký hiệu số văn bản có chữ viết tắt của khách cũ: "-FV", "-HM", "-QT" bỏ (QĐ / TB / không ký hiệu).
+- Ngày cụ thể của hồ sơ cũ (16/10/2026, 14/02/2026, 15/07/2026, ngày cấp 20/08/2025) đổi thành chỗ trống điền tay.
+- "năm 2026"/"năm 2025" ở dòng ngày tháng và trong số văn bản đổi thành năm theo ngày lập; thời gian tạm ngừng
+  "đến hết … năm" = năm sau. Test `tests/test_template_leftovers.py` chặn tái diễn.
+- Quyết định Tạm dừng Cổ phần ("Giao cho Bà …") và Quyết định Thay đổi địa chỉ (kế toán trưởng "Bà") dùng danh xưng theo
+  giới tính.

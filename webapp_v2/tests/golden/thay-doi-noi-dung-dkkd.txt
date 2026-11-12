@@ -187,12 +187,12 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 --------o0o-------
 GIẤY ỦY QUYỀN
 
-Giấy ủy quyền này được lập và ký vào ngày 15 tháng 07 năm 2026, giữa các bên dưới đây:
+Giấy ủy quyền này được lập và ký vào ngày ...... tháng ...... năm 2026, giữa các bên dưới đây:
 
 BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
-Ông: NGUYỄN VĂN THỬ92             Chức danh: Giám đốc
+Bà: NGUYỄN VĂN THỬ92             Chức danh: Giám đốc
 Ngày, tháng, năm sinh: 09/01/1990
-Giới tính: Nam
+Giới tính: Nữ
 Số định danh cá nhân: 001090000092
 Là người đại diện theo pháp luật:
 CÔNG TY TNHH THỬ NGHIỆM ABC
@@ -202,7 +202,7 @@ BÊN NHẬN UỶ QUYỀN: (Sau đây gọi là “Bên B”):
 
 - Ông: ĐỖ QUANG HIẾU
 Số định danh cá nhân: 001089021350
-Giới tính: Nam	Ngày sinh: [ĐÃ XÓA]
+Giới tính: Nam	Ngày sinh: 16/03/1989
 Nơi ở hiện tại: TK Đường, Phú Xuyên, Hà Nội.
 Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com
 Nội dung uỷ quyền:
@@ -263,7 +263,7 @@ DANH SÁCH CHỦ SỞ HỮU HƯỞNG LỢI CỦA DOANH NGHIỆP
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -282,7 +282,7 @@ Người quản lý doanh nghiệp
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -304,7 +304,7 @@ Người quản lý doanh nghiệp
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -412,11 +412,11 @@ Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật
 
 CÔNG TY TNHH THỬ NGHIỆM ABC
 
-Số: 01/2026-HM
+Số: 01/2026/TB
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
 
-Hà Nội, ngày 14 tháng 02 năm 2026
+Hà Nội, ngày ...... tháng ...... năm 2026
 
 CHỦ SỞ HỮU CÔNG TY
 (Ký và ghi họ tên)
