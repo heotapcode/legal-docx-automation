@@ -1,28 +1,38 @@
 ===== 01. Thông báo bổ sung ngành nghề kinh doanh.docx =====
+Mẫu số 12
 GIẤY ĐỀ NGHỊ
-ĐĂNG KÝ THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
-THÔNG BÁO THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
-Kính gửi: Phòng Đăng ký kinh doanh tỉnh Nghệ An
+Đăng ký thay đổi nội dung Giấy chứng nhận đăng ký doanh nghiệp/
+Thông báo thay đổi nội dung đăng ký doanh nghiệp
+(Dùng trong trường hợp đăng ký thay đổi nội dung Giấy chứng nhận đăng ký
+doanh nghiệp/thông báo thay đổi nội dung đăng ký doanh nghiệp;
+Bổ sung, cập nhật, thông tin đăng ký doanh nghiệp;
+Đề nghị hiệu đính thông tin đăng ký doanh nghiệp)
+Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 Tên doanh nghiệp (ghi bằng chữ in hoa): CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp/Mã số thuế: 0101234567
-Địa chỉ trụ sở chính: GIATRI_DIA_CHI_TRU_SO
-Người đại diện theo pháp luật: GIATRI_DDPL_HO_TEN
-Chức danh: Giám đốc
-Số định danh cá nhân (CCCD): GIATRI_DDPL_SO_CCCD
-Doanh nghiệp đăng ký thông báo bổ sung ngành, nghề kinh doanh như sau:
-Bổ sung ngành, nghề kinh doanh sau:
-Doanh nghiệp cam kết chịu trách nhiệm hoàn toàn trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Thông báo này.
+A. ĐĂNG KÝ THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP/
+THÔNG BÁO THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
+(Doanh nghiệp chọn và kê khai vào trang tương ứng với nội dung đăng ký/
+thông báo thay đổi và gửi kèm)
+- Doanh nghiệp có Giấy chứng nhận quyền sử dụng đất tại đảo và xã, phường biên giới; xã, phường ven biển; khu vực khác có ảnh hưởng đến quốc phòng, an ninh:    Có	              Không
+THÔNG BÁO THAY ĐỔI NGÀNH, NGHỀ KINH DOANH1
+1. Bổ sung ngành, nghề kinh doanh sau (kê khai trong trường hợp doanh nghiệp thông báo bổ sung ngành, nghề kinh doanh vào danh sách ngành, nghề kinh doanh đã đăng ký với cơ quan đăng ký kinh doanh):
+ Doanh nghiệp cam kết đáp ứng điều kiện tiếp cận thị trường đối với các ngành nghề thuộc Danh mục ngành, nghề hạn chế tiếp cận thị trường đối với nhà đầu tư nước ngoài theo quy định của pháp luật về đầu tư.
+Đề nghị Quý Cơ quan cấp Giấy xác nhận thay đổi nội dung đăng ký doanh nghiệp cho doanh nghiệp đối với các thông tin thay đổi nêu trên. (Đánh dấu X vào ô vuông nếu doanh nghiệp có nhu cầu được cấp Giấy xác nhận thay đổi nội dung đăng ký doanh nghiệp).
+Trường hợp hồ sơ đăng ký doanh nghiệp hợp lệ, đề nghị Quý Cơ quan đăng công bố nội dung đăng ký doanh nghiệp trên Cổng thông tin quốc gia về đăng ký doanh nghiệp.
+Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Thông báo này.
+Người ký tại Thông báo này cam kết là người có quyền và nghĩa vụ thực hiện thủ tục đăng ký doanh nghiệp theo quy định của pháp luật và Điều lệ công ty.
+
 CÔNG TY TNHH THỬ NGHIỆM ABC
-Số: 01/2026/TB-TA
---------
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
-----------------
-Nghệ An, ngày     tháng     năm 2026
+Số: …………..
+Hà Nội, ngày ...... tháng ...... năm 2026
 STT
-Tên ngành, nghề kinh doanh được bổ sung
+Tên ngành, nghề kinh doanh
+được bổ sung
 Mã ngành
-Ngành chính
+Ngành, nghề kinh doanh chính (Trường hợp ngành, nghề kinh doanh được bổ sung là ngành, nghề kinh doanh chính thì đánh dấu X để chọn một trong các ngành, nghề đã kê khai)
 1
 Lập trình máy vi tính
 6201
@@ -31,10 +41,13 @@ X
 Bán buôn máy móc, thiết bị và phụ tùng máy khác
 4659
 
-NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY
-(Ký, ghi rõ họ tên)
+NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT/
+CHỦ TỊCH CÔNG TY/CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN/CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ/
+NGƯỜI ĐƯỢC ỦY QUYỀN/NGƯỜI ĐẠI DIỆN
+(Ký và ghi họ tên)1
 
 GIATRI_DDPL_HO_TEN
+10
 
 ===== 02. Quyết định của Chủ sở hữu công ty.docx =====
 QUYẾT ĐỊNH CỦA CHỦ SỞ HỮU

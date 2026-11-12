@@ -1,36 +1,97 @@
 ===== 01. Thông báo thay đổi ĐKKD và thông tin thuế.docx =====
-THÔNG BÁO
-VỀ VIỆC THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
-(Cập nhật địa chỉ trụ sở chính và bổ sung, cập nhật thông tin đăng ký thuế)
+Mẫu số 12
+GIẤY ĐỀ NGHỊ
+Đăng ký thay đổi nội dung Giấy chứng nhận đăng ký doanh nghiệp/
+Thông báo thay đổi nội dung đăng ký doanh nghiệp
+(Dùng trong trường hợp đăng ký thay đổi nội dung Giấy chứng nhận đăng ký
+doanh nghiệp/thông báo thay đổi nội dung đăng ký doanh nghiệp;
+Bổ sung, cập nhật, thông tin đăng ký doanh nghiệp;
+Đề nghị hiệu đính thông tin đăng ký doanh nghiệp)
 Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 Tên doanh nghiệp (ghi bằng chữ in hoa): CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp/Mã số thuế: 0101234567
-1. ĐĂNG KÝ THAY ĐỔI ĐỊA CHỈ TRỤ SỞ CHÍNH:
-Địa chỉ trụ sở chính trước khi thay đổi: GIATRI_DIA_CHI_CU.
-Địa chỉ trụ sở chính sau khi thay đổi: GIATRI_DIA_CHI_MOI.
-Đồng thời thay đổi địa chỉ nhận thông báo thuế: [X] Có (Địa chỉ nhận thông báo thuế chuyển tương ứng theo địa chỉ trụ sở chính mới).
-Doanh nghiệp cam kết trụ sở doanh nghiệp thuộc quyền sử dụng hợp pháp của doanh nghiệp và được sử dụng đúng mục đích theo quy định của pháp luật.
-2. BỔ SUNG, CẬP NHẬT THÔNG TIN ĐĂNG KÝ THUẾ:
-Thông tin về Kế toán trưởng/Người phụ trách kế toán:
-• Họ và tên: GIATRI_KTT_HO_TEN                      Giới tính: Nữ
-• Số định danh cá nhân (CCCD): GIATRI_KTT_SO_CCCD
-• Ngày cấp: GIATRI_KTT_NGAY_CAP           Nơi cấp: Cục Cảnh sát QLHC về TTXH
-• Số điện thoại: GIATRI_KTT_SDT
-Đề nghị Phòng Đăng ký kinh doanh cấp Giấy xác nhận thay đổi nội dung đăng ký doanh nghiệp cho doanh nghiệp đối với các thông tin thay đổi nêu trên.
+A. ĐĂNG KÝ THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP/
+THÔNG BÁO THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
+(Doanh nghiệp chọn và kê khai vào trang tương ứng với nội dung đăng ký/
+thông báo thay đổi và gửi kèm)
+- Doanh nghiệp có Giấy chứng nhận quyền sử dụng đất tại đảo và xã, phường biên giới; xã, phường ven biển; khu vực khác có ảnh hưởng đến quốc phòng, an ninh:    Có	              Không
+ĐĂNG KÝ THAY ĐỔI ĐỊA CHỈ TRỤ SỞ CHÍNH
+Địa chỉ trụ sở chính sau khi thay đổi:
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: GIATRI_DIA_CHI_MOI_SO_NHA
+Xã/Phường/Đặc khu: GIATRI_DIA_CHI_MOI_XA_PHUONG
+Tỉnh/Thành phố trực thuộc trung ương: GIATRI_DIA_CHI_MOI_TINH_THANH
+Điện thoại: 	Số fax (nếu có):
+Thư điện tử (nếu có): 	Website (nếu có):
+Đồng thời thay đổi địa chỉ nhận thông báo thuế (Đánh dấu X vào ô vuông nếu doanh nghiệp thay đổi địa chỉ nhận thông báo thuế tương ứng với địa chỉ trụ sở chính).
+- Doanh nghiệp nằm trong (Doanh nghiệp phải đánh dấu X vào ô vuông tương ứng với khu công nghệ cao nếu nộp hồ sơ tới Ban quản lý khu công nghệ cao):
+Doanh nghiệp/chủ doanh nghiệp tư nhân cam kết trụ sở doanh nghiệp thuộc quyền sử dụng hợp pháp của doanh nghiệp/chủ doanh nghiệp tư nhân và được sử dụng đúng mục đích theo quy định của pháp luật.
+
+THÔNG BÁO THAY ĐỔI THÔNG TIN ĐĂNG KÝ THUẾ
+
+Đề nghị Quý Cơ quan cấp Giấy xác nhận thay đổi nội dung đăng ký doanh nghiệp cho doanh nghiệp đối với các thông tin thay đổi nêu trên. (Đánh dấu X vào ô vuông nếu doanh nghiệp có nhu cầu được cấp Giấy xác nhận thay đổi nội dung đăng ký doanh nghiệp).
+Trường hợp hồ sơ đăng ký doanh nghiệp hợp lệ, đề nghị Quý Cơ quan đăng công bố nội dung đăng ký doanh nghiệp trên Cổng thông tin quốc gia về đăng ký doanh nghiệp.
 Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Thông báo này.
+Người ký tại Thông báo này cam kết là người có quyền và nghĩa vụ thực hiện thủ tục đăng ký doanh nghiệp theo quy định của pháp luật và Điều lệ công ty.
+
 CÔNG TY TNHH THỬ NGHIỆM ABC
--------
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
----------------
-Số: 01/2026/TB
-Hà Nội, ngày 20 tháng 10 năm 2026
+Số: …………..
+Hà Nội, ngày ...... tháng ...... năm 2026
+Khu công nghiệp
 
-NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
-CỦA DOANH NGHIỆP
-(Ký, ghi rõ họ tên và đóng dấu)
+Khu chế xuất
+
+Khu kinh tế
+
+Khu công nghệ cao
+
+STT
+Các chỉ tiêu thông tin đăng ký thuế
+1
+Thông tin về Giám đốc/Tổng giám đốc (nếu có):
+Họ, chữ đệm và tên Giám đốc/Tổng giám đốc:.......................................
+Ngày, tháng, năm sinh: ……/……/……
+Giới tính: …………………
+Số định danh cá nhân: ..............................................................................
+Điện thoại:................................................................................................
+2
+Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có)1:
+Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán: GIATRI_KTT_HO_TEN
+Ngày, tháng, năm sinh: 01/01/1990
+Giới tính: Nam
+Số định danh cá nhân: GIATRI_KTT_SO_CCCD
+Điện thoại: GIATRI_KTT_SDT
+3
+Địa chỉ nhận thông báo thuế:
+Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: ……
+Xã/Phường/Đặc khu: …………………………………………………
+Tỉnh/Thành phố trực thuộc trung ương: ………………………………
+Điện thoại (nếu có): ………………….Số fax (nếu có):………………..
+Thư điện tử (nếu có):……………………………………………………
+4
+Ngày bắt đầu hoạt động2: …../…../…….
+5
+Hình thức hạch toán (Đánh dấu X vào một trong hai ô “Hạch toán độc lập” hoặc “Hạch toán phụ thuộc”. Trường hợp chọn ô “Hạch toán độc lập” mà thuộc đối tượng phải lập và gửi báo cáo tài chính hợp nhất cho cơ quan có thẩm quyền theo quy định thì chọn thêm ô “Có báo cáo tài chính hợp nhất”):
+
+6
+Năm tài chính:
+Áp dụng từ ngày …..…./.……. đến ngày …..…/..…….3
+(Ghi ngày, tháng bắt đầu và kết thúc niên độ kế toán)
+7
+Tổng số lao động: ......................................................................
+8
+Có hoạt động theo dự án BOT/BTO/BT/BOO, BLT, BTL, O&M không?
+
+9
+
+NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT/
+CHỦ TỊCH CÔNG TY/CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN/CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ/
+NGƯỜI ĐƯỢC ỦY QUYỀN/NGƯỜI ĐẠI DIỆN
+(Ký và ghi họ tên)1
 
 GIATRI_DDPL_HO_TEN
+10
 
 ===== 02. Quyết định của Hội đồng thành viên.docx =====
 QUYẾT ĐỊNH CỦA HỘI ĐỒNG THÀNH VIÊN
@@ -42,7 +103,7 @@ CÔNG TY TNHH THỬ NGHIỆM ABC
 QUYẾT ĐỊNH:
 Điều 1.  Thông qua việc thay đổi địa chỉ trụ sở chính của Công ty:
 • Địa chỉ cũ: GIATRI_DIA_CHI_CU.
-• Địa chỉ mới: GIATRI_DIA_CHI_MOI.
+• Địa chỉ mới: GIATRI_DIA_CHI_MOI_SO_NHA, GIATRI_DIA_CHI_MOI_XA_PHUONG, GIATRI_DIA_CHI_MOI_TINH_THANH.
 Điều 2.  Cập nhật thông tin đăng ký thuế:
 • Chuyển địa chỉ nhận thông báo thuế theo địa chỉ trụ sở chính mới.
 • Bổ sung thông tin Kế toán trưởng: Bà GIATRI_KTT_HO_TEN (CCCD số: GIATRI_KTT_SO_CCCD, cấp ngày GIATRI_KTT_NGAY_CAP tại Cục Cảnh sát QLHC về TTXH; SĐT: GIATRI_KTT_SDT).
@@ -80,7 +141,7 @@ Tổng số thành viên dự họp: 03/03 thành viên, đại diện cho 100% 
 Chủ tọa cuộc họp: Ông GIATRI_DDPL_HO_TEN — Chủ tịch HĐTV kiêm Giám đốc.
 Thư ký cuộc họp: Ông/Bà GIATRI_THU_KY_HO_TEN — Thành viên.
 II. NỘI DUNG CUỘC HỌP:
-1. Thay đổi địa chỉ trụ sở chính: Chuyển địa chỉ từ 'GIATRI_DIA_CHI_CU' sang địa chỉ mới: 'GIATRI_DIA_CHI_MOI'.
+1. Thay đổi địa chỉ trụ sở chính: Chuyển địa chỉ từ 'GIATRI_DIA_CHI_CU' sang địa chỉ mới: 'GIATRI_DIA_CHI_MOI_SO_NHA, GIATRI_DIA_CHI_MOI_XA_PHUONG, GIATRI_DIA_CHI_MOI_TINH_THANH'.
 2. Cập nhật thông tin đăng ký thuế: Đồng thời chuyển địa chỉ nhận thông báo thuế theo địa chỉ trụ sở chính mới; Bổ sung thông tin Kế toán trưởng là GIATRI_KTT_HO_TEN (CCCD số: GIATRI_KTT_SO_CCCD; SĐT: GIATRI_KTT_SDT).
 3. Sửa đổi Điều 1 của Điều lệ Công ty tương ứng với địa chỉ mới.
 4. Giao Người đại diện theo pháp luật tiến hành thủ tục đăng ký thay đổi tại Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội.

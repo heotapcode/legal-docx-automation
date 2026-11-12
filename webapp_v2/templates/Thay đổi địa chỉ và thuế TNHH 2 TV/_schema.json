@@ -39,8 +39,20 @@
           "required": true
         },
         {
-          "key": "dia_chi_moi",
-          "label": "Địa chỉ trụ sở mới",
+          "key": "dia_chi_moi_so_nha",
+          "label": "Trụ sở mới: số nhà, đường",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_moi_xa_phuong",
+          "label": "Trụ sở mới: Xã/Phường/Đặc khu",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "dia_chi_moi_tinh_thanh",
+          "label": "Trụ sở mới: Tỉnh/Thành phố",
           "type": "text",
           "required": true
         },
@@ -154,6 +166,27 @@
           "label": "Họ tên Kế toán trưởng",
           "type": "text",
           "required": true
+        },
+        {
+          "key": "ktt_ngay_sinh",
+          "label": "Ngày sinh Kế toán trưởng",
+          "type": "date"
+        },
+        {
+          "key": "ktt_gioi_tinh",
+          "label": "Giới tính Kế toán trưởng",
+          "type": "select",
+          "default": "Nam",
+          "options": [
+            {
+              "value": "Nam",
+              "label": "Nam"
+            },
+            {
+              "value": "Nữ",
+              "label": "Nữ"
+            }
+          ]
         },
         {
           "key": "ktt_so_cccd",

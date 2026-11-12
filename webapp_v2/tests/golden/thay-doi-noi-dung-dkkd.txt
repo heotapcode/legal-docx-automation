@@ -1,18 +1,24 @@
 ===== 01. Thông báo bổ sung cập nhật.docx =====
+Mẫu số 12
 GIẤY ĐỀ NGHỊ
 Đăng ký thay đổi nội dung Giấy chứng nhận đăng ký doanh nghiệp/
 Thông báo thay đổi nội dung đăng ký doanh nghiệp
+(Dùng trong trường hợp đăng ký thay đổi nội dung Giấy chứng nhận đăng ký
+doanh nghiệp/thông báo thay đổi nội dung đăng ký doanh nghiệp;
+Bổ sung, cập nhật, thông tin đăng ký doanh nghiệp;
+Đề nghị hiệu đính thông tin đăng ký doanh nghiệp)
 Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
-
-Tên doanh nghiệp (ghi bằng chữ in hoa):
-CÔNG TY TNHH THỬ NGHIỆM ABC
-Mã số doanh nghiệp/Mã số thuế:  0101234567
-
+Tên doanh nghiệp (ghi bằng chữ in hoa): CÔNG TY TNHH THỬ NGHIỆM ABC
+Mã số doanh nghiệp/Mã số thuế: 0101234567
 A. ĐĂNG KÝ THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP/
 THÔNG BÁO THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
+(Doanh nghiệp chọn và kê khai vào trang tương ứng với nội dung đăng ký/
+thông báo thay đổi và gửi kèm)
+- Doanh nghiệp có Giấy chứng nhận quyền sử dụng đất tại đảo và xã, phường biên giới; xã, phường ven biển; khu vực khác có ảnh hưởng đến quốc phòng, an ninh:    Có	              Không
 ĐĂNG KÝ THAY ĐỔI TÊN DOANH NGHIỆP
-Tên doanh nghiệp viết bằng tiếng Việt sau khi thay đổi: GIATRI_TEN_MOI_VN
-Tên doanh nghiệp viết bằng tiếng nước ngoài sau khi thay đổi: GIATRI_TEN_MOI_NN
+Tên doanh nghiệp viết bằng tiếng Việt sau khi thay đổi (ghi bằng chữ in hoa): GIATRI_TEN_MOI_VN
+Tên doanh nghiệp viết bằng tiếng nước ngoài sau khi thay đổi (nếu có): GIATRI_TEN_MOI_NN
+
 Tên doanh nghiệp viết tắt sau khi thay đổi (nếu có): GIATRI_TEN_MOI_VIET_TAT
 
 ĐĂNG KÝ THAY ĐỔI ĐỊA CHỈ TRỤ SỞ CHÍNH
@@ -20,42 +26,42 @@ Tên doanh nghiệp viết tắt sau khi thay đổi (nếu có): GIATRI_TEN_MOI
 Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: GIATRI_DIA_CHI_MOI_SO_NHA
 Xã/Phường/Đặc khu: GIATRI_DIA_CHI_MOI_XA_PHUONG
 Tỉnh/Thành phố trực thuộc trung ương: GIATRI_DIA_CHI_MOI_TINH_THANH
-Điện thoại: 0912345678	Số fax (nếu có):
-Thư điện tử (nếu có): test@example.com	Website (nếu có):
+Điện thoại: 0912345678	Số fax(nếu có):
+Thư điện tử (nếu có): test@example.com	Website(nếu có):
 Đồng thời thay đổi địa chỉ nhận thông báo thuế (Đánh dấu X vào ô vuông nếu doanh nghiệp thay đổi địa chỉ nhận thông báo thuế tương ứng với địa chỉ trụ sở chính).
 - Doanh nghiệp nằm trong (Doanh nghiệp phải đánh dấu X vào ô vuông tương ứng với khu công nghệ cao nếu nộp hồ sơ tới Ban quản lý khu công nghệ cao):
 Doanh nghiệp/chủ doanh nghiệp tư nhân cam kết trụ sở doanh nghiệp thuộc quyền sử dụng hợp pháp của doanh nghiệp/chủ doanh nghiệp tư nhân và được sử dụng đúng mục đích theo quy định của pháp luật.
 
 ĐĂNG KÝ THAY ĐỔI VỐN ĐIỀU LỆ, PHẦN VỐN GÓP, TỶ LỆ PHẦN VỐN GÓP
-Đăng ký thay đổi vốn điều lệ của công ty:
-Vốn điều lệ đã đăng ký (bằng số, bằng chữ, VNĐ): 	1,005,000,000 VNĐ (Một tỷ không trăm linh năm triệu đồng)
-Vốn điều lệ sau khi thay đổi (bằng số, bằng chữ, VNĐ): 	2,105,030,000 VNĐ (Hai tỷ một trăm linh năm triệu không trăm ba mươi nghìn đồng)
+1. Đăng ký thay đổi vốn điều lệ của công ty:
+Vốn điều lệ đã đăng ký (bằng số, bằng chữ, VNĐ): 1,005,000,000 VNĐ (Một tỷ không trăm linh năm triệu đồng)
+Vốn điều lệ sau khi thay đổi (bằng số, bằng chữ, VNĐ): 2,105,030,000 VNĐ (Hai tỷ một trăm linh năm triệu không trăm ba mươi nghìn đồng)
 Giá trị tương đương theo đơn vị tiền nước ngoài (nếu có, ghi bằng số, loại ngoại tệ):
 Có hiển thị thông tin về giá trị tương đương theo đơn vị tiền tệ nước ngoài trên Giấy chứng nhận đăng ký doanh nghiệp hay không ?   Có          Không
-Thời điểm thay đổi vốn: 	01/01/1990
-Hình thức tăng, giảm vốn: 	Tăng vốn điều lệ
+Thời điểm thay đổi vốn: 01/01/1990
+Hình thức tăng, giảm vốn: Tăng vốn điều lệ
 Nguồn vốn điều lệ sau khi thay đổi vốn điều lệ:
 Tài sản góp vốn sau khi thay đổi vốn điều lệ:
-THÔNG BÁO THAY ĐỔI NGÀNH, NGHỀ KINH DOANH
-Bổ sung ngành, nghề kinh doanh sau (kê khai trong trường hợp doanh nghiệp thông báo bổ sung ngành, nghề kinh doanh vào danh sách ngành, nghề kinh doanh đã đăng ký với cơ quan đăng ký kinh doanh):
-Bỏ ngành, nghề kinh doanh sau (kê khai trong trường hợp doanh nghiệp thông báo bỏ ngành, nghề kinh doanh khỏi danh sách ngành, nghề kinh doanh đã đăng ký với cơ quan đăng ký kinh doanh):
+THÔNG BÁO THAY ĐỔI NGÀNH, NGHỀ KINH DOANH1
+1. Bổ sung ngành, nghề kinh doanh sau (kê khai trong trường hợp doanh nghiệp thông báo bổ sung ngành, nghề kinh doanh vào danh sách ngành, nghề kinh doanh đã đăng ký với cơ quan đăng ký kinh doanh):
+2. Bỏ ngành, nghề kinh doanh sau (kê khai trong trường hợp doanh nghiệp thông báo bỏ ngành, nghề kinh doanh khỏi danh sách ngành, nghề kinh doanh đã đăng ký với cơ quan đăng ký kinh doanh):
  Doanh nghiệp cam kết đáp ứng điều kiện tiếp cận thị trường đối với các ngành nghề thuộc Danh mục ngành, nghề hạn chế tiếp cận thị trường đối với nhà đầu tư nước ngoài theo quy định của pháp luật về đầu tư.
-
 THÔNG BÁO THAY ĐỔI THÔNG TIN ĐĂNG KÝ THUẾ
 
 THÔNG BÁO THAY ĐỔI THÔNG TIN VỀ CHỦ SỞ HỮU HƯỞNG LỢI CỦA DOANH NGHIỆP/THÔNG BÁO THAY ĐỔI THÔNG TIN ĐỂ XÁC ĐỊNH CHỦ SỞ HỮU HƯỞNG LỢI
-Bổ sung thông tin về chủ sở hữu hưởng lợi của doanh nghiệp (doanh nghiệp được thành lập trước ngày 01/7/2025): kê khai theo Mẫu số 10 Phụ lục I (Gửi kèm)
+Trường hợp doanh nghiệp có sự thay đổi thông tin về chủ sở hữu hưởng lợi của doanh nghiệp (bao gồm người quản lý doanh nghiệp) đã kê khai với Cơ quan đăng ký kinh doanh cấp tỉnh thì doanh nghiệp kê khai theo Mẫu số 10 Phụ lục I ban hành kèm theo Thông tư này: Gửi kèm.
+Đối với doanh nghiệp được thành lập trước ngày 01/7/2025, doanh nghiệp bổ sung thông tin về chủ sở hữu hưởng lợi của doanh nghiệp theo quy định tại khoản 1 Điều 3 Luật số 76/2025/QH15 ngày 17/6/2025 sửa đổi, bổ sung một số điều của Luật Doanh nghiệp (kê khai theo Mẫu số 10 Phụ lục I ban hành kèm theo Thông tư này): Gửi kèm.
 
-       Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Thông báo này.
+Đề nghị Quý Cơ quan cấp Giấy xác nhận thay đổi nội dung đăng ký doanh nghiệp cho doanh nghiệp đối với các thông tin thay đổi nêu trên. (Đánh dấu X vào ô vuông nếu doanh nghiệp có nhu cầu được cấp Giấy xác nhận thay đổi nội dung đăng ký doanh nghiệp).
+Trường hợp hồ sơ đăng ký doanh nghiệp hợp lệ, đề nghị Quý Cơ quan đăng công bố nội dung đăng ký doanh nghiệp trên Cổng thông tin quốc gia về đăng ký doanh nghiệp.
+Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Thông báo này.
 Người ký tại Thông báo này cam kết là người có quyền và nghĩa vụ thực hiện thủ tục đăng ký doanh nghiệp theo quy định của pháp luật và Điều lệ công ty.
 
 CÔNG TY TNHH THỬ NGHIỆM ABC
---------
-Số: 01/2026/TB
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
----------------
-Hà Nội, ngày     tháng       năm 2026
+Số: …………..
+Hà Nội, ngày ...... tháng ...... năm 2026
 Khu công nghiệp
 
 Khu chế xuất
@@ -70,14 +76,14 @@ Tỷ lệ (%)
 Vốn ngân sách nhà nước
 
 Vốn tư nhân
-2,105,030,000
+2,105,030,000 VNĐ
 100
 Vốn nước ngoài
 
 Vốn khác
 
 Tổng cộng
-2,105,030,000
+2,105,030,000 VNĐ
 100
 STT
 Tài sản góp vốn
@@ -85,7 +91,7 @@ Giá trị vốn của từng tài sản trong vốn điều lệ (bằng số, 
 Tỷ lệ (%)
 1
 Đồng Việt Nam
-2,105,030,000
+2,105,030,000 VNĐ
 100
 2
 Ngoại tệ tự do chuyển đổi (ghi rõ loại ngoại tệ, số tiền được góp bằng mỗi loại ngoại tệ)
@@ -104,7 +110,7 @@ Các tài sản khác (ghi rõ loại tài sản, số lượng và giá trị c
 
 Tổng số
 Tổng số
-2,105,030,000
+2,105,030,000 VNĐ
 100
 STT
 Tên ngành, nghề kinh doanh
@@ -138,7 +144,7 @@ Giới tính: …………………
 Số định danh cá nhân: ..............................................................................
 Điện thoại:................................................................................................
 2
-Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):
+Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có)1:
 Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán: NGUYỄN VĂN THỬ90
 Ngày, tháng, năm sinh: 07/01/1990
 Giới tính: Nữ
@@ -149,16 +155,16 @@ Số định danh cá nhân: 001090000090
 Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: GIATRI_DIA_CHI_THUE_SO_NHA
 Xã/Phường/Đặc khu: GIATRI_DIA_CHI_THUE_XA_PHUONG
 Tỉnh/Thành phố trực thuộc trung ương: GIATRI_DIA_CHI_THUE_TINH_THANH
-Điện thoại (nếu có): 0912345678
+Điện thoại (nếu có): 0912345678 Số fax (nếu có):
 Thư điện tử (nếu có): test@example.com
 4
-Ngày bắt đầu hoạt động: …../…../…….
+Ngày bắt đầu hoạt động2: …../…../…….
 5
 Hình thức hạch toán (Đánh dấu X vào một trong hai ô “Hạch toán độc lập” hoặc “Hạch toán phụ thuộc”. Trường hợp chọn ô “Hạch toán độc lập” mà thuộc đối tượng phải lập và gửi báo cáo tài chính hợp nhất cho cơ quan có thẩm quyền theo quy định thì chọn thêm ô “Có báo cáo tài chính hợp nhất”):
 
 6
 Năm tài chính:
-Áp dụng từ ngày …..…./.……. đến ngày …..…/..…….
+Áp dụng từ ngày …..…./.……. đến ngày …..…/..…….3
 (Ghi ngày, tháng bắt đầu và kết thúc niên độ kế toán)
 7
 Tổng số lao động: ......................................................................
@@ -167,11 +173,13 @@ Có hoạt động theo dự án BOT/BTO/BT/BOO, BLT, BTL, O&M không?
 
 9
 
-NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT
-CỦA DOANH NGHIỆP
-(Ký, ghi họ tên)
+NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT/
+CHỦ TỊCH CÔNG TY/CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN/CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ/
+NGƯỜI ĐƯỢC ỦY QUYỀN/NGƯỜI ĐẠI DIỆN
+(Ký và ghi họ tên)1
 
-                            NGUYỄN VĂN THỬ92
+NGUYỄN VĂN THỬ92
+10
 
 ===== 02. Giấy ủy quyền.docx =====
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
