@@ -4,8 +4,9 @@ Nguồn: scripts_and_tools/nguon_mau/thong_tu_2026_du_thao/Mẫu số 27|30 ... 
 Giữ tên biến và các nội dung app đang ghi sẵn (khoảng thời gian tạm ngừng, lý do).
 
 Quyết định của anh (12/11/2026):
-  1. Mẫu 27: giữ nguyên toàn bộ form (cả phần tạm ngừng và tiếp tục, mục chi nhánh/địa điểm/văn phòng đại diện);
-     Thông báo tạm ngừng chỉ điền mục 1a), Thông báo hoạt động lại chỉ điền mục 2a).
+  1. Mẫu 27 (sửa lại 12/11/2026): Thông báo tạm ngừng chỉ giữ mục "1. Trường hợp tạm ngừng" a) Đối với doanh nghiệp;
+     Thông báo hoạt động lại chỉ giữ mục "2. Trường hợp tiếp tục kinh doanh" a) Đối với doanh nghiệp.
+     Bỏ các mục chi nhánh/địa điểm kinh doanh/văn phòng đại diện và phần của trường hợp kia.
   2. Mẫu 30: bỏ dòng "Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số...)".
      Dòng "gửi kèm bản sao sổ đăng ký cổ đông" chỉ in cho công ty cổ phần (theo chú thích của form).
   3. Chữ ký theo form ("NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA DOANH NGHIỆP"), không thêm "Giám đốc".
@@ -40,6 +41,16 @@ def common(f):
     f.fill("Mã số doanh nghiệp/Mã số thuế:", "{{ ma_so_thue }}")
 
 
+def drop_range(f, start, stop):
+    """Xóa các đoạn từ đoạn bắt đầu bằng `start` đến ngay trước đoạn bắt đầu bằng `stop` (cùng cấp thân văn bản)."""
+    body = f.body
+    els = list(body.iterchildren())
+    i = next(k for k, e in enumerate(els) if m234.key(m234.text(e)).startswith(m234.key(start)))
+    j = next(k for k, e in enumerate(els) if k > i and m234.key(m234.text(e)).startswith(m234.key(stop)))
+    for e in els[i:j]:
+        body.remove(e)
+
+
 def tam_ngung(rel):
     f = Form(MAU27)
     common(f)
@@ -48,6 +59,7 @@ def tam_ngung(rel):
              bold=False)
     f.fill("Lý do tạm ngừng:", LY_DO_TAM_NGUNG)
     f.fill("Họ, chữ đệm và tên:", "{{ ddpl_ho_ten }}")
+    drop_range(f, "b) Đối với chi nhánh/địa điểm kinh doanh", "Doanh nghiệp cam kết hoàn toàn")
     f.save(rel)
 
 
@@ -58,6 +70,8 @@ def hoat_dong_lai():
     set_text(f.next("Thông báo tiếp tục kinh doanh kể từ ngày"),
              "Thông báo tiếp tục kinh doanh kể từ ngày     tháng     năm 2026", bold=False)
     f.fill("Lý do tiếp tục kinh doanh:", LY_DO_TIEP_TUC)
+    drop_range(f, "1. Trường hợp tạm ngừng", "2. Trường hợp tiếp tục kinh doanh")
+    drop_range(f, "b) Đối với chi nhánh/văn phòng đại diện/địa điểm", "Doanh nghiệp cam kết hoàn toàn")
     f.save("Hoạt động lại trước thời hạn/Thông báo hoạt động trở lại trước thời hạn tạm dừng.docx")
 
 

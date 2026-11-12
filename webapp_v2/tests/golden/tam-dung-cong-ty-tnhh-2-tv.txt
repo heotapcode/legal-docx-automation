@@ -16,36 +16,6 @@ Thông tin người đại diện theo pháp luật của doanh nghiệp:
 Họ, chữ đệm và tên: GIATRI_DDPL_HO_TEN
 Số điện thoại:
 Địa chỉ thư điện tử:
-b) Đối với chi nhánh/địa điểm kinh doanh:
-Thông báo tạm ngừng kinh doanh kể từ ngày … tháng … năm … đến hết ngày … tháng … năm … đối với chi nhánh/địa điểm kinh doanh sau:
-Tên chi nhánh/địa điểm kinh doanh (ghi bằng chữ in hoa)
-Mã số chi nhánh/địa điểm kinh doanh hoặc mã số thuế chi nhánh:
-Chi nhánh chủ quản (chỉ kê khai đối với trường hợp thông báo tạm ngừng kinh doanh địa điểm kinh doanh trực thuộc chi nhánh):
-Tên chi nhánh:
-Mã số chi nhánh/Mã số thuế của chi nhánh:
-Lý do tạm ngừng:
-c) Đối với văn phòng đại diện:
-Thông báo tạm ngừng hoạt động kể từ ngày … tháng … năm … đến hết ngày … tháng … năm … đối với văn phòng đại diện sau:
-Tên văn phòng đại diện (ghi bằng chữ in hoa)
-Mã số văn phòng đại diện/Mã số thuế của văn phòng đại diện:
-Lý do tạm ngừng:
-2. Trường hợp tiếp tục kinh doanh/hoạt động trước thời hạn đã thông báo:
-a) Đối với doanh nghiệp:
-Thông báo tiếp tục kinh doanh kể từ ngày…. tháng….năm……
-Lý do tiếp tục kinh doanh:
-b) Đối với chi nhánh/văn phòng đại diện/địa điểm kinh doanh:
-Thông báo tiếp tục kinh doanh kể từ ngày…. tháng …. năm …… đối với chi nhánh/địa điểm kinh doanh sau:
-Tên chi nhánh/địa điểm kinh doanh (ghi bằng chữ in hoa):
-Mã số chi nhánh/địa điểm kinh doanh/Mã số thuế của chi nhánh:
-Chi nhánh chủ quản (chỉ kê khai đối với trường hợp thông báo tiếp tục kinh doanh trước thời hạn đã thông báo của địa điểm kinh doanh trực thuộc chi nhánh):
-Tên chi nhánh:
-Mã số chi nhánh/Mã số thuế của chi nhánh:
-Lý do tiếp tục kinh doanh:
-c) Đối với văn phòng đại diện:
-Thông báo tiếp tục hoạt động kể từ ngày … tháng … năm … đối với văn phòng đại diện sau:
-Tên văn phòng đại diện (ghi bằng chữ in hoa)
-Mã số văn phòng đại diện/Mã số thuế của văn phòng đại diện:
-Lý do tiếp tục hoạt động:
 Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính hợp pháp, chính xác và trung thực của nội dung Thông báo này.
 Người ký tại Thông báo này cam kết là người có quyền và nghĩa vụ thực hiện thủ tục đăng ký doanh nghiệp theo quy định của pháp luật và Điều lệ công ty.
 
