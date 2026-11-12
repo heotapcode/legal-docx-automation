@@ -10,6 +10,7 @@ Quyết định của anh (12/11/2026):
   4. Bỏ: thay đổi trên cơ sở tách/sáp nhập, sửa đổi chi tiết ngành và "Lưu ý", mục C hiệu đính
      (cùng các phần app không dùng: vốn đầu tư DNTN, người đại diện theo ủy quyền, cổ đông sáng lập).
   5. Chủ sở hữu hưởng lợi: in cả hai đoạn của form.
+  6. Bỏ hết chú thích cuối trang (số thứ tự chú thích không còn khớp sau khi lược phần).
 Các nội dung đã điền sẵn ở mẫu cũ (hình thức tăng/giảm vốn, nguồn vốn, tài sản góp vốn...) giữ nguyên giá trị.
 
 Chạy từ thư mục gốc repo (ghi đè file đích):
@@ -271,9 +272,15 @@ def drop_page_breaks(el):
         remove(b)
 
 
-def drop_footnote_ref(p):
-    for r in list(p.iterchildren(qn("w:r"))):
+def drop_notes(body):
+    """Bỏ mọi chú thích cuối trang (anh yêu cầu 12/11/2026: lược bớt phần nên số thứ tự chú thích không còn khớp).
+    Gồm dấu chú thích tự động và số chỉ số trên gõ tay (vd "(Ký và ghi họ tên)1")."""
+    for r in list(body.iter(qn("w:r"))):
         if r.find(qn("w:footnoteReference")) is not None:
+            remove(r)
+            continue
+        va = r.find(f"{qn('w:rPr')}/{qn('w:vertAlign')}")
+        if va is not None and va.get(qn("w:val")) == "superscript" and re.fullmatch(r"[\s\d,]*", text(r)):
             remove(r)
 
 
@@ -370,7 +377,8 @@ class Form:
             if empty and prev_empty:
                 remove(e)
             prev_empty = empty
-        tach.renumber_footnotes(self.doc)
+        drop_notes(body)
+        tach.renumber_footnotes(self.doc)  # xóa nội dung chú thích không còn được dùng
         cp = self.doc.core_properties
         cp.author = cp.last_modified_by = ""
         cp.title = ""

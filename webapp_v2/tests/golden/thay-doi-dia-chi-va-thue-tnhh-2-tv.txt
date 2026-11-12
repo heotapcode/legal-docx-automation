@@ -56,7 +56,7 @@ Giới tính: …………………
 Số định danh cá nhân: ..............................................................................
 Điện thoại:................................................................................................
 2
-Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có)1:
+Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):
 Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán: GIATRI_KTT_HO_TEN
 Ngày, tháng, năm sinh: 01/01/1990
 Giới tính: Nam
@@ -70,13 +70,13 @@ Tỉnh/Thành phố trực thuộc trung ương: …………………………�
 Điện thoại (nếu có): ………………….Số fax (nếu có):………………..
 Thư điện tử (nếu có):……………………………………………………
 4
-Ngày bắt đầu hoạt động2: …../…../…….
+Ngày bắt đầu hoạt động: …../…../…….
 5
 Hình thức hạch toán (Đánh dấu X vào một trong hai ô “Hạch toán độc lập” hoặc “Hạch toán phụ thuộc”. Trường hợp chọn ô “Hạch toán độc lập” mà thuộc đối tượng phải lập và gửi báo cáo tài chính hợp nhất cho cơ quan có thẩm quyền theo quy định thì chọn thêm ô “Có báo cáo tài chính hợp nhất”):
 
 6
 Năm tài chính:
-Áp dụng từ ngày …..…./.……. đến ngày …..…/..…….3
+Áp dụng từ ngày …..…./.……. đến ngày …..…/..…….
 (Ghi ngày, tháng bắt đầu và kết thúc niên độ kế toán)
 7
 Tổng số lao động: ......................................................................
@@ -88,7 +88,7 @@ Có hoạt động theo dự án BOT/BTO/BT/BOO, BLT, BTL, O&M không?
 NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT/
 CHỦ TỊCH CÔNG TY/CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN/CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ/
 NGƯỜI ĐƯỢC ỦY QUYỀN/NGƯỜI ĐẠI DIỆN
-(Ký và ghi họ tên)1
+(Ký và ghi họ tên)
 
 GIATRI_DDPL_HO_TEN
 10

@@ -128,7 +128,7 @@ Tổng số
 NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT/
 CHỦ TỊCH CÔNG TY/CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN/CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ/
 NGƯỜI ĐƯỢC ỦY QUYỀN/NGƯỜI ĐẠI DIỆN
-(Ký và ghi họ tên)1
+(Ký và ghi họ tên)
 
 NGUYỄN VĂN THỬ90
 10
@@ -145,7 +145,7 @@ Bổ sung, cập nhật, thông tin đăng ký doanh nghiệp;
 Kính gửi: Phòng Đăng ký kinh doanh và tài chính doanh nghiệp thành phố Hà Nội
 Tên doanh nghiệp (ghi bằng chữ in hoa): CÔNG TY TNHH THỬ NGHIỆM ABC
 Mã số doanh nghiệp/Mã số thuế: 0101234567
-B. BỔ SUNG, CẬP NHẬT THÔNG TIN ĐĂNG KÝ DOANH NGHIỆP1
+B. BỔ SUNG, CẬP NHẬT THÔNG TIN ĐĂNG KÝ DOANH NGHIỆP
 Cập nhật thông tin Công ty như sau:
 Số điện thoại: 0912345678
 Email: test@example.com
@@ -164,7 +164,7 @@ Hà Nội, ngày ...... tháng ...... năm 2026
 NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT/
 CHỦ TỊCH CÔNG TY/CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN/CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ/
 NGƯỜI ĐƯỢC ỦY QUYỀN/NGƯỜI ĐẠI DIỆN
-(Ký và ghi họ tên)1
+(Ký và ghi họ tên)
 
 NGUYỄN VĂN THỬ90
 10

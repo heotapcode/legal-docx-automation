@@ -24,3 +24,4 @@ Thay đổi form nhập kèm theo:
 - Thay đổi ngành nghề TNHH 1 TV: thêm ô chọn tỉnh/thành phố nơi đăng ký (mẫu cũ ghi cứng "Nghệ An"; Quyết định và
   Giấy ủy quyền của bộ này vẫn còn ghi cứng, chưa sửa).
 - Tăng vốn TNHH 1 TV: bỏ ô "Địa chỉ trụ sở" (Mẫu 12 không có dòng này, không văn bản nào khác dùng).
+- Bỏ hết chú thích cuối trang của Mẫu 12 (người dùng yêu cầu 12/11/2026): sau khi lược phần, số thứ tự chú thích không còn khớp nội dung.

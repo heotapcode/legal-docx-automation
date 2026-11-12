@@ -15,7 +15,7 @@ THÔNG BÁO THAY ĐỔI NỘI DUNG ĐĂNG KÝ DOANH NGHIỆP
 (Doanh nghiệp chọn và kê khai vào trang tương ứng với nội dung đăng ký/
 thông báo thay đổi và gửi kèm)
 - Doanh nghiệp có Giấy chứng nhận quyền sử dụng đất tại đảo và xã, phường biên giới; xã, phường ven biển; khu vực khác có ảnh hưởng đến quốc phòng, an ninh:    Có	              Không
-THÔNG BÁO THAY ĐỔI NGÀNH, NGHỀ KINH DOANH1
+THÔNG BÁO THAY ĐỔI NGÀNH, NGHỀ KINH DOANH
 1. Bổ sung ngành, nghề kinh doanh sau (kê khai trong trường hợp doanh nghiệp thông báo bổ sung ngành, nghề kinh doanh vào danh sách ngành, nghề kinh doanh đã đăng ký với cơ quan đăng ký kinh doanh):
  Doanh nghiệp cam kết đáp ứng điều kiện tiếp cận thị trường đối với các ngành nghề thuộc Danh mục ngành, nghề hạn chế tiếp cận thị trường đối với nhà đầu tư nước ngoài theo quy định của pháp luật về đầu tư.
 Đề nghị Quý Cơ quan cấp Giấy xác nhận thay đổi nội dung đăng ký doanh nghiệp cho doanh nghiệp đối với các thông tin thay đổi nêu trên. (Đánh dấu X vào ô vuông nếu doanh nghiệp có nhu cầu được cấp Giấy xác nhận thay đổi nội dung đăng ký doanh nghiệp).
@@ -44,7 +44,7 @@ Bán buôn máy móc, thiết bị và phụ tùng máy khác
 NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT/
 CHỦ TỊCH CÔNG TY/CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN/CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ/
 NGƯỜI ĐƯỢC ỦY QUYỀN/NGƯỜI ĐẠI DIỆN
-(Ký và ghi họ tên)1
+(Ký và ghi họ tên)
 
 GIATRI_DDPL_HO_TEN
 10
