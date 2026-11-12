@@ -1,5 +1,8 @@
 # Cập nhật biểu mẫu đăng ký doanh nghiệp theo thông tư 2026 (dự thảo 20/8/2026)
 
+> Thông tư chính thức đã ban hành, các biểu mẫu giống bản dự thảo 20/8/2026 (người dùng xác nhận 12/11/2026). Thư mục nguồn
+> vẫn mang tên `thong_tu_2026_du_thao`; nội dung là bản đang áp dụng.
+
 Nguồn: `scripts_and_tools/nguon_mau/thong_tu_2026_du_thao/` (file Phụ lục gốc + từng mẫu tách bằng
 `scripts_and_tools/tach_bieu_mau_thong_tu.py`). Khi có bản chính thức: thay file gốc, chạy lại script tách và các script dựng
 bên dưới, rồi xem `git diff tests/golden`.
@@ -65,3 +68,10 @@ Script: `scripts_and_tools/build_mau10_cshhl.py`; điền bảng khi sinh hồ s
 Tỷ lệ ghi vào cột "Trực tiếp" và "Tổng" (TNHH: nhóm vốn điều lệ; cổ phần: nhóm cổ phần có quyền biểu quyết); quốc tịch
 "Việt Nam", dân tộc "Kinh". Bộ TNHH 1 TV điền sẵn chủ sở hữu là người đại diện, 100%. Bảng chia lại độ rộng cột và
 dùng chữ cỡ 10 để 18 cột vừa một trang ngang.
+
+## Sửa kèm: bộ Thay đổi ngành nghề TNHH 1 TV (12/11/2026)
+
+Quyết định và Giấy ủy quyền còn dữ liệu ghi cứng của hồ sơ cũ: "Nghệ An", "Phòng Đăng ký kinh doanh tỉnh Nghệ An",
+số "01/2026/QĐ-TA", "Ông", và ngày sinh / ngày cấp / nơi thường trú của người nhận ủy quyền cũ. Nay dùng
+`{{ noi_lap }}`, `{{ phong_dkkd }}`, `{{ ddpl_danh_xung }}`, `{{ uq_ngay_sinh }}`, `{{ uq_gioi_tinh }}`, `{{ uq_dia_chi }}`;
+bỏ dòng ngày cấp CCCD của Bên B.
