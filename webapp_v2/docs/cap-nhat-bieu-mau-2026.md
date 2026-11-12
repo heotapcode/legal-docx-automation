@@ -25,3 +25,20 @@ Thay đổi form nhập kèm theo:
   Giấy ủy quyền của bộ này vẫn còn ghi cứng, chưa sửa).
 - Tăng vốn TNHH 1 TV: bỏ ô "Địa chỉ trụ sở" (Mẫu 12 không có dòng này, không văn bản nào khác dùng).
 - Bỏ hết chú thích cuối trang của Mẫu 12 (người dùng yêu cầu 12/11/2026): sau khi lược phần, số thứ tự chú thích không còn khớp nội dung.
+
+## Mẫu số 2, 3, 4 – Giấy đề nghị đăng ký doanh nghiệp (thành lập mới TNHH 1 TV, TNHH 2 TV, Cổ phần)
+
+Script: `scripts_and_tools/build_mau234_giay_de_nghi.py` (giữ tên biến; giữ các ô đã đánh dấu / điền sẵn của mẫu cũ:
+Thành lập mới, Hạch toán độc lập, Khấu trừ, BHXH hàng tháng, BOT: Không, năm tài chính 01/01–31/12 (2 TV, CP),
+số lao động 02/04, chức danh Giám đốc).
+
+Quyết định của người dùng (12/11/2026):
+
+1. Giữ các phần cho trường hợp đặc biệt (chia/tách/hợp nhất/chuyển đổi, hộ kinh doanh, cơ sở bảo trợ xã hội, chủ sở
+   hữu là tổ chức, Giấy chứng nhận đăng ký đầu tư, Phụ lục Cam kết nhà đầu tư nước ngoài): để trống, người dùng tự sửa.
+2. Giữ khối "Trường hợp không có số định danh cá nhân…" (để trống).
+3. TNHH 1 TV: "Mô hình tổ chức công ty" đánh dấu "Chủ tịch công ty, Giám đốc hoặc Tổng Giám đốc".
+4. Bỏ đoạn "Lưu ý" về phương thức đóng bảo hiểm xã hội.
+
+Sửa kèm: mẫu Cổ phần trước ghi cứng số cổ phần 600.000 và "năm 2025", nay dùng `{{ so_luong_cp_moi }}` (vốn ÷ 10.000) và
+năm theo ngày lập; địa chỉ người đăng ký dùng đúng tỉnh của người đại diện (trước lấy nhầm tỉnh của trụ sở).
