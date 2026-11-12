@@ -13,6 +13,7 @@ Các script dựng / sửa mẫu Word trong `webapp_v2/templates/`. Chạy từ 
 | `use_phong_dkkd.py` | Thay tên phòng đăng ký kinh doanh bằng `{{ phong_dkkd }}` (chạy sau `localize_ha_noi.py`) | Có |
 | `uy_quyen_dung_bien.py` | Thay thông tin người nhận ủy quyền viết cứng trong mẫu bằng biến `{{ uq_* }}` (`--dry-run` để xem trước) | Có |
 | `scrub_sample_people.py` | Xóa thông tin cá nhân người thật còn sót trong mẫu | Có |
+| `tach_bieu_mau_thong_tu.py` | Tách file Phụ lục biểu mẫu ĐKDN (nhiều mẫu trong một file) thành mỗi mẫu một file trong `nguon_mau/thong_tu_2026_du_thao/` | Có (ghi đè) |
 
 Các script kiểm tra / sửa chạy một lần trước đây đã được xóa (vẫn còn trong lịch sử git nếu cần tra lại).
 Kiểm tra mẫu hằng ngày dùng `python -m tools.template_lint` (trong `webapp_v2`) và bộ test `webapp_v2/tests`.
