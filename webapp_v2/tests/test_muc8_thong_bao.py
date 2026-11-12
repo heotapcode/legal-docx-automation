@@ -71,7 +71,7 @@ def test_added_and_removed_industries_go_to_their_own_tables(client):
 def test_tax_info_and_new_names(client):
     text = thong_bao(client, ["A1", "A6"], ten_moi_vn="Công ty TNHH Mới", ktt_ho_ten="Lê Văn Kế",
                      ktt_so_cccd="001090001234", dia_chi_thue_so_nha="Số 5 Phố Huế")
-    assert "sau khi thay đổi: CÔNG TY TNHH MỚI" in text
+    assert "sau khi thay đổi (ghi bằng chữ in hoa): CÔNG TY TNHH MỚI" in text
     assert "Kế toán trưởng/Phụ trách kế toán: LÊ VĂN KẾ" in text and "001090001234" in text
     assert "tổ/xóm/ấp/thôn: Số 5 Phố Huế" in text
 

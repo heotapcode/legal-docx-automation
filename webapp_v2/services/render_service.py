@@ -428,6 +428,12 @@ def normalize_context(raw_data: Dict[str, Any], ma_nganh_list: Optional[List[Dic
     }
     ctx["dia_chi_day_du"] = full_addr
 
+    # Địa chỉ trụ sở mới nhập theo từng phần (Mẫu 12): ghép thành một dòng cho văn bản dùng {{ dia_chi_moi }}
+    if not ctx.get("dia_chi_moi"):
+        moi = [ctx.get(f"dia_chi_moi_{k}") or "" for k in ("so_nha", "xa_phuong", "tinh_thanh")]
+        if any(moi):
+            ctx["dia_chi_moi"] = ", ".join(p for p in moi if p)
+
     # Parse Địa điểm kinh doanh address (DDKD)
     ddkd_sn = ctx.get("ddkd_dia_chi_so_nha") or ctx.get("dia_chi_ddkd_so_nha") or ""
     ddkd_xp = ctx.get("ddkd_dia_chi_xa_phuong") or ctx.get("dia_chi_ddkd_xa_phuong") or ""

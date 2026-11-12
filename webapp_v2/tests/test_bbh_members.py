@@ -56,7 +56,8 @@ def bbh(files):
 
 
 @pytest.mark.parametrize("name, extra", [
-    ("Thay đổi địa chỉ và thuế TNHH 2 TV", {"dia_chi_cu": "Số 1 Phố A", "dia_chi_moi": "Số 2 Phố B",
+    ("Thay đổi địa chỉ và thuế TNHH 2 TV", {"dia_chi_cu": "Số 1 Phố A", "dia_chi_moi_so_nha": "Số 2 Phố B",
+                                            "dia_chi_moi_xa_phuong": "Phường Thử", "dia_chi_moi_tinh_thanh": "Hà Nội",
                                             "ktt_ho_ten": "Đỗ Thị Kế", "ngay_lap": "03/11/2026"}),
     ("Giải thể công ty TNHH 2 TV", {"dia_chi_so_nha": "Số 5", "dia_chi_xa_phuong": "Phường Láng",
                                     "dia_chi_tinh_thanh": "Thành phố Hà Nội"}),
@@ -69,7 +70,8 @@ def test_no_leaked_hardcoded_data(client, name, extra):
 
 def test_thay_doi_dia_chi_bbh_uses_members(client):
     text = bbh(generate(client, "Thay đổi địa chỉ và thuế TNHH 2 TV", {
-        "dia_chi_cu": "Số 1 Phố A", "dia_chi_moi": "Số 2 Phố B", "ktt_ho_ten": "Đỗ Thị Kế", "ngay_lap": "03/11/2026"}))
+        "dia_chi_cu": "Số 1 Phố A", "dia_chi_moi_so_nha": "Số 2 Phố B",
+                                            "dia_chi_moi_xa_phuong": "Phường Thử", "dia_chi_moi_tinh_thanh": "Hà Nội", "ktt_ho_ten": "Đỗ Thị Kế", "ngay_lap": "03/11/2026"}))
     assert "1. Ông TRẦN VĂN AN — Sinh ngày: 01/02/1980 — CCCD số: 001080000111" in text
     assert "2. Bà LÊ THỊ BÌNH" in text
     assert "3. Ông PHẠM VĂN CƯỜNG" in text
