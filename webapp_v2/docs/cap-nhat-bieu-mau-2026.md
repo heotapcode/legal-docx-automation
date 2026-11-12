@@ -42,3 +42,13 @@ Quyết định của người dùng (12/11/2026):
 
 Sửa kèm: mẫu Cổ phần trước ghi cứng số cổ phần 600.000 và "năm 2025", nay dùng `{{ so_luong_cp_moi }}` (vốn ÷ 10.000) và
 năm theo ngày lập; địa chỉ người đăng ký dùng đúng tỉnh của người đại diện (trước lấy nhầm tỉnh của trụ sở).
+
+## Mẫu số 27 (tạm ngừng / tiếp tục kinh doanh) và Mẫu số 30 (giải thể)
+
+Script: `scripts_and_tools/build_mau27_30_tam_ngung_giai_the.py`. Quyết định của người dùng (12/11/2026):
+
+1. Mẫu 27 giữ nguyên toàn bộ form (cả tạm ngừng lẫn tiếp tục, mục chi nhánh/địa điểm/văn phòng đại diện để trống);
+   Thông báo tạm ngừng điền mục 1a), Thông báo hoạt động lại điền mục 2a). Giữ thời gian và lý do app đang ghi sẵn.
+2. Mẫu 30 bỏ dòng "Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số…)"; dòng gửi kèm sổ đăng ký
+   cổ đông chỉ in cho công ty cổ phần.
+3. Chữ ký theo form, không thêm "Giám đốc". Bỏ chú thích cuối trang.
