@@ -68,11 +68,11 @@ Doanh nghiệp cam kết hoàn toàn chịu trách nhiệm trước pháp luật
 
 CÔNG TY TNHH THỬ NGHIỆM ABC
 
-Số: 01/2026-HM
+Số: 01/2026/TB
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
 
-Hà Nội, ngày 14 tháng 02 năm 2026
+Hà Nội, ngày ...... tháng ...... năm 2026
 
 CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN
 (Ký và ghi họ tên)
@@ -177,7 +177,7 @@ DANH SÁCH CHỦ SỞ HỮU HƯỞNG LỢI CỦA DOANH NGHIỆP
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -196,7 +196,7 @@ Người quản lý doanh nghiệp
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -218,7 +218,7 @@ Người quản lý doanh nghiệp
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -307,7 +307,7 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 --------o0o-------
 GIẤY ỦY QUYỀN
 
-Giấy ủy quyền này được lập và ký vào ngày     tháng     năm 2026, giữa các bên dưới đây:
+Giấy ủy quyền này được lập và ký vào ngày     tháng     năm 2026, giữa các bên dưới đây:
 
 BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
 Ông/bà: NGUYỄN VĂN THỬ90             Chức danh: Giám đốc

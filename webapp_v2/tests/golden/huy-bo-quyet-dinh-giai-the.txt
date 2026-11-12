@@ -16,7 +16,7 @@ CÔNG TY TNHH THỬ NGHIỆM ABC
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
 Số: Số: GIATRI_SO_THONG_BAO
-Hà Nội, ngày 16 tháng 10 năm 2026
+Hà Nội, ngày ...... tháng ...... năm 2026
 
 NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA DOANH NGHIỆP
 (Ký và ghi họ tên)
@@ -30,7 +30,7 @@ CÔNG TY TNHH THỬ NGHIỆM ABC
 (V/v hủy bỏ quyết định giải thể doanh nghiệp)
 - Căn cứ Luật Doanh nghiệp số 59/2020/QH14 được Quốc hội thông qua ngày 17/06/2020;
 - Căn cứ Điều lệ Công ty TNHH Dược phẩm SJC Australia;
-- Căn cứ Biên bản họp Hội đồng thành viên số: 02/2026/BBH-HĐTV ngày 16/10/2026;
+- Căn cứ Biên bản họp Hội đồng thành viên số: …/2026/BBH-HĐTV ngày …/…/2026;
 - Căn cứ tình hình hoạt động kinh doanh thực tế của doanh nghiệp.
 QUYẾT ĐỊNH:
 Điều 1. Hủy bỏ Quyết định giải thể số: GIATRI_SO_QD_GIAI_THE_CU ngày GIATRI_NGAY_QD_GIAI_THE_CU về việc giải thể doanh nghiệp của CÔNG TY TNHH THỬ NGHIỆM ABC (Mã số DN: 0101234567; Địa chỉ trụ sở: GIATRI_DIA_CHI_DAY_DU).
@@ -42,7 +42,7 @@ CÔNG TY TNHH THỬ NGHIỆM ABC
 Số: GIATRI_SO_QD_HUY
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
-Hà Nội, ngày 16 tháng 10 năm 2026
+Hà Nội, ngày ...... tháng ...... năm 2026
 Nơi nhận:
 - Phòng ĐKKD thành phố Hà Nội;
 - Các thành viên công ty;
@@ -57,7 +57,7 @@ GIATRI_CSH_HO_TEN
 ===== 03. Giấy ủy quyền.docx =====
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập – Tự do – Hạnh phúc
-Hà Nội, ngày 16 tháng 10 năm 2026
+Hà Nội, ngày ...... tháng ...... năm 2026
 GIẤY ỦY QUYỀN
 BÊN ỦY QUYỀN (BÊN A)
 Tên tôi là: GIATRI_DDPL_HO_TEN
@@ -71,7 +71,7 @@ Chức danh: GIATRI_DDPL_CHUC_DANH
 2.	BÊN ĐƯỢC ỦY QUYỀN (BÊN B)
 - Ông: ĐỖ QUANG HIẾU
 Số định danh cá nhân: 001089021350
-Ngày sinh: [ĐÃ XÓA]  	Giới tính: Nam
+Ngày sinh: 16/03/1989  	Giới tính: Nam
 Nơi ở hiện tại: TK Đường, Phú Xuyên, Hà Nội.
 Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com
 

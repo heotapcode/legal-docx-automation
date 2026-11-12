@@ -1006,10 +1006,6 @@ NGUYỄN VĂN THỬ3
 
 NGUYỄN VĂN THỬ90
 
-[ĐÃ XÓA]
-
-[ĐÃ XÓA]
-
 ===== 03. Danh sách cổ đông sáng lập.docx =====
 DANH SÁCH CỔ ĐÔNG SÁNG LẬP CÔNG TY CỔ PHẦN
 
@@ -1164,7 +1160,7 @@ Số 3 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
 Đồng Việt Nam  701,676,666 đồng Việt Nam
 Trong thời hạn 90 ngày, kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp
 
-Hà Nội, ngày        tháng      năm 2025
+Hà Nội, ngày        tháng      năm 2026
 NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY
 (Ký, ghi họ tên)
 
@@ -1174,7 +1170,7 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 --------o0o-------
 GIẤY ỦY QUYỀN
 
-Giấy ủy quyền này được lập và ký vào ngày      tháng      năm 2026, giữa các bên dưới đây:
+Giấy ủy quyền này được lập và ký vào ngày      tháng      năm 2026, giữa các bên dưới đây:
 
 BÊN UỶ QUYỀN (Sau đây gọi là “Bên A”):
 Tên tôi là: NGUYỄN VĂN THỬ90                  Giới tính: Nữ
@@ -1185,7 +1181,7 @@ Số định danh cá nhân: 001090000090
 BÊN NHẬN UỶ QUYỀN: (Sau đây gọi là “Bên B”):
 - Ông: ĐỖ QUANG HIẾU
 Số định danh cá nhân: 001089021350	Giới tính: Nam
-Ngày, tháng năm sinh: [ĐÃ XÓA]
+Ngày, tháng năm sinh: 16/03/1989
 Địa chỉ liên lạc: TK Đường, Phú Xuyên, Hà Nội.
 Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com
 Nội dung uỷ quyền:
@@ -1204,7 +1200,7 @@ DANH SÁCH CHỦ SỞ HỮU HƯỞNG LỢI CỦA DOANH NGHIỆP
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -1223,7 +1219,7 @@ Người quản lý doanh nghiệp
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc
@@ -1245,7 +1241,7 @@ Người quản lý doanh nghiệp
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
 Quốc tịch
 Dân tộc

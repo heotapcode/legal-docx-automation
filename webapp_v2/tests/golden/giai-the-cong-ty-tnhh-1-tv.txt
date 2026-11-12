@@ -264,7 +264,7 @@ Mã số doanh nghiệp: 0101234567
 2.	BÊN ĐƯỢC ỦY QUYỀN (BÊN B)
 - Ông: ĐỖ QUANG HIẾU
 Số định danh cá nhân: 001089021350
-Sinh ngày: [ĐÃ XÓA]                             Giới tính: Nam
+Sinh ngày: 16/03/1989                             Giới tính: Nam
 Địa chỉ liên lạc: TK Đường, Phú Xuyên, Hà Nội.
 Điện thoại: 0987.135.358                          Email: dohieu52th@gmail.com
 

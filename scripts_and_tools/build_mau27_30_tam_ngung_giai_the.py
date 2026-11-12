@@ -55,7 +55,8 @@ def tam_ngung(rel):
     f = Form(MAU27)
     common(f)
     set_text(f.next("Thông báo tạm ngừng kinh doanh kể từ ngày"),
-             "Thông báo tạm ngừng kinh doanh kể từ ngày     tháng     năm 2026 đến hết ngày     tháng     năm 2027",
+             "Thông báo tạm ngừng kinh doanh kể từ ngày     tháng     năm {{ ngay_lap_ngan[-4:] }} đến hết ngày     tháng     năm "
+             "{{ (ngay_lap_ngan[-4:] | int) + 1 if ngay_lap_ngan else '' }}",
              bold=False)
     f.fill("Lý do tạm ngừng:", LY_DO_TAM_NGUNG)
     f.fill("Họ, chữ đệm và tên:", "{{ ddpl_ho_ten }}")
@@ -68,7 +69,7 @@ def hoat_dong_lai():
     common(f)
     f.next("2. Trường hợp tiếp tục kinh doanh")
     set_text(f.next("Thông báo tiếp tục kinh doanh kể từ ngày"),
-             "Thông báo tiếp tục kinh doanh kể từ ngày     tháng     năm 2026", bold=False)
+             "Thông báo tiếp tục kinh doanh kể từ ngày     tháng     năm {{ ngay_lap_ngan[-4:] }}", bold=False)
     f.fill("Lý do tiếp tục kinh doanh:", LY_DO_TIEP_TUC)
     drop_range(f, "1. Trường hợp tạm ngừng", "2. Trường hợp tiếp tục kinh doanh")
     drop_range(f, "b) Đối với chi nhánh/văn phòng đại diện/địa điểm", "Doanh nghiệp cam kết hoàn toàn")
