@@ -1198,45 +1198,93 @@ BÊN A
 NGUYỄN VĂN THỬ90
 
 ===== 05. Danh sách chủ sở hữu hưởng lợi.docx =====
+Mẫu số 10
 DANH SÁCH CHỦ SỞ HỮU HƯỞNG LỢI CỦA DOANH NGHIỆP
 
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
-Quốc tịch
-Dân tộc
-Địa chỉ liên lạc
+Quốc tịch
+Dân tộc
+Địa chỉ
+liên lạc
 Chủ sở hữu hưởng lợi của doanh nghiệp
 Chủ sở hữu hưởng lợi của doanh nghiệp
 Chủ sở hữu hưởng lợi của doanh nghiệp
-Ghi chú
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Chủ sở hữu hưởng lợi của doanh nghiệp
+Người quản lý doanh nghiệp
 STT
 Họ và tên
 Ngày, tháng, năm sinh
-Giới tính
+Giới tính
 Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
-Quốc tịch
-Dân tộc
-Địa chỉ liên lạc
+Quốc tịch
+Dân tộc
+Địa chỉ
+liên lạc
+Tỷ lệ sở hữu vốn điều lệ
+Tỷ lệ sở hữu vốn điều lệ
 Tỷ lệ sở hữu vốn điều lệ
 Tỷ lệ sở hữu cổ phần có quyền
 biểu quyết
-Quyền chi phối
-Ghi chú
+Tỷ lệ sở hữu cổ phần có quyền
+biểu quyết
+Tỷ lệ sở hữu cổ phần có quyền
+biểu quyết
+Thành viên hợp danh
+Nhóm cá nhân có quan hệ gia đình/ hợp đồng
+Kiểm soát doanh nghiệp
+Người quản lý doanh nghiệp
+STT
+Họ và tên
+Ngày, tháng, năm sinh
+Giới tính
+Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
+Quốc tịch
+Dân tộc
+Địa chỉ
+liên lạc
+Trực tiếp
+
+Gián tiếp
+
+Tổng
+
+Trực tiếp
+
+Gián tiếp
+
+Tổng
+
+Thành viên hợp danh
+Nhóm cá nhân có quan hệ gia đình/ hợp đồng
+Kiểm soát doanh nghiệp
+Người quản lý doanh nghiệp
 1
 2
 3
 4
-
 5
 6
 7
+8
 9
 10
-11
-14
+11=9+10
+12
+13
+14=12+13
+15
+16
+17
+18
 1
 NGUYỄN VĂN THỬ1
 02/01/1990
@@ -1245,8 +1293,10 @@ Số định danh cá nhân: 001090000001
 Việt Nam
 Kinh
 Số 1 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
-33.33
-33.33
+
+33.33%
+
+33.33%
 
 2
 NGUYỄN VĂN THỬ2
@@ -1256,8 +1306,10 @@ Số định danh cá nhân: 001090000002
 Việt Nam
 Kinh
 Số 2 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
-33.33
-33.33
+
+33.33%
+
+33.33%
 
 3
 NGUYỄN VĂN THỬ3
@@ -1267,9 +1319,14 @@ Số định danh cá nhân: 001090000003
 Việt Nam
 Kinh
 Số 3 Ngõ Thử Nghiệm, Phường Cầu Giấy, Thành phố Hà Nội
-33.33
-33.33
 
-Hà Nội, ngày       tháng      năm 2026                                                                                  NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY                                                  (Ký, ghi họ tên)
+33.33%
+
+33.33%
+
+Hà Nội, ngày ...... tháng ...... năm 2026
+NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT/ CHỦ TỊCH CÔNG TY/CHỦ TỊCH HỘI ĐỒNG THÀNH VIÊN/
+CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ CỦA CÔNG TY
+(Ký và ghi họ tên)
 
 NGUYỄN VĂN THỬ90

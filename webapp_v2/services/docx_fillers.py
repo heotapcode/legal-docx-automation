@@ -59,36 +59,75 @@ def populate_dstv(doc: docx.Document, members: List[Dict[str, Any]], is_tang_von
         if len(cells) > 13:
             cells[13].text = ""
 
-def populate_cshhl(doc: docx.Document, members: List[Dict[str, Any]]):
-    if not members or len(doc.tables) == 0:
-        return
-    table = doc.tables[0]
-    if len(table.rows) < 4:
-        return
-    template_tr = copy.deepcopy(table.rows[3]._tr)
+CSHHL_NGUONG = 25.0  # chủ sở hữu hưởng lợi: sở hữu từ 25% trở lên (anh chốt 12/11/2026)
 
-    while len(table.rows) > 3:
+
+def _ty_le_so(value) -> float:
+    try:
+        return float(str(value).replace("%", "").replace(",", ".").strip())
+    except ValueError:
+        return -1.0
+
+
+def populate_cshhl(doc: docx.Document, members: List[Dict[str, Any]], co_phan: bool = False):
+    """Bảng "Danh sách chủ sở hữu hưởng lợi" (Mẫu số 10).
+
+    Chỉ ghi thành viên/cổ đông có tỷ lệ từ 25% trở lên (một chủ sở hữu duy nhất không ghi tỷ lệ thì coi là 100%).
+    Bảng 18 cột: tỷ lệ ghi vào cột "Trực tiếp" và "Tổng" của nhóm vốn điều lệ (TNHH) hoặc cổ phần có quyền biểu
+    quyết (cổ phần). Bảng cũ (cột tỷ lệ vốn điều lệ / cổ phần biểu quyết) vẫn điền được."""
+    if not members:
+        return
+    table = next((t for t in doc.tables if t.rows and "Họ và tên" in t.rows[0].cells[1].text), None)
+    if table is None:
+        return
+    # Dòng đánh số cột (1 | 2 | 3 ...) là dòng cuối của phần tiêu đề
+    num_idx = next((k for k, r in enumerate(table.rows)
+                    if [c.text.strip() for c in r.cells[:2]] == ["1", "2"]), None)
+    if num_idx is None:
+        return
+    labels = [c.text.strip() for c in table.rows[num_idx].cells]
+    has_data_row = len(table.rows) > num_idx + 1
+    template_tr = copy.deepcopy(table.rows[num_idx + 1 if has_data_row else num_idx]._tr)
+    while len(table.rows) > num_idx + 1:
         table._tbl.remove(table.rows[-1]._tr)
 
-    for i, m in enumerate(members):
-        new_tr = copy.deepcopy(template_tr)
-        table._tbl.append(new_tr)
+    def col(label):
+        return labels.index(label) if label in labels else None
+
+    if "11=9+10" in labels:  # Mẫu 10 mới: 18 cột
+        cols = [col("12"), col("14=12+13")] if co_phan else [col("9"), col("11=9+10")]
+    else:  # bảng cũ: cột 9 = vốn điều lệ, cột 10 = cổ phần có quyền biểu quyết
+        cols = [col("10") if co_phan else col("9")]
+    cols = [c for c in cols if c is not None]
+
+    chosen = []
+    for m in members:
+        ty_le = m.get("TY_LE") or m.get("ty_le", "")
+        if not str(ty_le).strip() and len(members) == 1:
+            ty_le = "100"
+        if _ty_le_so(ty_le) >= CSHHL_NGUONG:
+            chosen.append((m, ty_le))
+
+    for i, (m, ty_le) in enumerate(chosen):
+        table._tbl.append(copy.deepcopy(template_tr))
         cells = table.rows[-1].cells
-        cells[0].text = str(i + 1)
-        cells[1].text = str(m.get('HO_TEN') or m.get('ho_ten', '')).upper()
-        cells[2].text = str(m.get('NGAY_SINH') or m.get('ngay_sinh', ''))
-        cells[3].text = str(m.get('GIOI_TINH') or m.get('gioi_tinh', ''))
-        cells[4].text = f"Số định danh cá nhân: {m.get('SO_CCCD') or m.get('so_cccd', '')}"
-        if len(cells) > 5:
-            cells[5].text = "Việt Nam"
-        if len(cells) > 6:
-            cells[6].text = "Kinh"
-        if len(cells) > 7:
-            cells[7].text = str(m.get('DIA_CHI') or m.get('dia_chi_day_du', ''))
-        if len(cells) > 8:
-            cells[8].text = str(m.get('TY_LE') or m.get('ty_le', ''))
-        if len(cells) > 9:
-            cells[9].text = str(m.get('TY_LE') or m.get('ty_le', ''))
+        values = {0: str(i + 1),
+                  1: str(m.get("HO_TEN") or m.get("ho_ten", "")).upper(),
+                  2: str(m.get("NGAY_SINH") or m.get("ngay_sinh", "")),
+                  3: str(m.get("GIOI_TINH") or m.get("gioi_tinh", "")),
+                  4: f"Số định danh cá nhân: {m.get('SO_CCCD') or m.get('so_cccd', '')}",
+                  5: "Việt Nam", 6: "Kinh",
+                  7: str(m.get("DIA_CHI") or m.get("dia_chi_day_du", ""))}
+        pct = str(ty_le).strip().rstrip("%") + "%"
+        for c in cols:
+            values[c] = pct
+        for idx, cell in enumerate(cells):
+            _set_cell_text(cell, values.get(idx, ""), "left" if idx in (1, 4, 7) else "center")
+    if not chosen:  # không ai đạt ngưỡng: để một dòng trống để kê khai tay
+        table._tbl.append(copy.deepcopy(template_tr))
+        for cell in table.rows[-1].cells:
+            _set_cell_text(cell, "")
+
 
 def _set_cell_text(cell, value: str, align=None):
     """Ghi chữ vào ô, giữ định dạng chữ của ô (run đầu, hoặc định dạng dấu đoạn khi ô trống)."""

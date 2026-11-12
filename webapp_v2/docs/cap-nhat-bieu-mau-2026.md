@@ -53,3 +53,15 @@ Script: `scripts_and_tools/build_mau27_30_tam_ngung_giai_the.py`. Quyết địn
 2. Mẫu 30 bỏ dòng "Số Giấy chứng nhận đăng ký kinh doanh (chỉ kê khai nếu không có mã số…)"; dòng gửi kèm sổ đăng ký
    cổ đông chỉ in cho công ty cổ phần.
 3. Chữ ký theo form, không thêm "Giám đốc". Bỏ chú thích cuối trang.
+
+## Mẫu số 10 – Danh sách chủ sở hữu hưởng lợi (8 bộ)
+
+Script: `scripts_and_tools/build_mau10_cshhl.py`; điền bảng khi sinh hồ sơ: `services/docx_fillers.py: populate_cshhl`
+(khóa `post`: `fill_cshhl_table`, bộ cổ phần dùng `fill_cshhl_table_cp`). Quyết định của người dùng (12/11/2026):
+
+1. Chỉ ghi thành viên/cổ đông có tỷ lệ từ 25% trở lên (không ai đạt thì để một dòng trống để kê khai tay).
+2. Cột 18 "Người quản lý doanh nghiệp" để trống.
+
+Tỷ lệ ghi vào cột "Trực tiếp" và "Tổng" (TNHH: nhóm vốn điều lệ; cổ phần: nhóm cổ phần có quyền biểu quyết); quốc tịch
+"Việt Nam", dân tộc "Kinh". Bộ TNHH 1 TV điền sẵn chủ sở hữu là người đại diện, 100%. Bảng chia lại độ rộng cột và
+dùng chữ cỡ 10 để 18 cột vừa một trang ngang.
