@@ -90,6 +90,47 @@ def populate_cshhl(doc: docx.Document, members: List[Dict[str, Any]]):
         if len(cells) > 9:
             cells[9].text = str(m.get('TY_LE') or m.get('ty_le', ''))
 
+def _set_cell_text(cell, value: str, align=None):
+    """Ghi chữ vào ô, giữ định dạng chữ của ô (run đầu, hoặc định dạng dấu đoạn khi ô trống)."""
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.oxml.ns import qn
+
+    paras = cell.paragraphs
+    p = paras[0]
+    for extra in paras[1:]:
+        extra._p.getparent().remove(extra._p)
+    runs = p.runs
+    rpr = None
+    if runs:
+        rpr = copy.deepcopy(runs[0]._r.find(qn("w:rPr")))
+    else:
+        mark = p._p.find(qn("w:pPr") + "/" + qn("w:rPr"))
+        rpr = copy.deepcopy(mark) if mark is not None else None
+    for r in runs:
+        r._r.getparent().remove(r._r)
+    run = p.add_run(value)
+    if rpr is not None:
+        for tag in ("w:b", "w:bCs", "w:i", "w:iCs", "w:vertAlign"):
+            for el in rpr.findall(qn(tag)):
+                rpr.remove(el)
+        old = run._r.find(qn("w:rPr"))
+        if old is not None:
+            run._r.remove(old)
+        run._r.insert(0, rpr)
+    run.font.name = "Times New Roman"
+    ppr = p._p.find(qn("w:pPr"))
+    if ppr is not None:
+        # Thụt đầu dòng / đánh số tự động của dòng mẫu làm lệch chữ hoặc in thêm "1." trước số thứ tự
+        for tag in ("w:ind", "w:numPr"):
+            for el in ppr.findall(qn(tag)):
+                ppr.remove(el)
+        ind = ppr.makeelement(qn("w:ind"), {qn("w:left"): "0", qn("w:right"): "0", qn("w:firstLine"): "0"})
+        jc = ppr.find(qn("w:jc"))
+        (jc.addprevious(ind) if jc is not None else ppr.append(ind))
+    if align:
+        p.alignment = {"center": WD_ALIGN_PARAGRAPH.CENTER, "left": WD_ALIGN_PARAGRAPH.LEFT}[align]
+
+
 def populate_ma_nganh_table(doc: docx.Document, ma_nganh_list: List[Dict[str, Any]]):
     if not ma_nganh_list:
         return
@@ -121,28 +162,33 @@ def populate_ma_nganh_table(doc: docx.Document, ma_nganh_list: List[Dict[str, An
                     elif "CHÍNH" in t:
                         col_chinh = idx
 
+                # Dòng dữ liệu đầu của mẫu (nếu có) làm khuôn: giữ kẻ ô, cỡ chữ, căn lề của mẫu.
+                # Không có thì dùng add_row (dòng mới chép kẻ ô từ dòng cuối).
+                template_tr = copy.deepcopy(table.rows[1]._tr) if len(table.rows) > 1 else None
+
                 # Clear existing content rows except header
                 while len(table.rows) > 1:
                     table._tbl.remove(table.rows[1]._tr)
 
-                # Add rows
                 for i, nganh in enumerate(ma_nganh_list):
-                    row_cells = table.add_row().cells
+                    if template_tr is not None:
+                        table._tbl.append(copy.deepcopy(template_tr))
+                        row_cells = table.rows[-1].cells
+                    else:
+                        row_cells = table.add_row().cells
+                    values = {}
                     if col_stt is not None:
-                        row_cells[col_stt].text = str(i + 1)
+                        values[col_stt] = (str(i + 1), "center")
                     if col_ten is not None:
-                        row_cells[col_ten].text = str(nganh.get("ten", ""))
+                        values[col_ten] = (str(nganh.get("ten", "")), "left")
                     if col_ma is not None:
-                        row_cells[col_ma].text = str(nganh.get("ma", ""))
+                        values[col_ma] = (str(nganh.get("ma", "")), "center")
                     if col_chinh is not None:
                         is_main = nganh.get("is_main") or i == 0
-                        row_cells[col_chinh].text = "X" if is_main else ""
-
-                    # Ma nganh text standard
-                    for cell in row_cells:
-                        for p in cell.paragraphs:
-                            for run in p.runs:
-                                run.font.name = "Times New Roman"
+                        values[col_chinh] = ("X" if is_main else "", "center")
+                    for idx, cell in enumerate(row_cells):
+                        value, align = values.get(idx, ("", None))
+                        _set_cell_text(cell, value, align)
         except Exception as e:
             logger.exception("Lỗi khi filling ma_nganh table")
 

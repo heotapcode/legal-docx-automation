@@ -264,6 +264,24 @@ def tick(p):
         remove(fb)
 
 
+def widen_nganh(tbl, ratios=(0.08, 0.50, 0.14, 0.28)):
+    """Bảng ngành của form để cột tên ngành hẹp: chia lại độ rộng cột, tổng độ rộng giữ nguyên."""
+    grid = tbl.find(qn("w:tblGrid"))
+    cols = grid.findall(qn("w:gridCol"))
+    assert len(cols) == len(ratios), len(cols)
+    total = sum(int(c.get(qn("w:w"))) for c in cols)
+    widths = [round(total * r) for r in ratios[:-1]]
+    widths.append(total - sum(widths))
+    for c, w in zip(cols, widths):
+        c.set(qn("w:w"), str(w))
+    for tr in tbl.iterchildren(qn("w:tr")):
+        for tc, w in zip(tr.iterchildren(qn("w:tc")), widths):
+            tcw = tc.find(f"{qn('w:tcPr')}/{qn('w:tcW')}")
+            if tcw is not None:
+                tcw.set(qn("w:w"), str(w))
+                tcw.set(qn("w:type"), "dxa")
+
+
 def drop_page_breaks(el):
     for b in list(el.iter(qn("w:br"))):
         if b.get(qn("w:type")) == "page":
@@ -493,6 +511,7 @@ def nganh_tnhh_1tv():
     f.keep_only({"HEAD", "A", "QPAN", "NGANH", "CLOSE"})
     f.drop_from("NGANH", "2. Bỏ ngành, nghề kinh doanh", "STTTên ngành, nghề kinh doanh được sửa đổi")
     f.drop_from("NGANH", "Lưu ý")
+    widen_nganh(f.t("NGANH", "STTTên ngành, nghề kinh doanh được bổ sung"), (0.08, 0.42, 0.12, 0.38))
     f.common("ddpl_ho_ten")
     f.save("Thay đổi ngành nghề kinh doanh TNHH 1 TV/01. Thông báo bổ sung ngành nghề kinh doanh.docx")
 
@@ -547,7 +566,9 @@ def muc8():
     # Ngành: bỏ "sửa đổi chi tiết" và "Lưu ý"; bảng ngành bỏ lặp theo nganh_bo
     f.drop_from("NGANH", "3. Sửa đổi chi tiết ngành", "STTTên ngành, nghề kinh doanh được sửa đổi")
     f.drop_from("NGANH", "Lưu ý")
+    widen_nganh(f.t("NGANH", "STTTên ngành, nghề kinh doanh được bổ sung"), (0.08, 0.42, 0.12, 0.38))
     bo = f.t("NGANH", "STTTên ngành, nghề kinh doanh được bỏ")
+    widen_nganh(bo)
     data = list(bo.iterchildren(qn("w:tr")))[1]
     cells = list(data.iterchildren(qn("w:tc")))
     for c, v in zip(cells, ["{{ loop.index }}", "{{ n.ten }}", "{{ n.ma }}", ""]):

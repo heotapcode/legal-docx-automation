@@ -225,6 +225,27 @@ def company(f):
     f.fill("Tỉnh/Thành phố trực thuộc trung ương:", "{{ dia_chi_tinh_thanh }}")
     f.fill("Điện thoại:", "{{ sdt_cong_ty }}")
     f.fill("Thư điện tử (nếu có):", "{{ email_cong_ty }}")
+    nganh_widths(f)
+
+
+def nganh_widths(f):
+    """Bảng ngành của form để cột "Tên ngành" hẹp, tên ngành dài bị xuống dòng nhiều: chia lại độ rộng cột
+    (STT 8%, Tên ngành 50%, Mã ngành 14%, Ngành chính 28%), tổng độ rộng giữ nguyên."""
+    t = f.table("STTTên ngànhMã ngành")
+    grid = t.find(qn("w:tblGrid"))
+    cols = grid.findall(qn("w:gridCol"))
+    assert len(cols) == 4, len(cols)
+    total = sum(int(c.get(qn("w:w"))) for c in cols)
+    widths = [round(total * r) for r in (0.08, 0.50, 0.14)]
+    widths.append(total - sum(widths))
+    for c, w in zip(cols, widths):
+        c.set(qn("w:w"), str(w))
+    for tr in t.iterchildren(qn("w:tr")):
+        for tc, w in zip(tr.iterchildren(qn("w:tc")), widths):
+            tcw = tc.find(f"{qn('w:tcPr')}/{qn('w:tcW')}")
+            if tcw is not None:
+                tcw.set(qn("w:w"), str(w))
+                tcw.set(qn("w:type"), "dxa")
 
 
 def von(f):
