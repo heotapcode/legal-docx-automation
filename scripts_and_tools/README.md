@@ -13,6 +13,7 @@ Các script dựng / sửa mẫu Word trong `webapp_v2/templates/`. Chạy từ 
 | `use_phong_dkkd.py` | Thay tên phòng đăng ký kinh doanh bằng `{{ phong_dkkd }}` (chạy sau `localize_ha_noi.py`) | Có |
 | `uy_quyen_dung_bien.py` | Thay thông tin người nhận ủy quyền viết cứng trong mẫu bằng biến `{{ uq_* }}` (`--dry-run` để xem trước) | Có |
 | `scrub_sample_people.py` | Xóa thông tin cá nhân người thật còn sót trong mẫu | Có |
+| `build_mau10_cshhl.py` | Dựng lại Danh sách chủ sở hữu hưởng lợi (Mẫu 10) của 8 thủ tục | Có (ghi đè) |
 | `build_mau27_30_tam_ngung_giai_the.py` | Dựng lại Thông báo tạm ngừng / hoạt động lại (Mẫu 27) và Thông báo giải thể (Mẫu 30) | Có (ghi đè) |
 | `build_mau234_giay_de_nghi.py` | Dựng lại Giấy đề nghị đăng ký doanh nghiệp của 3 thủ tục thành lập mới từ Mẫu số 2, 3, 4 mới | Có (ghi đè) |
 | `build_mau12_thong_bao_thay_doi.py` | Dựng lại 10 mẫu Giấy đề nghị / Thông báo thay đổi nội dung ĐKDN từ Mẫu số 12 mới (quyết định ghi ở `webapp_v2/docs/cap-nhat-bieu-mau-2026.md`) | Có (ghi đè) |
