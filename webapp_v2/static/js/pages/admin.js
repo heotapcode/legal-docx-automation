@@ -136,7 +136,106 @@
                 <h2 class="text-lg font-bold mb-2">Cấu hình dùng chung</h2>
                 <button type="button" class="btn btn-secondary btn-sm" data-action="open-uy-quyen" id="admin-open-uy-quyen">
                     Người nhận ủy quyền (Bên B trong Giấy ủy quyền)</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-action="open-kinh-doanh" id="admin-open-kinh-doanh">
+                    Kinh doanh: Zalo, email nhận báo, bảng giá</button>
             </div>`;
+        root().querySelector('.card').insertAdjacentHTML('beforebegin', `
+            <div class="card mb-4">
+                <h2 class="text-lg font-bold mb-2">Khách tiềm năng</h2>
+                <p class="text-sm text-secondary mb-2">Khách để lại số Zalo trước khi tải hồ sơ. Mục tiêu: nhắn trong 5 phút.</p>
+                <button type="button" class="btn btn-primary btn-sm" data-action="open-leads" id="admin-open-leads">
+                    Mở danh sách khách</button>
+            </div>`);
+    }
+
+    // ---------- Khách tiềm năng (routes/leads.py) ----------
+
+    function fmtTime(iso) {
+        const d = new Date(iso);
+        return isNaN(d) ? iso : d.toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    const money = n => (Number(n) || 0).toLocaleString('vi-VN');
+
+    async function showLeads(note) {
+        const r = await adminFetch('/api/admin/leads');
+        if (!r.ok) return failed(r);
+        const { leads, statuses, roles, packages } = r.body;
+        const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
+        const thisWeek = leads.filter(l => new Date(l.created_at).getTime() >= weekAgo).length;
+        const bought = leads.filter(l => ['da_mua', 'ke_toan'].includes(l.status));
+        const revenue = leads.reduce((a, l) => a + (Number(l.revenue) || 0), 0);
+        const rows = leads.map(l => {
+            const src = Object.entries(l.source || {}).filter(([k]) => k !== 'landing')
+                .map(([k, v]) => `${e(k)}: ${e(v)}`).join('<br>') || 'trực tiếp';
+            return `
+            <tr data-lead="${e(l.id)}">
+                <td class="text-xs">${e(fmtTime(l.created_at))}</td>
+                <td><b>${e(l.name)}</b><br><a href="https://zalo.me/${e(l.phone)}" target="_blank" rel="noopener" style="color: var(--accent-cyan);">${e(l.phone)}</a>
+                    <div class="text-xs text-secondary">${e(roles[l.role] || l.role)}</div></td>
+                <td>${e(l.template_name)}<div class="text-xs text-secondary">${e(l.company_name)}${l.members ? ` – ${e(l.members)} TV` : ''}</div></td>
+                <td>${l.delegated ? '<b>Nhờ nộp</b>' : 'Tự nộp'}<div class="text-xs">${e(l.score)}/100 – ${e(packages[l.package] || l.package)}</div></td>
+                <td class="text-xs">${src}</td>
+                <td><select class="form-control lead-status">${Object.entries(statuses).map(([k, v]) =>
+                        `<option value="${e(k)}" ${k === l.status ? 'selected' : ''}>${e(v)}</option>`).join('')}</select>
+                    <input class="form-control lead-revenue mt-1" placeholder="Doanh thu (đ)" value="${l.revenue ? e(money(l.revenue)) : ''}">
+                    <input class="form-control lead-note mt-1" placeholder="Ghi chú" value="${e(l.note)}"></td>
+                <td><button type="button" class="btn btn-primary btn-sm" data-action="save-lead" data-id="${e(l.id)}">Lưu</button>
+                    <button type="button" class="btn btn-secondary btn-sm mt-1" data-action="delete-lead" data-id="${e(l.id)}"
+                        title="Xóa hẳn thông tin khách (khi khách yêu cầu)">Xóa</button></td>
+            </tr>`;
+        }).join('');
+        root().innerHTML = `
+            <div class="card">
+                ${header('Khách tiềm năng', 'back-templates')}
+                <p class="text-sm mb-4" id="admin-leads-summary">Tổng <b>${e(leads.length)}</b> khách · 7 ngày qua <b>${e(thisWeek)}</b>
+                    · đã mua <b>${e(bought.length)}</b> · doanh thu <b>${e(money(revenue))}đ</b></p>
+                ${leads.length ? `
+                <div style="overflow-x: auto;">
+                <table class="admin-table" id="admin-leads" style="width: 100%;">
+                    <thead><tr><th>Thời gian</th><th>Khách</th><th>Thủ tục</th><th>Hình thức, điểm, gói nên chào</th>
+                        <th>Nguồn</th><th>Trạng thái</th><th></th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table></div>` : '<p class="text-secondary">Chưa có khách nào để lại thông tin.</p>'}
+            </div>`;
+        if (note) message(note, false);
+    }
+
+    // ---------- Kinh doanh: Zalo, email nhận báo, bảng giá (services/kinh_doanh.py) ----------
+
+    const KD_FIELDS = [
+        ['ten_don_vi', 'Tên đơn vị / thương hiệu (in trong câu đồng ý và tờ hướng dẫn)'], ['zalo', 'Số Zalo nhận khách'],
+        ['email_nhan_bao', 'Email nhận báo khách mới'], ['cam_ket', 'Cam kết in trên tờ hướng dẫn'],
+        ['thoi_gian_luu_thang', 'Thời gian lưu thông tin khách (tháng)'],
+    ];
+
+    async function showKinhDoanh(note) {
+        const r = await adminFetch('/api/admin/settings/kinh-doanh');
+        if (!r.ok) return failed(r);
+        const v = r.body.value;
+        root().innerHTML = `
+            <div class="card">
+                ${header('Kinh doanh', 'back-templates')}
+                <form id="admin-kd-form">
+                    ${KD_FIELDS.map(([k, label]) => `
+                        <div class="form-group">
+                            <label class="form-label" for="kd-${k}">${e(label)}</label>
+                            <input id="kd-${k}" class="form-control" value="${e(v[k])}">
+                        </div>`).join('')}
+                    <h2 class="text-lg font-bold mt-4 mb-2">Bảng giá</h2>
+                    <table class="admin-table" id="admin-kd-goi" style="width: 100%;">
+                        <thead><tr><th>Tên gói</th><th>Giá</th><th>Mô tả</th></tr></thead>
+                        <tbody>${v.goi.map(g => `
+                            <tr data-ma="${e(g.ma)}">
+                                <td><input class="form-control kd-ten" value="${e(g.ten)}"></td>
+                                <td><input class="form-control kd-gia" value="${e(g.gia)}"></td>
+                                <td><input class="form-control kd-mo-ta" value="${e(g.mo_ta)}"></td>
+                            </tr>`).join('')}</tbody>
+                    </table>
+                    <button type="button" class="btn btn-primary mt-4" data-action="save-kinh-doanh">Lưu</button>
+                </form>
+            </div>`;
+        if (note) message(note, false);
     }
 
     // ---------- Người nhận ủy quyền ----------
@@ -337,6 +436,34 @@
         'back-template': () => showTemplate(st.templateId),
         'open-template': el => showTemplate(el.dataset.id),
         'open-uy-quyen': () => showUyQuyen(),
+        'open-leads': () => showLeads(),
+        'save-lead': async el => {
+            const row = el.closest('tr');
+            const r = await adminFetch(`/api/admin/leads/${encodeURIComponent(el.dataset.id)}`, jsonBody('PATCH', {
+                status: row.querySelector('.lead-status').value,
+                revenue: row.querySelector('.lead-revenue').value,
+                note: row.querySelector('.lead-note').value,
+            }));
+            if (r.ok) showLeads('Đã lưu'); else failed(r);
+        },
+        'delete-lead': async el => {
+            if (!window.confirm('Xóa hẳn thông tin khách này? Dùng khi khách yêu cầu xóa dữ liệu. Không khôi phục được.')) return;
+            const r = await adminFetch(`/api/admin/leads/${encodeURIComponent(el.dataset.id)}`, { method: 'DELETE' });
+            if (r.ok) showLeads('Đã xóa thông tin khách'); else failed(r);
+        },
+        'open-kinh-doanh': () => showKinhDoanh(),
+        'save-kinh-doanh': async () => {
+            const data = {};
+            KD_FIELDS.forEach(([k]) => { data[k] = document.getElementById(`kd-${k}`).value; });
+            data.goi = Array.from(document.querySelectorAll('#admin-kd-goi tbody tr')).map(tr => ({
+                ma: tr.dataset.ma,
+                ten: tr.querySelector('.kd-ten').value,
+                gia: tr.querySelector('.kd-gia').value,
+                mo_ta: tr.querySelector('.kd-mo-ta').value,
+            }));
+            const r = await adminFetch('/api/admin/settings/kinh-doanh', jsonBody('PUT', data));
+            if (r.ok) showKinhDoanh('Đã lưu'); else failed(r);
+        },
         'save-uy-quyen': async () => {
             const data = {};
             UQ_FIELDS.forEach(([k]) => { data[k] = document.getElementById(`uq-${k}`).value; });

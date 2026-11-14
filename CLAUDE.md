@@ -13,6 +13,7 @@ phải lập trình viên: trao đổi bằng tiếng Việt, nói kết quả t
 | `webapp_v2/services/docx_fillers.py` | Điền bảng / đoạn văn sau khi docxtpl render (`populate_*`): danh sách thành viên, bảng ngành, Điều lệ, Biên bản họp. |
 | `webapp_v2/services/text_format.py` | Định dạng tiền, số thành chữ, danh xưng, ngày (`fmt_money`, `so_thanh_chu`, `danh_xung`, `format_date_vn`). |
 | `webapp_v2/services/schema_engine.py` + `static/js/engine/schema_engine.js` | Lõi kiểm tra dữ liệu, hai bản phải cùng hành vi (`tests/engine_cases.json` chạy cho cả hai). |
+| `webapp_v2/services/leads.py`, `kinh_doanh.py`, `routes/leads.py`, `static/js/engine/lead_gate.js` | Phễu khách: bước để lại số Zalo trước khi tải, lưu khách (không lưu CCCD), email báo, tờ hướng dẫn đầu file .zip, trang quản trị Khách tiềm năng, bảng giá/Zalo (`data/kinh_doanh.json`). |
 | `webapp_v2/services/document_rules.py` | Quy tắc riêng theo nghiệp vụ, gọi qua khóa `prepare`, `post`, `repeat_with` trong schema. |
 | `webapp_v2/static/js/pages/wizard.js` | Khung wizard 4 bước, thu dữ liệu, gọi API sinh hồ sơ. `pages/wizard_nganh.js`: bước chọn mã ngành. |
 | `webapp_v2/static/js/engine/form_renderer.js`, `field_types.js`, `ocr_scan.js` | Vẽ form theo schema. Kiểu ô mới thêm vào `form_renderer.js`; `field_types.js` giữ các kiểu cũ (thẻ người, danh sách thành viên, tiền, MST); `ocr_scan.js` là các nút quét CCCD. |
@@ -70,6 +71,8 @@ Sau khi cập nhật ảnh chụp chuẩn, luôn xem `git diff tests/golden`: ch
   "Duplicate name"); xem `dedupe_zip` trong `scripts_and_tools/build_ho_kinh_doanh.py`.
 - **Dữ liệu mẫu cho test** sinh tự động từ schema (`services/sample_data.py`). Ô có `validate.pattern` cần giá trị mẫu
   hợp lệ ở đó, nếu không test sinh hồ sơ của bộ mẫu sẽ trả 422.
+- **Bước để lại số Zalo** (`config.LEAD_REQUIRED`) bị tắt trong bộ test ở `tests/conftest.py`; test trình duyệt gọi
+  `generateDocuments()` thì đặt `window.LeadGate = null` trước, hoặc điền cửa sổ `#lead-gate` (xem `test_frontend.py`).
 - **Giới hạn tần suất** (`services/rate_limit.py`, `config.RATE_LIMITS`) bị tắt trong bộ test ở `tests/conftest.py`;
   test cần giới hạn thì tự bật bằng `monkeypatch.setitem(config.RATE_LIMITS, ...)` và gọi `rate_limit.reset()`.
 - **Lỗi hệ thống** ghi bằng `logger.exception(...)`, không `print`, không trả `str(e)` ra trình duyệt; chỉ `ValueError`

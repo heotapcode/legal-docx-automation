@@ -21,6 +21,8 @@ from config import TEMPLATES_DIR  # noqa: E402
 
 # Bộ test gọi API dồn dập từ một IP: tắt giới hạn tần suất (test riêng bật lại, xem test_api_security.py)
 config.RATE_LIMITS = {k: 0 for k in config.RATE_LIMITS}
+# Test sinh hồ sơ không qua bước để lại số Zalo (test riêng bật lại, xem test_leads.py)
+config.LEAD_REQUIRED = False
 from services.sample_data import build_sample_payload, docx_text, sample_person  # noqa: E402,F401
 
 

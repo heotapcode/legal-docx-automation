@@ -47,6 +47,32 @@ Trang `#/admin` → **Cấu hình dùng chung** → **Người nhận ủy quy�
 các biến `{{ uq_ho_ten }}`, `{{ uq_so_cccd }}`...). Giá trị mặc định nằm ở `data/nguoi_nhan_uy_quyen.json`; giá trị đã sửa
 lưu trong CSDL quản trị (`ADMIN_DB_PATH`), cần sao lưu cùng CSDL này.
 
+## Khách tiềm năng và kinh doanh
+
+Khách bấm tải hồ sơ phải để lại họ tên, số Zalo, vai trò (chủ doanh nghiệp / kế toán) và đánh dấu ô đồng ý lưu thông
+tin, rồi chọn **Nhờ nộp trọn gói** hoặc **Tự nộp: tải hồ sơ miễn phí**. Khi đó:
+
+- Khách được lưu vào CSDL quản trị: họ tên, số Zalo, vai trò, thủ tục, tên doanh nghiệp, số thành viên, gói nên chào,
+  điểm ưu tiên (0–100), nguồn (`utm_*`, `ref` trên đường dẫn), câu đồng ý khách đã đánh dấu. **Không lưu** CCCD, địa chỉ
+  hay dữ liệu hồ sơ.
+- File .zip có thêm tờ **00. Hướng dẫn nộp hồ sơ và bảng giá dịch vụ** (các bước còn phải làm theo thủ tục, gói nên chào,
+  cam kết, số Zalo).
+- Email báo khách mới được gửi tới địa chỉ đặt ở trang quản trị (cần cấu hình `SMTP_*`, xem bảng dưới).
+
+Trang `#/admin` → **Khách tiềm năng**: danh sách khách mới nhất trước, số Zalo bấm được; đổi trạng thái (Mới → Đã nhắn →
+Đã báo giá → Đã mua → Đã ký kế toán / Không mua), ghi doanh thu, ghi chú; **Xóa** khi khách yêu cầu xóa dữ liệu.
+
+Trang `#/admin` → **Cấu hình dùng chung** → **Kinh doanh**: tên đơn vị, số Zalo, email nhận báo, câu cam kết, thời gian
+lưu thông tin khách, bảng giá các gói. Giá trị mặc định ở `data/kinh_doanh.json`.
+
+Gắn nguồn cho link quảng cáo hoặc đối tác: thêm `?utm_source=google&utm_campaign=mau-ho-so` hoặc `?ref=<mã đối tác>`
+vào đường dẫn trang; nguồn hiện ở cột **Nguồn** của danh sách khách và trong email báo.
+
+**Gửi email bằng Gmail:** tài khoản Gmail gửi bật xác minh 2 bước → Tài khoản Google → Bảo mật → **Mật khẩu ứng dụng** →
+tạo một mật khẩu 16 ký tự, rồi điền vào file `.env` của máy chủ: `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=465`,
+`SMTP_USER=<gmail gửi>`, `SMTP_PASSWORD=<mật khẩu ứng dụng>`; khởi động lại máy chủ. Chưa cấu hình thì khách vẫn được
+lưu và hiện trên trang quản trị, chỉ không có email.
+
 ## Sao lưu
 
 Xuất bản từ trang quản trị ghi thẳng vào `templates/` trên máy chủ, nên nội dung trên máy chủ có thể mới hơn git.
@@ -88,6 +114,8 @@ Lệnh hỏi mật khẩu hai lần, không hiện khi gõ, tối thiểu 10 ký
 | `RATE_LIMIT_GENERATE` | `30` | Số lần sinh hồ sơ tối đa mỗi phút từ một địa chỉ IP (0 = tắt). Quá mức trả lỗi 429. |
 | `RATE_LIMIT_OCR` | `20` | Số lần quét CCCD/VNeID tối đa mỗi phút từ một IP. |
 | `RATE_LIMIT_INQUIRY` | `5` | Số lần gửi yêu cầu tư vấn tối đa mỗi phút từ một IP. |
+| `LEAD_REQUIRED` | `1` | `1` = khách phải để lại họ tên, số Zalo và đồng ý trước khi tải hồ sơ. |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` | trống, `465` | Máy chủ gửi email báo khách mới (Gmail: `smtp.gmail.com`, mật khẩu ứng dụng). Trống = không gửi. **Không commit mật khẩu.** |
 | `LOG_LEVEL` | `INFO` | Mức ghi log (`DEBUG`, `INFO`, `WARNING`, `ERROR`). Lỗi hệ thống được ghi kèm chi tiết vào log; người dùng chỉ thấy thông báo chung. |
 
 ## An toàn

@@ -79,6 +79,31 @@ MIGRATIONS = [
         updated_at TEXT NOT NULL
     );
     """,
+    # 4: khách để lại thông tin trước khi tải hồ sơ (phễu khách). Không lưu CCCD hay dữ liệu hồ sơ.
+    """
+    CREATE TABLE leads (
+        id            INTEGER PRIMARY KEY,
+        created_at    TEXT NOT NULL,
+        updated_at    TEXT NOT NULL,
+        name          TEXT NOT NULL,
+        phone         TEXT NOT NULL,
+        role          TEXT NOT NULL DEFAULT 'chu_dn',
+        delegated     INTEGER NOT NULL DEFAULT 0,
+        template_id   TEXT,
+        template_name TEXT,
+        company_name  TEXT,
+        members       INTEGER,
+        score         INTEGER NOT NULL DEFAULT 0,
+        package       TEXT,
+        source        TEXT,
+        consent_text  TEXT NOT NULL,
+        status        TEXT NOT NULL DEFAULT 'moi',
+        revenue       INTEGER NOT NULL DEFAULT 0,
+        note          TEXT
+    );
+    CREATE INDEX idx_leads_created ON leads(created_at);
+    CREATE INDEX idx_leads_phone ON leads(phone);
+    """,
 ]
 
 _init_lock = threading.Lock()
