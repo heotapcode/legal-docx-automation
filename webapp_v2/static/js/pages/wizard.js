@@ -1022,6 +1022,12 @@ window.generateDocuments = async function() {
     }
     if (!ensureRequiredFields()) return;
 
+    // Bước để lại số Zalo trước khi tải (static/js/engine/lead_gate.js)
+    const lead = window.LeadGate
+        ? await window.LeadGate.ask(window.wizardState.template.display_name || window.wizardState.template.name)
+        : null;
+    if (window.LeadGate && !lead) return;
+
     const loadingEl = document.getElementById('gen-loading');
     const successEl = document.getElementById('gen-success');
     const btnDl = document.getElementById('btn-download');
@@ -1043,7 +1049,8 @@ window.generateDocuments = async function() {
             ma: n.ma,
             ten: n.ten,
             is_main: !!n.is_main
-        }))
+        })),
+        lead: lead || undefined
     };
 
     try {
@@ -1072,6 +1079,7 @@ window.generateDocuments = async function() {
 
         if (loadingEl) loadingEl.style.display = 'none';
         if (successEl) successEl.style.display = 'block';
+        if (window.LeadGate) window.LeadGate.thankYou(lead, response.headers.get('X-Lead-Package'));
     } catch (err) {
         console.error('Lỗi tải hồ sơ:', err);
         alert('Có lỗi xảy ra khi tạo hồ sơ: ' + err.message);

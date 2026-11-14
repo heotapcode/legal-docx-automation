@@ -233,10 +233,23 @@ def test_selected_province_is_sent_when_generating(page, base_url):
     }""")
     page.evaluate("nextStep()")
     assert page.evaluate("window.wizardState.step") == 4
+    # Bước để lại số Zalo: thiếu đồng ý -> báo lỗi, không gọi API; đủ -> gửi kèm thông tin khách
+    page.evaluate("void generateDocuments()")
+    page.wait_for_selector("#lead-gate #lg-name")
+    page.fill("#lg-name", "Nguyễn Văn Thử")
+    page.fill("#lg-phone", "0901 234 567")
+    page.click("#lg-free")
+    assert "đồng ý" in page.inner_text("#lg-error")
+    page.check("#lg-consent")
     with page.expect_request(lambda r: "/api/documents/generate" in r.url) as req_info:
-        page.evaluate("generateDocuments()")
+        page.click("#lg-free")
     body = req_info.value.post_data_json
     assert body["data"]["tinh_dang_ky"] == "Hồ Chí Minh"
+    assert body["lead"]["phone"] == "0901 234 567" and body["lead"]["consent"] is True
+    assert body["lead"]["delegated"] is False and body["lead"]["source"]["landing"].startswith("/")
+    page.wait_for_selector("#lead-gate #lg-zalo")
+    assert page.get_attribute("#lg-zalo", "href") == "https://zalo.me/0987135358"
+    assert "Gói Khởi nghiệp" in page.inner_text("#lead-gate")
 
 
 def test_browser_and_api_report_same_errors(page, base_url):
@@ -379,7 +392,7 @@ def test_renderer_payload_uses_schema_keys(page, base_url):
     page.evaluate("collectFormData(); window.wizardState.step = 4;")
     assert page.evaluate("validateRequiredFields(window.wizardState.schema).length") == 0
     with page.expect_request(lambda r: "/api/documents/generate" in r.url) as req:
-        page.evaluate("generateDocuments()")
+        page.evaluate("window.LeadGate = null; generateDocuments()")
     data = req.value.post_data_json["data"]
     assert data["thay_doi"] == ["A2"]
     assert data["co_dong"][0]["ho_ten"] == "Nguyễn A"
@@ -416,7 +429,7 @@ def test_chuyen_nhuong_2tv_on_generic_form(page, base_url):
     page.evaluate("nextStep()")
     assert page.evaluate("window.wizardState.step") == 4
     with page.expect_response(lambda r: "/api/documents/generate" in r.url) as resp:
-        page.evaluate("generateDocuments()")
+        page.evaluate("window.LeadGate = null; generateDocuments()")
     body = resp.value.request.post_data_json["data"]
     assert body["chuyen_nhuong"][0]["ben_a"] == "1" and body["chuyen_nhuong"][0]["ben_b"] == "0"
     assert resp.value.status == 200, resp.value.text()
@@ -458,7 +471,7 @@ def test_chuyen_doi_on_generic_form(page, base_url):
     assert page.evaluate("validateRequiredFields(window.wizardState.schema).map(e => e.label)") == []
     page.evaluate("window.wizardState.step = 4")
     with page.expect_response(lambda r: "/api/documents/generate" in r.url) as resp:
-        page.evaluate("generateDocuments()")
+        page.evaluate("window.LeadGate = null; generateDocuments()")
     assert resp.value.status == 200, resp.value.text()
     body = resp.value.request.post_data_json
     assert body["data"]["hinh_thuc_cn"] == "mot_phan" and "special_payload" not in body
@@ -781,3 +794,31 @@ def test_legacy_person_list_schema_still_renders(page, base_url):
     keys = page.eval_on_selector_all('.lf-field[data-list="thanh_vien"][data-idx="0"]', "els => els.map(e => e.dataset.key)")
     assert keys[:4] == ["ho_ten", "gioi_tinh", "ngay_sinh", "so_cccd"] and "von_gop" in keys
     assert page.evaluate("wizardState.schema.steps[0].fields[0].auto_ratio.part") == "von_gop"
+
+
+def test_admin_leads_page(page, base_url, tmp_path, monkeypatch):
+    """Trang quản trị Khách tiềm năng: danh sách, đổi trạng thái/doanh thu, tên khách có ký tự HTML được escape."""
+    import config
+    from services import auth, leads
+
+    monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
+    auth.create_user("quantri", "mat-khau-thu-nghiem-123")
+    rec = leads.build(leads.parse_lead({"name": XSS, "phone": "0901234567", "consent": True, "delegated": True,
+                                        "source": {"utm_source": "google"}}),
+                      "thanh-lap-moi-cong-ty-tnhh-1-tv", "Thành lập mới công ty TNHH 1 TV", {"ten_cong_ty_vn": "CÔNG TY A"})
+    leads.record(rec)
+    page.goto(f"{base_url}/#/admin")
+    page.wait_for_selector("#admin-login-form")
+    page.fill("#admin-username", "quantri")
+    page.fill("#admin-password", "mat-khau-thu-nghiem-123")
+    page.click("#admin-login-form button[type=submit]")
+    page.click("#admin-open-leads")
+    page.wait_for_selector("#admin-leads")
+    row = page.locator("#admin-leads tbody tr").first
+    assert XSS in row.inner_text() and "Nhờ nộp" in row.inner_text() and "Gói Khởi nghiệp" in row.inner_text()
+    assert page.evaluate("window.__xss || 0") == 0
+    row.locator(".lead-status").select_option("da_mua")
+    row.locator(".lead-revenue").fill("3.200.000")
+    row.locator('[data-action="save-lead"]').click()
+    page.wait_for_function("document.getElementById('admin-leads-summary').textContent.includes('3.200.000')")
+    assert leads.list_leads()[0]["status"] == "da_mua"

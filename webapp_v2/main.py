@@ -13,7 +13,7 @@ from config import HOST, PORT, BASE_DIR, CORS_ORIGINS, LOG_LEVEL
 
 logging.basicConfig(level=getattr(logging, LOG_LEVEL, logging.INFO),
                     format="%(asctime)s %(levelname)s %(name)s: %(message)s")
-from routes import templates, documents, ocr, mst, nganh, services, dia_ban, admin_auth, admin_templates, admin_settings
+from routes import templates, documents, ocr, mst, nganh, services, dia_ban, admin_auth, admin_templates, admin_settings, leads as leads_routes
 
 app = FastAPI(title="NAC v2 - Hệ thống Soạn thảo Hồ sơ Doanh nghiệp (Jinja2 / docxtpl)")
 
@@ -51,6 +51,8 @@ app.include_router(dia_ban.router)
 app.include_router(admin_auth.router)
 app.include_router(admin_templates.router)
 app.include_router(admin_settings.router)
+app.include_router(leads_routes.public)
+app.include_router(leads_routes.admin)
 
 # Mount static files
 static_dir = BASE_DIR / "static"

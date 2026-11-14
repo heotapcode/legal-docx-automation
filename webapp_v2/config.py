@@ -54,3 +54,14 @@ ADMIN_COOKIE_SECURE = os.environ.get("ADMIN_COOKIE_SECURE", "0").lower() in ("1"
 # Bản nháp và các phiên bản đã xuất bản của bộ mẫu (Mục 10.2, 10.4). Không commit.
 TEMPLATE_DRAFTS_DIR = Path(os.environ.get("TEMPLATE_DRAFTS_DIR", str(DATA_DIR / "template_drafts")))
 TEMPLATE_VERSIONS_DIR = Path(os.environ.get("TEMPLATE_VERSIONS_DIR", str(DATA_DIR / "template_versions")))
+
+# ---------- Phễu khách (bước để lại số Zalo trước khi tải hồ sơ) ----------
+# 1 = bắt buộc gửi kèm thông tin khách khi tải hồ sơ (trang web luôn hỏi). Bộ test đặt 0.
+LEAD_REQUIRED = os.environ.get("LEAD_REQUIRED", "1").lower() in ("1", "true", "yes")
+# Gửi email báo khách mới. Gmail: SMTP_HOST=smtp.gmail.com, SMTP_PORT=465, SMTP_USER=<gmail>,
+# SMTP_PASSWORD=<mật khẩu ứng dụng 16 ký tự>. Để trống = không gửi, chỉ ghi log và lưu vào trang quản trị.
+SMTP_HOST = os.environ.get("SMTP_HOST", "")
+SMTP_PORT = int(os.environ.get("SMTP_PORT", "465"))
+SMTP_USER = os.environ.get("SMTP_USER", "")
+SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
+SMTP_FROM = os.environ.get("SMTP_FROM", "") or SMTP_USER
