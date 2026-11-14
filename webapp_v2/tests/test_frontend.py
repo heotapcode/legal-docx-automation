@@ -260,7 +260,7 @@ def test_delegated_flow_shows_packages_and_deposit_qr(page, base_url, tmp_path, 
     monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
     page.goto(f"{base_url}/#/wizard")
     page.wait_for_function("window.LeadGate")
-    page.evaluate("window.__lead = LeadGate.ask('Tăng vốn công ty TNHH 2 TV', '', 'tang-von-cong-ty-tnhh-2-tv')")
+    page.evaluate("() => { window.__lead = LeadGate.ask('Tăng vốn công ty TNHH 2 TV', '', 'tang-von-cong-ty-tnhh-2-tv'); }")
     page.wait_for_selector("#lead-gate #lg-name")
     page.fill("#lg-name", "Nguyễn Văn Thử")
     page.fill("#lg-phone", "0901234567")
