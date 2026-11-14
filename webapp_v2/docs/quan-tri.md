@@ -106,6 +106,21 @@ khoản in hoa không dấu), bảng giá các gói. Giá trị mặc định �
   Trong Google Analytics: **Quản trị → Sự kiện**, đánh dấu `generate_lead` (và `contact_zalo`) là **sự kiện chính** để
   đếm chuyển đổi; xem phễu ở **Khám phá → Khám phá phễu** với các bước `page_view → begin_form → generate_lead`.
 
+### Đối tác giới thiệu và hoa hồng (14/11/2026)
+
+Trang `/app#/admin` → **Đối tác giới thiệu, hoa hồng**:
+
+1. **Thêm đối tác:** mã (dùng trong link, chữ thường không dấu, vd `ketoan-an`), tên, số Zalo, tỷ lệ hoa hồng (% doanh
+   thu), ghi chú. Mã không đổi được sau khi tạo (để không mất liên kết với khách cũ).
+2. **Bấm Chép link** gửi cho đối tác: `https://<tên miền>/?ref=ketoan-an`. Muốn dẫn thẳng vào một thủ tục:
+   `https://<tên miền>/app#/wizard?t=<mã bộ mẫu>&ref=ketoan-an`.
+3. Khách mở link rồi tải hồ sơ **trong 30 ngày** (cùng trình duyệt) thì được tính cho đối tác; khách mở link của đối tác
+   khác sau đó thì tính cho đối tác mới nhất. Email báo khách mới ghi tên đối tác; danh sách khách hiện "Đối tác: <tên>".
+4. **Hoa hồng** = tỷ lệ % × tổng **doanh thu** anh ghi ở các khách của đối tác (trang Khách tiềm năng). Khi trả tiền cho
+   đối tác, cộng dồn vào ô **Đã trả**; cột **Còn phải trả** tự tính. Bỏ đánh dấu **Đang hợp tác** khi ngừng (số liệu cũ vẫn giữ).
+5. **Mã chưa có trong danh sách:** khách vào bằng `?ref=` lạ (gõ sai, đối tác chưa đăng ký) hiện ở cuối trang; bấm vào mã
+   để thêm đối tác với mã đó, số khách cũ được tính luôn.
+
 Gắn nguồn cho link quảng cáo hoặc đối tác: thêm `?utm_source=google&utm_campaign=mau-ho-so` hoặc `?ref=<mã đối tác>`
 vào đường dẫn trang; nguồn hiện ở cột **Nguồn** của danh sách khách và trong email báo.
 

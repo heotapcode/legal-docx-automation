@@ -1,7 +1,7 @@
 /**
  * Đo lường dùng chung cho trang giới thiệu (/) và ứng dụng (/app):
  * - Ghi nguồn khách (utm_*, ref, trang vào đầu tiên, trang giới thiệu bên ngoài) một lần mỗi phiên vào sessionStorage
- *   khóa 'nac_source'; LeadGate gửi kèm khi khách để lại số Zalo.
+ *   khóa 'nac_source'; LeadGate gửi kèm khi khách để lại số Zalo. Mã đối tác ?ref= giữ thêm 30 ngày (localStorage).
  * - Google Analytics 4: chỉ nạp khi máy chủ đặt window.NAC_GA4 (mã G-..., sửa ở trang quản trị > Kinh doanh).
  * - window.nacTrack(tên sự kiện, tham số): gửi sự kiện phễu. KHÔNG gửi họ tên, số điện thoại hay dữ liệu hồ sơ.
  */
@@ -25,6 +25,26 @@
             out.referrer = document.referrer.slice(0, 200);
         }
         try { s.setItem(KEY_SOURCE, JSON.stringify(out)); } catch (err) { /* bỏ qua */ }
+    })();
+
+    // Mã đối tác (?ref=): giữ 30 ngày trên máy khách để khách quay lại sau vẫn tính cho đối tác.
+    // Link đối tác mới nhất thắng; mã gắn vào nguồn của phiên nếu phiên chưa có mã.
+    (function keepPartnerRef() {
+        const KEY_REF = 'nac_ref';
+        const DAYS = 30;
+        let ls = null, ss = null;
+        try { ls = window.localStorage; ss = window.sessionStorage; } catch (err) { return; }
+        if (!ls || !ss) return;
+        const params = new URLSearchParams(window.location.search);
+        new URLSearchParams(window.location.hash.split('?')[1] || '').forEach((v, k) => params.set(k, v));
+        const fresh = (params.get('ref') || '').trim().toLowerCase().slice(0, 30);
+        try {
+            if (fresh) ls.setItem(KEY_REF, JSON.stringify({ ref: fresh, at: Date.now() }));
+            const kept = JSON.parse(ls.getItem(KEY_REF) || 'null');
+            if (!kept || Date.now() - kept.at > DAYS * 24 * 3600 * 1000) { ls.removeItem(KEY_REF); return; }
+            const src = JSON.parse(ss.getItem(KEY_SOURCE) || '{}');
+            if (!src.ref) { src.ref = kept.ref; ss.setItem(KEY_SOURCE, JSON.stringify(src)); }
+        } catch (err) { /* bỏ qua */ }
     })();
 
     const id = window.NAC_GA4;

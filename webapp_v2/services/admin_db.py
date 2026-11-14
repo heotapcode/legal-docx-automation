@@ -112,6 +112,24 @@ MIGRATIONS = [
     ALTER TABLE leads ADD COLUMN pay_code TEXT;
     CREATE INDEX idx_leads_pay_code ON leads(pay_code);
     """,
+    # 6: đối tác giới thiệu khách (link ?ref=<mã>), hoa hồng theo % doanh thu
+    """
+    CREATE TABLE partners (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        code        TEXT NOT NULL UNIQUE,
+        name        TEXT NOT NULL,
+        phone       TEXT,
+        pct         INTEGER NOT NULL DEFAULT 0,
+        paid        INTEGER NOT NULL DEFAULT 0,
+        active      INTEGER NOT NULL DEFAULT 1,
+        note        TEXT,
+        created_at  TEXT NOT NULL,
+        updated_at  TEXT
+    );
+    ALTER TABLE leads ADD COLUMN ref TEXT;
+    UPDATE leads SET ref = lower(json_extract(source, '$.ref')) WHERE json_valid(source);
+    CREATE INDEX idx_leads_ref ON leads(ref);
+    """,
 ]
 
 _init_lock = threading.Lock()

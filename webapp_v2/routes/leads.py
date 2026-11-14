@@ -3,7 +3,7 @@ from typing import Any, Dict
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from services import kinh_doanh, leads
+from services import doi_tac, kinh_doanh, leads
 from services.auth import require_admin
 from services.rate_limit import limit
 
@@ -28,7 +28,8 @@ def get_payment(pay_code: str, phone: str):
 @admin.get("/leads")
 def list_leads(user: dict = Depends(require_admin)):
     return {"leads": leads.list_leads(), "statuses": leads.STATUSES, "roles": leads.ROLES,
-            "packages": {g["ma"]: g["ten"] for g in kinh_doanh.get()["goi"]}, "delivery": leads.DELIVERY}
+            "packages": {g["ma"]: g["ten"] for g in kinh_doanh.get()["goi"]}, "delivery": leads.DELIVERY,
+            "partners": doi_tac.names()}
 
 
 @admin.patch("/leads/{lead_id}")
@@ -60,5 +61,30 @@ def get_kinh_doanh(user: dict = Depends(require_admin)):
 def put_kinh_doanh(body: Dict[str, Any], user: dict = Depends(require_admin)):
     try:
         return {"value": kinh_doanh.save(body, user.get("id"))}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+# ---------- Đối tác giới thiệu ----------
+
+@admin.get("/partners")
+def list_partners(user: dict = Depends(require_admin)):
+    return doi_tac.report()
+
+
+@admin.post("/partners")
+def create_partner(body: Dict[str, Any], user: dict = Depends(require_admin)):
+    try:
+        return {"partner": doi_tac.create(body, user.get("id"))}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@admin.patch("/partners/{partner_id}")
+def patch_partner(partner_id: int, body: Dict[str, Any], user: dict = Depends(require_admin)):
+    try:
+        return {"partner": doi_tac.update(partner_id, body, user.get("id"))}
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Không tìm thấy đối tác")
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
