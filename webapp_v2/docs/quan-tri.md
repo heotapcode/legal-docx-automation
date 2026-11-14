@@ -80,6 +80,32 @@ lưu thông tin khách, tỷ lệ đặt cọc, địa chỉ nhận hồ sơ gi�
 khoản in hoa không dấu), bảng giá các gói. Giá trị mặc định ở `data/kinh_doanh.json` (tài khoản ở đó là **tài khoản demo**
 `0000000000`: phải sửa thành tài khoản thật trước khi chạy thật).
 
+### Trang giới thiệu và Google Analytics (14/11/2026)
+
+- **Địa chỉ:** `/` là trang giới thiệu (máy chủ dựng sẵn để Google đọc được: bảng giá, các thủ tục, hỏi đáp). Ứng dụng tạo
+  hồ sơ ở `/app#/wizard`, trang quản trị ở `/app#/admin`. Link cũ `/#/wizard`, `/#/admin` vẫn chạy (tự chuyển sang `/app`).
+- **Nội dung đổi theo trang quản trị:** bảng giá, tiền cọc, số Zalo, câu cam kết, địa chỉ nhận hồ sơ, tên đơn vị. Câu chữ
+  cố định (tiêu đề, các bước, hỏi đáp) ở `pages/trang_chu.html` và `services/trang_chu.py` (hàm `faq`).
+- **Bấm một thủ tục** trên trang giới thiệu mở thẳng form thủ tục đó (`/app#/wizard?t=<mã bộ mẫu>`): dùng làm link quảng cáo
+  cho từng thủ tục.
+- **Tên miền:** đặt `SITE_URL=https://<tên miền>` trong `.env` để đường dẫn chuẩn và `sitemap.xml` đúng tên miền. Có sẵn
+  `/robots.txt`, `/sitemap.xml` (khai báo trong Google Search Console).
+- **Google Analytics 4:** tạo luồng dữ liệu web trong Google Analytics, lấy **Mã đo lường** `G-…`, dán vào
+  **Kinh doanh → Mã Google Analytics 4**. Để trống thì không nạp gì. Sự kiện gửi lên (không kèm họ tên, số điện thoại,
+  dữ liệu hồ sơ):
+
+  | Sự kiện | Khi nào | Tham số |
+  |---|---|---|
+  | `page_view` | Mỗi trang (trang quản trị không tính) | |
+  | `cta_click` | Bấm nút "Tạo hồ sơ" / một thủ tục trên trang giới thiệu | `vi_tri`, `template_id` |
+  | `begin_form` | Chọn thủ tục, bắt đầu điền | `template_id` |
+  | `tai_ho_so` | Tải bộ hồ sơ thành công | `template_id` |
+  | `generate_lead` | Tải hồ sơ kèm thông tin khách | `template_id`, `hinh_thuc` (tu_nop / nho_nop), `goi`, `cach_gui` |
+  | `contact_zalo` | Bấm nút nhắn Zalo | `vi_tri` |
+
+  Trong Google Analytics: **Quản trị → Sự kiện**, đánh dấu `generate_lead` (và `contact_zalo`) là **sự kiện chính** để
+  đếm chuyển đổi; xem phễu ở **Khám phá → Khám phá phễu** với các bước `page_view → begin_form → generate_lead`.
+
 Gắn nguồn cho link quảng cáo hoặc đối tác: thêm `?utm_source=google&utm_campaign=mau-ho-so` hoặc `?ref=<mã đối tác>`
 vào đường dẫn trang; nguồn hiện ở cột **Nguồn** của danh sách khách và trong email báo.
 

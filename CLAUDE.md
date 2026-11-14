@@ -14,6 +14,7 @@ phải lập trình viên: trao đổi bằng tiếng Việt, nói kết quả t
 | `webapp_v2/services/text_format.py` | Định dạng tiền, số thành chữ, danh xưng, ngày (`fmt_money`, `so_thanh_chu`, `danh_xung`, `format_date_vn`). |
 | `webapp_v2/services/schema_engine.py` + `static/js/engine/schema_engine.js` | Lõi kiểm tra dữ liệu, hai bản phải cùng hành vi (`tests/engine_cases.json` chạy cho cả hai). |
 | `webapp_v2/services/leads.py`, `kinh_doanh.py`, `routes/leads.py`, `static/js/engine/lead_gate.js` | Phễu khách: bước để lại số Zalo trước khi tải, lưu khách (không lưu CCCD), email báo, tờ hướng dẫn đầu file .zip, trang quản trị Khách tiềm năng, bảng giá/Zalo/tài khoản nhận cọc (`data/kinh_doanh.json`). Nhờ nộp: chọn gói, cách gửi hồ sơ, mã QR đặt cọc (`services/vietqr.py`). |
+| `webapp_v2/services/trang_chu.py`, `pages/trang_chu.html`, `static/js/track.js` | Trang giới thiệu `/` (máy chủ dựng sẵn cho SEO, `robots.txt`, `sitemap.xml`); ứng dụng ở `/app`. Đo lường: nguồn khách + Google Analytics 4 (`nacTrack`, không gửi dữ liệu cá nhân). |
 | `webapp_v2/services/document_rules.py` | Quy tắc riêng theo nghiệp vụ, gọi qua khóa `prepare`, `post`, `repeat_with` trong schema. |
 | `webapp_v2/static/js/pages/wizard.js` | Khung wizard 4 bước, thu dữ liệu, gọi API sinh hồ sơ. `pages/wizard_nganh.js`: bước chọn mã ngành. |
 | `webapp_v2/static/js/engine/form_renderer.js`, `field_types.js`, `ocr_scan.js` | Vẽ form theo schema. Kiểu ô mới thêm vào `form_renderer.js`; `field_types.js` giữ các kiểu cũ (thẻ người, danh sách thành viên, tiền, MST); `ocr_scan.js` là các nút quét CCCD. |
@@ -77,6 +78,7 @@ Sau khi cập nhật ảnh chụp chuẩn, luôn xem `git diff tests/golden`: ch
   test cần giới hạn thì tự bật bằng `monkeypatch.setitem(config.RATE_LIMITS, ...)` và gọi `rate_limit.reset()`.
 - **Lỗi hệ thống** ghi bằng `logger.exception(...)`, không `print`, không trả `str(e)` ra trình duyệt; chỉ `ValueError`
   (lỗi do dữ liệu người dùng) mới được trả nguyên văn.
+- **Địa chỉ ứng dụng là `/app`** (`/` là trang giới thiệu). Test trình duyệt mở `{base_url}/app#/wizard`; link cũ `/#/...` tự chuyển.
 - **File JS/CSS**: `index.html` không ghi số phiên bản; máy chủ tự gắn `?v=<thời điểm sửa file>` (`main.py: render_index`).
   Thêm file JS mới thì khai báo trong `static/index.html`, đúng thứ tự phụ thuộc (engine trước, pages sau).
 - **Đọc CCCD không chạy trên máy người dùng**: bảo họ chạy `python -m tools.setup_ocr --check` bằng đúng Python đang chạy

@@ -46,6 +46,8 @@ LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
 
 # ---------- Quản trị (Mục 10) ----------
 # CSDL SQLite lưu tài khoản quản trị, phiên đăng nhập, nhật ký và phiên bản mẫu. Không commit file này.
+# Địa chỉ công khai của trang (vd https://tenmien.vn) dùng cho đường dẫn chuẩn và sitemap.xml; trống = theo yêu cầu
+SITE_URL = os.environ.get("SITE_URL", "").rstrip("/")
 ADMIN_DB_PATH = Path(os.environ.get("ADMIN_DB_PATH", str(DATA_DIR / "admin.sqlite3")))
 # Thời hạn một phiên đăng nhập quản trị (giờ)
 ADMIN_SESSION_HOURS = int(os.environ.get("ADMIN_SESSION_HOURS", "12"))

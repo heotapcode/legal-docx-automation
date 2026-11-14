@@ -7,7 +7,7 @@ from conftest import read_zip
 
 
 def test_index_served(client):
-    r = client.get("/")
+    r = client.get("/app")
     assert r.status_code == 200
     assert "/static/js/utils.js" in r.text, "utils.js (escapeHtml) phải được nạp trước các trang"
 
@@ -164,7 +164,7 @@ def test_index_stamps_static_assets_with_file_version(client):
     """Mỗi file JS/CSS nội bộ có ?v=<thời điểm sửa file>: cập nhật máy chủ xong trình duyệt không dùng bản cũ."""
     import re
 
-    r = client.get("/")
+    r = client.get("/app")
     assert r.status_code == 200 and r.headers["cache-control"] == "no-cache"
     assets = re.findall(r'(?:src|href)="(/static/[^"]+)"', r.text)
     assert len(assets) >= 10

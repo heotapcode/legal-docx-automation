@@ -36,7 +36,7 @@
         return `
             <nav class="navbar scrolled">
                 <div class="container navbar-container">
-                    <a href="#/" class="navbar-brand"><i class="fa-solid fa-building text-gradient"></i> NAC</a>
+                    <a href="/" class="navbar-brand"><i class="fa-solid fa-building text-gradient"></i> NAC</a>
                     <div class="navbar-menu"><a href="#/wizard">Tạo hồ sơ</a></div>
                     <span class="text-secondary text-sm">Quản trị mẫu</span>
                 </div>
@@ -211,6 +211,7 @@
         ['thoi_gian_luu_thang', 'Thời gian lưu thông tin khách (tháng)'],
         ['ty_le_coc', 'Tỷ lệ đặt cọc khi khách nhờ nộp (%)'],
         ['dia_chi_nhan_ho_so', 'Địa chỉ nhận hồ sơ giấy (khách gửi bưu điện)'],
+        ['ga4_id', 'Mã Google Analytics 4 (G-XXXXXXXXXX, để trống nếu chưa dùng)'],
     ];
     const BANK_FIELDS = [['so_tk', 'Số tài khoản'], ['chu_tk', 'Chủ tài khoản (chữ in hoa không dấu)']];
 
@@ -225,7 +226,7 @@
                     ${KD_FIELDS.map(([k, label]) => `
                         <div class="form-group">
                             <label class="form-label" for="kd-${k}">${e(label)}</label>
-                            <input id="kd-${k}" class="form-control" value="${e(v[k])}">
+                            <input id="kd-${k}" class="form-control" value="${e(v[k] === undefined ? '' : v[k])}">
                         </div>`).join('')}
                     <h2 class="text-lg font-bold mt-4 mb-2">Tài khoản nhận cọc (mã QR)</h2>
                     <div class="form-group">

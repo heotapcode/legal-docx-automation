@@ -21,23 +21,7 @@
         try { return kind === 'session' ? window.sessionStorage : window.localStorage; } catch (err) { return null; }
     }
 
-    // Ghi nguồn khách một lần mỗi phiên (lần chạm đầu)
-    (function captureSource() {
-        const s = store('session');
-        if (!s || s.getItem(KEY_SOURCE)) return;
-        const out = {};
-        const params = new URLSearchParams(window.location.search);
-        const hashQuery = (window.location.hash.split('?')[1] || '');
-        new URLSearchParams(hashQuery).forEach((v, k) => params.set(k, v));
-        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'ref'].forEach(k => {
-            if (params.get(k)) out[k] = params.get(k).slice(0, 200);
-        });
-        out.landing = (window.location.pathname + window.location.hash.split('?')[0]).slice(0, 200);
-        if (document.referrer && !document.referrer.startsWith(window.location.origin)) {
-            out.referrer = document.referrer.slice(0, 200);
-        }
-        try { s.setItem(KEY_SOURCE, JSON.stringify(out)); } catch (err) { /* bỏ qua */ }
-    })();
+    // Nguồn khách do static/js/track.js ghi vào sessionStorage (khóa KEY_SOURCE)
 
     const cfgCache = {};
     function loadConfig(templateId) {

@@ -94,14 +94,14 @@ function renderWizard() {
             <!-- Navbar minimal -->
             <nav class="navbar">
                 <div class="container navbar-container">
-                    <a href="#/" class="navbar-brand">
+                    <a href="/" class="navbar-brand">
                         <i class="fa-solid fa-building text-gradient"></i> NAC <span class="badge badge-green" style="font-size:10px;">v2 Jinja2</span>
                     </a>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <button type="button" class="btn btn-secondary btn-sm" onclick="toggleGlobalUIMode()">
                             <i class="fa-solid fa-scale-balanced" style="color: #d4af37;"></i> Dùng giao diện Harvey
                         </button>
-                        <a href="#/" class="btn btn-ghost btn-sm"><i class="fa-solid fa-xmark"></i> Thoát</a>
+                        <a href="/" class="btn btn-ghost btn-sm"><i class="fa-solid fa-xmark"></i> Thoát</a>
                     </div>
                 </div>
             </nav>
@@ -138,7 +138,7 @@ function renderWizard() {
             <!-- Top Command Bar -->
             <header class="harvey-topbar" style="position: sticky; top: 0; z-index: 100; height: 60px; padding: 0 32px; background: rgba(9, 14, 29, 0.94); backdrop-filter: blur(14px); border-bottom: 1px solid var(--gold-border-subtle); display: flex; align-items: center; justify-content: space-between;">
                 <div style="display: flex; align-items: center; gap: 16px;">
-                    <a href="#/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                    <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
                         <div class="harvey-seal-logo" style="width: 32px; height: 32px; font-size: 14px;"><i class="fa-solid fa-scale-balanced"></i></div>
                         <span class="harvey-brand-title" style="font-size: 14.5px;">HARVEY LEGAL OS</span>
                     </a>
@@ -162,7 +162,7 @@ function renderWizard() {
                     <button type="button" class="btn harvey-btn-ghost btn-sm" onclick="toggleGlobalUIMode()" title="Chuyển về giao diện form truyền thống">
                         <i class="fa-solid fa-rotate-left"></i> Giao diện cũ
                     </button>
-                    <a href="#/" class="btn harvey-btn-ghost btn-sm"><i class="fa-solid fa-house"></i> Trang chủ</a>
+                    <a href="/" class="btn harvey-btn-ghost btn-sm"><i class="fa-solid fa-house"></i> Trang chủ</a>
                 </div>
             </header>
 
@@ -214,6 +214,10 @@ window.initWizard = async function() {
         if (res.ok) {
             const data = await res.json();
             window.wizardState.templatesList = data.templates;
+            // Link từ trang giới thiệu: /app#/wizard?t=<id bộ mẫu> mở thẳng thủ tục đó
+            const wanted = new URLSearchParams(window.location.hash.split('?')[1] || '').get('t');
+            const found = wanted && data.templates.find(t => t.id === wanted);
+            if (found) { window.selectTemplate(found.name); return; }
             renderCurrentStep();
         }
     } catch (err) {
@@ -394,6 +398,9 @@ window.prevStep = function() {
 
 window.selectTemplate = function(name) {
     window.wizardState.template = window.wizardState.templatesList.find(t => t.name === name);
+    if (window.nacTrack && window.wizardState.template) {
+        window.nacTrack('begin_form', { template_id: window.wizardState.template.id });
+    }
     window.wizardState.step = 2;
     renderCurrentStep();
 };
@@ -1080,6 +1087,7 @@ window.generateDocuments = async function() {
 
         if (loadingEl) loadingEl.style.display = 'none';
         if (successEl) successEl.style.display = 'block';
+        trackDownload(lead);
         if (window.LeadGate) window.LeadGate.thankYou(lead, response.headers.get('X-Lead-Package'), response.headers.get('X-Lead-Code'));
     } catch (err) {
         console.error('Lỗi tải hồ sơ:', err);
@@ -1089,3 +1097,16 @@ window.generateDocuments = async function() {
         if (btnBack) btnBack.disabled = false;
     }
 };
+
+// Đo phễu (Google Analytics): tải hồ sơ, để lại thông tin. Không gửi họ tên, số điện thoại hay dữ liệu hồ sơ.
+function trackDownload(lead) {
+    if (!window.nacTrack) return;
+    const t = window.wizardState.template || {};
+    window.nacTrack('tai_ho_so', { template_id: t.id || '' });
+    if (lead) {
+        window.nacTrack('generate_lead', {
+            template_id: t.id || '', hinh_thuc: lead.delegated ? 'nho_nop' : 'tu_nop',
+            goi: lead.package || '', cach_gui: lead.delivery || '',
+        });
+    }
+}

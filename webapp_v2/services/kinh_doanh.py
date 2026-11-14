@@ -1,4 +1,5 @@
-"""Thông tin kinh doanh dùng cho phễu khách: số Zalo, email nhận báo khách mới, bảng giá các gói, lời cam kết.
+"""Thông tin kinh doanh dùng cho phễu khách: số Zalo, email nhận báo khách mới, bảng giá các gói, lời cam kết,
+tài khoản nhận cọc, mã Google Analytics 4.
 
 Giá trị mặc định ở data/kinh_doanh.json; trang quản trị lưu giá trị sửa vào bảng `settings` của CSDL quản trị
 (cùng cách với services/uy_quyen.py).
@@ -77,6 +78,10 @@ def validate(data: Dict[str, Any]) -> Dict[str, Any]:
     if not bank["chu_tk"]:
         raise ValueError("Thiếu tên chủ tài khoản")
     out["ngan_hang"] = bank
+    ga = re.sub(r"\s", "", str(data.get("ga4_id") or "")).upper()
+    if ga and not re.fullmatch(r"G-[A-Z0-9]{4,15}", ga):
+        raise ValueError("Mã Google Analytics 4 có dạng G-XXXXXXXXXX")
+    out["ga4_id"] = ga
     return out
 
 

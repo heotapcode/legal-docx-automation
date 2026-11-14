@@ -74,7 +74,7 @@ def page(browser, base_url):
 
 
 def open_template(page, base_url, name):
-    page.goto(f"{base_url}/#/wizard")
+    page.goto(f"{base_url}/app#/wizard")
     # Chờ initWizard() (bất đồng bộ) tải xong danh sách mẫu, tránh nó vẽ đè lên form
     page.wait_for_function("window.wizardState && (window.wizardState.templatesList || []).length > 0")
     page.wait_for_load_state("networkidle")
@@ -84,7 +84,7 @@ def open_template(page, base_url, name):
 
 
 def test_escape_html_helper(page, base_url):
-    page.goto(base_url)
+    page.goto(f"{base_url}/app")
     assert page.evaluate("escapeHtml('<a href=\"x\">&\\'</a>')") == "&lt;a href=&quot;x&quot;&gt;&amp;&#39;&lt;/a&gt;"
     assert page.evaluate("escapeHtml(0)") == "0"
     assert page.evaluate("escapeHtml(null)") == ""
@@ -182,7 +182,7 @@ def test_every_wizard_renders_without_js_errors(browser, base_url, template):
     pg.on("dialog", lambda d: d.dismiss())
     pg.route("**/*", lambda route: route.continue_() if route.request.url.startswith(base_url) else route.abort())
     try:
-        pg.goto(f"{base_url}/#/wizard")
+        pg.goto(f"{base_url}/app#/wizard")
         pg.wait_for_function("window.wizardState && (window.wizardState.templatesList || []).length > 0")
         pg.wait_for_load_state("networkidle")
         pg.evaluate("n => selectTemplate(n)", template)
@@ -197,7 +197,7 @@ def test_every_wizard_renders_without_js_errors(browser, base_url, template):
 # ---------- Ô chọn tỉnh/thành phố nơi đăng ký ----------
 
 def open_wizard_until(page, base_url, template, selector):
-    page.goto(f"{base_url}/#/wizard")
+    page.goto(f"{base_url}/app#/wizard")
     page.wait_for_function("window.wizardState && (window.wizardState.templatesList || []).length > 0")
     page.wait_for_load_state("networkidle")
     page.evaluate("n => selectTemplate(n)", template)
@@ -258,7 +258,7 @@ def test_delegated_flow_shows_packages_and_deposit_qr(page, base_url, tmp_path, 
     from services import leads
 
     monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
-    page.goto(f"{base_url}/#/wizard")
+    page.goto(f"{base_url}/app#/wizard")
     page.wait_for_function("window.LeadGate")
     page.evaluate("() => { window.__lead = LeadGate.ask('Tăng vốn công ty TNHH 2 TV', '', 'tang-von-cong-ty-tnhh-2-tv'); }")
     page.wait_for_selector("#lead-gate #lg-name")
@@ -293,7 +293,7 @@ def test_browser_and_api_report_same_errors(page, base_url):
 
     data = {"ten_cong_ty_vn": "CÔNG TY A", "thanh_vien": [{"ho_ten": "A", "von_gop": "1", "ty_le": ""}]}
     name = "Thành lập mới công ty TNHH 2 TV"
-    page.goto(base_url)
+    page.goto(f"{base_url}/app")
     page.wait_for_function("window.SchemaEngine && typeof SchemaEngine.validate === 'function'")
     schema = _json.loads(urllib.request.urlopen(f"{base_url}/api/templates/{urllib.parse.quote(name)}/schema").read())
     in_browser = page.evaluate("([s, d]) => SchemaEngine.validate(s, d).map(e => [e.key, e.code, e.index ?? -1])",
@@ -334,7 +334,7 @@ DEMO_SCHEMA = {
 
 
 def open_demo(page, base_url, mode):
-    page.goto(f"{base_url}/#/wizard")
+    page.goto(f"{base_url}/app#/wizard")
     page.wait_for_function("window.wizardState && (window.wizardState.templatesList || []).length > 0")
     page.wait_for_load_state("networkidle")
     page.evaluate("""([schema, mode]) => {
@@ -519,7 +519,7 @@ def test_admin_login_logout_page(page, base_url, tmp_path, monkeypatch):
 
     monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
     auth.create_user(XSS, "mat-khau-thu-nghiem-123")  # tên đăng nhập có ký tự HTML: phải được escape
-    page.goto(f"{base_url}/#/admin")
+    page.goto(f"{base_url}/app#/admin")
     page.wait_for_selector("#admin-login-form")
     page.fill("#admin-username", XSS)
     page.fill("#admin-password", "sai-mat-khau-000")
@@ -547,7 +547,7 @@ def test_admin_edit_power_of_attorney_recipient(page, base_url, tmp_path, monkey
 
     monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
     auth.create_user("quantri", "mat-khau-thu-nghiem-123")
-    page.goto(f"{base_url}/#/admin")
+    page.goto(f"{base_url}/app#/admin")
     page.wait_for_selector("#admin-login-form")
     page.fill("#admin-username", "quantri")
     page.fill("#admin-password", "mat-khau-thu-nghiem-123")
@@ -594,7 +594,7 @@ def test_admin_draft_publish_rollback_flow(page, base_url, tmp_path, monkeypatch
     auth.create_user("quantri", "mat-khau-thu-nghiem-123")
     tid = _json.loads((root / name / "_schema.json").read_text(encoding="utf-8"))["id"]
 
-    page.goto(f"{base_url}/#/admin")
+    page.goto(f"{base_url}/app#/admin")
     page.wait_for_selector("#admin-login-form")
     page.fill("#admin-username", "quantri")
     page.fill("#admin-password", "mat-khau-thu-nghiem-123")
@@ -666,7 +666,7 @@ def test_admin_suggest_fields_ui(page, base_url, tmp_path, monkeypatch):
     d.save(buf)
     template_store.put_docx(draft["id"], target.name, buf.getvalue(), user)
 
-    page.goto(f"{base_url}/#/admin")
+    page.goto(f"{base_url}/app#/admin")
     page.wait_for_selector("#admin-login-form")
     page.fill("#admin-username", "quantri")
     page.fill("#admin-password", "mat-khau-thu-nghiem-123")
@@ -841,7 +841,7 @@ def test_admin_leads_page(page, base_url, tmp_path, monkeypatch):
                                         "source": {"utm_source": "google"}}),
                       "thanh-lap-moi-cong-ty-tnhh-1-tv", "Thành lập mới công ty TNHH 1 TV", {"ten_cong_ty_vn": "CÔNG TY A"})
     leads.record(rec)
-    page.goto(f"{base_url}/#/admin")
+    page.goto(f"{base_url}/app#/admin")
     page.wait_for_selector("#admin-login-form")
     page.fill("#admin-username", "quantri")
     page.fill("#admin-password", "mat-khau-thu-nghiem-123")
@@ -856,3 +856,45 @@ def test_admin_leads_page(page, base_url, tmp_path, monkeypatch):
     row.locator('[data-action="save-lead"]').click()
     page.wait_for_function("document.getElementById('admin-leads-summary').textContent.includes('3.200.000')")
     assert leads.list_leads()[0]["status"] == "da_mua"
+
+
+def test_landing_links_into_app(page, base_url):
+    """Trang giới thiệu: link cũ /#/... sang /app; bấm thủ tục mở thẳng form thủ tục đó; không tràn ngang trên điện thoại."""
+    page.goto(f"{base_url}/")
+    page.set_viewport_size({"width": 375, "height": 800})
+    assert page.evaluate("document.documentElement.scrollWidth") <= 375
+    assert page.is_visible("#cta-hero")
+    page.click('a[data-proc="tang-von-cong-ty-tnhh-1-tv"]')
+    page.wait_for_function("window.wizardState && window.wizardState.step === 2")
+    assert page.evaluate("window.wizardState.template.id") == "tang-von-cong-ty-tnhh-1-tv"
+    # Nguồn khách ghi từ trang giới thiệu, giữ khi sang ứng dụng
+    assert page.evaluate("JSON.parse(sessionStorage.getItem('nac_source')).landing") == "/"
+    # Nút Trang chủ trong ứng dụng về trang giới thiệu
+    page.goto(f"{base_url}/app#/")
+    page.wait_for_selector("#cta-hero")
+    page.goto(f"{base_url}/#/admin")
+    page.wait_for_url("**/app#/admin")
+
+
+def test_analytics_events_without_personal_data(page, base_url, tmp_path, monkeypatch):
+    """Có mã GA4: trang giới thiệu và ứng dụng gửi sự kiện phễu vào dataLayer, không kèm họ tên / số điện thoại."""
+    import json as _json
+    import config
+    from services import admin_db, kinh_doanh
+
+    monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
+    cfg = dict(kinh_doanh.get(), ga4_id="G-TEST12345")
+    admin_db.set_setting(kinh_doanh.SETTING_KEY, _json.dumps(cfg, ensure_ascii=False), None)
+    events = lambda: page.evaluate("(window.dataLayer || []).map(a => Array.from(a)).filter(a => a[0] === 'event')")
+
+    page.goto(f"{base_url}/?utm_source=google&utm_campaign=thu")
+    page.wait_for_function("!!window.gtag")
+    page.click('a[data-proc="tang-von-cong-ty-tnhh-1-tv"]')
+    page.wait_for_function("window.wizardState && window.wizardState.step === 2")
+    names = [ev[1] for ev in events()]
+    assert "page_view" in names and "begin_form" in names
+    assert page.evaluate("JSON.parse(sessionStorage.getItem('nac_source')).utm_source") == "google"
+    page.evaluate("trackDownload({name: 'Nguyễn Văn Thử', phone: '0901234567', delegated: true, package: 'thay_doi', delivery: 'scan'})")
+    lead_ev = [ev for ev in events() if ev[1] == "generate_lead"][0][2]
+    assert lead_ev == {"template_id": "tang-von-cong-ty-tnhh-1-tv", "hinh_thuc": "nho_nop", "goi": "thay_doi", "cach_gui": "scan"}
+    assert "0901234567" not in str(events()) and "Thử" not in str(events())
