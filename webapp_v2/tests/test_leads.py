@@ -172,3 +172,72 @@ def test_business_settings(admin):
     assert "email_nhan_bao" not in pub
     bad = dict(cfg, zalo="123")
     assert admin.put("/api/admin/settings/kinh-doanh", json=bad, headers=CSRF).status_code == 400
+
+
+# ---------- Nhờ nộp: chọn gói, cách gửi, mã QR đặt cọc ----------
+
+def test_vietqr_payload_and_crc():
+    from services import vietqr
+    assert vietqr.crc16_ccitt("123456789") == "29B1"
+    p = vietqr.payload("970436", "0123456789", 1600000, "HS0001 0901234567")
+    assert p.startswith("000201010212") and "A000000727" in p and "0006970436" in p and "QRIBFTTA" in p
+    assert "54071600000" in p and "5802VN" in p and "HS0001 0901234567" in p
+    assert p[-4:] == vietqr.crc16_ccitt(p[:-4])
+    assert vietqr.ascii_content("Nguyễn Đức – Hà Nội!") == "Nguyen Duc Ha Noi"
+    assert vietqr.svg(p).startswith("<svg")
+
+
+DELEGATED = dict(LEAD, delegated=True, package="co_ban", delivery="giay")
+
+
+def test_delegated_lead_gets_code_deposit_and_qr(client):
+    r, _ = generate(client, lead=DELEGATED)
+    assert r.status_code == 200
+    code = r.headers["X-Lead-Code"]
+    row = leads.list_leads()[0]
+    assert row["pay_code"] == code == f"HS{row['id']:04d}"
+    assert (row["package"], row["delivery"], row["amount"], row["deposit"]) == ("co_ban", "giay", 1200000, 600000)
+    info = client.get(f"/api/public/thanh-toan/{code}", params={"phone": "0901234567"}).json()
+    assert info["deposit"] == 600000 and info["content"] == f"{code} 0901234567"
+    assert info["bank"]["ten"] == "Vietcombank" and info["qr_svg"].startswith("<svg")
+    assert "Ngọc Trục" in info["dia_chi_nhan_ho_so"]
+    # Phải đúng số Zalo đã để lại mới xem được
+    assert client.get(f"/api/public/thanh-toan/{code}", params={"phone": "0912345678"}).status_code == 404
+    assert client.get("/api/public/thanh-toan/HS9999", params={"phone": "0901234567"}).status_code == 404
+
+
+def test_delegated_cover_has_signing_and_deposit(client):
+    r, _ = generate(client, lead=DELEGATED)
+    z = zipfile.ZipFile(io.BytesIO(r.content))
+    text = docx_text(z.read(leads.COVER_NAME))
+    code = r.headers["X-Lead-Code"]
+    assert "mực xanh" in text and "không cần đóng dấu" in text
+    assert "Ngọc Trục" in text and code in text and "600.000đ" in text
+
+
+def test_package_without_price_has_no_qr(client):
+    r, _ = generate(client, lead=dict(DELEGATED, package="khac", delivery="scan"))
+    info = client.get(f"/api/public/thanh-toan/{r.headers['X-Lead-Code']}", params={"phone": "0901234567"}).json()
+    assert info["deposit"] == 0 and info["qr_svg"] is None
+
+
+def test_self_service_lead_has_no_payment(client):
+    r, _ = generate(client)
+    assert "X-Lead-Code" not in r.headers or not leads.list_leads()[0]["delegated"]
+    row = leads.list_leads()[0]
+    assert row["delivery"] is None and row["deposit"] == 0
+    if row["pay_code"]:
+        assert client.get(f"/api/public/thanh-toan/{row['pay_code']}", params={"phone": "0901234567"}).status_code == 404
+
+
+def test_bank_settings_validated(admin):
+    cfg = admin.get("/api/admin/settings/kinh-doanh").json()
+    assert "970436" in cfg["banks"]
+    v = cfg["value"]
+    for bad in [dict(v, ngan_hang=dict(v["ngan_hang"], ma_bin="111")), dict(v, ty_le_coc=150),
+                dict(v, ngan_hang=dict(v["ngan_hang"], so_tk="12"))]:
+        assert admin.put("/api/admin/settings/kinh-doanh", json=bad, headers=CSRF).status_code == 400
+    ok = dict(v, ty_le_coc=30, ngan_hang={"ma_bin": "970422", "so_tk": "1234 5678 9", "chu_tk": "Nguyễn Văn Thử"})
+    saved = admin.put("/api/admin/settings/kinh-doanh", json=ok, headers=CSRF).json()["value"]
+    assert saved["ngan_hang"] == {"ma_bin": "970422", "so_tk": "123456789", "chu_tk": "NGUYEN VAN THU"}
+    assert admin.get("/api/public/kinh-doanh").json()["ngan_hang"]["ten"] == "MB Bank"

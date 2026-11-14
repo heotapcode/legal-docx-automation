@@ -5,16 +5,43 @@
   "email_nhan_bao": "dohieu52th@gmail.com",
   "cam_ket": "Hồ sơ bị trả do lỗi soạn thảo của chúng tôi: sửa và nộp lại miễn phí.",
   "thoi_gian_luu_thang": 24,
+  "ty_le_coc": 50,
+  "dia_chi_nhan_ho_so": "Lô 09, khu giãn dân Ngọc Trục, Đại Mỗ, Hà Nội",
+  "ngan_hang": {
+    "ma_bin": "970436",
+    "so_tk": "0000000000",
+    "chu_tk": "TAI KHOAN DEMO"
+  },
   "goi": [
-    {"ma": "khoi_nghiep", "ten": "Gói Khởi nghiệp", "gia": "3.200.000đ",
-     "mo_ta": "Gói Cơ bản + chữ ký số 1 năm + hóa đơn điện tử + khai thuế ban đầu"},
-    {"ma": "co_ban", "ten": "Gói Cơ bản", "gia": "1.200.000đ",
-     "mo_ta": "Soạn hồ sơ, nộp trên Cổng thông tin quốc gia về đăng ký doanh nghiệp, nhận kết quả"},
-    {"ma": "thay_doi", "ten": "Thay đổi đăng ký doanh nghiệp", "gia": "1.000.000đ",
-     "mo_ta": "Soạn, nộp và nhận kết quả hồ sơ thay đổi (tên, địa chỉ, vốn, ngành nghề, thành viên, người đại diện)"},
-    {"ma": "ho_kd", "ten": "Hộ kinh doanh", "gia": "800.000đ",
-     "mo_ta": "Đăng ký hộ kinh doanh mới hoặc chuyển hộ kinh doanh lên doanh nghiệp"},
-    {"ma": "khac", "ten": "Tạm ngừng, giải thể, địa điểm kinh doanh", "gia": "Báo giá theo hồ sơ",
-     "mo_ta": "Soạn, nộp và theo dõi đến khi có kết quả"}
+    {
+      "ma": "khoi_nghiep",
+      "ten": "Gói Khởi nghiệp",
+      "gia": "3.200.000đ",
+      "mo_ta": "Gói Cơ bản + chữ ký số 1 năm + hóa đơn điện tử + khai thuế ban đầu"
+    },
+    {
+      "ma": "co_ban",
+      "ten": "Gói Cơ bản",
+      "gia": "1.200.000đ",
+      "mo_ta": "Soạn hồ sơ, nộp trên Cổng thông tin quốc gia về đăng ký doanh nghiệp, nhận kết quả"
+    },
+    {
+      "ma": "thay_doi",
+      "ten": "Thay đổi đăng ký doanh nghiệp",
+      "gia": "1.000.000đ",
+      "mo_ta": "Soạn, nộp và nhận kết quả hồ sơ thay đổi (tên, địa chỉ, vốn, ngành nghề, thành viên, người đại diện)"
+    },
+    {
+      "ma": "ho_kd",
+      "ten": "Hộ kinh doanh",
+      "gia": "800.000đ",
+      "mo_ta": "Đăng ký hộ kinh doanh mới hoặc chuyển hộ kinh doanh lên doanh nghiệp"
+    },
+    {
+      "ma": "khac",
+      "ten": "Tạm ngừng, giải thể, địa điểm kinh doanh",
+      "gia": "Báo giá theo hồ sơ",
+      "mo_ta": "Soạn, nộp và theo dõi đến khi có kết quả"
+    }
   ]
 }

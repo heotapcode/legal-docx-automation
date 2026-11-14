@@ -252,6 +252,40 @@ def test_selected_province_is_sent_when_generating(page, base_url):
     assert "Gói Khởi nghiệp" in page.inner_text("#lead-gate")
 
 
+def test_delegated_flow_shows_packages_and_deposit_qr(page, base_url, tmp_path, monkeypatch):
+    """Nhờ nộp: bước chọn gói (gói hợp thủ tục đứng đầu) + cách gửi; sau khi tải hiện mã QR đặt cọc."""
+    import config
+    from services import leads
+
+    monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
+    page.goto(f"{base_url}/#/wizard")
+    page.wait_for_function("window.LeadGate")
+    page.evaluate("window.__lead = LeadGate.ask('Tăng vốn công ty TNHH 2 TV', '', 'tang-von-cong-ty-tnhh-2-tv')")
+    page.wait_for_selector("#lead-gate #lg-name")
+    page.fill("#lg-name", "Nguyễn Văn Thử")
+    page.fill("#lg-phone", "0901234567")
+    page.check("#lg-consent")
+    page.click("#lg-delegated")
+    page.wait_for_selector("#lg-packages")
+    first = page.locator('#lg-packages input[name="lg-package"]').first
+    assert first.get_attribute("value") == "thay_doi" and first.is_checked()
+    assert "Đặt cọc: 500.000đ" in page.inner_text("#lg-packages")
+    assert "Ngọc Trục" in page.inner_text("#lead-gate")
+    page.check('input[name="lg-delivery"][value="giay"]')
+    page.click("#lg-confirm")
+    lead = page.evaluate("window.__lead")
+    assert (lead["delegated"], lead["package"], lead["delivery"]) == (True, "thay_doi", "giay")
+    # Máy chủ ghi khách (như khi tải hồ sơ) rồi trang hiện mã QR đặt cọc
+    rec = leads.build(leads.parse_lead(lead), "tang-von-cong-ty-tnhh-2-tv", "Tăng vốn công ty TNHH 2 TV", {})
+    leads.record(rec)
+    code = rec["pay_code"]
+    page.evaluate("([l, c]) => LeadGate.thankYou(l, 'thay_doi', c)", [lead, code])
+    page.wait_for_selector("#lead-gate #lg-qr svg")
+    text = page.inner_text("#lead-gate")
+    assert code in text and "500.000đ" in text and "Vietcombank" in text and "mực xanh" in text
+    assert "Ngọc Trục" in text and f"{code} 0901234567" in text
+
+
 def test_browser_and_api_report_same_errors(page, base_url):
     """Lõi kiểm tra trong trình duyệt và API trả cùng danh sách lỗi cho cùng dữ liệu."""
     import json as _json

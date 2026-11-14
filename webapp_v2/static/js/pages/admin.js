@@ -160,7 +160,7 @@
     async function showLeads(note) {
         const r = await adminFetch('/api/admin/leads');
         if (!r.ok) return failed(r);
-        const { leads, statuses, roles, packages } = r.body;
+        const { leads, statuses, roles, packages, delivery } = r.body;
         const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
         const thisWeek = leads.filter(l => new Date(l.created_at).getTime() >= weekAgo).length;
         const bought = leads.filter(l => ['da_mua', 'ke_toan'].includes(l.status));
@@ -174,7 +174,9 @@
                 <td><b>${e(l.name)}</b><br><a href="https://zalo.me/${e(l.phone)}" target="_blank" rel="noopener" style="color: var(--accent-cyan);">${e(l.phone)}</a>
                     <div class="text-xs text-secondary">${e(roles[l.role] || l.role)}</div></td>
                 <td>${e(l.template_name)}<div class="text-xs text-secondary">${e(l.company_name)}${l.members ? ` – ${e(l.members)} TV` : ''}</div></td>
-                <td>${l.delegated ? '<b>Nhờ nộp</b>' : 'Tự nộp'}<div class="text-xs">${e(l.score)}/100 – ${e(packages[l.package] || l.package)}</div></td>
+                <td>${l.delegated ? '<b>Nhờ nộp</b>' : 'Tự nộp'}<div class="text-xs">${e(l.score)}/100 – ${e(packages[l.package] || l.package)}</div>
+                    ${l.pay_code ? `<div class="text-xs">Mã CK <b>${e(l.pay_code)}</b>${l.deposit ? ` · cọc ${e(money(l.deposit))}đ / ${e(money(l.amount))}đ` : ''}</div>` : ''}
+                    ${l.delivery ? `<div class="text-xs text-secondary">${e((delivery || {})[l.delivery] || l.delivery)}</div>` : ''}</td>
                 <td class="text-xs">${src}</td>
                 <td><select class="form-control lead-status">${Object.entries(statuses).map(([k, v]) =>
                         `<option value="${e(k)}" ${k === l.status ? 'selected' : ''}>${e(v)}</option>`).join('')}</select>
@@ -193,7 +195,7 @@
                 ${leads.length ? `
                 <div style="overflow-x: auto;">
                 <table class="admin-table" id="admin-leads" style="width: 100%;">
-                    <thead><tr><th>Thời gian</th><th>Khách</th><th>Thủ tục</th><th>Hình thức, điểm, gói nên chào</th>
+                    <thead><tr><th>Thời gian</th><th>Khách</th><th>Thủ tục</th><th>Hình thức, điểm, gói, đặt cọc</th>
                         <th>Nguồn</th><th>Trạng thái</th><th></th></tr></thead>
                     <tbody>${rows}</tbody>
                 </table></div>` : '<p class="text-secondary">Chưa có khách nào để lại thông tin.</p>'}
@@ -207,7 +209,10 @@
         ['ten_don_vi', 'Tên đơn vị / thương hiệu (in trong câu đồng ý và tờ hướng dẫn)'], ['zalo', 'Số Zalo nhận khách'],
         ['email_nhan_bao', 'Email nhận báo khách mới'], ['cam_ket', 'Cam kết in trên tờ hướng dẫn'],
         ['thoi_gian_luu_thang', 'Thời gian lưu thông tin khách (tháng)'],
+        ['ty_le_coc', 'Tỷ lệ đặt cọc khi khách nhờ nộp (%)'],
+        ['dia_chi_nhan_ho_so', 'Địa chỉ nhận hồ sơ giấy (khách gửi bưu điện)'],
     ];
+    const BANK_FIELDS = [['so_tk', 'Số tài khoản'], ['chu_tk', 'Chủ tài khoản (chữ in hoa không dấu)']];
 
     async function showKinhDoanh(note) {
         const r = await adminFetch('/api/admin/settings/kinh-doanh');
@@ -221,6 +226,17 @@
                         <div class="form-group">
                             <label class="form-label" for="kd-${k}">${e(label)}</label>
                             <input id="kd-${k}" class="form-control" value="${e(v[k])}">
+                        </div>`).join('')}
+                    <h2 class="text-lg font-bold mt-4 mb-2">Tài khoản nhận cọc (mã QR)</h2>
+                    <div class="form-group">
+                        <label class="form-label" for="kd-ma_bin">Ngân hàng</label>
+                        <select id="kd-ma_bin" class="form-control">${Object.entries(r.body.banks || {}).map(([bin, ten]) =>
+                            `<option value="${e(bin)}" ${bin === (v.ngan_hang || {}).ma_bin ? 'selected' : ''}>${e(ten)}</option>`).join('')}</select>
+                    </div>
+                    ${BANK_FIELDS.map(([k, label]) => `
+                        <div class="form-group">
+                            <label class="form-label" for="kd-${k}">${e(label)}</label>
+                            <input id="kd-${k}" class="form-control" value="${e((v.ngan_hang || {})[k])}">
                         </div>`).join('')}
                     <h2 class="text-lg font-bold mt-4 mb-2">Bảng giá</h2>
                     <table class="admin-table" id="admin-kd-goi" style="width: 100%;">
@@ -455,6 +471,8 @@
         'save-kinh-doanh': async () => {
             const data = {};
             KD_FIELDS.forEach(([k]) => { data[k] = document.getElementById(`kd-${k}`).value; });
+            data.ngan_hang = { ma_bin: document.getElementById('kd-ma_bin').value };
+            BANK_FIELDS.forEach(([k]) => { data.ngan_hang[k] = document.getElementById(`kd-${k}`).value; });
             data.goi = Array.from(document.querySelectorAll('#admin-kd-goi tbody tr')).map(tr => ({
                 ma: tr.dataset.ma,
                 ten: tr.querySelector('.kd-ten').value,

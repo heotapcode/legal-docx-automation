@@ -59,11 +59,26 @@ tin, rồi chọn **Nhờ nộp trọn gói** hoặc **Tự nộp: tải hồ s�
   cam kết, số Zalo).
 - Email báo khách mới được gửi tới địa chỉ đặt ở trang quản trị (cần cấu hình `SMTP_*`, xem bảng dưới).
 
+**Khách chọn Nhờ nộp trọn gói** (quyết định 14/11/2026):
+
+1. Chọn gói (gói hợp thủ tục đứng đầu, có giá và tiền cọc) và cách gửi hồ sơ đã ký: **scan / chụp gửi qua Zalo** (mặc
+   định) hoặc **gửi bản giấy qua bưu điện** tới địa chỉ nhận hồ sơ (phương án dự phòng).
+2. Tải hồ sơ. Khách được cấp **mã hồ sơ** `HS0001`… Màn hình sau khi tải hiện **mã QR VietQR** đặt cọc (mặc định 50% giá
+   gói, phần còn lại thu khi có kết quả): quét bằng ứng dụng ngân hàng là có sẵn số tiền và nội dung `HS0001 <số Zalo>`.
+   Gói "Báo giá theo hồ sơ" không có QR, khách nhắn Zalo để được báo giá.
+3. Tờ hướng dẫn trong file .zip ghi: ký bút mực xanh, không cần đóng dấu; ai ký văn bản nào; cách gửi hồ sơ đã ký; số
+   tiền cọc và nội dung chuyển khoản.
+
+Đối chiếu tiền về: nội dung chuyển khoản có mã hồ sơ, tìm mã đó ở cột **Hình thức, điểm, gói, đặt cọc** rồi đổi trạng
+thái sang **Đã nhận cọc**. Mã QR tạo ngay trên máy chủ (thư viện `segno`), không gửi thông tin ra dịch vụ ngoài.
+
 Trang `#/admin` → **Khách tiềm năng**: danh sách khách mới nhất trước, số Zalo bấm được; đổi trạng thái (Mới → Đã nhắn →
-Đã báo giá → Đã mua → Đã ký kế toán / Không mua), ghi doanh thu, ghi chú; **Xóa** khi khách yêu cầu xóa dữ liệu.
+Đã báo giá → Đã nhận cọc → Đã mua → Đã ký kế toán / Không mua), ghi doanh thu, ghi chú; **Xóa** khi khách yêu cầu xóa dữ liệu.
 
 Trang `#/admin` → **Cấu hình dùng chung** → **Kinh doanh**: tên đơn vị, số Zalo, email nhận báo, câu cam kết, thời gian
-lưu thông tin khách, bảng giá các gói. Giá trị mặc định ở `data/kinh_doanh.json`.
+lưu thông tin khách, tỷ lệ đặt cọc, địa chỉ nhận hồ sơ giấy, **tài khoản nhận cọc** (ngân hàng, số tài khoản, chủ tài
+khoản in hoa không dấu), bảng giá các gói. Giá trị mặc định ở `data/kinh_doanh.json` (tài khoản ở đó là **tài khoản demo**
+`0000000000`: phải sửa thành tài khoản thật trước khi chạy thật).
 
 Gắn nguồn cho link quảng cáo hoặc đối tác: thêm `?utm_source=google&utm_campaign=mau-ho-so` hoặc `?ref=<mã đối tác>`
 vào đường dẫn trang; nguồn hiện ở cột **Nguồn** của danh sách khách và trong email báo.

@@ -92,7 +92,9 @@ def generate_docs(req: DocGenRequest, background: BackgroundTasks):
             "Content-Disposition": f'attachment; filename="Ho_So_{ascii_name}.zip"; filename*=UTF-8\'\'{utf8_encoded}'
         }
         if lead is not None:
-            headers["X-Lead-Package"] = rec["package"]  # gói nên chào: màn hình sau khi tải đưa lên đầu
+            headers["X-Lead-Package"] = rec["package"]  # gói nên chào / khách chọn: màn hình sau khi tải đưa lên đầu
+            if rec.get("pay_code"):
+                headers["X-Lead-Code"] = rec["pay_code"]  # mã hồ sơ: lấy mã QR đặt cọc
         return Response(content=zip_bytes, media_type="application/zip", headers=headers)
     except (ValueError, FileNotFoundError) as e:
         raise HTTPException(status_code=400, detail=str(e))

@@ -104,6 +104,14 @@ MIGRATIONS = [
     CREATE INDEX idx_leads_created ON leads(created_at);
     CREATE INDEX idx_leads_phone ON leads(phone);
     """,
+    # 5: khách nhờ nộp: cách gửi hồ sơ đã ký, giá gói, tiền cọc, mã chuyển khoản
+    """
+    ALTER TABLE leads ADD COLUMN delivery TEXT;
+    ALTER TABLE leads ADD COLUMN amount INTEGER NOT NULL DEFAULT 0;
+    ALTER TABLE leads ADD COLUMN deposit INTEGER NOT NULL DEFAULT 0;
+    ALTER TABLE leads ADD COLUMN pay_code TEXT;
+    CREATE INDEX idx_leads_pay_code ON leads(pay_code);
+    """,
 ]
 
 _init_lock = threading.Lock()
