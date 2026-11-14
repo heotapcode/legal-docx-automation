@@ -9,3 +9,4 @@ python-dotenv>=1.0.0
 zxing-cpp>=3.0
 pillow>=10.0
 tesserocr>=2.8
+segno>=1.6

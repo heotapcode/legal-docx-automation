@@ -1024,7 +1024,8 @@ window.generateDocuments = async function() {
 
     // Bước để lại số Zalo trước khi tải (static/js/engine/lead_gate.js)
     const lead = window.LeadGate
-        ? await window.LeadGate.ask(window.wizardState.template.display_name || window.wizardState.template.name)
+        ? await window.LeadGate.ask(window.wizardState.template.display_name || window.wizardState.template.name,
+                                    '', window.wizardState.template.id)
         : null;
     if (window.LeadGate && !lead) return;
 
@@ -1079,7 +1080,7 @@ window.generateDocuments = async function() {
 
         if (loadingEl) loadingEl.style.display = 'none';
         if (successEl) successEl.style.display = 'block';
-        if (window.LeadGate) window.LeadGate.thankYou(lead, response.headers.get('X-Lead-Package'));
+        if (window.LeadGate) window.LeadGate.thankYou(lead, response.headers.get('X-Lead-Package'), response.headers.get('X-Lead-Code'));
     } catch (err) {
         console.error('Lỗi tải hồ sơ:', err);
         alert('Có lỗi xảy ra khi tạo hồ sơ: ' + err.message);

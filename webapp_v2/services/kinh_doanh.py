@@ -59,6 +59,24 @@ def validate(data: Dict[str, Any]) -> Dict[str, Any]:
     if {g["ma"] for g in goi} != known:
         raise ValueError("Phải có đủ các gói: " + ", ".join(sorted(known)))
     out["goi"] = goi
+    try:
+        out["ty_le_coc"] = int(data.get("ty_le_coc") if data.get("ty_le_coc") not in (None, "") else 50)
+    except (TypeError, ValueError):
+        raise ValueError("Tỷ lệ đặt cọc phải là số phần trăm")
+    if not 0 <= out["ty_le_coc"] <= 100:
+        raise ValueError("Tỷ lệ đặt cọc từ 0 đến 100%")
+    out["dia_chi_nhan_ho_so"] = " ".join(str(data.get("dia_chi_nhan_ho_so") or "").split())
+    nh = data.get("ngan_hang") or {}
+    from services import vietqr
+    bank = {"ma_bin": str(nh.get("ma_bin") or ""), "so_tk": re.sub(r"\s", "", str(nh.get("so_tk") or "")),
+            "chu_tk": vietqr.ascii_content(str(nh.get("chu_tk") or "")).upper()}
+    if bank["ma_bin"] not in vietqr.BANKS:
+        raise ValueError("Chọn ngân hàng nhận tiền")
+    if not re.fullmatch(r"[0-9A-Za-z]{4,19}", bank["so_tk"]):
+        raise ValueError("Số tài khoản gồm 4–19 chữ số")
+    if not bank["chu_tk"]:
+        raise ValueError("Thiếu tên chủ tài khoản")
+    out["ngan_hang"] = bank
     return out
 
 
@@ -87,8 +105,29 @@ def loi_dong_y(cfg: Dict[str, Any] = None) -> str:
             f"xóa bất cứ lúc nào qua Zalo {cfg['zalo']}.")
 
 
-def public_view() -> Dict[str, Any]:
+def gia_so(g: Dict[str, str]) -> int:
+    """Giá gói thành số đồng ("3.200.000đ" -> 3200000); 0 khi giá là "Báo giá theo hồ sơ"."""
+    digits = re.sub(r"[^\d]", "", str(g.get("gia") or ""))
+    return int(digits) if digits else 0
+
+
+def tien_coc(amount: int, cfg: Dict[str, Any] = None) -> int:
+    cfg = cfg or get()
+    pct = int(cfg.get("ty_le_coc", 50))
+    return int(round(amount * pct / 100 / 1000) * 1000)
+
+
+def public_view(template_id: str = "") -> Dict[str, Any]:
     """Phần được đưa ra trang công khai (không có email nhận báo)."""
+    from services import leads, vietqr
     cfg = get()
-    return {"ten_don_vi": cfg.get("ten_don_vi", ""), "zalo": cfg["zalo"], "cam_ket": cfg.get("cam_ket", ""),
-            "goi": cfg["goi"], "loi_dong_y": loi_dong_y(cfg)}
+    bank = cfg.get("ngan_hang") or {}
+    out = {"ten_don_vi": cfg.get("ten_don_vi", ""), "zalo": cfg["zalo"], "cam_ket": cfg.get("cam_ket", ""),
+           "goi": [dict(g, gia_so=gia_so(g)) for g in cfg["goi"]], "loi_dong_y": loi_dong_y(cfg),
+           "ty_le_coc": cfg.get("ty_le_coc", 50), "dia_chi_nhan_ho_so": cfg.get("dia_chi_nhan_ho_so", ""),
+           "ngan_hang": {"ten": vietqr.BANKS.get(bank.get("ma_bin"), ""), "so_tk": bank.get("so_tk", ""),
+                         "chu_tk": bank.get("chu_tk", "")}}
+    if template_id:
+        first, second, _ = leads.GROUPS[leads.classify(template_id)]
+        out["goi_goi_y"] = [m for m in (first, second) if m]
+    return out

@@ -5,20 +5,30 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from services import kinh_doanh, leads
 from services.auth import require_admin
+from services.rate_limit import limit
 
 public = APIRouter(prefix="/api/public", tags=["public"])
 admin = APIRouter(prefix="/api/admin", tags=["admin"])
 
 
 @public.get("/kinh-doanh")
-def get_public_kinh_doanh():
-    return kinh_doanh.public_view()
+def get_public_kinh_doanh(template_id: str = ""):
+    return kinh_doanh.public_view(template_id)
+
+
+@public.get("/thanh-toan/{pay_code}", dependencies=[Depends(limit("inquiry"))])
+def get_payment(pay_code: str, phone: str):
+    """Thông tin đặt cọc + mã QR cho khách nhờ nộp. Cần đúng mã hồ sơ và số Zalo đã để lại."""
+    info = leads.payment_info(pay_code, phone)
+    if not info:
+        raise HTTPException(status_code=404, detail="Không tìm thấy hồ sơ")
+    return info
 
 
 @admin.get("/leads")
 def list_leads(user: dict = Depends(require_admin)):
     return {"leads": leads.list_leads(), "statuses": leads.STATUSES, "roles": leads.ROLES,
-            "packages": {g["ma"]: g["ten"] for g in kinh_doanh.get()["goi"]}}
+            "packages": {g["ma"]: g["ten"] for g in kinh_doanh.get()["goi"]}, "delivery": leads.DELIVERY}
 
 
 @admin.patch("/leads/{lead_id}")
@@ -42,7 +52,8 @@ def delete_lead(lead_id: int, user: dict = Depends(require_admin)):
 
 @admin.get("/settings/kinh-doanh")
 def get_kinh_doanh(user: dict = Depends(require_admin)):
-    return {"value": kinh_doanh.get(), "default": kinh_doanh.defaults()}
+    from services import vietqr
+    return {"value": kinh_doanh.get(), "default": kinh_doanh.defaults(), "banks": vietqr.BANKS}
 
 
 @admin.put("/settings/kinh-doanh")
