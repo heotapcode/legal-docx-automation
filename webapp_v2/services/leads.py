@@ -159,12 +159,12 @@ def record(rec: Dict[str, Any]) -> int:
     with admin_db.connect() as conn:
         cur = conn.execute(
             "INSERT INTO leads(created_at, updated_at, name, phone, role, delegated, template_id, template_name,"
-            " company_name, members, score, package, source, consent_text, delivery, amount, deposit)"
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            " company_name, members, score, package, source, consent_text, delivery, amount, deposit, ref)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (now, now, rec["name"], rec["phone"], rec["role"], int(rec["delegated"]), rec["template_id"],
              rec["template_name"], rec["company_name"], rec["members"], rec["score"], rec["package"],
              json.dumps(rec["source"], ensure_ascii=False), kinh_doanh.loi_dong_y(), rec.get("delivery"),
-             rec.get("amount", 0), rec.get("deposit", 0)))
+             rec.get("amount", 0), rec.get("deposit", 0), (rec["source"].get("ref") or "").strip().lower() or None))
         lead_id = cur.lastrowid
         # Mã khách: dùng làm nội dung chuyển khoản để đối chiếu (HS0001, HS0002...)
         rec["pay_code"] = f"HS{lead_id:04d}"
@@ -255,6 +255,18 @@ def vnd(n: int) -> str:
 
 # ---------- Email báo khách mới ----------
 
+def _partner_line(ref: Optional[str]) -> List[str]:
+    if not ref:
+        return []
+    from services import doi_tac
+    try:
+        p = doi_tac.by_code(ref)
+    except Exception:  # CSDL quản trị chưa sẵn sàng: email vẫn gửi
+        p = None
+    return [f"Đối tác giới thiệu: {p['name']} ({p['code']}, hoa hồng {p['pct']}%)" if p
+            else f"Mã giới thiệu chưa có trong danh sách đối tác: {ref}"]
+
+
 def email_text(rec: Dict[str, Any], cfg: Dict[str, Any]) -> Tuple[str, str]:
     goi = kinh_doanh.goi_by_ma(cfg).get(rec["package"], {})
     hinh_thuc = "Nhờ nộp trọn gói" if rec["delegated"] else "Tự nộp (tải hồ sơ miễn phí)"
@@ -271,6 +283,7 @@ def email_text(rec: Dict[str, Any], cfg: Dict[str, Any]) -> Tuple[str, str]:
         f"{'Gói khách chọn' if rec['delegated'] else 'Gói nên chào'}: {goi.get('ten', rec['package'])} ({goi.get('gia', '')})",
         f"Điểm ưu tiên: {rec['score']}/100",
         f"Nguồn: {nguon}",
+        *_partner_line(src.get("ref")),
         "",
         "Mục tiêu: nhắn Zalo trong 5 phút, kèm một nhận xét cụ thể về hồ sơ của khách.",
     ]

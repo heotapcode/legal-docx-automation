@@ -898,3 +898,54 @@ def test_analytics_events_without_personal_data(page, base_url, tmp_path, monkey
     lead_ev = [ev for ev in events() if ev[1] == "generate_lead"][0][2]
     assert lead_ev == {"template_id": "tang-von-cong-ty-tnhh-1-tv", "hinh_thuc": "nho_nop", "goi": "thay_doi", "cach_gui": "scan"}
     assert "0901234567" not in str(events()) and "Thử" not in str(events())
+
+
+def test_partner_ref_kept_30_days(page, base_url):
+    """Khách mở link đối tác, hôm khác quay lại (phiên mới) vẫn gắn mã; quá 30 ngày thì bỏ."""
+    page.goto(f"{base_url}/?ref=KeToan-An")
+    assert page.evaluate("JSON.parse(sessionStorage.getItem('nac_source')).ref") == "KeToan-An"
+    page.evaluate("sessionStorage.clear()")
+    page.goto(f"{base_url}/app#/wizard")
+    page.wait_for_function("window.LeadGate")
+    assert page.evaluate("JSON.parse(sessionStorage.getItem('nac_source')).ref") == "ketoan-an"
+    page.evaluate("""() => { sessionStorage.clear();
+        localStorage.setItem('nac_ref', JSON.stringify({ref: 'cu', at: Date.now() - 31 * 24 * 3600 * 1000})); }""")
+    page.goto(f"{base_url}/")
+    assert page.evaluate("JSON.parse(sessionStorage.getItem('nac_source')).ref") is None
+    assert page.evaluate("localStorage.getItem('nac_ref')") is None
+
+
+def test_admin_partners_page(page, base_url, tmp_path, monkeypatch):
+    """Trang quản trị Đối tác: thêm đối tác, link riêng, số khách, tên có ký tự HTML được escape."""
+    import config
+    from services import auth, leads
+
+    monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
+    auth.create_user("quantri", "mat-khau-thu-nghiem-123")
+    rec = leads.build(leads.parse_lead({"name": "Nguyễn Văn Thử", "phone": "0901234567", "consent": True,
+                                        "source": {"ref": "ketoan-an"}}),
+                      "tang-von-cong-ty-tnhh-1-tv", "Tăng vốn công ty TNHH 1 TV", {})
+    leads.record(rec)
+    page.goto(f"{base_url}/app#/admin")
+    page.wait_for_selector("#admin-login-form")
+    page.fill("#admin-username", "quantri")
+    page.fill("#admin-password", "mat-khau-thu-nghiem-123")
+    page.click("#admin-login-form button[type=submit]")
+    page.click("#admin-open-partners")
+    page.wait_for_selector("#admin-partners-unknown")
+    page.click('[data-action="prefill-partner"][data-code="ketoan-an"]')
+    page.wait_for_function("document.getElementById('pt-code').value === 'ketoan-an'")
+    page.fill("#pt-name", XSS)
+    page.fill("#pt-pct", "10")
+    page.click('[data-action="create-partner"]')
+    page.wait_for_selector("#admin-partners")
+    row = page.locator("#admin-partners tbody tr").first
+    text = row.inner_text()
+    assert XSS in text and "1 khách" in text and f"{base_url}/?ref=ketoan-an" in text
+    assert page.evaluate("window.__xss || 0") == 0
+    assert page.locator("#admin-partners-unknown").count() == 0
+    # Danh sách khách hiện tên đối tác thay cho mã
+    page.click('[data-action="back-templates"]')
+    page.click("#admin-open-leads")
+    page.wait_for_selector("#admin-leads")
+    assert "Đối tác:" in page.locator("#admin-leads tbody tr").first.inner_text()

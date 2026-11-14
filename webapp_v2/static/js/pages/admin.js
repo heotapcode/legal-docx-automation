@@ -145,6 +145,8 @@
                 <p class="text-sm text-secondary mb-2">Khách để lại số Zalo trước khi tải hồ sơ. Mục tiêu: nhắn trong 5 phút.</p>
                 <button type="button" class="btn btn-primary btn-sm" data-action="open-leads" id="admin-open-leads">
                     Mở danh sách khách</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-action="open-partners" id="admin-open-partners">
+                    Đối tác giới thiệu, hoa hồng</button>
             </div>`);
     }
 
@@ -160,14 +162,15 @@
     async function showLeads(note) {
         const r = await adminFetch('/api/admin/leads');
         if (!r.ok) return failed(r);
-        const { leads, statuses, roles, packages, delivery } = r.body;
+        const { leads, statuses, roles, packages, delivery, partners } = r.body;
         const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
         const thisWeek = leads.filter(l => new Date(l.created_at).getTime() >= weekAgo).length;
         const bought = leads.filter(l => ['da_mua', 'ke_toan'].includes(l.status));
         const revenue = leads.reduce((a, l) => a + (Number(l.revenue) || 0), 0);
         const rows = leads.map(l => {
             const src = Object.entries(l.source || {}).filter(([k]) => k !== 'landing')
-                .map(([k, v]) => `${e(k)}: ${e(v)}`).join('<br>') || 'trực tiếp';
+                .map(([k, v]) => k === 'ref' && (partners || {})[l.ref]
+                    ? `Đối tác: <b>${e(partners[l.ref])}</b>` : `${e(k)}: ${e(v)}`).join('<br>') || 'trực tiếp';
             return `
             <tr data-lead="${e(l.id)}">
                 <td class="text-xs">${e(fmtTime(l.created_at))}</td>
@@ -199,6 +202,65 @@
                         <th>Nguồn</th><th>Trạng thái</th><th></th></tr></thead>
                     <tbody>${rows}</tbody>
                 </table></div>` : '<p class="text-secondary">Chưa có khách nào để lại thông tin.</p>'}
+            </div>`;
+        if (note) message(note, false);
+    }
+
+    // ---------- Đối tác giới thiệu (services/doi_tac.py) ----------
+
+    const partnerLink = code => `${window.location.origin}/?ref=${encodeURIComponent(code)}`;
+
+    async function showPartners(note, prefill) {
+        const r = await adminFetch('/api/admin/partners');
+        if (!r.ok) return failed(r);
+        const { partners, unknown } = r.body;
+        const sum = k => partners.reduce((a, p) => a + (Number(p[k]) || 0), 0);
+        const rows = partners.map(p => `
+            <tr data-partner="${e(p.id)}" class="${p.active ? '' : 'text-secondary'}">
+                <td><b>${e(p.name)}</b><div class="text-xs">Mã <b>${e(p.code)}</b>${p.phone ? ` · <a href="https://zalo.me/${e(p.phone)}" target="_blank" rel="noopener" style="color: var(--accent-cyan);">${e(p.phone)}</a>` : ''}</div>
+                    <div class="text-xs text-secondary" style="word-break: break-all;">${e(partnerLink(p.code))}</div>
+                    <button type="button" class="btn btn-secondary btn-sm mt-1" data-action="copy-partner-link" data-code="${e(p.code)}">Chép link</button></td>
+                <td class="text-sm">${e(p.so_khach)} khách<br>${e(p.nho_nop)} nhờ nộp<br>${e(p.da_mua)} đã mua</td>
+                <td class="text-sm">Doanh thu <b>${e(money(p.doanh_thu))}đ</b><br>Hoa hồng <b>${e(money(p.hoa_hong))}đ</b>
+                    <br>Còn phải trả <b class="partner-owed">${e(money(p.con_no))}đ</b></td>
+                <td><label class="text-xs">Hoa hồng (%)</label><input class="form-control partner-pct" value="${e(p.pct)}">
+                    <label class="text-xs">Đã trả (đ)</label><input class="form-control partner-paid" value="${p.paid ? e(money(p.paid)) : ''}"></td>
+                <td><input class="form-control partner-note" placeholder="Ghi chú" value="${e(p.note)}">
+                    <label class="text-xs"><input type="checkbox" class="partner-active" ${p.active ? 'checked' : ''}> Đang hợp tác</label></td>
+                <td><button type="button" class="btn btn-primary btn-sm" data-action="save-partner" data-id="${e(p.id)}">Lưu</button></td>
+            </tr>`).join('');
+        const pf = prefill || {};
+        root().innerHTML = `
+            <div class="card">
+                ${header('Đối tác giới thiệu', 'back-templates')}
+                <p class="text-sm mb-4" id="admin-partners-summary">${e(partners.length)} đối tác · ${e(sum('so_khach'))} khách
+                    · doanh thu ${e(money(sum('doanh_thu')))}đ · hoa hồng còn phải trả <b>${e(money(sum('con_no')))}đ</b></p>
+                <p class="text-sm text-secondary mb-4">Gửi cho đối tác link riêng. Khách mở link trong 30 ngày rồi tải hồ sơ
+                    thì được tính cho đối tác. Hoa hồng = tỷ lệ % × doanh thu anh ghi ở trang Khách tiềm năng.</p>
+                ${partners.length ? `
+                <div style="overflow-x: auto;">
+                <table class="admin-table" id="admin-partners" style="width: 100%;">
+                    <thead><tr><th>Đối tác, link</th><th>Khách</th><th>Tiền</th><th>Hoa hồng, đã trả</th><th>Ghi chú</th><th></th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table></div>` : '<p class="text-secondary">Chưa có đối tác nào.</p>'}
+                ${unknown.length ? `<p class="text-sm mt-4" id="admin-partners-unknown">Mã chưa có trong danh sách: ${unknown.map(u =>
+                    `<button type="button" class="btn btn-secondary btn-sm" data-action="prefill-partner" data-code="${e(u.code)}">${e(u.code)} (${e(u.so_khach)} khách)</button>`).join(' ')}</p>` : ''}
+            </div>
+            <div class="card mt-4">
+                <h2 class="text-lg font-bold mb-2">Thêm đối tác</h2>
+                <form id="admin-partner-form">
+                    <div class="form-group"><label class="form-label" for="pt-code">Mã (dùng trong link, vd ketoan-an)</label>
+                        <input id="pt-code" class="form-control" value="${e(pf.code || '')}"></div>
+                    <div class="form-group"><label class="form-label" for="pt-name">Tên đối tác</label>
+                        <input id="pt-name" class="form-control"></div>
+                    <div class="form-group"><label class="form-label" for="pt-phone">Số điện thoại / Zalo đối tác</label>
+                        <input id="pt-phone" class="form-control"></div>
+                    <div class="form-group"><label class="form-label" for="pt-pct">Hoa hồng (% doanh thu)</label>
+                        <input id="pt-pct" class="form-control" placeholder="vd 10"></div>
+                    <div class="form-group"><label class="form-label" for="pt-note">Ghi chú</label>
+                        <input id="pt-note" class="form-control"></div>
+                    <button type="button" class="btn btn-primary" data-action="create-partner">Thêm</button>
+                </form>
             </div>`;
         if (note) message(note, false);
     }
@@ -467,6 +529,30 @@
             if (!window.confirm('Xóa hẳn thông tin khách này? Dùng khi khách yêu cầu xóa dữ liệu. Không khôi phục được.')) return;
             const r = await adminFetch(`/api/admin/leads/${encodeURIComponent(el.dataset.id)}`, { method: 'DELETE' });
             if (r.ok) showLeads('Đã xóa thông tin khách'); else failed(r);
+        },
+        'open-partners': () => showPartners(),
+        'prefill-partner': el => showPartners('', { code: el.dataset.code }),
+        'copy-partner-link': async el => {
+            const link = partnerLink(el.dataset.code);
+            try { await navigator.clipboard.writeText(link); message('Đã chép link: ' + link, false); }
+            catch (err) { window.prompt('Chép link này gửi cho đối tác:', link); }
+        },
+        'create-partner': async () => {
+            const v = id => document.getElementById(id).value;
+            const r = await adminFetch('/api/admin/partners', jsonBody('POST', {
+                code: v('pt-code'), name: v('pt-name'), phone: v('pt-phone'), pct: v('pt-pct'), note: v('pt-note'),
+            }));
+            if (r.ok) showPartners('Đã thêm đối tác'); else failed(r);
+        },
+        'save-partner': async el => {
+            const row = el.closest('tr');
+            const r = await adminFetch(`/api/admin/partners/${encodeURIComponent(el.dataset.id)}`, jsonBody('PATCH', {
+                pct: row.querySelector('.partner-pct').value,
+                paid: row.querySelector('.partner-paid').value,
+                note: row.querySelector('.partner-note').value,
+                active: row.querySelector('.partner-active').checked,
+            }));
+            if (r.ok) showPartners('Đã lưu'); else failed(r);
         },
         'open-kinh-doanh': () => showKinhDoanh(),
         'save-kinh-doanh': async () => {
