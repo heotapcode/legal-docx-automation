@@ -1,9 +1,9 @@
 import os
 import re
 from pathlib import Path
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -62,6 +62,12 @@ app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 _ASSET_RE = re.compile(r'(src|href)="(/static/[^"?]+)(?:\?[^"]*)?"')
 
 
+def _stamp(m):
+    f = static_dir / m.group(2)[len("/static/"):]
+    version = int(f.stat().st_mtime) if f.is_file() else 0
+    return f'{m.group(1)}="{m.group(2)}?v={version}"'
+
+
 def render_index() -> str:
     """index.html với mỗi file JS/CSS nội bộ gắn ?v=<thời điểm sửa file>.
 
@@ -69,19 +75,38 @@ def render_index() -> str:
     trong bộ nhớ đệm sau khi cập nhật máy chủ (không cần tự tăng số phiên bản trong index.html).
     """
     html = (static_dir / "index.html").read_text(encoding="utf-8")
+    from services import kinh_doanh, trang_chu
+    ga = trang_chu.ga_snippet(kinh_doanh.get().get("ga4_id", ""), spa=True)
+    if ga:
+        html = html.replace("</head>", ga + "\n</head>", 1)
 
-    def stamp(m):
-        f = static_dir / m.group(2)[len("/static/"):]
-        version = int(f.stat().st_mtime) if f.is_file() else 0
-        return f'{m.group(1)}="{m.group(2)}?v={version}"'
-
-    return _ASSET_RE.sub(stamp, html)
+    return _ASSET_RE.sub(_stamp, html)
 
 
-# Serve index.html (không lưu đệm trang khung; các file tĩnh có ?v= riêng)
+# Trang giới thiệu dựng sẵn ở máy chủ (Google đọc được); ứng dụng tạo hồ sơ / quản trị ở /app
 @app.get("/")
+def serve_landing(request: Request):
+    from services import trang_chu
+    html = _ASSET_RE.sub(_stamp, trang_chu.render(str(request.base_url)))
+    return HTMLResponse(html, headers={"Cache-Control": "no-cache"})
+
+
+# Ứng dụng (không lưu đệm trang khung; các file tĩnh có ?v= riêng)
+@app.get("/app")
 async def serve_index():
     return HTMLResponse(render_index(), headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/robots.txt")
+def robots(request: Request):
+    from services import trang_chu
+    return PlainTextResponse(trang_chu.robots(str(request.base_url)))
+
+
+@app.get("/sitemap.xml")
+def sitemap(request: Request):
+    from services import trang_chu
+    return Response(trang_chu.sitemap(str(request.base_url)), media_type="application/xml")
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host=HOST, port=PORT, reload=True)

@@ -3,7 +3,7 @@ function renderServices() {
         <!-- Navbar -->
         <nav class="navbar scrolled">
             <div class="container navbar-container">
-                <a href="#/" class="navbar-brand">
+                <a href="/" class="navbar-brand">
                     <i class="fa-solid fa-building text-gradient"></i> NAC
                 </a>
                 <div class="navbar-menu">
