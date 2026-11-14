@@ -84,7 +84,7 @@ def open_template(page, base_url, name):
 
 
 def test_escape_html_helper(page, base_url):
-    page.goto(base_url)
+    page.goto(f"{base_url}/app")
     assert page.evaluate("escapeHtml('<a href=\"x\">&\\'</a>')") == "&lt;a href=&quot;x&quot;&gt;&amp;&#39;&lt;/a&gt;"
     assert page.evaluate("escapeHtml(0)") == "0"
     assert page.evaluate("escapeHtml(null)") == ""
@@ -293,7 +293,7 @@ def test_browser_and_api_report_same_errors(page, base_url):
 
     data = {"ten_cong_ty_vn": "CÔNG TY A", "thanh_vien": [{"ho_ten": "A", "von_gop": "1", "ty_le": ""}]}
     name = "Thành lập mới công ty TNHH 2 TV"
-    page.goto(base_url)
+    page.goto(f"{base_url}/app")
     page.wait_for_function("window.SchemaEngine && typeof SchemaEngine.validate === 'function'")
     schema = _json.loads(urllib.request.urlopen(f"{base_url}/api/templates/{urllib.parse.quote(name)}/schema").read())
     in_browser = page.evaluate("([s, d]) => SchemaEngine.validate(s, d).map(e => [e.key, e.code, e.index ?? -1])",

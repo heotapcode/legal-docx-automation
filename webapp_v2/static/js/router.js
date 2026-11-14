@@ -22,7 +22,8 @@ function initRouter() {
 function handleRoute() {
     const app = document.getElementById('app');
     // #/wizard?t=<id bộ mẫu>: phần sau dấu ? là tham số, không thuộc tên trang
-    const path = window.location.hash.replace('#', '').split('?')[0] || '/';
+    // /app (không có #) mở thẳng form tạo hồ sơ; #/ là trang giới thiệu
+    const path = window.location.hash ? (window.location.hash.replace('#', '').split('?')[0] || '/') : '/wizard';
 
     const renderer = routes[path] || routes['/'];
     app.innerHTML = renderer();
