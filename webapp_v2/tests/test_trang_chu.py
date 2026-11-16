@@ -97,3 +97,49 @@ def test_analytics_id_from_admin_settings(admin):
     app = admin.get("/app").text
     assert 'window.NAC_GA4 = "G-ABC123XYZ"; window.NAC_SPA = true;' in app
     assert app.index("NAC_GA4") < app.index("/static/js/track.js")
+
+
+@pytest.mark.parametrize("path, must, must_not", [
+    ("/thanh-lap-cong-ty", ["Thành lập mới công ty TNHH 1 TV", "Thành lập hộ kinh doanh", "Gói Khởi nghiệp",
+                            "Thành lập công ty cần chuẩn bị gì?"],
+     ["Tăng vốn công ty TNHH 1 TV", "Thay đổi đăng ký doanh nghiệp</b>"]),
+    ("/thay-doi-dang-ky-kinh-doanh", ["Tăng vốn công ty TNHH 1 TV", "Thay đổi nội dung ĐKKD", "Chuyển nhượng",
+                                      "Thay đổi đăng ký doanh nghiệp", "10 ngày"],
+     ["Thành lập mới công ty TNHH 1 TV", "Gói Khởi nghiệp"]),
+])
+def test_ads_landing_pages(client, path, must, must_not):
+    r = client.get(path)
+    assert r.status_code == 200
+    html = r.text
+    for text in must:
+        assert text in html, text
+    for text in must_not:
+        assert text not in html, text
+    assert f'<link rel="canonical" href="http://testserver{path}">' in html
+    assert f'data-trang="{path[1:]}"' in html
+    m = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+    assert json.loads(m.group(1))
+    assert "<h1>" in html and "/app#/wizard?t=" in html
+    assert f"<loc>http://testserver{path}</loc>" in client.get("/sitemap.xml").text
+
+
+def test_google_ads_settings_and_tags(admin):
+    cfg = admin.get("/api/admin/settings/kinh-doanh").json()["value"]
+    for bad in [dict(cfg, google_ads_id="123456789"), dict(cfg, google_ads_id="AW-12"),
+                dict(cfg, google_ads_id="AW-123456789", google_ads_nhan_lead="có dấu cách!"),
+                dict(cfg, google_ads_id="", google_ads_nhan_lead="AbCdEf123")]:
+        assert admin.put("/api/admin/settings/kinh-doanh", json=bad, headers=CSRF).status_code == 400, bad
+    ok = dict(cfg, google_ads_id=" aw-123456789 ", google_ads_nhan_lead="AbC-dEf_123")
+    saved = admin.put("/api/admin/settings/kinh-doanh", json=ok, headers=CSRF).json()["value"]
+    assert (saved["google_ads_id"], saved["google_ads_nhan_lead"]) == ("AW-123456789", "AbC-dEf_123")
+    for path in ("/", "/thanh-lap-cong-ty", "/app"):
+        html = admin.get(path).text
+        assert 'window.NAC_ADS = "AW-123456789"; window.NAC_ADS_LEAD = "AbC-dEf_123";' in html, path
+        assert "NAC_GA4" not in html
+
+
+def test_gclid_kept_with_lead():
+    from services import leads
+    lead = leads.parse_lead({"name": "Nguyễn Văn Thử", "phone": "0901234567", "consent": True,
+                             "source": {"gclid": "Cj0KCQ-thu", "landing": "/thanh-lap-cong-ty"}})
+    assert lead["source"] == {"gclid": "Cj0KCQ-thu", "landing": "/thanh-lap-cong-ty"}

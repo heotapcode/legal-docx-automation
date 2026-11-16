@@ -169,8 +169,8 @@
         const revenue = leads.reduce((a, l) => a + (Number(l.revenue) || 0), 0);
         const rows = leads.map(l => {
             const src = Object.entries(l.source || {}).filter(([k]) => k !== 'landing')
-                .map(([k, v]) => k === 'ref' && (partners || {})[l.ref]
-                    ? `Đối tác: <b>${e(partners[l.ref])}</b>` : `${e(k)}: ${e(v)}`).join('<br>') || 'trực tiếp';
+                .map(([k, v]) => k === 'ref' && (partners || {})[l.ref] ? `Đối tác: <b>${e(partners[l.ref])}</b>`
+                    : k === 'gclid' ? 'Quảng cáo Google' : `${e(k)}: ${e(v)}`).join('<br>') || 'trực tiếp';
             return `
             <tr data-lead="${e(l.id)}">
                 <td class="text-xs">${e(fmtTime(l.created_at))}</td>
@@ -274,6 +274,8 @@
         ['ty_le_coc', 'Tỷ lệ đặt cọc khi khách nhờ nộp (%)'],
         ['dia_chi_nhan_ho_so', 'Địa chỉ nhận hồ sơ giấy (khách gửi bưu điện)'],
         ['ga4_id', 'Mã Google Analytics 4 (G-XXXXXXXXXX, để trống nếu chưa dùng)'],
+        ['google_ads_id', 'Mã Google Ads (AW-123456789, để trống nếu chưa chạy quảng cáo)'],
+        ['google_ads_nhan_lead', 'Nhãn chuyển đổi "khách để lại Zalo" (phần sau dấu / trong AW-123456789/nhãn)'],
     ];
     const BANK_FIELDS = [['so_tk', 'Số tài khoản'], ['chu_tk', 'Chủ tài khoản (chữ in hoa không dấu)']];
 

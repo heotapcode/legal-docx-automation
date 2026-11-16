@@ -30,7 +30,7 @@ STATUSES = {
     "ke_toan": "Đã ký kế toán", "khong_mua": "Không mua",
 }
 COVER_NAME = "00. Hướng dẫn nộp hồ sơ và bảng giá dịch vụ.docx"
-SOURCE_KEYS = ("utm_source", "utm_medium", "utm_campaign", "utm_term", "ref", "landing", "referrer")
+SOURCE_KEYS = ("utm_source", "utm_medium", "utm_campaign", "utm_term", "ref", "gclid", "landing", "referrer")
 
 # Nhóm thủ tục -> (gói nên chào, gói thứ hai, điểm cơ sở)
 GROUPS = {

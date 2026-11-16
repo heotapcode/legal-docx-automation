@@ -1,5 +1,5 @@
 """Thông tin kinh doanh dùng cho phễu khách: số Zalo, email nhận báo khách mới, bảng giá các gói, lời cam kết,
-tài khoản nhận cọc, mã Google Analytics 4.
+tài khoản nhận cọc, mã Google Analytics 4 và Google Ads.
 
 Giá trị mặc định ở data/kinh_doanh.json; trang quản trị lưu giá trị sửa vào bảng `settings` của CSDL quản trị
 (cùng cách với services/uy_quyen.py).
@@ -82,6 +82,15 @@ def validate(data: Dict[str, Any]) -> Dict[str, Any]:
     if ga and not re.fullmatch(r"G-[A-Z0-9]{4,15}", ga):
         raise ValueError("Mã Google Analytics 4 có dạng G-XXXXXXXXXX")
     out["ga4_id"] = ga
+    ads = re.sub(r"\s", "", str(data.get("google_ads_id") or "")).upper()
+    if ads and not re.fullmatch(r"AW-\d{6,15}", ads):
+        raise ValueError("Mã Google Ads có dạng AW-123456789")
+    label = re.sub(r"\s", "", str(data.get("google_ads_nhan_lead") or ""))
+    if label and not re.fullmatch(r"[A-Za-z0-9_-]{6,40}", label):
+        raise ValueError("Nhãn chuyển đổi Google Ads gồm chữ, số, dấu gạch (phần sau dấu / trong AW-.../nhãn)")
+    if label and not ads:
+        raise ValueError("Có nhãn chuyển đổi thì phải có mã Google Ads AW-...")
+    out["google_ads_id"], out["google_ads_nhan_lead"] = ads, label
     return out
 
 
