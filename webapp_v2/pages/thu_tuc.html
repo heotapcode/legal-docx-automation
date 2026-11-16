@@ -1,0 +1,98 @@
+{% include "_dau.html" %}
+<main>
+<div class="wrap"><p class="crumbs"><a href="/">Trang chủ</a> › <a href="/#thu-tuc">Thủ tục</a> › {{ tt.category }}</p></div>
+<div class="hero" style="padding-top: 18px;">
+    <div class="wrap">
+        <h1>{{ page.h1[0] }}<em>{{ page.h1[1] }}</em>{{ page.h1[2] }}</h1>
+        <p class="lead">{{ page.lead }}</p>
+        <div class="cta-row">
+            <a class="btn btn-main" href="/app#/wizard?t={{ tt.id | urlencode }}" id="cta-hero" data-proc="{{ tt.id }}">Tạo hồ sơ miễn phí</a>
+            <a class="btn btn-ghost" href="{{ zalo_url }}" target="_blank" rel="noopener" data-track="thu-tuc">Nhắn Zalo {{ cfg.zalo }}</a>
+        </div>
+        <ul class="facts">
+            <li>{{ docs | length }} văn bản, file Word sửa được</li>
+            <li>Ký mực xanh, không cần đóng dấu</li>
+            <li>Không lưu số căn cước của bạn</li>
+        </ul>
+    </div>
+</div>
+
+<section class="alt" id="ho-so">
+    <div class="wrap two">
+        <div>
+            <h2>Bộ hồ sơ gồm</h2>
+            <p class="sub">Tải về là file .zip, kèm tờ hướng dẫn ai ký văn bản nào và các bước nộp.</p>
+            <ol class="docs" id="ds-van-ban">
+                {% for d in docs %}
+                <li>{{ d.ten }}{% if d.note %} <span class="note">({{ d.note }})</span>{% endif %}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div>
+            <h2>Thông tin cần chuẩn bị</h2>
+            <p class="sub">Form chia thành các phần sau; chụp căn cước để tự điền thông tin cá nhân.</p>
+            <ol class="docs" id="ds-thong-tin">
+                {% for b in buoc_nhap %}<li>{{ b }}</li>{% endfor %}
+                {% if tt.has_nganh %}<li>Ngành nghề kinh doanh (tra mã ngành theo mô tả)</li>{% endif %}
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section id="cac-buoc">
+    <div class="wrap">
+        <h2>Sau khi có bộ hồ sơ</h2>
+        <ol class="steps">
+            {% for s in next_steps %}<li>{{ s }}</li>{% endfor %}
+        </ol>
+        <p class="sub" style="margin-top: 14px;">Không muốn tự làm? Chọn <b>Nhờ nộp trọn gói</b> ở bước tải hồ sơ.</p>
+    </div>
+</section>
+
+<section class="alt" id="bang-gia">
+    <div class="wrap">
+        <h2>Nộp hộ trọn gói</h2>
+        <p class="sub">Đặt cọc {{ cfg.ty_le_coc }}% bằng mã QR, phần còn lại thanh toán khi có kết quả.</p>
+        <table class="prices" id="bang-gia-goi">
+            <thead><tr><th>Gói</th><th>Giá</th><th>Gồm</th></tr></thead>
+            <tbody>
+            {% for g in goi %}
+                <tr>
+                    <td><b>{{ g.ten }}</b>
+                        <div class="mota">{% if g.coc %}Đặt cọc {{ vnd(g.coc) }}{% else %}Báo giá qua Zalo{% endif %}</div></td>
+                    <td class="gia">{{ g.gia }}</td>
+                    <td class="mota mota-col">{{ g.mo_ta }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if cfg.cam_ket %}<div class="promise">{{ cfg.cam_ket }}</div>{% endif %}
+        <div class="cta-row" style="margin-top: 22px;">
+            <a class="btn btn-main" href="/app#/wizard?t={{ tt.id | urlencode }}" id="cta-final" data-proc="{{ tt.id }}">Tạo hồ sơ {{ tt.display_name }}</a>
+        </div>
+    </div>
+</section>
+
+<section id="hoi-dap">
+    <div class="wrap">
+        <h2>Câu hỏi thường gặp</h2>
+        <div style="margin-top: 18px;">
+        {% for f in faq %}
+            <details{% if loop.first %} open{% endif %}><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>
+        {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% if lien_quan %}
+<section class="alt" id="thu-tuc">
+    <div class="wrap">
+        <h2>Thủ tục cùng nhóm</h2>
+        <ul class="proc-list" style="margin-top: 14px;">
+            {% for t in lien_quan %}<li><a href="/thu-tuc/{{ t.id | urlencode }}">{{ t.display_name }}</a></li>{% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}
+</main>
+{% include "_cuoi.html" %}

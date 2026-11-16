@@ -106,6 +106,19 @@ khoản in hoa không dấu), bảng giá các gói. Giá trị mặc định �
   Trong Google Analytics: **Quản trị → Sự kiện**, đánh dấu `generate_lead` (và `contact_zalo`) là **sự kiện chính** để
   đếm chuyển đổi; xem phễu ở **Khám phá → Khám phá phễu** với các bước `page_view → begin_form → generate_lead`.
 
+### Trang riêng từng thủ tục (16/11/2026)
+
+Mỗi bộ mẫu có một trang `/thu-tuc/<mã bộ mẫu>` (vd `/thu-tuc/thanh-lap-moi-cong-ty-tnhh-2-tv`), tự dựng từ `_schema.json`,
+có trong `sitemap.xml`; trang chủ dẫn tới các trang này. Nội dung:
+
+- **Bộ hồ sơ gồm:** tên các văn bản lấy từ tên file mẫu (bỏ số thứ tự, `.docx`, đuôi số; gộp tên trùng). Văn bản có điều
+  kiện ghi "tùy trường hợp", văn bản lặp theo người ghi "mỗi người một bản". **Đổi tên file mẫu là đổi tên trên trang.**
+- **Thông tin cần chuẩn bị:** tên các bước của form (`steps[].title`), thêm "Ngành nghề kinh doanh" nếu có bước chọn ngành.
+- **Sau khi có bộ hồ sơ:** cùng các bước trong tờ hướng dẫn đầu file .zip (`services/leads.NEXT_STEPS`, theo nhóm thủ tục).
+- Gói nộp hộ hợp nhóm thủ tục (`leads.GROUPS`), hỏi đáp chung, các thủ tục cùng nhóm.
+
+Bộ mẫu mới thêm hoặc xuất bản từ trang quản trị có trang ngay, không cần sửa gì.
+
 ### Trang đích quảng cáo và Google Ads (16/11/2026)
 
 Hai trang riêng cho 2 nhóm từ khóa (cùng khung trang giới thiệu, chỉ hiện thủ tục và gói của nhóm đó, có hỏi đáp riêng):

@@ -1,10 +1,11 @@
-"""Trang giới thiệu (/) và các trang đích quảng cáo (/thanh-lap-cong-ty...) dựng sẵn ở máy chủ để Google đọc được, kèm robots.txt và sitemap.xml.
+"""Trang giới thiệu (/), các trang đích quảng cáo (/thanh-lap-cong-ty...) và trang từng thủ tục (/thu-tuc/<mã>) dựng sẵn ở máy chủ để Google đọc được, kèm robots.txt và sitemap.xml.
 
 Nội dung lấy từ cấu hình Kinh doanh (bảng giá, Zalo, cam kết, tỷ lệ cọc: services/kinh_doanh.py) và danh sách bộ mẫu,
 nên sửa giá / số Zalo trên trang quản trị là trang giới thiệu đổi theo. Câu chữ cố định nằm ở pages/trang_chu.html.
 """
 import json
-from typing import Any, Dict, List
+import re
+from typing import Any, Dict, List, Optional
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
@@ -127,7 +128,8 @@ def faq(cfg: Dict[str, Any]) -> List[Dict[str, str]]:
     ]
 
 
-def json_ld(cfg: Dict[str, Any], site_url: str, ten: str, questions: List[Dict[str, str]]) -> str:
+def json_ld(cfg: Dict[str, Any], site_url: str, ten: str, questions: List[Dict[str, str]],
+            crumbs: List[Any] = ()) -> str:
     data = [
         {"@context": "https://schema.org", "@type": "ProfessionalService", "name": ten, "url": site_url + "/",
          "telephone": cfg["zalo"], "areaServed": "VN",
@@ -137,6 +139,10 @@ def json_ld(cfg: Dict[str, Any], site_url: str, ten: str, questions: List[Dict[s
          "mainEntity": [{"@type": "Question", "name": f["q"],
                          "acceptedAnswer": {"@type": "Answer", "text": f["a"]}} for f in questions]},
     ]
+    if crumbs:
+        data.append({"@context": "https://schema.org", "@type": "BreadcrumbList",
+                     "itemListElement": [{"@type": "ListItem", "position": i, "name": name, "item": site_url + path}
+                                         for i, (name, path) in enumerate(crumbs, 1)]})
     # Chặn đóng thẻ <script> sớm nếu nội dung có "</"
     return json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
 
@@ -174,6 +180,75 @@ def render(request_base: str, slug: str = "") -> str:
     )
 
 
+def _templates() -> List[Dict[str, Any]]:
+    from routes.templates import get_templates
+    return [t for t in get_templates()["templates"] if t.get("id")]
+
+
+def _doc_name(filename: str) -> str:
+    """Tên văn bản đưa lên trang công khai từ tên file mẫu ("01. Giấy đề nghị.docx" -> "Giấy đề nghị")."""
+    name = re.sub(r"\.docx$", "", filename, flags=re.I)
+    name = re.sub(r"^\s*\d+[a-z]?\s*[.)-]\s*", "", name)           # số thứ tự đầu
+    name = re.sub(r"\s*-\s*\d+\s*$|\s+0?\d\s*$", "", name)          # "- 0002", " 1", " 02" cuối
+    name = re.sub(r"\bdkdn\b", "đăng ký doanh nghiệp", name, flags=re.I)
+    name = name.replace("Thông Báo", "Thông báo")
+    return name.strip()
+
+
+def render_thu_tuc(request_base: str, template_id: str) -> Optional[str]:
+    """Trang riêng của một thủ tục (/thu-tuc/<mã bộ mẫu>), dựng từ _schema.json. None nếu không có thủ tục."""
+    from services import kinh_doanh, leads
+    tt = next((t for t in _templates() if t["id"] == template_id), None)
+    if not tt:
+        return None
+    schema = json.loads((config.TEMPLATES_DIR / tt["name"] / "_schema.json").read_text(encoding="utf-8"))
+    docs = []
+    for d in schema.get("documents", []):
+        note = []
+        if d.get("when"):
+            note.append("tùy trường hợp")
+        if d.get("repeat_for"):
+            note.append("mỗi người một bản")
+        ten_vb = _doc_name(d["file"])
+        if any(x["ten"] == ten_vb for x in docs):  # "Xác nhận góp vốn 1", "... 2": gộp thành một dòng
+            continue
+        docs.append({"ten": ten_vb, "note": ", ".join(note)})
+    buoc_nhap = [st.get("title") for st in schema.get("steps", []) if st.get("title")]
+    group = leads.classify(template_id)
+    cfg = kinh_doanh.get()
+    base = site_url(request_base)
+    ten = cfg.get("ten_don_vi") or "NAC"
+    first, second, _ = leads.GROUPS[group]
+    goi = []
+    for g in cfg["goi"]:
+        if g["ma"] in (first, second):
+            g = dict(g, gia_so=kinh_doanh.gia_so(g))
+            g["coc"] = kinh_doanh.tien_coc(g["gia_so"], cfg) if g["gia_so"] else 0
+            goi.append(g)
+    vnd = lambda n: f"{int(n):,}".replace(",", ".") + "đ"  # noqa: E731
+    gia_tu = min([g["gia_so"] for g in goi if g["gia_so"]], default=0)
+    path = "/thu-tuc/" + template_id
+    questions = faq(cfg)
+    page = {
+        "slug": "thu-tuc/" + template_id, "path": path, "nav": "/",
+        "title": f"{tt['display_name']}: hồ sơ gồm những gì, soạn miễn phí",
+        "h1": (f"{tt['display_name']}: ", "soạn hồ sơ miễn phí", ""),
+        "lead": (tt.get("description") or "").rstrip(".") + f". Bộ hồ sơ {len(docs)} văn bản, điền một lần, tải file "
+                                                            "Word về in, ký và nộp.",
+        "description": f"{tt['display_name']}: bộ hồ sơ gồm " + ", ".join(d["ten"] for d in docs[:4])
+                       + (" và các văn bản khác" if len(docs) > 4 else "") + ". Soạn và tải file Word miễn phí."
+                       + (f" Nhờ nộp trọn gói từ {vnd(gia_tu)}." if gia_tu else ""),
+    }
+    lien_quan = [t for t in _templates() if t["category"] == tt["category"] and t["id"] != template_id]
+    crumbs = [("Trang chủ", "/"), (tt["category"], "/#thu-tuc"), (tt["display_name"], path)]
+    return _env.get_template("thu_tuc.html").render(
+        page=page, tt=tt, docs=docs, buoc_nhap=buoc_nhap, next_steps=leads.NEXT_STEPS.get(group, leads.NEXT_STEPS["khac"]),
+        cfg=cfg, ten=ten, goi=goi, faq=questions, lien_quan=sorted(lien_quan, key=lambda t: t["display_name"]),
+        json_ld=json_ld(cfg, base, ten, questions, crumbs), site_url=base, tracking=tracking(cfg), vnd=vnd,
+        zalo_url="https://zalo.me/" + cfg["zalo"],
+    )
+
+
 def robots(request_base: str) -> str:
     return f"User-agent: *\nDisallow: /api/\nDisallow: /app\nSitemap: {site_url(request_base)}/sitemap.xml\n"
 
@@ -181,6 +256,7 @@ def robots(request_base: str) -> str:
 def sitemap(request_base: str) -> str:
     base = site_url(request_base)
     urls = "".join(f"  <url><loc>{base}/{slug}</loc></url>\n" for slug in PAGES)
+    urls += "".join(f"  <url><loc>{base}/thu-tuc/{t['id']}</loc></url>\n" for t in _templates())
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             f"{urls}</urlset>\n")

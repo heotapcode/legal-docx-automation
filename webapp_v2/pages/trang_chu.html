@@ -1,143 +1,4 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script>
-/* Link cũ dạng /#/wizard, /#/admin: chuyển sang ứng dụng /app */
-(function () {
-    function toApp() { if (/^#\/./.test(location.hash)) location.replace('/app' + location.search + location.hash); }
-    toApp();
-    window.addEventListener('hashchange', toApp);
-})();
-</script>
-<title>{{ page.title }} | {{ ten }}</title>
-<meta name="description" content="{{ page.description }}">
-<link rel="canonical" href="{{ site_url }}{{ page.path }}">
-<meta property="og:type" content="website">
-<meta property="og:title" content="{{ page.title }}">
-<meta property="og:description" content="{{ page.description }}">
-<meta property="og:url" content="{{ site_url }}{{ page.path }}">
-<meta property="og:locale" content="vi_VN">
-<script type="application/ld+json">{{ json_ld | safe }}</script>
-{{ tracking | safe }}
-<style>
-:root {
-    --bg: #fbf7f2; --surface: #ffffff; --surface-2: #f4ece2; --text: #2a1d14; --muted: #6f5b4b;
-    --line: #e7d9c8; --accent: #c2410c; --accent-hover: #9a3412; --accent-soft: #fde7d6; --ok: #15803d;
-    --on-accent: #ffffff; --radius: 14px;
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: #140c07; --surface: #1d130c; --surface-2: #261a11; --text: #f6e9db; --muted: #c9ae95;
-        --line: #3a2a1d; --accent: #f97316; --accent-hover: #fb923c; --accent-soft: #3b2212; --ok: #4ade80;
-        --on-accent: #1a0e06;
-    }
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-    margin: 0; background: var(--bg); color: var(--text); line-height: 1.6;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 16px;
-}
-a { color: var(--accent); }
-.wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
-header.top {
-    position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 92%, transparent);
-    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
-}
-header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 60px; }
-.brand { font-weight: 800; font-size: 1.15rem; color: var(--text); text-decoration: none; letter-spacing: .3px; }
-nav.menu { display: flex; gap: 18px; align-items: center; }
-nav.menu a.link { color: var(--muted); text-decoration: none; font-size: .95rem; }
-nav.menu a.link:hover { color: var(--text); }
-.btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 20px;
-    border-radius: 999px; font-weight: 700; text-decoration: none; border: 1.5px solid transparent; cursor: pointer;
-    font-size: 1rem;
-}
-.btn-main { background: var(--accent); color: var(--on-accent); }
-.btn-main:hover { background: var(--accent-hover); }
-.btn-ghost { border-color: var(--line); color: var(--text); background: var(--surface); }
-.btn-ghost:hover { border-color: var(--accent); }
-.btn-sm { min-height: 38px; padding: 6px 16px; font-size: .92rem; }
-.hero { padding: 56px 0 40px; }
-.hero h1 { font-size: clamp(1.9rem, 4.6vw, 3rem); line-height: 1.2; margin: 0 0 16px; letter-spacing: -.5px; }
-.hero h1 em { font-style: normal; color: var(--accent); }
-.hero p.lead { font-size: 1.13rem; color: var(--muted); max-width: 680px; margin: 0 0 26px; }
-.cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
-.facts { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 26px; color: var(--muted); font-size: .95rem; padding: 0; list-style: none; }
-.facts li::before { content: "✓ "; color: var(--ok); font-weight: 800; }
-section { padding: 44px 0; }
-section.alt { background: var(--surface-2); }
-h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); margin: 0 0 8px; line-height: 1.25; }
-.sub { color: var(--muted); margin: 0 0 26px; max-width: 720px; }
-.grid { display: grid; gap: 16px; }
-.g3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
-.step-no {
-    display: inline-flex; width: 34px; height: 34px; border-radius: 50%; align-items: center; justify-content: center;
-    background: var(--accent-soft); color: var(--accent); font-weight: 800; margin-bottom: 10px;
-}
-.card h3 { margin: 0 0 6px; font-size: 1.08rem; }
-.card p { margin: 0; color: var(--muted); font-size: .96rem; }
-.compare { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-.compare .card { padding: 24px; }
-.compare .card.pick { border: 2px solid var(--accent); }
-.compare ul { margin: 12px 0 18px; padding-left: 20px; color: var(--text); }
-.compare li { margin-bottom: 4px; }
-.price { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
-.tag {
-    display: inline-block; font-size: .78rem; font-weight: 700; padding: 2px 10px; border-radius: 999px;
-    background: var(--accent-soft); color: var(--accent); margin-left: 6px; vertical-align: middle;
-}
-table.prices { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
-table.prices th, table.prices td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
-table.prices th { background: var(--surface-2); font-size: .9rem; color: var(--muted); }
-table.prices tr:last-child td { border-bottom: 0; }
-table.prices td.gia { font-weight: 800; white-space: nowrap; }
-table.prices .mota { color: var(--muted); font-size: .93rem; }
-.promise {
-    margin-top: 18px; padding: 16px 18px; border-left: 4px solid var(--ok); background: var(--surface);
-    border-radius: 8px; font-weight: 600;
-}
-.proc-group h3 { font-size: 1rem; margin: 18px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
-.proc-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
-.proc-list a {
-    display: inline-block; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line);
-    background: var(--surface); color: var(--text); text-decoration: none; font-size: .95rem;
-}
-.proc-list a:hover { border-color: var(--accent); color: var(--accent); }
-details { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; }
-details summary { cursor: pointer; font-weight: 700; }
-details p { margin: 10px 0 0; color: var(--muted); }
-.final { text-align: center; }
-.final .cta-row { justify-content: center; }
-footer { border-top: 1px solid var(--line); padding: 26px 0 40px; color: var(--muted); font-size: .9rem; }
-footer p { margin: 4px 0; }
-@media (max-width: 720px) {
-    nav.menu a.link { display: none; }
-    .hero { padding: 34px 0 26px; }
-    section { padding: 34px 0; }
-    .cta-row .btn { width: 100%; }
-    table.prices th:nth-child(3), table.prices td.mota-col { display: none; }
-}
-</style>
-</head>
-<body data-trang="{{ page.slug or 'trang-chu' }}">
-<header class="top">
-    <div class="wrap">
-        <a class="brand" href="/">{{ ten }}</a>
-        <nav class="menu">
-            <a class="link" href="#cach-lam">Cách làm</a>
-            <a class="link" href="#bang-gia">Bảng giá</a>
-            <a class="link" href="#thu-tuc">Thủ tục</a>
-            <a class="link" href="#hoi-dap">Hỏi đáp</a>
-            <a class="btn btn-main btn-sm" href="/app#/wizard" data-track="menu" id="cta-menu">Tạo hồ sơ</a>
-        </nav>
-    </div>
-</header>
-
+{% include "_dau.html" %}
 <main>
 <div class="hero">
     <div class="wrap">
@@ -219,13 +80,13 @@ footer p { margin: 4px 0; }
 <section class="alt" id="thu-tuc">
     <div class="wrap">
         <h2>{{ page.proc_title }}</h2>
-        <p class="sub">Bấm vào thủ tục để bắt đầu điền.</p>
+        <p class="sub">{% if page.slug %}Bấm vào thủ tục để bắt đầu điền.{% else %}Bấm vào thủ tục để xem hồ sơ gồm những gì.{% endif %}</p>
         {% for grp in groups %}
         <div class="proc-group">
             <h3>{{ grp.ten }}</h3>
             <ul class="proc-list">
                 {% for t in grp.thu_tuc %}
-                <li><a href="/app#/wizard?t={{ t.id | urlencode }}" title="{{ t.description }}" data-proc="{{ t.id }}">{{ t.display_name }}</a></li>
+                <li><a href="{% if page.slug %}/app#/wizard?t={{ t.id | urlencode }}{% else %}/thu-tuc/{{ t.id | urlencode }}{% endif %}" title="{{ t.description }}" data-proc="{{ t.id }}">{{ t.display_name }}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -256,20 +117,4 @@ footer p { margin: 4px 0; }
 </section>
 </main>
 
-<footer>
-    <div class="wrap">
-        <p><b>{{ ten }}</b> · Zalo {{ cfg.zalo }}{% if cfg.dia_chi_nhan_ho_so %} · {{ cfg.dia_chi_nhan_ho_so }}{% endif %}</p>
-        <p>Hồ sơ tải về là bản soạn thảo theo thông tin bạn nhập; bạn kiểm tra lại trước khi ký và nộp.</p>
-    </div>
-</footer>
-
-<script src="/static/js/track.js"></script>
-<script>
-document.addEventListener('click', function (ev) {
-    var a = ev.target.closest('a[href^="/app#/wizard"]');
-    if (!a || !window.nacTrack) return;
-    window.nacTrack('cta_click', { vi_tri: a.id || 'thu-tuc', template_id: a.dataset.proc || '', trang: document.body.dataset.trang });
-});
-</script>
-</body>
-</html>
+{% include "_cuoi.html" %}
