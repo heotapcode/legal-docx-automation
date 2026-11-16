@@ -865,6 +865,9 @@ def test_landing_links_into_app(page, base_url):
     assert page.evaluate("document.documentElement.scrollWidth") <= 375
     assert page.is_visible("#cta-hero")
     page.click('a[data-proc="tang-von-cong-ty-tnhh-1-tv"]')
+    page.wait_for_url("**/thu-tuc/tang-von-cong-ty-tnhh-1-tv")
+    assert "Quyết định của Chủ sở hữu" in page.inner_text("#ds-van-ban")
+    page.click("#cta-hero")
     page.wait_for_function("window.wizardState && window.wizardState.step === 2")
     assert page.evaluate("window.wizardState.template.id") == "tang-von-cong-ty-tnhh-1-tv"
     # Nguồn khách ghi từ trang giới thiệu, giữ khi sang ứng dụng
@@ -887,7 +890,7 @@ def test_analytics_events_without_personal_data(page, base_url, tmp_path, monkey
     admin_db.set_setting(kinh_doanh.SETTING_KEY, _json.dumps(cfg, ensure_ascii=False), None)
     events = lambda: page.evaluate("(window.dataLayer || []).map(a => Array.from(a)).filter(a => a[0] === 'event')")
 
-    page.goto(f"{base_url}/?utm_source=google&utm_campaign=thu")
+    page.goto(f"{base_url}/thay-doi-dang-ky-kinh-doanh?utm_source=google&utm_campaign=thu")
     page.wait_for_function("!!window.gtag")
     page.click('a[data-proc="tang-von-cong-ty-tnhh-1-tv"]')
     page.wait_for_function("window.wizardState && window.wizardState.step === 2")

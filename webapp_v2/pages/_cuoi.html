@@ -1,0 +1,17 @@
+<footer>
+    <div class="wrap">
+        <p><b>{{ ten }}</b> · Zalo {{ cfg.zalo }}{% if cfg.dia_chi_nhan_ho_so %} · {{ cfg.dia_chi_nhan_ho_so }}{% endif %}</p>
+        <p>Hồ sơ tải về là bản soạn thảo theo thông tin bạn nhập; bạn kiểm tra lại trước khi ký và nộp.</p>
+    </div>
+</footer>
+
+<script src="/static/js/track.js"></script>
+<script>
+document.addEventListener('click', function (ev) {
+    var a = ev.target.closest('a[href^="/app#/wizard"]');
+    if (!a || !window.nacTrack) return;
+    window.nacTrack('cta_click', { vi_tri: a.id || 'thu-tuc', template_id: a.dataset.proc || '', trang: document.body.dataset.trang });
+});
+</script>
+</body>
+</html>

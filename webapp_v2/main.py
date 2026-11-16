@@ -1,7 +1,7 @@
 import os
 import re
 from pathlib import Path
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, PlainTextResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -104,6 +104,16 @@ def serve_landing_thay_doi(request: Request):
     from services import trang_chu
     html = _ASSET_RE.sub(_stamp, trang_chu.render(str(request.base_url), "thay-doi-dang-ky-kinh-doanh"))
     return HTMLResponse(html, headers={"Cache-Control": "no-cache"})
+
+
+# Trang riêng từng thủ tục, dựng từ _schema.json của bộ mẫu
+@app.get("/thu-tuc/{template_id}")
+def serve_thu_tuc(template_id: str, request: Request):
+    from services import trang_chu
+    html = trang_chu.render_thu_tuc(str(request.base_url), template_id)
+    if html is None:
+        raise HTTPException(status_code=404, detail="Không có thủ tục này")
+    return HTMLResponse(_ASSET_RE.sub(_stamp, html), headers={"Cache-Control": "no-cache"})
 
 
 # Ứng dụng (không lưu đệm trang khung; các file tĩnh có ?v= riêng)

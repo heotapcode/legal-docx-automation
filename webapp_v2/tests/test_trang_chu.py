@@ -28,7 +28,7 @@ def test_landing_is_server_rendered_with_prices_and_procedures(client):
     assert "Ngọc Trục" in html and "mực xanh" in html
     templates = client.get("/api/templates").json()["templates"]
     for t in templates:
-        assert f'/app#/wizard?t={t["id"]}"' in html, t["id"]
+        assert f'/thu-tuc/{t["id"]}"' in html, t["id"]
     assert f"{len(templates)} thủ tục" in html
     # Link cũ /#/wizard, /#/admin chuyển sang ứng dụng
     assert "location.replace('/app'" in html and "hashchange" in html
@@ -143,3 +143,37 @@ def test_gclid_kept_with_lead():
     lead = leads.parse_lead({"name": "Nguyễn Văn Thử", "phone": "0901234567", "consent": True,
                              "source": {"gclid": "Cj0KCQ-thu", "landing": "/thanh-lap-cong-ty"}})
     assert lead["source"] == {"gclid": "Cj0KCQ-thu", "landing": "/thanh-lap-cong-ty"}
+
+
+def test_procedure_page_for_every_template(client):
+    templates = client.get("/api/templates").json()["templates"]
+    sitemap = client.get("/sitemap.xml").text
+    for t in templates:
+        r = client.get(f"/thu-tuc/{t['id']}")
+        assert r.status_code == 200, t["id"]
+        html = r.text
+        assert t["display_name"] in html and f'/app#/wizard?t={t["id"]}"' in html
+        assert f'<link rel="canonical" href="http://testserver/thu-tuc/{t["id"]}">' in html
+        assert f"<loc>http://testserver/thu-tuc/{t['id']}</loc>" in sitemap
+        docs = re.search(r'<ol class="docs" id="ds-van-ban">(.*?)</ol>', html, re.S).group(1)
+        assert docs.count("<li>") == len(set(re.findall(r"<li>([^<(]+?)\s*(?:<|$)", docs)))  # không trùng tên
+        assert ".docx" not in docs and not re.search(r"\d{3,}", docs) and "dkdn" not in docs
+        m = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+        types = {d["@type"] for d in json.loads(m.group(1))}
+        assert types == {"ProfessionalService", "FAQPage", "BreadcrumbList"}
+        assert 'href="/#bang-gia"' in html  # menu về các mục của trang chủ
+
+
+def test_procedure_page_content(client):
+    html = client.get("/thu-tuc/thanh-lap-moi-cong-ty-tnhh-2-tv").text
+    for text in ["Giấy đề nghị", "Điều lệ", "Danh sách thành viên", "Danh sách chủ sở hữu hưởng lợi",
+                 "Ngành nghề kinh doanh", "VNeID", "Gói Khởi nghiệp", "Gói Cơ bản", "Thành lập mới công ty Cổ Phần"]:
+        assert text in html, text
+    assert "Gói Hộ kinh doanh" not in html and "Thay đổi đăng ký doanh nghiệp</b>" not in html
+    html = client.get("/thu-tuc/chuyen-nhuong-cong-ty-tnhh-2-tv").text
+    assert html.count("Xác nhận góp vốn") == 1 and "tùy trường hợp" in html
+
+
+def test_unknown_procedure_404(client):
+    assert client.get("/thu-tuc/khong-co-thu-tuc-nay").status_code == 404
+    assert client.get("/thu-tuc/..%2F..%2Fconfig").status_code == 404
