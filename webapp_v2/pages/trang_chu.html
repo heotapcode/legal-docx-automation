@@ -11,16 +11,16 @@
     window.addEventListener('hashchange', toApp);
 })();
 </script>
-<title>Soạn hồ sơ đăng ký doanh nghiệp miễn phí, nộp hộ trọn gói | {{ ten }}</title>
-<meta name="description" content="Tự soạn bộ hồ sơ thành lập, thay đổi, tạm ngừng, giải thể doanh nghiệp theo biểu mẫu mới, tải file Word miễn phí.{% if gia_tu %} Nhờ nộp trọn gói từ {{ vnd(gia_tu) }}, đặt cọc {{ cfg.ty_le_coc }}%.{% endif %}">
-<link rel="canonical" href="{{ site_url }}/">
+<title>{{ page.title }} | {{ ten }}</title>
+<meta name="description" content="{{ page.description }}">
+<link rel="canonical" href="{{ site_url }}{{ page.path }}">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Soạn hồ sơ đăng ký doanh nghiệp miễn phí, nộp hộ trọn gói">
-<meta property="og:description" content="{{ so_thu_tuc }} thủ tục đăng ký doanh nghiệp, tải file Word miễn phí. Ký mực xanh, không cần đóng dấu.">
-<meta property="og:url" content="{{ site_url }}/">
+<meta property="og:title" content="{{ page.title }}">
+<meta property="og:description" content="{{ page.description }}">
+<meta property="og:url" content="{{ site_url }}{{ page.path }}">
 <meta property="og:locale" content="vi_VN">
 <script type="application/ld+json">{{ json_ld | safe }}</script>
-{{ ga | safe }}
+{{ tracking | safe }}
 <style>
 :root {
     --bg: #fbf7f2; --surface: #ffffff; --surface-2: #f4ece2; --text: #2a1d14; --muted: #6f5b4b;
@@ -124,7 +124,7 @@ footer p { margin: 4px 0; }
 }
 </style>
 </head>
-<body>
+<body data-trang="{{ page.slug or 'trang-chu' }}">
 <header class="top">
     <div class="wrap">
         <a class="brand" href="/">{{ ten }}</a>
@@ -141,15 +141,14 @@ footer p { margin: 4px 0; }
 <main>
 <div class="hero">
     <div class="wrap">
-        <h1>Soạn hồ sơ đăng ký doanh nghiệp <em>miễn phí</em>, nộp hộ khi bạn cần</h1>
-        <p class="lead">Điền thông tin, quét căn cước bằng điện thoại, tải ngay bộ hồ sơ Word theo biểu mẫu mới.
-            Bận hoặc chưa quen thủ tục? Chọn nộp trọn gói: chúng tôi kiểm tra, nộp và báo kết quả qua Zalo.</p>
+        <h1>{{ page.h1[0] }}<em>{{ page.h1[1] }}</em>{{ page.h1[2] }}</h1>
+        <p class="lead">{{ page.lead }}</p>
         <div class="cta-row">
             <a class="btn btn-main" href="/app#/wizard" id="cta-hero">Tạo hồ sơ miễn phí</a>
             <a class="btn btn-ghost" href="{{ zalo_url }}" target="_blank" rel="noopener" data-track="hero">Nhắn Zalo {{ cfg.zalo }}</a>
         </div>
         <ul class="facts">
-            <li>{{ so_thu_tuc }} thủ tục: thành lập, thay đổi, tạm ngừng, giải thể</li>
+            <li>{{ page.fact }}</li>
             <li>Ký mực xanh, không cần đóng dấu</li>
             <li>Không lưu số căn cước của bạn</li>
         </ul>
@@ -219,7 +218,7 @@ footer p { margin: 4px 0; }
 
 <section class="alt" id="thu-tuc">
     <div class="wrap">
-        <h2>{{ so_thu_tuc }} thủ tục có sẵn</h2>
+        <h2>{{ page.proc_title }}</h2>
         <p class="sub">Bấm vào thủ tục để bắt đầu điền.</p>
         {% for grp in groups %}
         <div class="proc-group">
@@ -269,7 +268,7 @@ footer p { margin: 4px 0; }
 document.addEventListener('click', function (ev) {
     var a = ev.target.closest('a[href^="/app#/wizard"]');
     if (!a || !window.nacTrack) return;
-    window.nacTrack('cta_click', { vi_tri: a.id || 'thu-tuc', template_id: a.dataset.proc || '' });
+    window.nacTrack('cta_click', { vi_tri: a.id || 'thu-tuc', template_id: a.dataset.proc || '', trang: document.body.dataset.trang });
 });
 </script>
 </body>

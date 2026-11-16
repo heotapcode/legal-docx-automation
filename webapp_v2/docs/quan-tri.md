@@ -106,6 +106,28 @@ khoản in hoa không dấu), bảng giá các gói. Giá trị mặc định �
   Trong Google Analytics: **Quản trị → Sự kiện**, đánh dấu `generate_lead` (và `contact_zalo`) là **sự kiện chính** để
   đếm chuyển đổi; xem phễu ở **Khám phá → Khám phá phễu** với các bước `page_view → begin_form → generate_lead`.
 
+### Trang đích quảng cáo và Google Ads (16/11/2026)
+
+Hai trang riêng cho 2 nhóm từ khóa (cùng khung trang giới thiệu, chỉ hiện thủ tục và gói của nhóm đó, có hỏi đáp riêng):
+
+| Trang | Thủ tục hiện | Gói hiện |
+|---|---|---|
+| `/thanh-lap-cong-ty` | Thành lập mới (TNHH 1 TV, 2 TV, cổ phần, hộ kinh doanh) | Khởi nghiệp, Cơ bản, Hộ kinh doanh |
+| `/thay-doi-dang-ky-kinh-doanh` | Thay đổi, tăng / giảm vốn, chuyển nhượng, cấp lại | Thay đổi đăng ký doanh nghiệp |
+
+Câu chữ ở `services/trang_chu.py` (`PAGES`), bản nháp chờ duyệt. Thêm nhóm từ khóa mới: thêm một mục vào `PAGES` và một
+đường dẫn trong `main.py`.
+
+**Gắn Google Ads:**
+1. Trong Google Ads: **Mục tiêu → Chuyển đổi → Tạo hành động chuyển đổi → Trang web**, chọn thiết lập thủ công bằng mã,
+   danh mục "Gửi biểu mẫu khách hàng tiềm năng". Google cho đoạn `send_to: 'AW-123456789/AbCdEf...'`.
+2. Trang quản trị → **Kinh doanh**: dán `AW-123456789` vào **Mã Google Ads**, phần sau dấu `/` vào **Nhãn chuyển đổi**.
+3. Mỗi khi khách để lại số Zalo và tải hồ sơ, trang gửi một chuyển đổi cho Google Ads (không kèm họ tên, số điện thoại).
+4. Bật **tự động gắn thẻ** trong Google Ads: mã lượt bấm `gclid` được lưu kèm khách (cột Nguồn hiện "Quảng cáo Google"),
+   dùng về sau để báo Google khách nào đã mua.
+5. Đường dẫn cuối của quảng cáo: `https://<tên miền>/thanh-lap-cong-ty` hoặc `https://<tên miền>/thay-doi-dang-ky-kinh-doanh`,
+   có thể thêm `?utm_source=google&utm_campaign=<tên chiến dịch>`.
+
 ### Đối tác giới thiệu và hoa hồng (14/11/2026)
 
 Trang `/app#/admin` → **Đối tác giới thiệu, hoa hồng**:

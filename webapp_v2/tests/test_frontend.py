@@ -949,3 +949,22 @@ def test_admin_partners_page(page, base_url, tmp_path, monkeypatch):
     page.click("#admin-open-leads")
     page.wait_for_selector("#admin-leads")
     assert "Đối tác:" in page.locator("#admin-leads tbody tr").first.inner_text()
+
+
+def test_google_ads_conversion_on_lead(page, base_url, tmp_path, monkeypatch):
+    """Có mã Google Ads + nhãn chuyển đổi: khách để lại thông tin thì gửi chuyển đổi; gclid được ghi vào nguồn."""
+    import json as _json
+    import config
+    from services import admin_db, kinh_doanh
+
+    monkeypatch.setattr(config, "ADMIN_DB_PATH", tmp_path / "admin.sqlite3")
+    cfg = dict(kinh_doanh.get(), google_ads_id="AW-123456789", google_ads_nhan_lead="NhanThu123")
+    admin_db.set_setting(kinh_doanh.SETTING_KEY, _json.dumps(cfg, ensure_ascii=False), None)
+    page.goto(f"{base_url}/thanh-lap-cong-ty?gclid=Cj0KCQ-thu")
+    page.wait_for_function("!!window.gtag")
+    assert page.evaluate("JSON.parse(sessionStorage.getItem('nac_source')).gclid") == "Cj0KCQ-thu"
+    page.click('a[data-proc="thanh-lap-moi-cong-ty-tnhh-1-tv"]')
+    page.wait_for_function("window.wizardState && window.wizardState.step === 2")
+    page.evaluate("trackDownload({name: 'Nguyễn Văn Thử', phone: '0901234567', delegated: false})")
+    sent = page.evaluate("(window.dataLayer || []).map(a => Array.from(a)).filter(a => a[0] === 'event' && a[1] === 'conversion')")
+    assert sent == [["event", "conversion", {"send_to": "AW-123456789/NhanThu123"}]]

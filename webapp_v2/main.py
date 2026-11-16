@@ -76,7 +76,7 @@ def render_index() -> str:
     """
     html = (static_dir / "index.html").read_text(encoding="utf-8")
     from services import kinh_doanh, trang_chu
-    ga = trang_chu.ga_snippet(kinh_doanh.get().get("ga4_id", ""), spa=True)
+    ga = trang_chu.tracking(kinh_doanh.get(), spa=True)
     if ga:
         html = html.replace("</head>", ga + "\n</head>", 1)
 
@@ -88,6 +88,21 @@ def render_index() -> str:
 def serve_landing(request: Request):
     from services import trang_chu
     html = _ASSET_RE.sub(_stamp, trang_chu.render(str(request.base_url)))
+    return HTMLResponse(html, headers={"Cache-Control": "no-cache"})
+
+
+# Trang đích cho quảng cáo theo nhóm từ khóa (services/trang_chu.PAGES)
+@app.get("/thanh-lap-cong-ty")
+def serve_landing_thanh_lap(request: Request):
+    from services import trang_chu
+    html = _ASSET_RE.sub(_stamp, trang_chu.render(str(request.base_url), "thanh-lap-cong-ty"))
+    return HTMLResponse(html, headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/thay-doi-dang-ky-kinh-doanh")
+def serve_landing_thay_doi(request: Request):
+    from services import trang_chu
+    html = _ASSET_RE.sub(_stamp, trang_chu.render(str(request.base_url), "thay-doi-dang-ky-kinh-doanh"))
     return HTMLResponse(html, headers={"Cache-Control": "no-cache"})
 
 
